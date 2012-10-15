@@ -1,0 +1,7 @@
+Directory          Examples
+-------------------------------------
+test_spmd/         main SPMD functions
+test_rmpi/         comparison to Rmpi
+test_parallel/     comparison to parallel
+test_performance/  performance testing
+test_s4/           S4 extension

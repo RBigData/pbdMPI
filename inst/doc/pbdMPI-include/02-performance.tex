@@ -1,0 +1,90 @@
+
+\section[Performance]{Performance}
+\label{sec:performance}
+\addcontentsline{toc}{section}{\thesection. Performance}
+
+There are more examples for testing performance in
+\code{pbdMPI/inst/examples/test_rmpi}. Here, we only show a simple
+comparison of \pkg{pbdMPI} to \pkg{Rmpi}.  The two scripts are
+equivalent for \pkg{pbdMPI} and \pkg{Rmpi}.  We run them with two
+processors and obtain computing times listed below.
+
+Save the following script in \code{demo_spmd.r} and run it with two
+processors by
+\begin{Command}
+mpiexec -np 2 Rscript demo_spmd.r
+\end{Command}
+to see the computing time on your platform.
+
+\begin{Code}[title=\pkg{pbdMPI} R Script]
+### Save this script in "demo_spmd.r".
+library(pbdMPI, quiet = TRUE)
+init()
+
+time.proc <- list()
+time.proc$default <- system.time({
+  for(i in 1:1000) y <- allgather(list(x = 1:10000))
+  barrier()
+})
+
+time.proc$matrix <- system.time({
+  for(i in 1:1000) y <- allgather(matrix(1:10000, nrow = 100))
+  barrier()
+})
+
+comm.print(time.proc, quiet = TRUE)
+finalize()
+\end{Code}
+
+Save the following script in \code{demo_rmpi.r} and run with two processors by
+\begin{Command}
+mpiexec -np 2 Rscript demo_rmpi.r
+\end{Command}
+to see the computing time on your platform.
+
+\begin{Code}[title=\pkg{Rmpi} R Script]
+### Save this script in "demo_rmpi.r".
+library(Rmpi)
+invisible(mpi.comm.dup(0, 1))
+
+time.proc <- list()
+time.proc$Robj <- system.time({
+  for(i in 1:1000) y <- mpi.allgather.Robj(list(x = 1:10000))
+  mpi.barrier()
+})
+
+time.proc$matrix <- system.time({
+  for(i in 1:1000) y <- mpi.allgather.Robj(matrix(1:10000, nrow = 100))
+  mpi.barrier()
+})
+
+if(mpi.comm.rank(1) == 0) print(time.proc)
+mpi.quit()
+\end{Code}
+
+The following shows the computing time of the above two scripts
+on a single machine with two processors
+Intel(R) Core(TM) i5-2410M CPU @ 2.30 GHz, xubuntu 11.04 system,
+and OpenMPI 1.6.
+The \pkg{pbdMPI} is more efficient than \pkg{Rmpi} with
+\code{list} and \code{matrix/array} data structures.
+\begin{CodeOutput}
+>> Output from demo_spmd.r
+$default
+   user  system elapsed
+  1.680   0.030   1.706
+
+$matrix
+   user  system elapsed
+  0.950   0.000   0.953
+
+>> Output from demo_rmpi.r
+$Robj
+   user  system elapsed
+  2.960   0.090   3.041
+
+$matrix
+   user  system elapsed
+  3.120   0.030   3.147
+\end{CodeOutput}
+

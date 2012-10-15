@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# Run under the command mode with "Rtools" and
+# e.g. C:\> sh 00_test_spmd.win
+#
+
+FILES=./*_spmd.r
+NP=2
+
+for f in $FILES
+do
+  # f_out=`echo $f | sed "s/demo_/time_/" | sed "s/\.r/\.win\.txt/"`
+  
+  echo ">> Test $f"
+  # echo "> mpirun -np $NP Rscript.exe --vanilla $f" > $f_out
+  # mpiexec -np $NP Rscript.exe --vanilla $f >> $f_out
+  mpiexec -np $NP Rscript.exe --vanilla $ft
+  echo "=============================="
+done
+

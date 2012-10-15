@@ -1,0 +1,77 @@
+### "useDynLib" should be MARKED and use ".onLoad" and ".onUnload" in "R/zzz.r".
+### Since "libmpi.so" should be load before "pbdMPI.so".
+# useDynLib(pbdMPI)
+
+import(methods, rlecuyer)
+
+exportPattern("^spmd\\.[[:alpha:]]+")
+exportPattern("^g\\.[[:alpha:]]+")
+
+exportMethods(
+  "allgather",
+  "allreduce",
+  "bcast",
+  "gather",
+  "recv",
+  "irecv",
+  "reduce",
+  "scatter",
+  "send",
+  "isend",
+  "sendrecv",
+  "sendrecv.replace"
+)
+
+export(
+  ### "R/mpi_apts.r"
+  "arrange.mpi.apts",
+
+  ### "R/spmd_communicator.r"
+  "barrier",
+#  "comm.set.errhandler",
+  "comm.is.null",
+  "comm.rank",
+  "comm.size",
+  "comm.dup",
+  "comm.free",
+  "init",
+  "finalize",
+#  "is.master",
+#  "get.processor.name",
+  "comm.disconnect",
+#  "comm.spawn",
+#  "comm.get.parent",
+#  "intercomm.merge",
+
+  ### "R/spmd_info.r"
+  "info.create",
+  "info.set",
+  "info.free",
+
+  ### "R/spmd_tool.r"
+#  "comm.hostinfo",
+  "comm.print",
+  "comm.cat",
+
+  ### "R/spmd_utility.r"
+  "probe",
+  "iprobe",
+#  "get.sourcetag",
+#  "get.count",
+
+  ### "R/spmd_wait.r"
+  "wait",
+  "waitany",
+  "waitsome",
+  "waitall",
+
+  ### "R/api_*.r"
+  "get.jid",
+  "pbdApply",
+  "pbdLapply",
+  "pbdSapply",
+  "comm.set.seed",
+  "comm.reset.seed",
+  "comm.end.seed"
+)
+

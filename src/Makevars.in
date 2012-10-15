@@ -1,0 +1,31 @@
+### Setup R source code and objects.
+PKG_CPPFLAGS = @PKG_CPPFLAGS@
+PKG_LIBS     = @PKG_LIBS@
+
+### For user configuration.
+USER_ETC = ../inst/etc${R_ARCH}
+USER_CONF = $(USER_ETC)/Makeconf
+
+### Start making here.
+all: $(SHLIB)
+	@if test ! -e $(USER_ETC); then mkdir -p $(USER_ETC); fi
+	@echo "MPIRUN = @MPIRUN@" > $(USER_CONF)
+	@echo "MPIEXEC = @MPIEXEC@" >> $(USER_CONF)
+	@echo "ORTERUN = @ORTERUN@" >> $(USER_CONF)
+	@echo "TMP_INC = @TMP_INC@" >> $(USER_CONF)
+	@echo "TMP_LIB = @TMP_LIB@" >> $(USER_CONF)
+	@echo "MPI_ROOT = @MPI_ROOT@" >> $(USER_CONF)
+	@echo "MPITYPE = @MPITYPE@" >> $(USER_CONF)
+	@echo "MPI_INCLUDE_PATH = @MPI_INCLUDE_PATH@" >> $(USER_CONF)
+	@echo "MPI_LIBPATH = @MPI_LIBPATH@" >> $(USER_CONF)
+	@echo "MPI_LIBS = @MPI_LIBS@" >> $(USER_CONF)
+	@echo "MPI_DEFS = @MPI_DEFS@" >> $(USER_CONF)
+	@echo "MPI_INCL2 = @MPI_INCL2@" >> $(USER_CONF)
+	@echo "PKG_CPPFLAGS = @PKG_CPPFLAGS@" >> $(USER_CONF)
+	@echo "PKG_LIBS = @PKG_LIBS@" >> $(USER_CONF)
+
+$(SHLIB): $(OBJECTS)
+
+clean:
+	@rm -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib Makedeps Makevars \
+               $(SHLIB) $(OBJECTS) $(USER_ETC)

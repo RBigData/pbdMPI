@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# Run under the command mode with "Rtools" and
+# e.g. C:\> sh 00_test_all.win
+#
+
+FILES=./*_par.r
+NP=2
+
+echo "=============================="
+
+for f in $FILES
+do
+  echo ">> Test $f"
+  Rscript --vanilla $f
+
+  f=`echo $f | sed -e "s/_par.r$/_spmd.r/"`
+  echo ">> Test $f"
+  mpiexec -np $NP Rscript.exe --vanilla $f
+
+  echo "=============================="
+done
+

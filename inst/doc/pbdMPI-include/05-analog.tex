@@ -1,0 +1,129 @@
+
+\section[SPMD in Examples from package \pkg{parallel}]{SPMD in Examples from package \pkg{parallel}}
+\label{sec:analog_examples}
+\addcontentsline{toc}{section}{\thesection. SPMD in Examples from package \pkg{parallel}}
+
+We demonstrate how a simple script from \pkg{parallel} can be
+written in batch by using \pkg{pbdMPI}.  Each time, we first give the
+version using \pkg{parallel} followed by the
+version using \pkg{pbdMPI}. All codes are available in
+\code{pbdMPI/inst/examples/test_parallel/}. \\
+
+{\bf Example 1:}
+(\code{mclapply()} originates in \pkg{multicore}~\citep{Urbanek2011}) \\
+Save the following script in a file and run with
+\begin{Command}
+Rscript 01_mclapply_par.r
+\end{Command}
+to see the computing time on your platform.
+\begin{Code}[title=\pkg{multicore} R Script]
+### File Name: 01_mclapply_par.r
+library(parallel)
+
+system.time(
+  unlist(mclapply(1:32, function(x) sum(rnorm(1e7))))
+)
+\end{Code}
+Now save this script in a file and run with
+\begin{Command}
+mpirun -np 2 Rscript 01_mclapply_spmd.r
+\end{Command}
+to see the computing time on your platform.
+\begin{Code}[title=SPMD R Script]
+### File Name: 01_mclapply_spmd.r
+library(pbdMPI, quiet = TRUE)
+init()
+
+time.proc <- system.time({
+  id <- get.jid(32)
+  ret <- unlist(lapply(id, function(i) sum(rnorm(1e7))))
+  ret <- allgather(ret, unlist = TRUE)
+})
+comm.print(time.proc)
+
+finalize()
+\end{Code}
+
+The following shows the computing time of the above codes
+on a single local machine with two cores
+Intel(R) Core(TM) i5-2410M CPU @ 2.30 GHz, xubuntu 11.04 system,
+and OpenMPI 1.6. There is not much communication latency in this example
+since all computings are on one ``node'' which is also
+a limitation of \pkg{parallel}.
+\begin{CodeOutput}
+>> Test ./01_mclapply_par.r
+   user  system elapsed
+ 16.800   0.570  17.419
+
+>> Test ./01_mclapply_spmd.r
+COMM.RANK = 0
+   user  system elapsed
+ 17.130   0.460  17.583
+\end{CodeOutput}
+
+
+{\bf Example 2:} (\code{parMM()} originates in \pkg{snow}~\citep{Tierney2012}) \\
+Save the following code in a file and run with two processors
+\begin{Command}
+Rscript 02_parMM_par.r
+\end{Command}
+to see the computing time on your platform.
+\begin{Code}[title=\pkg{snow} R Script]
+### File Name: 02_parMM_par.r
+library(parallel)
+cl <- makeCluster(2)
+
+splitRows <- function (x, ncl){
+  lapply(splitIndices(nrow(x), ncl), function(i) x[i, , drop = FALSE])
+}
+parMM <- function (cl, A, B){
+  do.call(rbind, clusterApply(cl, splitRows(A, length(cl)), get("%*%"), B))
+}
+
+set.seed(123)
+A <- matrix(rnorm(1000000), 1000)
+system.time(replicate(10, A %*% A))
+system.time(replicate(10, parMM(cl, A, A)))
+
+stopCluster(cl)
+\end{Code}
+Now save this script in a file and run with
+\begin{Command}
+mpirun -np 2 Rscript 02_parMM_spmd.r
+\end{Command}
+to see the computing time on your platform.
+\begin{Code}[title=SPMD R Script]
+### File Name: 02_parMM_spmd.r
+library(pbdMPI, quiet = TRUE)
+init()
+
+set.seed(123)
+x <- matrix(rnorm(1000000), 1000)
+
+parMM.spmd <- function(x, y){
+  id <- get.jid(nrow(x))
+  do.call(rbind, allgather(x[id,] %*% y))
+}
+time.proc <- system.time(replicate(10, parMM.spmd(x, x)))
+comm.print(time.proc)
+
+finalize()
+\end{Code}
+
+The following shows the computing time of the above code
+on a single machine with two processors
+Intel(R) Core(TM) i5-2410M CPU @ 2.30 GHz, xubuntu 11.04 system,
+and OpenMPI 1.6. \pkg{pbdMPI} performs better than \pkg{snow} in this
+example even without communication over network.
+\begin{CodeOutput}
+>> Test ./02_parMM_par.r
+   user  system elapsed 
+ 12.460   0.170  12.625 
+   user  system elapsed 
+  1.780   0.820  10.095 
+
+>> Test ./02_parMM_spmd.r
+COMM.RANK = 0
+   user  system elapsed 
+   8.84    0.42    9.26 
+\end{CodeOutput}

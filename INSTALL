@@ -1,0 +1,81 @@
+### This file is a quick installation for Solaris, Linux, and Mac OS X.
+### See `INSTALL.win.src' for a source installation for Windows system.
+### See `INSTALL.win.bin' for a binary installation for Windows system.
+
+--- 'OpenMPI' Installation:
+   Obtain 'OpenMPI' from 'http://www.open-mpi.org/'
+
+     > tar zxvf openmpi-1.5.4.tar.gz
+     > cd openmpi-1.5.4
+     > ./configure
+     > ./make
+     > ./make install
+
+   These install files to '/usr/local/bin', '/usr/local/lib', and
+   '/usr/local/include' etc.  i.e. ${MPI_ROOT} is '/usr/local'.
+
+
+--- Set environment variables:
+   For 'csh' or 'tcsh', I would set
+
+     > setenv PATH /usr/local/bin:$PATH
+     > setenv LD_LIBRARY_PATH /usr/local/lib:$LD_LIBRARY_PATH
+
+   For 'sh', 'bash', or 'ksh', I would set
+
+     > export PATH=/usr/local/bin:$PATH
+     > export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+   - 'PATH' is to make sure I can run 'mpiexec', 'mpirun', or 'orterun'.
+   - 'LD_LIBRARY_PATH' is to make sure I can reach 'libmpi.so'.
+
+   *** The other way is to modify '/etc/ld.so.conf' and to use the command
+       'ldconfig' to update the system searhing path for 'libmpi.so'.
+
+
+--- Test 'OpenMPI':
+   In order to test if 'OpenMPI' works correctly, I simply run
+
+     > mpiexec -np 2 hostname
+
+   and this should show host name twice if environment variables are correct.
+
+
+--- 'pbdMPI' Installation:
+0. Download and extract 'pbdMPI'
+
+     > tar zxvf pbdMPI_0.1-0.tar.gz
+
+1. Default Installation:
+   This should work with most platforms with 'OpenMPI' installed. The
+   configuration is based on 'Rmpi' but detect the flags and libraries from
+   'mpicc --showme:*' which is more portable.
+
+     > R CMD INSTALL pbdMPI
+
+2. Non-default Installation:
+
+     > R CMD INSTALL pbdMPI \
+     +   --configure-args="--with-Rmpi-type=OPENMPI \
+     +                     --with-mpi=/usr/local"
+
+3. Unusual Installation:
+   Suppose 'PATH' and 'LD_LIBRARY_ATH' are set, but I don't use default paths
+   to header files and libraries, then I can install 'pbdMPI' by
+
+     > R CMD INSTALL pbdMPI \
+     +   --configure-args="--with-Rmpi-type=OPENMPI \
+     +                     --with-Rmpi-include=/usr/local/ompi/include  \
+     +                     --with-Rmpi-libpath=/usr/local/ompi/lib" \
+
+   Note that I still need 'PATH' and 'LD_LIBRARY_PATH' to be set correctly in
+   this case.
+
+
+--- Test 'pbdMPI':
+   Suppose 'PATH' and 'LD_LIBRARY_ATH' are set correctly, I can run test
+   examples by
+
+     > cd pbdMPI/inst/examples/test_spmd/
+     > ./00_test_all.sh
+

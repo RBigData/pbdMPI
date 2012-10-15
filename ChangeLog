@@ -1,0 +1,53 @@
+2012-10-02: Ver. 0.1-1
+  * Make changes for Nautilus. Drop "pbdMPI:::* ideas" for other pbd packages.
+  * Make changes for pbdSLAP, pbdBASE, and pbdDMAT.
+  * Add seed functions.
+  * Add global sorting functions.
+
+======================= Log Before Release =====================================
+2012-09-01:
+  * Rename to 'pbdMPI'.
+  * Add 'apply'-alike functions.
+  * Adjust "Makevars.win".
+
+2012-08-11:
+  * Convert configure.ac back to Rmpi's version.
+  * Add "mpicc --showme" for OpenMPI and "mpicc -show" for MPICH2 in
+    configure.ac to automaticly detect header files and shared library.
+  * Rewrite HPSC website.
+
+2012-07-28:
+  * Rewrite configure.ac.
+  * MPICH2 is working on Windows 32/64bit. (OpenMPI 1.6 64bit can not run.)
+
+2012-07-07:
+  * Minor adjustments for RmpiBLACS.
+  * Change major support to OpenMPI.
+
+2012-06-25:
+  * Write vignette.
+  * Build binaries for Windows with OpenMPI and MPICH2.
+
+2012-06-06:
+  * Write examples and codes for performance test.
+  * Add methods for array/matrix types.
+
+2012-05-17:
+  * Build RmpiSPMD preliminary.
+  * Rewrite all C and R codes.
+  * Build in S4 methods.
+  * Move Master/Workers to RmpiMW.
+
+2012-05-15:
+  * First try for Master/Workers.
+  * Build Rmpi2 preliminary.
+  * Try S3 methods.
+  * New remote exec/cmds by sending text strings.
+
+2012-03-21:
+  * First try for Rmpi_0.6-0.
+  * First try for Rmpi2.
+  * Add controls for MPI pointers.
+
+2011-10-xx:
+  * First try for Master/Slaves in Rmpi.

@@ -1,0 +1,17 @@
+#! /bin/sh
+rm -rf ./chm
+rm -rf ./config.*
+rm -rf ./autom4te.cache
+rm -rf ./src/Makevars
+rm -rf ./src/Makedeps
+rm -rf ./src/*.dylib
+rm -rf ./src/*.so
+rm -rf ./src/*.o
+rm -rf ./src/*.d
+rm -rf ./src/*.dll
+rm -rf ./src/*.a
+rm -rf ./src/*.rc
+rm -rf ./src/*.rds
+rm -rf ./src-*
+rm -rf ./inst/etc*
+rm -rf ./R/zzz.r

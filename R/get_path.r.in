@@ -1,0 +1,49 @@
+### This file provodes information of making processes.
+
+spmd.system.file <- function(...){
+  tools:::file_path_as_absolute(base:::system.file(..., package = "pbdMPI"))
+} # End of spmd.system.file().
+
+### Make Configure.
+spmd.mkconf <- function(){
+  file <- spmd.system.file("Makeconf")
+  ret <- scan(file, what = "character", sep = "\n", quiet = TRUE)
+  invisible(ret)
+} # End of spmd.mkdonf().
+
+MkConf <- function(){
+  cat(spmd.mkconf(), sep = "\n")
+} # End of MkConf().
+
+
+### PKG_CPPFLAGS and PKG_LDFLAGS
+spmd.pkg.cppflags <- function(){
+   ret <- "@PKG_CPPFLAGS@"
+   invisible(ret)
+} # End of spmd.pkg.cppflags().
+
+PKG.CppFlags <- function(){
+  cat(spmd.pkg.cppflags())
+} # End of PKG.CppFlags().
+
+spmd.pkg.ldflags <- function(){
+   ret <- "@PKG_LIBS@"
+   invisible(ret)
+} # End of spmd.pkg.ldflags().
+
+PKG.LdFlags <- function(){
+  cat(spmd.pkg.ldflags())
+} # End of PKG.LdFlags().
+
+
+### Header files
+spmd.cflags <- function(){
+  ret <- spmd.system.file("include")
+  cflags <- paste("-I", ret, sep = "") 
+  invisible(cflags)
+} # End of spmd.cflags().
+
+CFlags <- function(){
+  cat(spmd.cflags())
+} # End of CFlags().
+

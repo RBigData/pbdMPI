@@ -1,0 +1,105 @@
+%\VignetteIndexEntry{pbdMPI-guide}
+
+\documentclass[article,shortnames,nojss]{pbdMPI-include/jss}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% almost as usual
+\author{
+\begin{minipage}{6in}
+\centering
+Wei-Chen Chen$^1$, George Ostrouchov$^{1,2}$, Drew Schmidt$^2$, \\
+Pragneshkumar Patel$^2$, Hao Yu$^3$
+\end{minipage}
+\\
+\\
+$^1$Computer Science and Mathematics Division, \\
+Oak Ridge National Laboratory, \\
+Oak Ridge, TN, USA \\
+\\
+$^2$Remote Data Analysis and Visualization Center,\\
+University of Tennessee, \\
+Knoxville, TN, USA \\
+\\
+$^3$University of Western Ontario, \\
+London, Ontario, Canada \\
+%\\
+%\\
+%\today
+}
+\title{A Quick Guide for the \pkg{pbdMPI} Package}
+%\\
+%\vspace{0.2cm} \large (Based on Version 0.1-2)}
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Wei-Chen Chen, George Ostrouchov, Drew Schmidt, Pragneshkumar Patel, Hao Yu} %% comma-separated
+\Plaintitle{Quick Guide for pbdMPI} %% without formatting
+\Shorttitle{Quick Guide for pbdMPI} %% a short title (if necessary)
+
+%% an abstract and keywords
+%\Abstract{
+%}
+%\Keywords{}
+%\Plainkeywords{} %% without formatting
+%% at least one keyword must be supplied
+
+%% publication information
+%% NOTE: Typically, this can be left commented and will be filled out by the technical editor
+%% \Volume{13}
+%% \Issue{9}
+%% \Month{September}
+%% \Year{2004}
+%% \Submitdate{2004-09-29}
+%% \Acceptdate{2004-09-29}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+  Wei-Chen Chen\\
+  E-mail: \email{wccsnow@gmail.com}\\
+  URL: \url{http://thirteen-01.stat.iastate.edu/snoweye/hpsc/}
+}
+%% It is also possible to add a telephone and fax number
+%% before the e-mail in the following format:
+%% Telephone: +43/1/31336-5053
+%% Fax: +43/1/31336-734
+
+%% for those who use Sweave please include the following line (with % symbols):
+%% need no \usepackage{Sweave.sty}
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\input{./pbdMPI-include/00-preamble}
+
+\begin{document}
+
+\pagenumbering{roman}
+\tableofcontents
+
+%% include your article here, just as usual
+%% Note that you should use the \pkg{}, \proglang{} and \code{} commands.
+
+\newpage
+\input{./pbdMPI-include/01-acknowledgement}
+
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\input{./pbdMPI-include/01-introduction}
+\input{./pbdMPI-include/02-performance}
+\input{./pbdMPI-include/03-faq}
+\input{./pbdMPI-include/04-windows}
+\input{./pbdMPI-include/05-analog}
+
+\newpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliography{./pbdMPI-include/pbdMPI}
+
+\end{document}
+

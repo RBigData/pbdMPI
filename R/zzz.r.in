@@ -1,0 +1,83 @@
+### Lastest load into a package.
+
+### Export Namespace does not use .First.lib() and .Last.lib(), but use
+### .onLoad() and .onUnload().
+.First.lib <- function(lib, pkg){
+} # End of .First.lib().
+
+.Last.lib <- function(libpath){
+} # End of .Last.lib().
+
+.onLoad <- function(libname, pkgname){
+  ### Shared library needs to be loaded before "pbdMPI.so"
+  mpi.type <- "@MPITYPE@"
+  mpi.libpath <- "@MPI_LIBPATH@"
+
+  ### Nautilus needs MPT.
+  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPT"){
+    if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
+      mpi.libname <- "libmpi"
+    } else{
+      mpi.libname <- "libmpich"
+    }
+
+    libs <- c(list.files(path = mpi.libpath,
+                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+                         full.names = TRUE),
+              list.files(path = mpi.libpath,
+                         pattern = paste(mpi.libname, "\\..*dynlib", sep = ""),
+                         full.names = TRUE))
+    for(i.lib in libs){
+      ret <- try(dyn.load(i.lib), silent = TRUE)
+      if(class(ret) != "try-error"){
+        assign(".__MPI_LIB__", i.lib, envir = .GlobalEnv)
+        break
+      }
+    }
+  }
+
+  library.dynam("pbdMPI", pkgname, libname)
+
+  if(! is.loaded("spmd_initialize", PACKAGE = "pbdMPI")){
+    stop("pbdMPI is not loaded.")
+  }
+
+  # if(! exists(".__DISABLE_MPI_INIT__", envir = .GlobalEnv)){
+  #   assign(".__DISABLE_MPI_INIT__", FALSE, envir = .GlobalEnv)
+  # }
+
+  .Call("spmd_initialize", PACKAGE = "pbdMPI")
+  .comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
+  .comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
+  assign(".comm.size", .comm.size, envir = .GlobalEnv)
+  assign(".comm.rank", .comm.rank, envir = .GlobalEnv)
+} # End of .onLoad().
+
+.onUnload <- function(libpath){
+  ### Do not finalize MPI by default, which can cause problem for external API.
+  ### Let user take care of shut down business.
+  pbdMPI:::spmd.finalize(mpi.finalize = FALSE)
+  library.dynam.unload("pbdMPI", libpath)
+
+  ### Shared library needs to be unloaded after "pbdMPI.so"
+  mpi.type <- "@MPITYPE@"
+  mpi.libpath <- "@MPI_LIBPATH@"
+
+  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPT"){
+    if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
+      mpi.libname <- "libmpi"
+    } else{
+      mpi.libname <- "libmpich"
+    }
+
+    libs <- c(list.files(path = mpi.libpath,
+                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+                         full.names = TRUE),
+              list.files(path = mpi.libpath,
+                         pattern = paste(mpi.libname, "\\..*dynlib", sep = ""),
+                         full.names = TRUE))
+    for(i.lib in libs){
+      ret <- try(dyn.unload(i.lib), silent = TRUE)
+    }
+  }
+} # End of .onUnload().

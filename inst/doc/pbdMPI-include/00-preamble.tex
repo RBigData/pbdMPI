@@ -1,0 +1,26 @@
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\definecolor{mygreen}{RGB}{0,150,0}
+
+
+\usepackage{listings}
+%\lstset{numbers=left,numberstyle=\footnotesize\ttfamily,
+\lstset{numbers=none,numberstyle=\footnotesize\ttfamily,
+        frame=single,frameround=tttt,language=R,
+        showspaces=false,showstringspaces=false,
+        breaklines=true,breakatwhitespace=true,
+        basicstyle=\small\ttfamily}
+%\lstset{literate={<-}{{$\leftarrow$}}1}
+\makeatletter
+\let\Code\@undefined
+\let\CodeInput\@undefined
+\let\CodeOutput\@undefined
+\makeatother
+\lstnewenvironment{Command}[1][title=Shell Command]{\lstset{#1}}{}
+\lstnewenvironment{Code}[1][title=R Script]{\lstset{#1}}{}
+\lstnewenvironment{CodeOutput}[1][title=R Output]{\lstset{#1}}{}
+\lstnewenvironment{Error}[1][]{
+  \lstset{title=Error Message,basicstyle=\small\ttfamily}\color{Red}}{}
+

@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Run under the command mode with "Rtools" and
+# e.g. C:\> sh 00_test_all.win
+#
+
+FILES=./*.r
+NP=2
+
+for f in $FILES
+do
+  echo ">> Test $f"
+  mpiexec -np $NP Rscript.exe --vanilla $f
+  echo "=============================="
+done
+

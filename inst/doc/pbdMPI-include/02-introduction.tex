@@ -1,0 +1,255 @@
+
+{\color{red} \bf Warning:} This document is written to explain the main
+functions of \pkg{pbdMPI}~\citep{Chen2012}, version 0.1-0.
+Every effort will be made to ensure future versions are consistent with
+these instructions, but features in later versions may not be explained
+in this document.
+
+Information about the functionality of this package,
+and any changes in future versions can be found on website:
+``High Performance Statistical Computing'' at
+\url{http://r-pbd.org/}.
+%More discussion about parallel computing in \proglang{R}~\citep{Rcore}
+%can be found in~\citet{Schmidberger2009}.
+
+\section[Introduction]{Introduction}
+\label{sec:introduction}
+\addcontentsline{toc}{section}{\thesection. Introduction}
+
+Our intent is to bring the most common parallel programming model from
+supercomputing, Single Program Multiple Data (SPMD), to \proglang{R}
+and enable distributed handling of truly large data. Consequently,
+\pkg{pbdMPI} is intended for batch mode programming with big data
+(pbd). Unlike \pkg{Rmpi}~\citep{Yu2010},
+\pkg{snow}~\citep{Tierney2012}, or \pkg{parallel}~\citep{Rcore},
+interactive mode is not supported.  We think that interaction with a
+large distributed parallel computing platform is better handled with a
+client/server relationship, and we are developing other packages in
+this direction.  \pkg{pbdMPI} simplifies MPI interaction, but leaves
+low and mid level functions available for advanced programmers. For
+example, it is easy to hand communicators to \pkg{pbdMPI} from other
+applications through MPI array pointers. This is intended for
+integration with other, possibly non-R, parallel software.
+
+% Frankly, the interactive mode is proper for small data or short loops, but
+% could take long time for waiting next responding,
+% especially tedious tasks or a large number of tasks.
+% One never know when to input or type next commands.
+% Once one needs parallel computing, which means the computing time is
+% sufficiently longer than what one usually expect for interaction with
+% machines. On the other hand,
+% for well defined scripts, it is always efficient to run
+% in batch instead of interactive. Therefore, the SPMD programming model
+% is considerable easier than manager/worker programming model.
+% \pkg{pbdMPI} provides a better way for communications
+% between processors/machines.
+
+Under the SPMD parallel programming model, the identical program runs
+on every processor but typically works on different parts of a large
+data set, while communicating with other copies of itself as
+needed. Differences in execution stem from \code{comm.rank}, which is
+typically different on every processor. While on the surface this
+sounds complicated, after some experience and a new mindset,
+programming is surprisingly simple. There is no master. There is only
+cooperation among the workers. Although we target very large
+distributed computing platforms, SPMD works well even on small
+multicore platforms.
+
+In the following, we list the main features of \pkg{pbdMPI}.
+\begin{enumerate}
+\item Under the SPMD batch programming model, a single program is
+  written, which is spawned by \code{mpirun}. No spawning
+  and broadcasting from within \proglang{R} are required.
+% \item Preserve original \proglang{R} style,
+%       i.e. Easy to modify/parallelize serial \proglang{R} codes.
+\item S4 methods are used for most collective functions so it is easy
+  to extend them for general \proglang{R} objects.
+\item Default methods (like \code{Robj} functions in \pkg{Rmpi}) have
+  homogeneous checking for data type so they are safe for general
+  users.
+\item The API in all functions is simplified, with all default arguments
+  in control objects.
+\item Methods for array or matrix types are implemented without
+  serialization and un-serialization, resulting in faster
+  communication than \pkg{Rmpi}.
+\item Basic data types of integer, double and raw in \pkg{pbdMPI} are
+  communicated without further checking. This is risky but fast for
+  advanced programmers.
+\item Character data type is serialized and communicated by raw type.
+\end{enumerate}
+
+System requirements and installation of \pkg{pbdMPI} are described
+next.  Section~\ref{sec:performance} gives a short example for
+comparing performance of \pkg{pbdMPI} and \pkg{Rmpi}~\citep{Yu2010}.
+In Section~\ref{sec:faqs}, a few quick answers for questions are
+given.  Section~\ref{sec:windows_systems} provides settings for
+Windows environments.  Finally, in Section~\ref{sec:analog_examples},
+two examples from \pkg{parallel} are shown as SPMD \pkg{pbdMPI}
+programs.
+
+\subsection[System Requirements]{System Requirements}
+\label{sec:system_requirements}
+\addcontentsline{toc}{subsection}{\thesubsection. System Requirements}
+
+\pkg{pbdMPI} requires MPI
+(\url{http://en.wikipedia.org/wiki/Message_Passing_Interface}). The
+package is mainly developed and tested under {\color{blue} OpenMPI}
+(\url{http://www.open-mpi.org/}) in xubuntu 11.04
+(\url{http://xubuntu.org/}) and should also work with LAM/MPI
+(\url{http://www.lam-mpi.org/}) and MPICH2
+(\url{http://www.mcs.anl.gov/research/projects/mpich2/}).  In addition
+to unix, \pkg{pbdMPI} should also run under other operating systems
+such as Mac OS X with OpenMPI or Windows 7 with MPICH2 if MPI is
+installed and launched properly, although we have not tested on
+multiple machines yet.  Please let us know about your experience.
+
+For normal installation, see Sec.~\ref{sec:installation}. To build as
+a static library, which may be required on some large systems, use
+\begin{Command}
+./configure --enable-static --prefix=${MPI_ROOT}
+make
+make install
+\end{Command}
+where {\color{red} \code{-}\code{--enable-static}} can build a static
+library (optional), and \code{$\{MPI_ROOT\}} is the path to MPI root.
+Note that the static library is not necessary for \pkg{pbdMPI} but may
+avoid dynamic loading problems.
+
+To make sure your MPI system is working, test with
+\begin{Command}
+mpiexec -np 2 hostname
+\end{Command}
+This should list two host names where MPI jobs are running.  Note to
+use \code{hostname.exe} with the extension on a Windows system.
+
+
+\subsection[Installation and Quick Start]{Installation and Quick Start}
+\label{sec:installation}
+\addcontentsline{toc}{subsection}{\thesubsection. Installation and Quick Start}
+
+One can download \pkg{pbdMPI} from CRAN at
+\url{http://cran.r-project.org}, and
+the intallation can be done with the following commands
+(using OpenMPI library)
+\begin{Command}
+tar zxvf pbdMPI_0.1-0.tar.gz
+R CMD INSTALL pbdMPI
+\end{Command}
+Further configure arguments include
+\\
+\begin{center}
+\vspace{0.2cm}
+\begin{tabular}{ll} \hline\hline
+Argument                   & Default \\ \hline
+\code{-}\code{--with-Rmpi-type}    & \code{OPENMPI} \\
+\code{-}\code{--with-Rmpi-include} & \code{$\{MPI_ROOT\}/include} \\
+\code{-}\code{--with-Rmpi-libpath} & \code{$\{MPI_ROOT\}/lib} \\
+\code{-}\code{--with-mpi}          & \code{$\{MPI_ROOT\}} \\
+\hline\hline
+\end{tabular}
+\vspace{0.2cm}
+\end{center}
+where \code{$\{MPI_ROOT\}} is the path to the MPI root.  For
+non-default and unusual installations of MPI systems, the commands may
+be
+\begin{Command}
+### Under command mode
+R CMD INSTALL pbdMPI \
+  --configure-args="--with-Rmpi-type=OPENMPI \
+                    --with-mpi=/usr/local"
+R CMD INSTALL pbdMPI \
+  --configure-args="--with-Rmpi-type=OPENMPI \
+                    --with-Rmpi-include=/usr/local/ompi/include \
+                    --with-Rmpi-libpath=/usr/local/ompi/lib"
+\end{Command}
+See the package source file \code{pbdMPI/configure} for details.
+
+One can get started quickly with \pkg{pbdMPI} by learning from the
+following six examples.
+\begin{Command}
+### At the shell prompt, run the demo with 2 processors by
+### (Use Rscript.exe for windows system)
+mpiexec -np 2 Rscript -e "demo(allgather,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(allreduce,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(bcast,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(gather,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(reduce,'pbdMPI',ask = F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(scatter,'pbdMPI',ask=F,echo=F)"
+\end{Command}
+
+
+\subsection[Basic Steps]{Basic Steps}
+\label{sec:basic_steps}
+\addcontentsline{toc}{subsection}{\thesubsection. Basic Steps}
+
+In the SPMD world, every processor is a worker, every worker knows
+about all the others, and each worker does its own job, possibly
+communicating with the others. Unlike the manager/workers style, SPMD
+is more likely to fully use the computer resources.  The following
+shows typical basic steps of using \pkg{pbdMPI}.
+\begin{enumerate}
+\item Initialize. (\code{init})
+\item Read your portion of the data.
+\item Compute. (\code{send}, \code{recv}, \code{barrier}, ...)
+\item Communicate results among workers.
+(\code{gather}, \code{allgather}, \code{reduce}, \code{allreduce}, ...)
+\item Finalize. (\code{finalize})
+\end{enumerate}
+In a given application, the Compute and Communicate steps may be
+repeated several times for intermediate results. The Compute and
+Communicate steps are more general than the ``map'' and ``reduce''
+steps of the map-reduce paradigm but similar in spirit.  One big
+difference is that the Communicate step may place the ``reductions''
+on all processors rather than just one (the manager for map-reduce)
+for roughly the same time cost.  With some experience, one can easily
+convert existing \proglang{R} scripts, and quickly parallelize serial
+code. \pkg{pbdMPI} tends to reduce programming effort, avoid
+complicated MPI techniques, and gain computing performance.
+
+The major communication functions of \pkg{pbdMPI} and corresponding
+similar functions of \pkg{Rmpi} are listed in the following.
+\\
+\begin{center}
+\vspace{0.2cm}
+\begin{tabular}{cl} \hline\hline
+\pkg{pbdMPI} (S4) & \pkg{Rmpi}                \\ \hline
+\code{allgather}    & \code{mpi.allgather},
+                      \code{mpi.allgatherv},
+                      \code{mpi.allgather.Robj} \\
+\code{allreduce}    & \code{mpi.allreduce}      \\
+\code{bcast}        & \code{mpi.bcast},
+                      \code{mpi.bcast.Robj}     \\
+\code{gather}       & \code{mpi.gather},
+                      \code{mpi.gatherv},
+                      \code{mpi.gather.Robj}    \\
+\code{recv}         & \code{mpi.recv},
+                      \code{mpi.recv.Robj}      \\
+\code{reduce}       & \code{mpi.reduce}         \\
+\code{scatter}      & \code{mpi.scatter},
+                      \code{mpi.scatterv},
+                      \code{mpi.scatter.Robj}   \\
+\code{send}         & \code{mpi.send},
+                      \code{mpi.send.Robj}      \\ \hline \hline
+\end{tabular}
+\end{center}
+
+
+\subsection[More Examples]{More Examples}
+\label{sec:more_examples}
+\addcontentsline{toc}{subsection}{\thesubsection. More Examples}
+
+The package source files provide several examples based on \pkg{pbdMPI},
+such as \\
+\begin{center}
+\vspace{0.2cm}
+\begin{tabular}{ll} \hline\hline
+Directory & Examples \\ \hline
+\code{pbdMPI/inst/examples/test_spmd/}         & main SPMD functions \\
+\code{pbdMPI/inst/examples/test_rmpi/}         & comparison to \pkg{Rmpi} \\
+\code{pbdMPI/inst/examples/test_parallel/}     & comparison to \pkg{parallel} \\
+\code{pbdMPI/inst/examples/test_performance/}  & performance testing \\
+\code{pbdMPI/inst/examples/test_s4/}           & S4 extension \\
+\hline\hline
+\end{tabular}
+\end{center}
+
