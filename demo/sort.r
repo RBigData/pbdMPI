@@ -18,7 +18,7 @@ if(.comm.rank == 1){
 y <- allgather(x)
 comm.print(y)
 
-y <- g.sort(x)
+y <- comm.sort(x)
 y <- allgather(y)
 comm.print(y)
 

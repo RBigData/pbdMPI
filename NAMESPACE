@@ -5,7 +5,7 @@
 import(methods, rlecuyer)
 
 exportPattern("^spmd\\.[[:alpha:]]+")
-exportPattern("^g\\.[[:alpha:]]+")
+# exportPattern("^g\\.[[:alpha:]]+")
 
 exportMethods(
   "allgather",
@@ -72,6 +72,9 @@ export(
   "pbdSapply",
   "comm.set.seed",
   "comm.reset.seed",
-  "comm.end.seed"
+  "comm.end.seed",
+  "comm.sort",
+  "comm.any",
+  "comm.all"
 )
 

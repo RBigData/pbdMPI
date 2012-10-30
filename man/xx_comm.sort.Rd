@@ -1,11 +1,11 @@
 \name{global sort function}
-\alias{g.sort}
+\alias{comm.sort}
 \title{ Global Quick Sort for Distributed Vectors or Matrices }
 \description{
   This function globally sorts distributed data for all ranks.
 }
 \usage{
-  g.sort(x, decreasing = FALSE, na.last = NA,
+  comm.sort(x, decreasing = FALSE, na.last = NA,
             comm = .SPMD.CT$comm, status = .SPMD.CT$status)
 }
 \arguments{
@@ -57,7 +57,7 @@ if(.comm.rank == 1){
 y <- allgather(x)
 comm.print(y)
 
-y <- g.sort(x)
+y <- comm.sort(x)
 y <- allgather(y)
 comm.print(y)
 

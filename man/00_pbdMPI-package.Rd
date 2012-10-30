@@ -85,7 +85,7 @@ mpiexec -np 2 Rscript -e "demo(allgather,'pbdMPI',ask=F,echo=F)"
 mpiexec -np 2 Rscript -e "demo(allreduce,'pbdMPI',ask=F,echo=F)"
 mpiexec -np 2 Rscript -e "demo(bcast,'pbdMPI',ask=F,echo=F)"
 mpiexec -np 2 Rscript -e "demo(gather,'pbdMPI',ask=F,echo=F)"
-mpiexec -np 2 Rscript -e "demo(reduce,'pbdMPI',ask = F,echo=F)"
+mpiexec -np 2 Rscript -e "demo(reduce,'pbdMPI',ask=F,echo=F)"
 mpiexec -np 2 Rscript -e "demo(scatter,'pbdMPI',ask=F,echo=F)"
 }
 }

@@ -2061,6 +2061,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+: ${R_HOME=‘R RHOME‘}
+if test -z "${R_HOME}"; then
+  echo "could not determine R_HOME"
+  exit 1
+fi
 
 
 # Check whether --with-Rmpi-include was given.

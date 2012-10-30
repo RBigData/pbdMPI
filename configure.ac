@@ -1,7 +1,12 @@
 dnl Process this file with autoconf to produce a configure script
-
 AC_INIT(DESCRIPTION)
 
+dnl Determine R_HOME.
+: ${R_HOME=‘R RHOME‘}
+if test -z "${R_HOME}"; then
+  echo "could not determine R_HOME"
+  exit 1
+fi
 
 dnl One way is to specify both include and lib paths
 AC_ARG_WITH([Rmpi-include],
