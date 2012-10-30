@@ -4,7 +4,7 @@
 library(pbdMPI, quiet = TRUE)
 init()
 if(comm.size() != 2){
-  warning("2 processors is requried to run this demo.")
+  comm.cat("2 processors are requried to run this demo.\n", quiet = TRUE)
   finalize()
 }
 
