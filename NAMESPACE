@@ -48,6 +48,7 @@ export(
   "info.create",
   "info.set",
   "info.free",
+  "info.c2f",
 
   ### "R/spmd_tool.r"
 #  "comm.hostinfo",
