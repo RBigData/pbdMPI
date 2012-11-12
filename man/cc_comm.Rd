@@ -12,6 +12,7 @@
 \alias{comm.disconnect}
 \alias{COMM.SIZE}
 \alias{COMM.RANK}
+\alias{comm.c2f}
 \title{ Communicator Functions }
 \description{
   The functions provide controls to communicators.
@@ -28,6 +29,7 @@
   init()
   finalize(mpi.finalize = .SPMD.CT$mpi.finalize)
   comm.disconnect(comm = .SPMD.CT$comm)
+  comm.c2f(comm = .SPMD.CT$comm)
 }
 \arguments{
   \item{comm}{a communicator number.}
@@ -68,6 +70,8 @@
   \code{mpi.finalize = TRUE}.
 
   \code{comm.disconnect} frees a \code{comm}.
+
+  \code{comm.c2f} returns an integer for Fortran MPI support.
 }
 \value{
   Most function return an invisible state of MPI call.
@@ -93,6 +97,7 @@ init()
 comm.print(.comm.size)
 comm.print(.comm.rank, all.rank = TRUE)
 comm.print(comm.rank(), rank.print = 1)
+comm.print(comm.c2f())
 
 ### Finish
 finalize()

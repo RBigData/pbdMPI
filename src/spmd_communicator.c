@@ -120,3 +120,8 @@ SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm){
 			&comm[INTEGER(R_comm)[0]]))));
 } /* End of spmd_intercomm_merge(). */
 
+/* Fortran supporting functions. */
+SEXP spmd_comm_c2f(SEXP R_comm){
+	return(AsInt((int) MPI_Comm_c2f(comm[INTEGER(R_comm)[0]])));
+} /* End of spmd_comm_c2f(). */
+

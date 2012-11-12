@@ -42,6 +42,7 @@ export(
 #  "comm.spawn",
 #  "comm.get.parent",
 #  "intercomm.merge",
+  "comm.c2f",
 
   ### "R/spmd_info.r"
   "info.create",

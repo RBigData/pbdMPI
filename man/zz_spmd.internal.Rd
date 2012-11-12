@@ -36,6 +36,7 @@
 \alias{spmd.comm.spawn}
 \alias{spmd.comm.get.parent}
 \alias{spmd.intercomm.merge}
+\alias{spmd.comm.c2f}
 \alias{spmd.gather.object}
 \alias{spmd.gather.array}
 \alias{spmd.gather.default}
