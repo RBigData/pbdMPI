@@ -25,11 +25,14 @@ pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
       new.X <- c(new.X, rep(list(NULL), COMM.SIZE - length(new.X)))
     }
 
-    X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
+    new.X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
+  } else{
+    alljid <- get.jid(length(X), comm = comm, all = TRUE)
+    new.X <- lapply(alljid, list.to.list, X) 
   }
 
   ### Run as SPMD.
-  ret <- lapply(X, FUN, ...)
+  ret <- lapply(new.X, FUN, ...)
 
   ### Gather data for MW.
   if(pbd.mode[1] == "mw"){

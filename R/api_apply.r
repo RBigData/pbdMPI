@@ -40,11 +40,14 @@ pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
       new.X <- c(new.X, rep(list(NULL), COMM.SIZE - length(new.X)))
     }
 
-    X <- spmd.scatter.array(new.X, rank.source = rank.source, comm = comm)
+    new.X <- spmd.scatter.array(new.X, rank.source = rank.source, comm = comm)
+  } else{
+    alljid <- get.jid(dim(X)[MARGIN], comm = comm, all = TRUE)
+    new.X <- lapply(alljid, array.to.list, X, dim(X), MARGIN) 
   }
 
   ### Run as SPMD.
-  ret <- apply(X, MARGIN, FUN, ...)
+  ret <- apply(new.X, MARGIN, FUN, ...)
 
   ### Gather data for MW.
   if(pbd.mode[1] == "mw"){
