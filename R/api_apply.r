@@ -42,8 +42,8 @@ pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
 
     new.X <- spmd.scatter.array(new.X, rank.source = rank.source, comm = comm)
   } else{
-    alljid <- get.jid(dim(X)[MARGIN], comm = comm, all = TRUE)
-    new.X <- lapply(alljid, array.to.list, X, dim(X), MARGIN) 
+    alljid <- get.jid(dim(X)[MARGIN], comm = comm)
+    new.X <- sapply(alljid, array.to.list, X, dim(X), MARGIN) 
   }
 
   ### Run as SPMD.

@@ -50,6 +50,7 @@
 \alias{spmd.info.create}
 \alias{spmd.info.set}
 \alias{spmd.info.free}
+\alias{spmd.info.c2f}
 \alias{spmd.irecv.default}
 \alias{spmd.irecv.integer}
 \alias{spmd.irecv.double}

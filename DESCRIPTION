@@ -7,7 +7,7 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "aut"), person("Drew", "Schmidt", role = "aut"),
         person("Pragneshkumar", "Patel", role = "aut"), person("Hao",
         "Yu", role = "aut"))
-Depends: R (>= 2.14.0), methods, rlecuyer
+Depends: R (>= 2.13.0), methods, rlecuyer
 LazyLoad: yes
 LazyData: yes
 Description: pbdMPI provides an efficient interface to MPI by utilizing S4
@@ -18,7 +18,7 @@ SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
         MPICH2 (>= 1.4.1p1) on Windows
 License: GPL (>= 2)
 URL: http://r-pbd.org/
-Packaged: 2012-11-15 19:43:10 UTC; snoweye
+Packaged: 2012-11-15 20:16:42 UTC; snoweye
 Author: Wei-Chen Chen [aut, cre],
   George Ostrouchov [aut],
   Drew Schmidt [aut],

@@ -27,8 +27,8 @@ pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
 
     new.X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
   } else{
-    alljid <- get.jid(length(X), comm = comm, all = TRUE)
-    new.X <- lapply(alljid, list.to.list, X) 
+    alljid <- get.jid(length(X), comm = comm)
+    new.X <- sapply(alljid, list.to.list, X) 
   }
 
   ### Run as SPMD.
