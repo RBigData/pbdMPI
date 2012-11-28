@@ -3,9 +3,6 @@
 library(Rmpi)
 invisible(mpi.comm.dup(0, 1))
 
-.comm.size <- mpi.comm.size(1)
-.comm.rank <- mpi.comm.rank(1)
-
 source("./01_setting")
 
 x.total <- N * .comm.size

@@ -47,10 +47,12 @@
   # }
 
   .Call("spmd_initialize", PACKAGE = "pbdMPI")
-  .comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
-  .comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
-  assign(".comm.size", .comm.size, envir = .GlobalEnv)
-  assign(".comm.rank", .comm.rank, envir = .GlobalEnv)
+  # .comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
+  # .comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
+  # assign(".comm.size", .comm.size, envir = .GlobalEnv)
+  # assign(".comm.rank", .comm.rank, envir = .GlobalEnv)
+
+  invisible()
 } # End of .onLoad().
 
 .onUnload <- function(libpath){
@@ -80,4 +82,6 @@
       ret <- try(dyn.unload(i.lib), silent = TRUE)
     }
   }
+
+  invisible()
 } # End of .onUnload().

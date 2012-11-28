@@ -41,6 +41,8 @@
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Examples
 info.create(0L)

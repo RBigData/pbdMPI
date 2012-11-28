@@ -1,6 +1,4 @@
 \name{communicator}
-\alias{.comm.size}
-\alias{.comm.rank}
 \alias{barrier}
 \alias{comm.is.null}
 \alias{comm.rank}
@@ -18,8 +16,6 @@
   The functions provide controls to communicators.
 }
 \usage{
-  .comm.size
-  .comm.rank
   barrier(comm = .SPMD.CT$comm)
   comm.is.null(comm = .SPMD.CT$comm)
   comm.rank(comm = .SPMD.CT$comm)
@@ -37,15 +33,6 @@
   \item{mpi.finalize}{if MPI should be shutdown.}
 }
 \details{
-  \code{.comm.size} (integer) is the default size of MPI world for the initial
-  communicator indicated by \code{comm = 0}. This is different to \pkg{Rmpi}
-  which uses \code{comm = 1} as the default. This variable is set in
-  \code{.GlobalEnv} when \code{init} is evoked.
-
-  \code{.comm.rank} (integer) is the default rank of each processor in the
-  initial communicator \code{comm = 0}. This variable is set in
-  \code{.GlobalEnv} when \code{init} is evoked.
-
   Another functions are direct calls to MPI library.
 
   \code{barrier} blocks all processors until everyone call this.
@@ -92,6 +79,8 @@
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Examples 
 comm.print(.comm.size)

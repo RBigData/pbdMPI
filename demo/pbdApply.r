@@ -2,6 +2,8 @@
 
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 N <- 100
 x <- matrix((1:N) + N * .comm.rank, ncol = 10)

@@ -76,6 +76,9 @@ export(
   "comm.reset.seed",
   "comm.end.seed",
   "comm.sort",
+  "comm.sort.default",
+  "comm.sort.integer",
+  "comm.sort.double",
   "comm.any",
   "comm.all"
 )

@@ -3,13 +3,16 @@
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
-if(comm.size() != 2){
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
+
+if(.comm.size != 2){
   comm.cat("2 processors are requried to run this demo.\n", quiet = TRUE)
   finalize()
 }
 
 ### Examples
-if(comm.rank() == 0){
+if(.comm.rank == 0){
   a <- c(T, F, NA)
 } else{
   a <- T

@@ -62,7 +62,7 @@
   It is expected to be fine for other MPI libraries and other OS platforms.
 }
 \references{
-  Programming with Big Data in R (HPSC) Website:
+  Programming with Big Data in R Website:
   \url{http://r-pbd.org/}
 }
 \author{
