@@ -3,12 +3,10 @@ PKG_CPPFLAGS = @PKG_CPPFLAGS@
 PKG_LIBS     = @PKG_LIBS@
 
 ### For user configuration.
-USER_ETC = ../inst/etc${R_ARCH}
-USER_CONF = $(USER_ETC)/Makeconf
+USER_CONF = Makeconf
 
 ### Start making here.
 all: $(SHLIB)
-	@if test ! -e $(USER_ETC); then mkdir -p $(USER_ETC); fi
 	@echo "MPIRUN = @MPIRUN@" > $(USER_CONF)
 	@echo "MPIEXEC = @MPIEXEC@" >> $(USER_CONF)
 	@echo "ORTERUN = @ORTERUN@" >> $(USER_CONF)
@@ -28,4 +26,4 @@ $(SHLIB): $(OBJECTS)
 
 clean:
 	@rm -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib Makedeps Makevars \
-               $(SHLIB) $(OBJECTS) $(USER_ETC)
+               $(SHLIB) $(OBJECTS)

@@ -39,19 +39,16 @@ PKG_CPPFLAGS = -I"$(MPI_ROOT)/include" -DMPI2 -DWIN
 PKG_LIBS = -L"$(MPI_LIB)" -lmpi
 
 ### For user configuration.
-USER_ETC = ../inst/etc$(R_ARCH)
-USER_CONF = $(USER_ETC)/Makeconf
+USER_CONF = Makeconf
 
 ### Start making here.
 all: $(SHLIB)
 	@$(CP) ../R/windows/zzz.r ../R/
-	@if test ! -e $(USER_ETC); then mkdir -p $(USER_ETC); fi
 	@$(ECHO) 'MPI_ROOT = $(MPI_ROOT)' > $(USER_CONF)
 	@$(ECHO) 'MPI_LIB = $(MPI_LIB)' >> $(USER_CONF)
 
 $(SHLIB): $(OBJECTS)
 
 clean:
-	@$(RM) *.o *.d *.rc *.so *.dll *.dylib *.a *.lib Makedeps Makevars \
+	@$(RM) -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib Makedeps Makevars \
                $(SHLIB) $(OBJECTS)
-	@$(RM) -rf $(USER_ETC)

@@ -65,8 +65,8 @@ spmd.init <- function(){
   ### We still need to initial memory for our own communicators.
   ### Copy the COMM_WORLD to the comm 0.
   ret <- .Call("spmd_initialize", PACKAGE = "pbdMPI")
-  assign(".comm.size", spmd.comm.size(), envir = .GlobalEnv)
-  assign(".comm.rank", spmd.comm.rank(), envir = .GlobalEnv)
+  # assign(".comm.size", spmd.comm.size(), envir = .GlobalEnv)
+  # assign(".comm.rank", spmd.comm.rank(), envir = .GlobalEnv)
   invisible(ret)
 } # End of spmd.init().
 
