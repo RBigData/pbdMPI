@@ -25,5 +25,5 @@ all: $(SHLIB)
 $(SHLIB): $(OBJECTS)
 
 clean:
-	@rm -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib Makedeps Makevars \
-               $(SHLIB) $(OBJECTS)
+	@rm -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib \
+                Makedeps Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)
