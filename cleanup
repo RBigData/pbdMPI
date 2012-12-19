@@ -6,7 +6,7 @@ rm -rf ./src/Makevars
 rm -rf ./src/Makedeps
 rm -rf ./src/Makeconf
 rm -rf ./src/*.dylib
-rm -rf ./src/*.so
+rm -rf ./src/*.so*
 rm -rf ./src/*.o
 rm -rf ./src/*.d
 rm -rf ./src/*.dll

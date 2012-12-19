@@ -50,5 +50,5 @@ all: $(SHLIB)
 $(SHLIB): $(OBJECTS)
 
 clean:
-	@$(RM) -rf *.o *.d *.rc *.so *.dll *.dylib *.a *.lib \
+	@$(RM) -rf *.o *.d *.rc *.so* *.dll *.dylib *.a *.lib \
                Makedeps Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)
