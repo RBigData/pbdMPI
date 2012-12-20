@@ -2,6 +2,7 @@
 \alias{info.create}
 \alias{info.set}
 \alias{info.free}
+\alias{info.c2f}
 \title{ Info Functions }
 \description{
   The functions call MPI info functions.
@@ -10,6 +11,7 @@
   info.create(info = .SPMD.CT$info)
   info.set(info = .SPMD.CT$info, key, value)
   info.free(info = .SPMD.CT$info)
+  info.c2f(info = .SPMD.CT$info)
 }
 \arguments{
   \item{info}{a info number.}
@@ -39,6 +41,8 @@
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Examples
 info.create(0L)

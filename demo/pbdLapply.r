@@ -2,6 +2,8 @@
 
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 N <- 100
 x <- split((1:N) + N * .comm.rank, rep(1:10, each = 10))

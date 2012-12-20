@@ -42,6 +42,7 @@ void get_MPI_APTS_from_R();
 
 /* In "pkg_dl.c". */
 extern void *DL_APT_ptr;
+SEXP pkg_initialize(SEXP R_i_lib);
 SEXP pkg_dlopen();
 SEXP pkg_dlclose();
 

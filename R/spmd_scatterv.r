@@ -16,7 +16,7 @@ spmd.scatter.default <- function(x, x.buffer = NULL, x.count = NULL,
     check <- spmd.bcast.integer(integer(2), comm = comm)
   }
 
-  if(! check[1]){
+  if(!check[1]){
     stop("x should be a list and length COMM.SIZE")
   }
   if(check[2]){

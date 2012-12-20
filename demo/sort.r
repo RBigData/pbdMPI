@@ -3,6 +3,8 @@
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Examples
 comm.set.seed(diff = TRUE)
@@ -18,7 +20,7 @@ if(.comm.rank == 1){
 y <- allgather(x)
 comm.print(y)
 
-y <- g.sort(x)
+y <- comm.sort(x)
 y <- allgather(y)
 comm.print(y)
 

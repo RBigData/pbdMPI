@@ -9,3 +9,4 @@ pbdApply	pbdMPI		An example of parallel apply.
 pbdLapply	pbdMPI		An example of parallel lapply.
 seed		pbdMPI		An example of random number generation.
 sort		pbdMPI		An example of sorting.
+any_all		pbdMPI		An example of any and all.

@@ -63,11 +63,11 @@ jid <- get.jid(7, method = "cycle")
 comm.print(jid, all.rank = TRUE)
 
 comm.cat(">>> block (all)\n", quiet = TRUE)
-alljid <- get.jid(7, method = "block", all = TREU)
+alljid <- get.jid(7, method = "block", all = TRUE)
 comm.print(alljid)
 
 comm.cat(">>> cycle (all)\n", quiet = TRUE)
-alljid <- get.jid(7, method = "cycle", all = TREU)
+alljid <- get.jid(7, method = "cycle", all = TRUE)
 comm.print(alljid)
 
 ### Finish

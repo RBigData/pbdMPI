@@ -6,6 +6,7 @@
   intercomm = 2L,
   op = "sum",
   print.all.rank = FALSE,
+  print.quiet = FALSE,
   rank.root = 0L,
   rank.source = 0L,
   rank.dest = 1L,

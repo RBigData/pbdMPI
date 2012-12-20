@@ -19,6 +19,7 @@
   \code{intercomm}      \tab 2L      \tab an inter communicator index \cr
   \code{op}             \tab "sum"   \tab an operation \cr
   \code{print.all.rank} \tab FALSE   \tab if all ranks print message \cr
+  \code{print.quiet}    \tab FALSE   \tab if print/cat rank information \cr
   \code{rank.root}      \tab 0L      \tab a rank of root \cr
   \code{rank.source}    \tab 0L      \tab a rank of source \cr
   \code{rank.dest}      \tab 1L      \tab a rank of destination \cr
