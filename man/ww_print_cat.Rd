@@ -9,12 +9,12 @@
 \usage{
   comm.print(x, all.rank = .SPMD.CT$print.all.rank,
     rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
-    quiet = FALSE, flush = TRUE, con = stdout(), ...)
+    quiet = .SPMD.CT$print.quiet, flush = TRUE, con = stdout(), ...)
 
   comm.cat(..., all.rank = .SPMD.CT$print.all.rank,
     rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
-    quiet = FALSE, sep = " ", fill = FALSE, labels = NULL,
-    append = FALSE, flush = TRUE, con = stdout())
+    quiet = .SPMD.CT$print.quiet, sep = " ", fill = FALSE,
+    labels = NULL, append = FALSE, flush = TRUE, con = stdout())
 }
 \arguments{
   \item{x}{a variable to be printed.}
