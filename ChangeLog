@@ -1,5 +1,6 @@
-2012-12-17: Ver. 0.1-4
+2012-12-23: Ver. 0.1-4
   * Add control to comm.print and comm.cat.
+  * Fix .Last.lib problem.
 
 2012-12-13: Ver. 0.1-3
   * Fix Mac OSX dynamic loading problem.

@@ -5,7 +5,7 @@
 import(methods, rlecuyer)
 
 exportPattern("^spmd\\.[[:alpha:]]+")
-# exportPattern("^g\\.[[:alpha:]]+")
+# exportPattern("^[\\.]")
 
 exportMethods(
   "allgather",

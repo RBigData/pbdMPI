@@ -1,10 +1,10 @@
 ### Lastest load into a package.
 
-.First.lib <- function(lib, pkg){
-} # End of .First.lib().
+# .First.lib <- function(lib, pkg){
+# } # End of .First.lib().
 
-.Last.lib <- function(libpath){
-} # End of .Last.lib().
+# .Last.lib <- function(libpath){
+# } # End of .Last.lib().
 
 .onLoad <- function(libname, pkgname){
   library.dynam("pbdMPI", pkgname, libname)
