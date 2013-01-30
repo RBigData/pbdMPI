@@ -2,7 +2,7 @@ citHeader("To cite pbdMPI in a publication use:")
 
 citEntry(
   entry = "Misc",
-  title = "pbdMPI: Programming with Big Data -- Interface to MPI",
+  title = "{pbdMPI}: Programming with Big Data -- Interface to {MPI}",
   author = personList(as.person("Wei-Chen Chen"),
                       as.person("George Ostrouchov"),
                       as.person("Drew Schmidt"),
@@ -16,7 +16,7 @@ citEntry(
 
 citEntry(
   entry = "Manual",
-  title = "A Quick Guide for the pbdMPI Package",
+  title = "A Quick Guide for the {pbdMPI} Package",
   author = personList(as.person("Wei-Chen Chen"),
                       as.person("George Ostrouchov"),
                       as.person("Drew Schmidt"),
