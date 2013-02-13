@@ -2,28 +2,28 @@ citHeader("To cite pbdMPI in a publication use:")
 
 citEntry(
   entry = "Misc",
-  title = "pbdMPI: Programming with Big Data -- Interface to MPI",
+  title = "{pbdMPI}: Programming with Big Data -- Interface to {MPI}",
   author = personList(as.person("Wei-Chen Chen"),
                       as.person("George Ostrouchov"),
                       as.person("Drew Schmidt"),
                       as.person("Pragneshkumar Patel"),
                       as.person("Hao Yu")),
   year = "2012",
-  note = "R Package, URL http://cran.r-project.org/package=pbdMPI",
+  note = "{R} Package, URL http://cran.r-project.org/package=pbdMPI",
   textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2012) pbdMPI: Programming with Big Data -- Interface to MPI. R Package, URL http://cran.r-project.org/package=pbdMPI",
   key = "Chen2012pbdMPIpackage"
 )
 
 citEntry(
   entry = "Manual",
-  title = "A Quick Guide for the pbdMPI Package",
+  title = "A Quick Guide for the {pbdMPI} Package",
   author = personList(as.person("Wei-Chen Chen"),
                       as.person("George Ostrouchov"),
                       as.person("Drew Schmidt"),
                       as.person("Pragneshkumar Patel"),
                       as.person("Hao Yu")),
   year = "2012",
-  note = "R Vignette, URL http://cran.r-project.org/package=pbdMPI",
+  note = "{R} Vignette, URL http://cran.r-project.org/package=pbdMPI",
   textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2012) A Quick Guide for the pbdMPI Package. R Vignette, URL http://cran.r-project.org/package=pbdMPI",
   key = "Chen2012pbdMPIvignette"
 )

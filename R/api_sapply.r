@@ -22,11 +22,14 @@ pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
       new.X <- c(new.X, rep(list(NULL), COMM.SIZE - length(new.X)))
     }
 
-    X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
+    new.X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
+  } else{
+     alljid <- get.jid(length(X), comm = comm)
+     new.X <- sapply(alljid, list.to.list, X) 
   }
 
   ### Run as SPMD.
-  ret <- sapply(X, FUN, ..., simplify = simplify, USE.NAMES = USE.NAMES)
+  ret <- sapply(new.X, FUN, ..., simplify = simplify, USE.NAMES = USE.NAMES)
 
   ### Gather data for MW.
   if(pbd.mode[1] == "mw"){

@@ -60,6 +60,8 @@ For calling \code{spmd.isend.*}:
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Examples
 N <- 5

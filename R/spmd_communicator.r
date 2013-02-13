@@ -65,8 +65,8 @@ spmd.init <- function(){
   ### We still need to initial memory for our own communicators.
   ### Copy the COMM_WORLD to the comm 0.
   ret <- .Call("spmd_initialize", PACKAGE = "pbdMPI")
-  assign(".comm.size", spmd.comm.size(), envir = .GlobalEnv)
-  assign(".comm.rank", spmd.comm.rank(), envir = .GlobalEnv)
+  # assign(".comm.size", spmd.comm.size(), envir = .GlobalEnv)
+  # assign(".comm.rank", spmd.comm.rank(), envir = .GlobalEnv)
   invisible(ret)
 } # End of spmd.init().
 
@@ -162,3 +162,10 @@ spmd.intercomm.merge <- function(intercomm = .SPMD.CT$intercomm,
 
 intercomm.merge <- spmd.intercomm.merge
 
+
+### Fortran supporting function.
+spmd.comm.c2f <- function(comm = .SPMD.CT$comm){
+  .Call("spmd_comm_c2f", as.integer(comm), PACKAGE = "pbdMPI")
+} # End of spmd.comm.c2f().
+
+comm.c2f <- spmd.comm.c2f

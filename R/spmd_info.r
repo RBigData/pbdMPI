@@ -22,3 +22,10 @@ spmd.info.free <- function(info = .SPMD.CT$info){
 
 info.free <- spmd.info.free
 
+
+### Fortran supporting function.
+spmd.info.c2f <- function(info = .SPMD.CT$info){
+  .Call("spmd_info_c2f", as.integer(info), PACKAGE = "pbdMPI")
+} # End of spmd.info.c2f().
+
+info.c2f <- spmd.info.c2f

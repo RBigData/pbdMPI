@@ -1,7 +1,7 @@
 ### Distributed quick sort.
 
 ### S3 functions.
-g.sort <- function(x, decreasing = FALSE, na.last = NA,
+comm.sort <- function(x, decreasing = FALSE, na.last = NA,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   if(is.null(x)){
     x <- vector("integer", length = 0)
@@ -19,16 +19,16 @@ g.sort <- function(x, decreasing = FALSE, na.last = NA,
     x <- spmd.allcheck.type(x, comm = comm)
   }
 
-  UseMethod("g.sort", x)
-} # End of g.sort().
+  UseMethod("comm.sort", x)
+} # End of comm.sort().
 
 ### S3 Methods.
-g.sort.default <- function(x, decreasing = FALSE, na.last = NA,
+comm.sort.default <- function(x, decreasing = FALSE, na.last = NA,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   stop("x should be all in vector.")
-} # End of g.sort.default().
+} # End of comm.sort.default().
 
-g.sort.integer <- function(x, decreasing = FALSE, na.last = NA,
+comm.sort.integer <- function(x, decreasing = FALSE, na.last = NA,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   if(is.null(x)){
     y <- vector("integer", length = 0)
@@ -46,9 +46,9 @@ g.sort.integer <- function(x, decreasing = FALSE, na.last = NA,
     ret <- NULL
   }
   ret
-} # End of g.sort.integer().
+} # End of comm.sort.integer().
 
-g.sort.double <- function(x, decreasing = FALSE, na.last = NA,
+comm.sort.double <- function(x, decreasing = FALSE, na.last = NA,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   if(is.null(x)){
     y <- vector("numeric", length = 0)
@@ -66,5 +66,5 @@ g.sort.double <- function(x, decreasing = FALSE, na.last = NA,
     ret <- NULL
   }
   ret
-} # End of g.sort.double().
+} # End of comm.sort.double().
 

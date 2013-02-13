@@ -1,8 +1,23 @@
+2013-01-17: Ver. 0.1-4
+  * Add control to comm.print and comm.cat.
+  * Fix .Last.lib problem.
+  * Fix comm.all and comm.any na.rm bug.
+
+2012-12-13: Ver. 0.1-3
+  * Fix Mac OSX dynamic loading problem.
+  * Fix .GlobalEnv problem.
+  * Fix multi-arch problem.
+  * Add copyright to vignette.
+
+2012-10-30: Ver. 0.1-2
+  * Add comm.all and comm.any, and rename g.sort to comm.sort.
+
 2012-10-02: Ver. 0.1-1
   * Make changes for Nautilus. Drop "pbdMPI:::* ideas" for other pbd packages.
   * Make changes for pbdSLAP, pbdBASE, and pbdDMAT.
   * Add seed functions.
   * Add global sorting functions.
+  * Modify configure.ac and Makevars.in for Solaris and pbdSLAP, pbdBASE, and       pbdDMAT.
 
 ======================= Log Before Release =====================================
 2012-09-01:
