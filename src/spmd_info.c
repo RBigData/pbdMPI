@@ -19,3 +19,9 @@ SEXP spmd_info_free(SEXP R_info){
 		spmd_errhandler(MPI_Info_free(&info[INTEGER(R_info)[0]]))));
 } /* End of spmd_info_free(). */
 
+
+/* Fortran supporting functions. */
+SEXP spmd_info_c2f(SEXP R_info){
+	return(AsInt((int) MPI_Info_c2f(info[INTEGER(R_info)[0]])));
+} /* End of spmd_info_c2f(). */
+

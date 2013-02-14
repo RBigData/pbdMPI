@@ -24,10 +24,9 @@ SEXP arrange_MPI_APTS(){
 
 void set_MPI_APTS_in_R(){
 	/* Define R objects. */
-	SEXP R_apts_symbol, R_apts;
+	SEXP R_apts;
 
 	/* Protect R objects. */
-	PROTECT(R_apts_symbol = allocVector(STRSXP, 1));
 	PROTECT(R_apts = R_MakeExternalPtr(&MPI_APTS, R_NilValue, R_NilValue));
 
 	/* Assign an R object in ".GlobalEnv". */
@@ -62,7 +61,7 @@ void set_MPI_APTS_in_R(){
 	#endif
 
 	/* Unprotect R objects. */
-	UNPROTECT(2);
+	UNPROTECT(1);
 } /* End of set_MPI_APTS_in_R(). */
 
 void get_MPI_APTS_from_R(){

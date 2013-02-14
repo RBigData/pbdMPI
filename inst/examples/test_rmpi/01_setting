@@ -1,2 +1,10 @@
 N <- 10000
 iter.total <- 100
+
+if(exists("mpi.comm.size")){
+  .comm.size <- mpi.comm.size(1)
+  .comm.rank <- mpi.comm.rank(1)
+} else{
+  .comm.size <- comm.size()
+  .comm.rank <- comm.rank()
+}

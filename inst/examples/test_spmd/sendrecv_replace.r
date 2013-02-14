@@ -2,6 +2,8 @@
 
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 rank.dest <- as.integer((.comm.rank + 1) %% .comm.size)
 rank.source <- as.integer((.comm.rank - 1) %% .comm.size)

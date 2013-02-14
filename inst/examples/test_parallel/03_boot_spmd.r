@@ -3,6 +3,7 @@
 
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.rank <- comm.rank()
 set.seed(123 + .comm.rank + 1)
 
 library(boot)

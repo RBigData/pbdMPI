@@ -2,6 +2,8 @@
 
 library(pbdMPI)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 comm.cat(">>> block\n", quiet = TRUE)
 jid <- get.jid(7, method = "block")

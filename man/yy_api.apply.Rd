@@ -57,6 +57,8 @@
 ### Initial
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Example for pbdApply
 N <- 100

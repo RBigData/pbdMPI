@@ -10,6 +10,21 @@ void *DL_APT_ptr = NULL;
 #include <dlfcn.h>
 #endif
 
+SEXP pkg_initialize(SEXP R_i_lib){
+#ifndef WIN
+#ifdef OPENMPI
+	SEXP R_apts;
+
+	PROTECT(R_apts = findVar(install(MPI_LIB_R_NAME), R_GlobalEnv));
+	if(R_apts == R_UnboundValue){
+		defineVar(install(MPI_LIB_R_NAME), R_i_lib, R_GlobalEnv);
+	}
+	UNPROTECT(1);
+#endif
+#endif
+	return(R_NilValue);
+} /* End of pkg_initialize(). */
+
 SEXP pkg_dlopen(){
 #ifndef WIN
 #ifdef OPENMPI

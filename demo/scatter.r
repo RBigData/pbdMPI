@@ -2,6 +2,8 @@
 
 library(pbdMPI, quiet = TRUE)
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 N <- 5
 x.total <- (.comm.size + 1) * .comm.size / 2

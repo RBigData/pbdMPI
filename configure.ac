@@ -1,7 +1,12 @@
 dnl Process this file with autoconf to produce a configure script
-
 AC_INIT(DESCRIPTION)
 
+dnl Determine R_HOME.
+: ${R_HOME=‘R RHOME‘}
+if test -z "${R_HOME}"; then
+  echo "could not determine R_HOME"
+  exit 1
+fi
 
 dnl One way is to specify both include and lib paths
 AC_ARG_WITH([Rmpi-include],
@@ -519,7 +524,11 @@ if test "$MPIRUN" = "F" -a "$MPIEXEC" = "F" -a "$ORTERUN" = "F" ; then
   echo ">>>> MPI executable is not in PATH ..."
   echo ">>>> Please export or setenv PATH ..."
 fi
-echo ">>>> I set these to R"
+
+dnl Report
+echo " "
+echo "******************* Results of pbdMPI package configure *****************"
+echo " "
 echo ">> TMP_INC = ${TMP_INC}"
 echo ">> TMP_LIB = ${TMP_LIB}"
 echo ">> MPI_ROOT = ${MPI_ROOT}"
@@ -531,6 +540,9 @@ echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${PKG_LIBS}"
+echo " "
+echo "*************************************************************************"
+echo " "
 
 dnl Start to substitute templates
 AC_SUBST(MPIRUN)

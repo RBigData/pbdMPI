@@ -16,4 +16,3 @@ SEXP spmd_allreduce_double(SEXP R_send_data, SEXP R_recv_data,
 		comm[INTEGER(R_comm)[0]]));
 	return(R_recv_data);
 } /* End of spmd_allreduce_double(). */
-

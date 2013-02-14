@@ -31,7 +31,7 @@ SEXP spmd_comm_get_parent(SEXP R_comm);
 SEXP spmd_is_master();
 SEXP spmd_comm_disconnect(SEXP R_comm);
 SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm);
-
+SEXP spmd_comm_c2f(SEXP R_comm);
 
 /* In file "spmd_allgather.c". */
 SEXP spmd_allgather_integer(SEXP R_send_data, SEXP R_recv_data,

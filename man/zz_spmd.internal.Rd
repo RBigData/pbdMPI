@@ -36,6 +36,7 @@
 \alias{spmd.comm.spawn}
 \alias{spmd.comm.get.parent}
 \alias{spmd.intercomm.merge}
+\alias{spmd.comm.c2f}
 \alias{spmd.gather.object}
 \alias{spmd.gather.array}
 \alias{spmd.gather.default}
@@ -49,6 +50,7 @@
 \alias{spmd.info.create}
 \alias{spmd.info.set}
 \alias{spmd.info.free}
+\alias{spmd.info.c2f}
 \alias{spmd.irecv.default}
 \alias{spmd.irecv.integer}
 \alias{spmd.irecv.double}
