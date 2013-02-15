@@ -82,6 +82,7 @@ export(
   "comm.any",
   "comm.all",
   "comm.stop",
-  "comm.warning"
+  "comm.warning",
+  "comm.warnings"
 )
 

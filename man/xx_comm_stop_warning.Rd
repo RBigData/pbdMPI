@@ -1,29 +1,32 @@
 \name{global stop and warning functions}
 \alias{comm.stop}
 \alias{comm.warning}
+\alias{comm.warnings}
 \title{ Global Stop and Warning Functions }
 \description{
   These functions are global stop and warning applying on distributed data
-  for all ranks.
+  for all ranks, and are called by experts only. These functions may
+  lead to potential performance degradation and system termination.
 }
 \usage{
-  comm.stop(..., call. = TRUE, domain = NULL,
+  comm.stop(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
     comm = .SPMD.CT$comm, quiet = TRUE, sep = " ",
     fill = FALSE, labels = NULL, append = FALSE, flush = TRUE,
     con = stdout())
 
   comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
+    all.rank = .SPMD.CT$print.all.rank, comm = .SPMD.CT$comm)
+
+  comm.warnings(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm, quiet = TRUE, sep = " ",
-    fill = FALSE, labels = NULL, append = FALSE, flush = TRUE,
-    con = stdout())
+    comm = .SPMD.CT$comm, quiet = TRUE)
 }
 \arguments{
   \item{...}{variables to be cat.}
   \item{call.}{see stop() and warnings().}
-  \item{domain}{see stop() and warnings().}
   \item{immediate.}{see stop() and warnings().}
+  \item{domain}{see stop() and warnings().}
   \item{all.rank}{if all ranks print (default = FALSE).}
   \item{rank.print}{rank for printing if not all ranks print (default = 0).}
   \item{comm}{communicator for printing (default = 1).}
@@ -36,11 +39,12 @@
   \item{con}{\code{stdout()} is the default to print message.}
 }
 \details{
-  These functions will apply \code{stop()} and \code{warning()} locally.
+  These functions will respectively apply \code{stop()}, \code{warning()}, and
+  \code{warnings()} locally.
 }
 \value{
-  \code{stop()} terminates all ranks, and \code{warning()} returns
-  messages.
+  \code{comm.stop()} terminates all ranks, \code{comm.warning()} returns
+  messages, and \code{comm.warnings()} print the message.
 }
 \references{
   Programming with Big Data in R Website:
@@ -65,6 +69,7 @@ if(comm.size() != 2){
 
 ### Examples
 comm.warning("test warning.\n")
+comm.warnings()
 comm.stop("test stop.\n")
 
 ### Finish
