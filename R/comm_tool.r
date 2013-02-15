@@ -23,7 +23,8 @@ comm.stop <- function(...,
 } # End of comm.stop().
 
 comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-    all.rank = .SPMD.CT$print.all.rank, comm = .SPMD.CT$comm){
+    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
+    comm = .SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.print || all.rank == TRUE){
     warning(..., call. = call., immediate. = immediate., domain = domain)
   }

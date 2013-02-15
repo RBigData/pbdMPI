@@ -16,7 +16,8 @@
     con = stdout())
 
   comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-    all.rank = .SPMD.CT$print.all.rank, comm = .SPMD.CT$comm)
+    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
+    comm = .SPMD.CT$comm)
 
   comm.warnings(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
