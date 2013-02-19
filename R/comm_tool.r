@@ -20,6 +20,7 @@ comm.stop <- function(...,
                 quiet = quiet, sep = sep, fill = fill, labels = labels,
                 append = append, flush = flush, con = con)
   finalize()
+  quit(save = "no", status = 1, runLast = FALSE)
 } # End of comm.stop().
 
 comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
