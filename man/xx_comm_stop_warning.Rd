@@ -1,0 +1,81 @@
+\name{global stop and warning functions}
+\alias{comm.stop}
+\alias{comm.warning}
+\alias{comm.warnings}
+\title{ Global Stop and Warning Functions }
+\description{
+  These functions are global stop and warning applying on distributed data
+  for all ranks, and are called by experts only. These functions may
+  lead to potential performance degradation and system termination.
+}
+\usage{
+  comm.stop(...,
+    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
+    comm = .SPMD.CT$comm, quiet = TRUE, sep = " ",
+    fill = FALSE, labels = NULL, append = FALSE, flush = TRUE,
+    con = stdout())
+
+  comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
+    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
+    comm = .SPMD.CT$comm)
+
+  comm.warnings(...,
+    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
+    comm = .SPMD.CT$comm, quiet = TRUE)
+}
+\arguments{
+  \item{...}{variables to be cat.}
+  \item{call.}{see stop() and warnings().}
+  \item{immediate.}{see stop() and warnings().}
+  \item{domain}{see stop() and warnings().}
+  \item{all.rank}{if all ranks print (default = FALSE).}
+  \item{rank.print}{rank for printing if not all ranks print (default = 0).}
+  \item{comm}{communicator for printing (default = 1).}
+  \item{quiet}{TRUE to disable printing rank number.}
+  \item{sep}{sep argument as in the \code{cat} function.}
+  \item{fill}{fill argument as in the \code{cat} function.}
+  \item{labels}{labels argument as in the \code{cat} function.}
+  \item{append}{labels argument as in the \code{cat} function.}
+  \item{flush}{if flush \code{con}.}
+  \item{con}{\code{stdout()} is the default to print message.}
+}
+\details{
+  These functions will respectively apply \code{stop()}, \code{warning()}, and
+  \code{warnings()} locally.
+}
+\value{
+  \code{comm.stop()} terminates all ranks, \code{comm.warning()} returns
+  messages, and \code{comm.warnings()} print the message.
+}
+\references{
+  Programming with Big Data in R Website:
+  \url{http://r-pbd.org/}
+}
+\author{
+  Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
+  Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
+}
+\examples{
+\dontrun{
+# Save code in a file "demo.r" and run with 2 processors by
+# > mpiexec -np 2 Rscript demo.r
+
+### Initial
+library(pbdMPI, quiet = TRUE)
+init()
+if(comm.size() != 2){
+  comm.cat("2 processors are requried.\n", quiet = TRUE)
+  finalize()
+}
+
+### Examples
+comm.warning("test warning.\n")
+comm.warnings()
+comm.stop("test stop.\n")
+
+### Finish
+finalize()
+}
+}
+\keyword{utility}
+
