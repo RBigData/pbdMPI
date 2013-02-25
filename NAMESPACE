@@ -80,6 +80,9 @@ export(
   "comm.sort.integer",
   "comm.sort.double",
   "comm.any",
-  "comm.all"
+  "comm.all",
+  "comm.stop",
+  "comm.warning",
+  "comm.warnings"
 )
 

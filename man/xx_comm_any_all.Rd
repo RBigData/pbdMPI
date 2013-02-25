@@ -1,7 +1,7 @@
-\name{global any and all function}
+\name{global any and all functions}
 \alias{comm.any}
 \alias{comm.all}
-\title{ Global any and all for Distributed Vectors or Matrices }
+\title{ Global Any and All Functions }
 \description{
   These functions are global any and all applying on distributed data
   for all ranks.
@@ -40,7 +40,7 @@
 library(pbdMPI, quiet = TRUE)
 init()
 if(comm.size() != 2){
-  warning("2 processors is requried to run this demo.")
+  comm.cat("2 processors are requried.\n", quiet = TRUE)
   finalize()
 }
 
