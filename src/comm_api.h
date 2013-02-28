@@ -44,5 +44,9 @@ void api_rsort(double *array, int *n_all, int left_index, int left_rank,
 SEXP api_R_rsort(SEXP R_x, SEXP R_comm, SEXP R_status,
 		SEXP R_decreasing, SEXP R_nalast);
 
+/* In file "comm_errors.c". */
+SEXP api_R_stop(SEXP call, SEXP args);
+SEXP api_R_warning(SEXP call, SEXP args);
+
 #endif
 
