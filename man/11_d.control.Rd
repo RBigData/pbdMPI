@@ -29,6 +29,7 @@
   \code{unlist}         \tab FALSE   \tab if unlist returning \cr
   \code{divide.method}  \tab "block" \tab a way to divide jobs \cr
   \code{mpi.finalize}   \tab "TRUE"  \tab if shutdown MPI \cr
+  \code{quit}           \tab "TRUE"  \tab if quit when errors occur \cr
 }
 
   The elements of \code{.SPMD.OP} list the implemented operations for

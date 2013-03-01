@@ -1,8 +1,8 @@
 /* Modified from "R-devel/main/src/error.c" and
  *               "R-devel/main/include/Rinternals.h".
  *
- * WCC: .Internal(...) is not allowed for user to modified and may change.
- *      However, some function is exported in "Rinternals.h" which can be
+ * WCC: .Internal(...) is not allowed for users to modified and may change.
+ *      However, some functions are exported in "Rinternals.h" which can be
  *      reused at somewhere. .External(...) can do the similar works,
  *      but the caller should be passed from R, since findCall() is not
  *      available in "Rinternals.h" and requires more R negative structures.

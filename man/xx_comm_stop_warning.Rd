@@ -11,7 +11,8 @@
 \usage{
   comm.stop(..., call. = TRUE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm)
+    comm = .SPMD.CT$comm, mpi.finalize = .SPMD.CT$mpi.finalize,
+    quit = .SPMD.CT$quit)
 
   comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
@@ -29,10 +30,12 @@
   \item{all.rank}{if all ranks print (default = FALSE).}
   \item{rank.print}{rank for printing if not all ranks print (default = 0).}
   \item{comm}{communicator for printing (default = 1).}
+  \item{mpi.finalize}{if MPI should be shutdown.}
+  \item{quit}{if quit R when errors happen.}
 }
 \details{
-  These functions will respectively apply \code{stop()}, \code{warning()}, and
-  \code{warnings()} locally.
+  These functions will respectively apply \code{stop()}, \code{warning()},
+  and \code{warnings()} locally.
 }
 \value{
   \code{comm.stop()} terminates all ranks, \code{comm.warning()} returns

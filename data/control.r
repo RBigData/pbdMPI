@@ -15,7 +15,8 @@
   tag = 0L,
   unlist = FALSE,
   divide.method = c("block", "cycle"),
-  mpi.finalize = TRUE
+  mpi.finalize = TRUE,
+  quit = TRUE
 ) # End of .SPMD.CT
 
 .SPMD.OP <- c("sum", "prod", "max", "min")
