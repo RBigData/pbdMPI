@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.1-5
-Date: 2013-02-15
+Date: 2013-02-28
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"), person("George", "Ostrouchov", role =
@@ -21,7 +21,7 @@ URL: http://r-pbd.org/
 BugReports: RBigDataProgramming on Google Group
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
-Packaged: 2013-02-28 21:26:08 UTC; snoweye
+Packaged: 2013-03-01 03:11:13 UTC; snoweye
 Author: Wei-Chen Chen [aut, cre],
   George Ostrouchov [aut],
   Drew Schmidt [aut],

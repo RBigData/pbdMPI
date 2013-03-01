@@ -5,7 +5,9 @@
  *      However, some function is exported in "Rinternals.h" which can be
  *      reused at somewhere. .External(...) can do the similar works,
  *      but the caller should be passed from R, since findCall() is not
- #      available in "Rinternals.h" and requires more R negative structures.
+ *      available in "Rinternals.h" and requires more R negative structures.
+ *      Replace errorcall() by Rf_errorcall(), and warningcall() by
+ *      Rf_warningcall().
  */
 
 #include <R.h>
@@ -18,7 +20,7 @@ static int immediateWarning = 0;
 SEXP api_R_stop(SEXP args){
 	SEXP call, c_call;
 
-	args = CDR(args);
+	args = CDR(args);		/* get caller name */
 	call = CAR(args);
 
 	args = CDR(args);
@@ -29,7 +31,7 @@ SEXP api_R_stop(SEXP args){
 	}
 
 	args = CDR(args);
-	if(CAR(args) != R_NilValue){ /* message */
+	if(CAR(args) != R_NilValue){	/* message */
 		SETCAR(args, coerceVector(CAR(args), STRSXP));
 		if(!isValidString(CAR(args))){
 			Rf_errorcall(c_call,
@@ -49,7 +51,7 @@ SEXP api_R_stop(SEXP args){
 SEXP api_R_warning(SEXP args){
 	SEXP call, c_call;
 
-	args = CDR(args);
+	args = CDR(args);		/* get caller name */
 	call = CAR(args);
 
 	args = CDR(args);

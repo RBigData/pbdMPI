@@ -19,7 +19,7 @@
 
   comm.warnings(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm, quiet = TRUE)
+    comm = .SPMD.CT$comm)
 }
 \arguments{
   \item{...}{variables to be cat.}
@@ -29,7 +29,6 @@
   \item{all.rank}{if all ranks print (default = FALSE).}
   \item{rank.print}{rank for printing if not all ranks print (default = 0).}
   \item{comm}{communicator for printing (default = 1).}
-  \item{quiet}{TRUE to disable printing rank number.}
 }
 \details{
   These functions will respectively apply \code{stop()}, \code{warning()}, and

@@ -72,7 +72,7 @@ comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
 
 comm.warnings <- function(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm, quiet = TRUE){
+    comm = .SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.print || all.rank == TRUE){
     if (!exists("last.warning", envir = baseenv())) 
         return()
