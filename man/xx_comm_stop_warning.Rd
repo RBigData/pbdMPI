@@ -9,11 +9,9 @@
   lead to potential performance degradation and system termination.
 }
 \usage{
-  comm.stop(...,
+  comm.stop(..., call. = TRUE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm, quiet = TRUE, sep = " ",
-    fill = FALSE, labels = NULL, append = FALSE, flush = TRUE,
-    con = stdout())
+    comm = .SPMD.CT$comm)
 
   comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
@@ -21,7 +19,7 @@
 
   comm.warnings(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm, quiet = TRUE)
+    comm = .SPMD.CT$comm)
 }
 \arguments{
   \item{...}{variables to be cat.}
@@ -31,13 +29,6 @@
   \item{all.rank}{if all ranks print (default = FALSE).}
   \item{rank.print}{rank for printing if not all ranks print (default = 0).}
   \item{comm}{communicator for printing (default = 1).}
-  \item{quiet}{TRUE to disable printing rank number.}
-  \item{sep}{sep argument as in the \code{cat} function.}
-  \item{fill}{fill argument as in the \code{cat} function.}
-  \item{labels}{labels argument as in the \code{cat} function.}
-  \item{append}{labels argument as in the \code{cat} function.}
-  \item{flush}{if flush \code{con}.}
-  \item{con}{\code{stdout()} is the default to print message.}
 }
 \details{
   These functions will respectively apply \code{stop()}, \code{warning()}, and
