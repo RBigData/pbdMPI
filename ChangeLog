@@ -1,4 +1,4 @@
-2013-02-28: Ver. 0.1-5
+2013-03-11: Ver. 0.1-5
   * Add and fix comm.stop and comm.warning.
   * Add set.seed in .onLoad to give a default set.
   * Fix symbol.rds problem.
