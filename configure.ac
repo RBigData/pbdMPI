@@ -52,7 +52,7 @@ MPITYPE="UNKNOWN"
 
 AC_ARG_WITH([Rmpi-type],
             AC_HELP_STRING([--with-Rmpi-type=MPI_TYPE],
-                           [the type of MPI: OPENMPI, MPICH2, or LAM]),
+                           [type of MPI: OPENMPI, MPICH2, LAM, or FPMPI]),
             [mpi_type=$withval])
 if test -n "${mpi_type}" ; then
   MPITYPE="${mpi_type}"
@@ -495,7 +495,7 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "FPMPI"; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -512,6 +512,9 @@ case "$MPITYPE" in
     ;;
   MPICH2)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    ;;
+  FPMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lfpmpi ${MPI_LIBS}"
     ;;
   *)
     AC_MSG_ERROR([Unknown type of mpi: use --with-Rmpi-type or RMPI_TYPE to specify it])
