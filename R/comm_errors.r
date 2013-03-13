@@ -2,8 +2,12 @@
 
 comm.stop <- function(..., call. = TRUE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm){
-  if(spmd.comm.rank(comm) == rank.print || all.rank == TRUE){
+    comm = .SPMD.CT$comm, mpi.finalize = .SPMD.CT$mpi.finalize,
+    quit = .SPMD.CT$quit){
+  COMM.RANK <- spmd.comm.rank(comm)
+  spmd.finalize(mpi.finalize = mpi.finalize)
+
+  if(COMM.RANK %in% rank.print || all.rank == TRUE){
     args <- list(...)
     if(length(args) == 1L && inherits(args[[1L]], "condition")){
       cond <- args[[1L]]
@@ -30,12 +34,18 @@ comm.stop <- function(..., call. = TRUE, domain = NULL,
                 PACKAGE = "pbdMPI")
     }
   }
+
+  if(quit){
+    q("no", status = 1, runLast = TRUE)
+  }
+
+  invisible()
 } # End of comm.stop().
 
 comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
     comm = .SPMD.CT$comm){
-  if(spmd.comm.rank(comm) == rank.print || all.rank == TRUE){
+  if(spmd.comm.rank(comm) %in% rank.print || all.rank == TRUE){
     args <- list(...)
     if(length(args) == 1L && inherits(args[[1L]], "condition")){
       cond <- args[[1L]]
@@ -73,7 +83,7 @@ comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
 comm.warnings <- function(...,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
     comm = .SPMD.CT$comm){
-  if(spmd.comm.rank(comm) == rank.print || all.rank == TRUE){
+  if(spmd.comm.rank(comm) %in% rank.print || all.rank == TRUE){
     if (!exists("last.warning", envir = baseenv())) 
         return()
     last.warning <- get("last.warning", envir = baseenv())

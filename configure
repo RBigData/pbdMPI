@@ -1289,7 +1289,7 @@ Optional Packages:
   --with-Rmpi-libpath=LIB_PATH
                           location of MPI library files
   --with-Rmpi-type=MPI_TYPE
-                          the type of MPI: OPENMPI, MPICH2, or LAM
+                          type of MPI: OPENMPI, MPICH2, LAM, or FPMPI
   --with-mpi=LIB_PATH     location of top-level MPI directory
 
 Some influential environment variables:
@@ -4239,7 +4239,7 @@ if test "x$ac_cv_lib_pthread_main" = x""yes; then :
 fi
 
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "FPMPI"; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -4256,6 +4256,9 @@ case "$MPITYPE" in
     ;;
   MPICH2)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    ;;
+  FPMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lfpmpi ${MPI_LIBS}"
     ;;
   *)
     as_fn_error $? "Unknown type of mpi: use --with-Rmpi-type or RMPI_TYPE to specify it" "$LINENO" 5
