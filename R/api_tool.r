@@ -20,6 +20,15 @@ divide.job <- function(n, method = .SPMD.CT$divide.method,
                  (COMM.SIZE - n.residual)
         }
       }
+    } else if(method[1] == "block0"){
+      n.job <- floor(n / COMM.SIZE)
+      n.residual <- n %% COMM.SIZE
+      if(COMM.RANK < n.residual){
+        jid <- 1:(n.job + 1) + COMM.RANK * (n.job + 1)
+      } else{
+        jid <- 1:n.job + n.residual * (n.job + 1) +
+               (COMM.RANK - n.residual) * n.job
+      }
     } else if(method[1] == "cycle"){
       jid <- which((0:(n - 1)) %% COMM.SIZE == COMM.RANK)
     }
@@ -35,6 +44,7 @@ divide.job <- function(n, method = .SPMD.CT$divide.method,
 divide.job.all <- function(n, method = .SPMD.CT$divide.method,
     comm = .SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
+  COMM.RANK <- spmd.comm.rank(comm)
 
   alljid <- rep(list(NULL), COMM.SIZE)
   if(n > COMM.SIZE){
@@ -52,6 +62,18 @@ divide.job.all <- function(n, method = .SPMD.CT$divide.method,
             alljid[[i.rank]] <- 1:(n.job + 1) + (i.rank - 1) * (n.job + 1) -
                                 (COMM.SIZE - n.residual)
           }
+        }
+      }
+    } else if(method[1] == "block0"){
+      n.job <- floor(n / COMM.SIZE)
+      n.residual <- n %% COMM.SIZE
+
+      for(i.rank in 1:COMM.SIZE){
+        if((i.rank - 1) < n.residual){
+          alljid[[i.rank]] <- 1:(n.job + 1) + (i.rank - 1) * (n.job + 1)
+        } else{
+          alljid[[i.rank]] <- 1:n.job + n.residual * (n.job + 1) +
+                              ((i.rank - 1) - n.residual) * n.job
         }
       }
     } else if(method[1] == "cycle"){

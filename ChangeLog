@@ -1,3 +1,6 @@
+2013-03-20: Ver. 0.1-6
+  * License changed.
+
 2013-03-11: Ver. 0.1-5
   * Add and fix comm.stop and comm.warning.
   * Add set.seed in .onLoad to give a default set.

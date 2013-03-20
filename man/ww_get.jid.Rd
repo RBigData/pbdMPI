@@ -25,6 +25,12 @@
   7 jobs in 4 processors will have \code{jid=1} for rank 0, \code{jid=2,3}
   for rank 1, \code{jid=4,5} for rank 2, and \code{jid=6,7} for rank 3.
 
+  \code{"block0"} will use return id's which are nearly equal size blocks,
+  in the opposite direction of \code{"block"}.
+  For example,
+  7 jobs in 4 processors will have \code{jid=1,2} for rank 0, \code{jid=3,4}
+  for rank 1, \code{jid=5,6} for rank 2, and \code{jid=7} for rank 3.
+
   \code{"cycle"} will use return id's which are nearly equal size in cycle.
   For example, 7 jobs in 4 processors will have \code{jid=1,5} for rank 0,
   \code{jid=2,6} for rank 1, \code{jid=3,7} for rank 2, and \code{jid=4}
