@@ -1,5 +1,7 @@
-2013-03-20: Ver. 0.1-6
+2013-03-24: Ver. 0.1-6
   * License changed.
+  * Add "block0" to get.jid and fix its bug.
+  * Add FPMPI for profilling.
 
 2013-03-11: Ver. 0.1-5
   * Add and fix comm.stop and comm.warning.
