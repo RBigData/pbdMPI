@@ -14,7 +14,7 @@
   status = 0L,
   tag = 0L,
   unlist = FALSE,
-  divide.method = c("block", "cycle"),
+  divide.method = c("block", "block0", "cycle"),
   mpi.finalize = TRUE,
   quit = TRUE
 ) # End of .SPMD.CT
