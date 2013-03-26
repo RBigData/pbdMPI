@@ -1,6 +1,6 @@
 Package: pbdMPI
-Version: 0.1-5
-Date: 2013-03-11
+Version: 0.1-6
+Date: 2013-03-24
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"), person("George", "Ostrouchov", role =
@@ -16,12 +16,12 @@ Description: pbdMPI provides an efficient interface to MPI by utilizing S4
         execution.
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux and Mac,
         MPICH2 (>= 1.4.1p1) on Windows
-License: GPL (>= 2)
+License: Mozilla Public License 2.0
 URL: http://r-pbd.org/
-BugReports: RBigDataProgramming on Google Group
+BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
-Packaged: 2013-03-11 19:47:49 UTC; snoweye
+Packaged: 2013-03-24 12:36:37 UTC; snoweye
 Author: Wei-Chen Chen [aut, cre],
   George Ostrouchov [aut],
   Drew Schmidt [aut],
