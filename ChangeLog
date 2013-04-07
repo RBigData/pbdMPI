@@ -1,3 +1,6 @@
+2013-04-06: Ver. 0.1-7
+  * Fix man page.
+
 2013-03-24: Ver. 0.1-6
   * License changed.
   * Add "block0" to get.jid and fix its bug.

@@ -14,7 +14,7 @@
   Type: \tab Package\cr
 %  Version: \tab 0.1-2\cr
 %  Date: \tab 2010-02-18\cr
-  License: \tab GPL\cr
+  License: \tab Mozilla Public License 2.0\cr
   LazyLoad: \tab yes\cr
 }
 
