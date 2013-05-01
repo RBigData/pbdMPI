@@ -78,7 +78,12 @@ pbdApply.general <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
     }
     arg.dots <- spmd.scatter.object(arg.dots, rank.source = rank.source,
                                     comm = comm)
-    attach(arg.dots)
+    if(length(arg.dots) > 0){
+      names <- names(arg.dots)
+      for(i in 1:length(arg.dots)){
+        assign(names[i], arg.dots[[i]])
+      }
+    }
   } else{
     alljid <- get.jid(prod(dim(X)[MARGIN]), comm = comm)
     new.X <- lapply(list(alljid), array.to.list, X, dim(X), MARGIN) 
