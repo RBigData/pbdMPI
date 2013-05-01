@@ -37,15 +37,17 @@
   if(interactive()){
     pbdR.msg <-
 "
-  pbdR is mainly designed for batch environment or in SPMD.
-  Please utilize High Performance Computing Resource available
-  via ``http://www.nics.tennessee.edu/getting-an-allocation''.
+  pbdR is mainly designed for batch environment or in SPMD programming.
+  Please utilize High Performance Computing Resource or consider an
+  allociation via ``http://www.nics.tennessee.edu/getting-an-allocation''
+  with XSEDE at ``http://www.xsede.org/overview''.
 "
   } else{
     pbdR.msg <-
 "
   High Performance Computing Resource is available via
-  ``http://www.nics.tennessee.edu/getting-an-allocation''.
+  ``http://www.nics.tennessee.edu/getting-an-allocation''
+  with XSEDE at ``http://www.xsede.org/overview''.
 "
   }
   if(spmd.comm.rank(0L) == 0){
