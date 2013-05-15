@@ -290,6 +290,7 @@ undefined symbol: opal_carto_base_graph_get_host_graph_fn (ignored)
             \code{libmpi.a} instead.
       \end{itemize}
 
+
 \item {\bf\color{blue} Q:}
       (Windows) If OpenMPI \code{mpiexec} fails with
 %{\color{red}
@@ -306,6 +307,24 @@ ORTE_ERROR_LOG: Error in file ..\..\..\openmpi-1
       Check if the network is unplugged, the network should be ``ON'' even on
       a single machine. At least, the status of network interface should be
       correct.
+
+
+\item {\bf\color{blue} Q:}
+      For MPICH2 users, if installation fails with
+%{\color{red}
+\begin{Error}
+/usr/bin/ld: libmpich.a(comm_get_attr.o): relocation R_X86_64_32
+against `MPIR_ThreadInfo' can not be used when making a shared
+object; recompile with -fPIC
+libmpich.a: could not read symbols: Bad value
+collect2: ld returned 1 exit status
+\end{Error}
+%}
+      {\bf\color{blue} A:}
+      MPICH2 by default does not install a shared library which means
+      \code{libmpich.so} is missing and \pkg{pbdMPI} trys to link with a
+      static library \code{libmpich.a} instead. Try to recompile MPICH2 with
+      a flag \code{--enable-shared} and reinstall \pkg{pbdMPI} again.
 
 \end{enumerate}
 

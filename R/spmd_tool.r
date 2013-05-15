@@ -19,10 +19,8 @@ spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
     quiet = .SPMD.CT$print.quiet, flush = TRUE, con = stdout(), ...){
   COMM.RANK <- spmd.comm.rank(comm)
 
-  spmd.barrier(comm)
   if(all.rank){
     for(i.rank in 0:(spmd.comm.size(comm) - 1)){
-      spmd.barrier(comm)
       if(i.rank == COMM.RANK){
         if(! quiet){
           cat("COMM.RANK = ", COMM.RANK, "\n", sep = "")
@@ -39,7 +37,6 @@ spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
     }
   } else{
     for(i.rank in rank.print){
-      spmd.barrier(comm)
       if(i.rank == COMM.RANK){
         if(! quiet){
           cat("COMM.RANK = ", COMM.RANK, "\n", sep = "")
@@ -55,7 +52,6 @@ spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
       spmd.barrier(comm)
     }
   }
-  spmd.barrier(comm)
 
   invisible()
 } # End of spmd.comm.print().
@@ -68,10 +64,8 @@ spmd.comm.cat <- function(..., all.rank = .SPMD.CT$print.all.rank,
     labels = NULL, append = FALSE, flush = TRUE, con = stdout()){
   COMM.RANK <- spmd.comm.rank(comm)
 
-  spmd.barrier(comm)
   if(all.rank){
     for(i.rank in 0:(spmd.comm.size(comm) - 1)){
-      spmd.barrier(comm)
       if(i.rank == COMM.RANK){
         if(! quiet){
           cat("COMM.RANK = ", COMM.RANK, "\n", sep = "")
@@ -88,7 +82,6 @@ spmd.comm.cat <- function(..., all.rank = .SPMD.CT$print.all.rank,
     }
   } else{
     for(i.rank in rank.print){
-      spmd.barrier(comm)
       if(i.rank == COMM.RANK){
         if(! quiet){
           cat("COMM.RANK = ", COMM.RANK, "\n", sep = "")
@@ -104,7 +97,6 @@ spmd.comm.cat <- function(..., all.rank = .SPMD.CT$print.all.rank,
       spmd.barrier(comm)
     }
   }
-  spmd.barrier(comm)
 
   invisible()
 } # End of spmd.comm.cat().
