@@ -78,7 +78,7 @@ spmd.comm.cat <- function(..., all.rank = .SPMD.CT$print.all.rank,
           flush(con)
         }
       }
-      spmd.barrier(comm)
+      # spmd.barrier(comm)
     }
   } else{
     for(i.rank in rank.print){

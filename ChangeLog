@@ -3,6 +3,7 @@
   * Fix pbdApply.
   * Add messages to interactive mode.
   * Drop some barrier in comm.print and comm.cat.
+  * Add FAQ to vignette.
 
 2013-03-24: Ver. 0.1-6
   * License changed.
