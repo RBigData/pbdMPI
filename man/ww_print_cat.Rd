@@ -9,12 +9,14 @@
 \usage{
   comm.print(x, all.rank = .SPMD.CT$print.all.rank,
     rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
-    quiet = .SPMD.CT$print.quiet, flush = TRUE, con = stdout(), ...)
+    quiet = .SPMD.CT$print.quiet, flush = .SPMD.CT$msg.flush,
+    barrier = .SPMD.CT$msg.barrier, con = stdout(), ...)
 
   comm.cat(..., all.rank = .SPMD.CT$print.all.rank,
     rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
     quiet = .SPMD.CT$print.quiet, sep = " ", fill = FALSE,
-    labels = NULL, append = FALSE, flush = TRUE, con = stdout())
+    labels = NULL, append = FALSE, flush = .SPMD.CT$msg.flush,
+    barrier = .SPMD.CT$msg.barrier, con = stdout())
 }
 \arguments{
   \item{x}{a variable to be printed.}
@@ -28,6 +30,7 @@
   \item{labels}{labels argument as in the \code{cat} function.}
   \item{append}{labels argument as in the \code{cat} function.}
   \item{flush}{if flush \code{con}.}
+  \item{barrier}{if barrier \code{con}.}
   \item{con}{\code{stdout()} is the default to print message.}
 }
 \details{
