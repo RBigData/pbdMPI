@@ -20,6 +20,10 @@ spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
     barrier = .SPMD.CT$msg.barrier, con = stdout(), ...){
   COMM.RANK <- spmd.comm.rank(comm)
 
+  if(barrier){
+    spmd.barrier(comm)
+  }
+
   if(all.rank){
     for(i.rank in 0:(spmd.comm.size(comm) - 1)){
       if(i.rank == COMM.RANK){
@@ -69,6 +73,10 @@ spmd.comm.cat <- function(..., all.rank = .SPMD.CT$print.all.rank,
     labels = NULL, append = FALSE, flush = .SPMD.CT$msg.flush,
     barrier = .SPMD.CT$msg.barrier, con = stdout()){
   COMM.RANK <- spmd.comm.rank(comm)
+
+  if(barrier){
+    spmd.barrier(comm)
+  }
 
   if(all.rank){
     for(i.rank in 0:(spmd.comm.size(comm) - 1)){
