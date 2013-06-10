@@ -196,6 +196,27 @@ finalize()
 
 
 \begin{enumerate}
+\item {\bf\color{blue} Q:} 
+      If Compilation successful, but load fails with segfault
+\begin{Error}
+** testing if installed package can be loaded
+sh: line 1:  2905 Segmentation fault
+'/usr/local/R/3.0.0/intel13/lib64/R/bin/R' --no-save --slave 2>&1 <
+/tmp/RtmpGkncGK/file1e541c57190
+ERROR: loading failed
+
+*** caught segfault ***
+address (nil), cause 'unknown'
+\end{Error}
+      {\bf\color{blue} A:}
+      Basically, \pkg{pbdMPI} and all \proglang{pbdR} are tested and have
+      stable configuration in GNU environment. However, other compilers are
+      also possible such as Intel compiler. This message may come from the
+      system of login node does not have a MPI system, or MPI system is
+      only allowed to be loaded in computing node. The solution is to use extra
+      flag to \code{R CMD INSTALL --no-test-load pbdMPI*.tar.gz}.
+
+
 \item {\bf\color{blue} Q:}
       If installation fails with
 %{\color{red}
