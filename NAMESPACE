@@ -58,8 +58,8 @@ export(
   ### "R/spmd_utility.r"
   "probe",
   "iprobe",
-  "any.source",
-  "any.tag",
+  "anysource",
+  "anytag",
   "get.sourcetag",
 #  "get.count",
 

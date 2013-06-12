@@ -1,6 +1,6 @@
 \name{sourcetag}
-\alias{any.source}
-\alias{any.tag}
+\alias{anysource}
+\alias{anytag}
 \alias{get.sourcetag}
 \title{ Functions to Obtain source and tag }
 \description{
@@ -8,8 +8,8 @@
   MPI_status.source and MPI_status.tag.
 }
 \usage{
-  any.source()
-  any.tag()
+  anysource()
+  anytag()
   get.sourcetag(status = .SPMD.CT$status)
 }
 \arguments{
@@ -39,28 +39,21 @@ library(pbdMPI, quiet = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
+if(.comm.size < 2)
+  comm.stop("At least two processors are requried.")
 
 ### Examples
-if(.comm.rank == 1){
-  send(1L, tag = 10)
-  send(2L, tag = 11)
+if(.comm.rank != 0){
+  send(as.integer(.comm.rank * 10), rank.dest = 0L,
+       tag = as.integer(.comm.rank + 10))
 }
 if(.comm.rank == 0){
-  Sys.sleep(1)
-  print(from.source <- any.source())
-  print(from.tag <- any.tag())
-  print(from.status <- get.sourcetag())
-  ret <- recv(x.buffer = integer(1), rank.source = from.source,
-              tag = from.tag)
-  print(ret)
-
-  Sys.sleep(1)
-  print(from.source <- any.source())
-  print(from.tag <- any.tag())
-  print(from.status <- get.sourcetag())
-  ret <- recv(x.buffer = integer(1), rank.source = from.source,
-              tag = from.tag)
-  print(ret)
+  for(i in 1:(.comm.size - 1)){
+    ret <- recv(x.buffer = integer(1),
+                rank.source = anysource(), tag = anytag())
+    sourcetag <- get.sourcetag()
+    print(c(sourcetag, ret))
+  }
 }
 
 ### Finish
