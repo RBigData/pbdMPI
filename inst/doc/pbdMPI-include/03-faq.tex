@@ -131,10 +131,11 @@ finalize()
 \item {\bf\color{blue} Q:}
       What if I want to run task push or pull by using \pkg{pbdMPI}? \\
       {\bf\color{blue} A:}
-      No problem. As in the two preceeding examples, task push or pull
+      No problem. As in the two proceeding examples, task push or pull
       can be done in the same way by using rank 0 as the manager and
       the other ranks as workers. However, we do not recommend it
-      except perhaps for inhomogeneous computing environments.
+      except perhaps for inhomogeneous computing environments and
+      independent jobs.
 
 \item {\bf\color{blue} Q:}
       Are S4 methods more efficient? \\
@@ -150,30 +151,30 @@ finalize()
       by communicating with basic data types
       (\code{integer} and \code{double}) and avoiding serialization.
 
-%\item {\bf\color{blue} Q:}
-%      Can I disable the MPI initialization of \pkg{pbdMPI} when I call
-%      \code{library(pbdMPI)}? \\
-%      {\bf\color{blue} A:}
-%      Yes, you can set a hidden variable \code{.__DISABLE_MPI_INIT__} in the
-%      \code{.GlobalEnv} before calling \code{library(pbdMPI)}.
-%      For example,
-%\begin{Code}[title=SPMD R Script]
-%assign(".__DISABLE_MPI_INIT__", TRUE, envir = .GlobalEnv)
-%library(pbdMPI)
-%ls(all.names = TRUE)
-%init()
-%ls(all.names = TRUE)
-%finalize(mpi.finalize = FALSE)
-%\end{Code}
-%      Note that we are *NOT* supposed to kill MPI in the \code{finalize} step
-%      if MPI is initialized by external applications. But some memory allocated
-%      by \pkg{pbdMPI} has to be free, \code{mpi.finalize = FALSE} is set above.
-%
-%      To avoid some initialization issues of MPI, \pkg{pbdMPI} uses a
-%      different way than \pkg{Rmpi}. \pkg{pbdMPI} allows you to disable
-%      initializing communicators when loading the library, and later on you can
-%      call \code{init} to initialize or obtain communicators through
-%      \code{.__MPI_APTS__} as in the next question.
+\item {\bf\color{blue} Q:}
+      Can I disable the MPI initialization of \pkg{pbdMPI} when I call
+      \code{library(pbdMPI)}? \\
+      {\bf\color{blue} A:}
+      Yes, you can set a hidden variable \code{.__DISABLE_MPI_INIT__} in the
+      \code{.GlobalEnv} before calling \code{library(pbdMPI)}.
+      For example,
+\begin{Code}[title=SPMD R Script]
+assign(".__DISABLE_MPI_INIT__", TRUE, envir = .GlobalEnv)
+library(pbdMPI)
+ls(all.names = TRUE)
+init()
+ls(all.names = TRUE)
+finalize(mpi.finalize = FALSE)
+\end{Code}
+      Note that we are *NOT* supposed to kill MPI in the \code{finalize} step
+      if MPI is initialized by external applications. But some memory allocated
+      by \pkg{pbdMPI} has to be free, \code{mpi.finalize = FALSE} is set above.
+
+      To avoid some initialization issues of MPI, \pkg{pbdMPI} uses a
+      different way than \pkg{Rmpi}. \pkg{pbdMPI} allows you to disable
+      initializing communicators when loading the library, and later on you can
+      call \code{init} to initialize or obtain communicators through
+      \code{.__MPI_APTS__} as in the next question.
 
 \item {\bf\color{blue} Q:}
       Can \pkg{pbdMPI} take or export communicators? \\
@@ -197,7 +198,7 @@ finalize()
 
 \begin{enumerate}
 \item {\bf\color{blue} Q:} 
-      If Compilation successful, but load fails with segfault
+      If compilation successful, but load fails with segfault
 \begin{Error}
 ** testing if installed package can be loaded
 sh: line 1:  2905 Segmentation fault
@@ -212,9 +213,11 @@ address (nil), cause 'unknown'
       Basically, \pkg{pbdMPI} and all \proglang{pbdR} are tested and have
       stable configuration in GNU environment. However, other compilers are
       also possible such as Intel compiler. This message may come from the
-      system of login node does not have a MPI system, or MPI system is
-      only allowed to be loaded in computing node. The solution is to use extra
-      flag to \code{R CMD INSTALL --no-test-load pbdMPI*.tar.gz}.
+      system of login node does not have a MPI system, MPI system is
+      only allowed to be loaded in computing node, or MPI shared library is
+      not loaded correctly and known to \proglang{R}. The solution is to use
+      extra flag to \code{R CMD INSTALL --no-test-load pbdMPI*.tar.gz}, and
+      use \code{export LD_PRELOAD=...} as the answer to the next question.
 
 
 \item {\bf\color{blue} Q:}
@@ -235,8 +238,8 @@ export LD_LIBRARY_PATH=/usr/local/openmpi/lib:$LD_LIBRARY_PATH
 \end{Command}
 where \code{/usr/local/openmpi/lib} should be replaced by the path to
 \code{libmpi.so}.
-Or, use \code{LD_PRELOAD} to preload the MPI library if the library name
-is not conventional, such as
+Or, use \code{export LD_PRELOAD=...} to preload the MPI library if the
+library name is not conventional, such as
 \begin{Command}
 export LD_PRELOAD=/usr/local/openmpi/lib/libmpi.so:$LD_PRELOAD
 \end{Command}
