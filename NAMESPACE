@@ -58,7 +58,9 @@ export(
   ### "R/spmd_utility.r"
   "probe",
   "iprobe",
-#  "get.sourcetag",
+  "any.source",
+  "any.tag",
+  "get.sourcetag",
 #  "get.count",
 
   ### "R/spmd_wait.r"

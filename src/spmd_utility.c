@@ -17,17 +17,25 @@ SEXP spmd_iprobe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status){
 } /* End of spmd_iprobe(). */
 
 
-/* ----- get source tag ----- */
+/* ----- source & tag ----- */
+SEXP spmd_any_source(){
+	return(AsInt(MPI_ANY_SOURCE));
+} /* End of spmd_any_source(). */
+
+SEXP spmd_any_tag(){
+	return(AsInt(MPI_ANY_TAG));
+} /* End of spmd_any_tag(). */
+
 SEXP spmd_get_sourcetag(SEXP R_status){
         int status_number = INTEGER(R_status)[0];
-	SEXP R_source_tag;
+	SEXP R_sourcetag;
 
-        PROTECT(R_source_tag = allocVector(INTSXP, 2));
-        INTEGER(R_source_tag)[0] = status[status_number].MPI_SOURCE;
-        INTEGER(R_source_tag)[1] = status[status_number].MPI_TAG;
+        PROTECT(R_sourcetag = allocVector(INTSXP, 2));
+        INTEGER(R_sourcetag)[0] = status[status_number].MPI_SOURCE;
+        INTEGER(R_sourcetag)[1] = status[status_number].MPI_TAG;
         UNPROTECT(1);
 
-        return(R_source_tag);
+        return(R_sourcetag);
 } /* End of spmd_get_sourcetag(). */
 
 
