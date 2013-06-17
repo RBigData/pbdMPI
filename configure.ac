@@ -527,18 +527,19 @@ fi
 
 
 dnl Incorporate internal fpmpi, partly adopted from fpmpi's "configure.in".
-ENABLE_FPMPI=""
+FPMPI_EXT_LINK=""
+FPMPI_INTERNAL=""
+FPMPI_OBJS=""
 INT32=""
 AC_ARG_ENABLE([fpmpi],
     AC_HELP_STRING([--enable-fpmpi], [Enable fpmpi bindings.]),
-    ENABLE_FPMPI="FPMPI_OBJS", ENABLE_FPMPI="")
-dnl "--enable-fpmpi" is set.
-if test "X${ENABLE_FPMPI}" = "XFPMPI_OBJS"; then
-  AC_CONFIG_HEADER(src/fpmpi/fpmpiconf.h)
+    FPMPI_INTERNAL="yes", FPMPI_INTERNAL="no")
 
-  FPMPI2_VERSION='"'2.2'"'
-  AC_DEFINE_UNQUOTED(FPMPI2_VERSION,$FPMPI2_VERSION,
-                     [Provide the version for FPMPI 2])
+dnl "--enable-fpmpi" is set.
+if test "X${FPMPI_INTERNAL}" = "Xyes"; then
+  FPMPI_OBJS="\$(FPMPI_OBJS)"
+  INT32=""
+  AC_CONFIG_HEADER(src/fpmpi/fpmpiconf.h)
 
   AC_ARG_WITH(max_procs,
               [--with-max_procs - define the maximum number of processes],
@@ -548,6 +549,10 @@ if test "X${ENABLE_FPMPI}" = "XFPMPI_OBJS"; then
   max_procsby32=`expr \( $max_procs_value + 31 \) / 32`
   AC_DEFINE_UNQUOTED(MAX_PROCBY32,$max_procsby32,[maximum number of processes,
                      divided by 32 (for use with int32 bit vectors)])
+
+  FPMPI2_VERSION='"'2.2'"'
+  AC_DEFINE_UNQUOTED(FPMPI2_VERSION,$FPMPI2_VERSION,
+                     [Provide the version for FPMPI 2])
 
   # See if unsigned ints are 32-bit
   AC_LANG_C
@@ -587,6 +592,34 @@ if test "X${ENABLE_FPMPI}" = "XFPMPI_OBJS"; then
   AC_DEFINE_UNQUOTED(SIZEOF_MPI_STATUS_IN_INTS,$SIZEOF_MPI_STATUS_IN_INTS,
                      [Define the size of MPI_Status in ints])
 
+  AC_CHECK_HEADERS(stdlib.h)
+  AC_CHECK_HEADERS(unistd.h)
+  AC_CHECK_HEADERS(sys/time.h)
+  AC_CHECK_HEADERS(sys/resource.h)
+  AC_TRY_LINK([#ifdef HAVE_UNISTD_H
+    #include <unistd.h>
+    #endif
+    #ifdef HAVE_SYS_RESOURCE_H
+    #include <sys/resource.h>
+    #endif],
+    [getrusage(RUSAGE_SELF,NULL);],
+    pac_cv_has_getrusage=yes,pac_cv_has_getrusage=no)
+   if test "$pac_cv_has_getrusage" = "yes" ; then
+     AC_DEFINE(HAVE_GETRUSAGE,1,[Define for getrusage() availability])
+     # Now, test that the fields are available (they may not be if strrict POSIX
+     # compatibility is set in the compiler) 
+     AC_CACHE_CHECK([whether minflt field of struct rusage is available],
+                    pac_cv_have_rusage_minflt,[
+       AC_TRY_COMPILE([
+         #include <unistd.h>
+         #include <resource.h>],[struct rusage r; r.ru_minflt=0; r.ru_majflt=0;],
+         pac_cv_have_rusage_minflt=yes,pac_cv_have_rusage_minflt=no)])
+     if test "$pac_cv_have_rusage_minflt" = "yes" ; then
+        AC_DEFINE(GETRUSAGE_HAS_MINFLT,1,
+                  [Define if minflt field for getrusage is available])
+     fi
+  fi
+
   AC_OUTPUT(src/fpmpi/profiler.h)
 fi
 
@@ -594,13 +627,14 @@ fi
 dnl Incorporate external fpmpi.
 FPMPI_EXT_LINK=""
 AC_ARG_WITH([fpmpi],
-            AC_HELP_STRING([--with-fpmpi="'-L/.../fpmpi/lib -lfpmpi'"],
+            AC_HELP_STRING([--with-fpmpi="'-L/..../fpmpi/lib -lfpmpi'"],
                            [location and name of libfpmpi.a]),
             [fpmpi_ext_link=$withval])
 if test -n "$fpmpi_ext_link"; then
-  ENABLE_FPMPI=""
-  INT32=""
   FPMPI_EXT_LINK="${fpmpi_ext_link}"
+  FPMPI_INTERNAL="no"
+  FPMPI_OBJS=""
+  INT32=""
 fi
 
 
@@ -619,9 +653,10 @@ echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${FPMPI_EXT_LINK} ${PKG_LIBS}"
-echo ">> ENABLE_FPMPI = ${ENABLE_FPMPI}"
-echo ">> INT32 = ${INT32}"
 echo ">> FPMPI_EXT_LINK = ${FPMPI_EXT_LINK}"
+echo ">> FPMPI_INTERNAL = ${FPMPI_INTERNAL}"
+echo ">> FPMPI_OBJS = ${FPMPI_OBJS}"
+echo ">> INT32 = ${INT32}"
 echo " "
 echo "*************************************************************************"
 echo " "
@@ -641,8 +676,13 @@ AC_SUBST(MPI_DEFS)
 AC_SUBST(MPI_INCL2)
 AC_SUBST(PKG_CPPFLAGS)
 AC_SUBST(PKG_LIBS)
-AC_SUBST(ENABLE_FPMPI)
+
+dnl For fpmpi
 AC_SUBST(FPMPI_EXT_LINK)
+AC_SUBST(FPMPI_INTERNAL)
+AC_SUBST(FPMPI_OBJS)
+AC_SUBST(INT32)
+
 AC_OUTPUT(src/Makevars)
 
 AC_SUBST(MPI_LIBPATH)

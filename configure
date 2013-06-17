@@ -591,8 +591,9 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='FPMPI_EXT_LINK
-ENABLE_FPMPI
+ac_subst_vars='FPMPI_OBJS
+FPMPI_INTERNAL
+FPMPI_EXT_LINK
 PKG_LIBS
 PKG_CPPFLAGS
 MPI_INCL2
@@ -1304,7 +1305,7 @@ Optional Packages:
                           type of MPI: OPENMPI, MPICH2, or LAM
   --with-mpi=LIB_PATH     location of top-level MPI directory
 --with-max_procs - define the maximum number of processes
-  --with-fpmpi="'-L/.../fpmpi/lib -lfpmpi'"
+  --with-fpmpi="'-L/..../fpmpi/lib -lfpmpi'"
                           location and name of libfpmpi.a
 
 Some influential environment variables:
@@ -4462,24 +4463,22 @@ if test "$MPIRUN" = "F" -a "$MPIEXEC" = "F" -a "$ORTERUN" = "F" ; then
 fi
 
 
-ENABLE_FPMPI=""
+FPMPI_EXT_LINK=""
+FPMPI_INTERNAL=""
+FPMPI_OBJS=""
 INT32=""
 # Check whether --enable-fpmpi was given.
 if test "${enable_fpmpi+set}" = set; then :
-  enableval=$enable_fpmpi; ENABLE_FPMPI="FPMPI_OBJS"
+  enableval=$enable_fpmpi; FPMPI_INTERNAL="yes"
 else
-  ENABLE_FPMPI=""
+  FPMPI_INTERNAL="no"
 fi
 
-if test "X${ENABLE_FPMPI}" = "XFPMPI_OBJS"; then
+
+if test "X${FPMPI_INTERNAL}" = "Xyes"; then
+  FPMPI_OBJS="\$(FPMPI_OBJS)"
+  INT32=""
   ac_config_headers="$ac_config_headers src/fpmpi/fpmpiconf.h"
-
-
-  FPMPI2_VERSION='"'2.2'"'
-
-cat >>confdefs.h <<_ACEOF
-#define FPMPI2_VERSION $FPMPI2_VERSION
-_ACEOF
 
 
 
@@ -4500,6 +4499,13 @@ _ACEOF
 
 cat >>confdefs.h <<_ACEOF
 #define MAX_PROCBY32 $max_procsby32
+_ACEOF
+
+
+  FPMPI2_VERSION='"'2.2'"'
+
+cat >>confdefs.h <<_ACEOF
+#define FPMPI2_VERSION $FPMPI2_VERSION
 _ACEOF
 
 
@@ -4706,6 +4712,118 @@ cat >>confdefs.h <<_ACEOF
 #define SIZEOF_MPI_STATUS_IN_INTS $SIZEOF_MPI_STATUS_IN_INTS
 _ACEOF
 
+
+  for ac_header in stdlib.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "stdlib.h" "ac_cv_header_stdlib_h" "$ac_includes_default"
+if test "x$ac_cv_header_stdlib_h" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_STDLIB_H 1
+_ACEOF
+
+fi
+
+done
+
+  for ac_header in unistd.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "unistd.h" "ac_cv_header_unistd_h" "$ac_includes_default"
+if test "x$ac_cv_header_unistd_h" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_UNISTD_H 1
+_ACEOF
+
+fi
+
+done
+
+  for ac_header in sys/time.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "sys/time.h" "ac_cv_header_sys_time_h" "$ac_includes_default"
+if test "x$ac_cv_header_sys_time_h" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_SYS_TIME_H 1
+_ACEOF
+
+fi
+
+done
+
+  for ac_header in sys/resource.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "sys/resource.h" "ac_cv_header_sys_resource_h" "$ac_includes_default"
+if test "x$ac_cv_header_sys_resource_h" = x""yes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_SYS_RESOURCE_H 1
+_ACEOF
+
+fi
+
+done
+
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#ifdef HAVE_UNISTD_H
+    #include <unistd.h>
+    #endif
+    #ifdef HAVE_SYS_RESOURCE_H
+    #include <sys/resource.h>
+    #endif
+int
+main ()
+{
+getrusage(RUSAGE_SELF,NULL);
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  pac_cv_has_getrusage=yes
+else
+  pac_cv_has_getrusage=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+   if test "$pac_cv_has_getrusage" = "yes" ; then
+
+$as_echo "#define HAVE_GETRUSAGE 1" >>confdefs.h
+
+     # Now, test that the fields are available (they may not be if strrict POSIX
+     # compatibility is set in the compiler)
+     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether minflt field of struct rusage is available" >&5
+$as_echo_n "checking whether minflt field of struct rusage is available... " >&6; }
+if test "${pac_cv_have_rusage_minflt+set}" = set; then :
+  $as_echo_n "(cached) " >&6
+else
+
+       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+         #include <unistd.h>
+         #include <resource.h>
+int
+main ()
+{
+struct rusage r; r.ru_minflt=0; r.ru_majflt=0;
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_compile "$LINENO"; then :
+  pac_cv_have_rusage_minflt=yes
+else
+  pac_cv_have_rusage_minflt=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $pac_cv_have_rusage_minflt" >&5
+$as_echo "$pac_cv_have_rusage_minflt" >&6; }
+     if test "$pac_cv_have_rusage_minflt" = "yes" ; then
+
+$as_echo "#define GETRUSAGE_HAS_MINFLT 1" >>confdefs.h
+
+     fi
+  fi
 
   ac_config_files="$ac_config_files src/fpmpi/profiler.h"
 
@@ -5989,9 +6107,10 @@ if test "${with_fpmpi+set}" = set; then :
 fi
 
 if test -n "$fpmpi_ext_link"; then
-  ENABLE_FPMPI=""
-  INT32=""
   FPMPI_EXT_LINK="${fpmpi_ext_link}"
+  FPMPI_INTERNAL="no"
+  FPMPI_OBJS=""
+  INT32=""
 fi
 
 
@@ -6009,12 +6128,17 @@ echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${FPMPI_EXT_LINK} ${PKG_LIBS}"
-echo ">> ENABLE_FPMPI = ${ENABLE_FPMPI}"
-echo ">> INT32 = ${INT32}"
 echo ">> FPMPI_EXT_LINK = ${FPMPI_EXT_LINK}"
+echo ">> FPMPI_INTERNAL = ${FPMPI_INTERNAL}"
+echo ">> FPMPI_OBJS = ${FPMPI_OBJS}"
+echo ">> INT32 = ${INT32}"
 echo " "
 echo "*************************************************************************"
 echo " "
+
+
+
+
 
 
 
