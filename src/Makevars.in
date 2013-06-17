@@ -1,9 +1,18 @@
 ### Setup R source code and objects.
 PKG_CPPFLAGS = @PKG_CPPFLAGS@
-PKG_LIBS     = @PKG_LIBS@
+PKG_LIBS     = @FPMPI_EXT_LINK@ @PKG_LIBS@    # Order is matter
 
 ### For user configuration.
 USER_CONF = Makeconf
+
+### For fpmpi
+FPMPI_OBJECTS= \
+fpmpi/commused.o \
+fpmpi/fputil.o \
+fpmpi/profiler.o \
+fpmpi/resrc.o \
+fpmpi/testwait.o \
+fpmpi/topology.o
 
 ### Start making here.
 all: $(SHLIB)
@@ -20,10 +29,16 @@ all: $(SHLIB)
 	@echo "MPI_DEFS = @MPI_DEFS@" >> $(USER_CONF)
 	@echo "MPI_INCL2 = @MPI_INCL2@" >> $(USER_CONF)
 	@echo "PKG_CPPFLAGS = @PKG_CPPFLAGS@" >> $(USER_CONF)
-	@echo "PKG_LIBS = @PKG_LIBS@" >> $(USER_CONF)
+	@echo "PKG_LIBS = @FPMPI_EXT_LINK@ @PKG_LIBS@" >> $(USER_CONF)
+	@echo "ENABLE_FPMPI = @ENABLE_FPMPI@" >> $(USER_CONF)
+	@echo "INT32 = @INT32@" >> $(USER_CONF)
+	@echo "FPMPI_EXT_LINK = @FPMPI_EXT_LINK@" >> $(USER_CONF)
 
-$(SHLIB): $(OBJECTS)
+$(SHLIB): $(OBJECTS) @ENABLE_FPMPI@
+
+FPMPI_OBJS: $(FPMPI_OBJECTS)
 
 clean:
 	@rm -rf *.o *.d *.rc *.so* *.dll *.dylib *.a *.lib \
                 Makedeps Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)
+	@rm -rf fpmpi/*.o fpmpi/fpmpiconf.h fpmpi/profiler.h

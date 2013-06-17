@@ -52,7 +52,7 @@ MPITYPE="UNKNOWN"
 
 AC_ARG_WITH([Rmpi-type],
             AC_HELP_STRING([--with-Rmpi-type=MPI_TYPE],
-                           [type of MPI: OPENMPI, MPICH2, LAM, or FPMPI]),
+                           [type of MPI: OPENMPI, MPICH2, or LAM]),
             [mpi_type=$withval])
 if test -n "${mpi_type}" ; then
   MPITYPE="${mpi_type}"
@@ -495,7 +495,7 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "FPMPI"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2"; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -513,9 +513,6 @@ case "$MPITYPE" in
   MPICH2)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
     ;;
-  FPMPI)
-    PKG_LIBS="-L${MPI_LIBPATH} -lfpmpi ${MPI_LIBS}"
-    ;;
   *)
     AC_MSG_ERROR([Unknown type of mpi: use --with-Rmpi-type or RMPI_TYPE to specify it])
     ;;
@@ -527,6 +524,85 @@ if test "$MPIRUN" = "F" -a "$MPIEXEC" = "F" -a "$ORTERUN" = "F" ; then
   echo ">>>> MPI executable is not in PATH ..."
   echo ">>>> Please export or setenv PATH ..."
 fi
+
+
+dnl Incorporate internal fpmpi, partly adopted from fpmpi's "configure.in".
+ENABLE_FPMPI=""
+INT32=""
+AC_ARG_ENABLE([fpmpi],
+    AC_HELP_STRING([--enable-fpmpi], [Enable fpmpi bindings.]),
+    ENABLE_FPMPI="FPMPI_OBJS", ENABLE_FPMPI="")
+dnl "--enable-fpmpi" is set.
+if test "X${ENABLE_FPMPI}" = "XFPMPI_OBJS"; then
+  AC_CONFIG_HEADER(src/fpmpi/fpmpiconf.h)
+
+  FPMPI2_VERSION='"'2.2'"'
+  AC_DEFINE_UNQUOTED(FPMPI2_VERSION,$FPMPI2_VERSION,
+                     [Provide the version for FPMPI 2])
+
+  AC_ARG_WITH(max_procs,
+              [--with-max_procs - define the maximum number of processes],
+              max_procs_value=$withval,max_procs_value=512)
+  # As a convenience, we could change a "k" in the value to *1024.
+  AC_DEFINE_UNQUOTED(MAX_PROCS,$max_procs_value,[maximum number of processes])
+  max_procsby32=`expr \( $max_procs_value + 31 \) / 32`
+  AC_DEFINE_UNQUOTED(MAX_PROCBY32,$max_procsby32,[maximum number of processes,
+                     divided by 32 (for use with int32 bit vectors)])
+
+  # See if unsigned ints are 32-bit
+  AC_LANG_C
+  if test -z "$CROSS_SIZEOF_UINT" ; then
+    CROSS_SIZEOF_UINT=0
+  fi
+  AC_CACHE_CHECK([for int32_t],pac_cv_have_int32_t,[
+  AC_TRY_COMPILE([
+  #include <stdlib.h>
+  #include <sys/types.h>],
+  [int32_t a=0;],pac_cv_have_int32_t=yes,pac_cv_have_int32_t=no)])
+
+  if test "$pac_cv_have_int32_t" = yes ; then
+    AC_DEFINE(HAVE_INT32_T,1,[Define if int32_t is available])
+  else
+    AC_CHECK_SIZEOF(unsigned int,$CROSS_SIZEOF_UINT)
+    if test "X$ac_cv_sizeof_unsigned_int" = "X4" ; then
+        INT32="unsigned int"
+    else
+        INT32=""
+        AC_MSG_WARN($ac_t You must define int32 in profiler.h manually!)
+    fi
+    AC_SUBST(INT32)
+  fi
+  AC_CHECK_SIZEOF(long long)
+  AC_CHECK_SIZEOF(int)
+  AC_CHECK_SIZEOF(MPI_Status,,[#include "mpi.h"])
+  SIZEOF_MPI_STATUS=$ac_cv_sizeof_MPI_Status
+  AC_DEFINE_UNQUOTED(SIZEOF_MPI_STATUS,$SIZEOF_MPI_STATUS,
+                     [Define the size of MPI_Status])
+  if test "$ac_cv_sizeof_int" != "0" ; then
+    SIZEOF_MPI_STATUS_IN_INTS=`expr $SIZEOF_MPI_STATUS / $ac_cv_sizeof_int`
+  else
+    # Pick a likely default (the actual code will check this)
+    SIZEOF_MPI_STATUS_IN_INTS=5
+  fi
+  AC_DEFINE_UNQUOTED(SIZEOF_MPI_STATUS_IN_INTS,$SIZEOF_MPI_STATUS_IN_INTS,
+                     [Define the size of MPI_Status in ints])
+
+  AC_OUTPUT(src/fpmpi/profiler.h)
+fi
+
+
+dnl Incorporate external fpmpi.
+FPMPI_EXT_LINK=""
+AC_ARG_WITH([fpmpi],
+            AC_HELP_STRING([--with-fpmpi="'-L/.../fpmpi/lib -lfpmpi'"],
+                           [location and name of libfpmpi.a]),
+            [fpmpi_ext_link=$withval])
+if test -n "$fpmpi_ext_link"; then
+  ENABLE_FPMPI=""
+  INT32=""
+  FPMPI_EXT_LINK="${fpmpi_ext_link}"
+fi
+
 
 dnl Report
 echo " "
@@ -542,7 +618,10 @@ echo ">> MPI_LIBS = ${MPI_LIBS}"
 echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
-echo ">> PKG_LIBS = ${PKG_LIBS}"
+echo ">> PKG_LIBS = ${FPMPI_EXT_LINK} ${PKG_LIBS}"
+echo ">> ENABLE_FPMPI = ${ENABLE_FPMPI}"
+echo ">> INT32 = ${INT32}"
+echo ">> FPMPI_EXT_LINK = ${FPMPI_EXT_LINK}"
 echo " "
 echo "*************************************************************************"
 echo " "
@@ -562,6 +641,8 @@ AC_SUBST(MPI_DEFS)
 AC_SUBST(MPI_INCL2)
 AC_SUBST(PKG_CPPFLAGS)
 AC_SUBST(PKG_LIBS)
+AC_SUBST(ENABLE_FPMPI)
+AC_SUBST(FPMPI_EXT_LINK)
 AC_OUTPUT(src/Makevars)
 
 AC_SUBST(MPI_LIBPATH)
