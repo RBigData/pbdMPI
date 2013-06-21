@@ -80,6 +80,8 @@
       command/data communication is required.  In other words, SPMD is
       easier for Monte Carlo, bootstrap, MCMC simulation and
       statistical analysis for ultra-large datasets.
+      A more efficient way, such as task pull parallelism, can be found
+      in next Q\&A.
 
 Example 1:
 \begin{Code}[title=SPMD R Script]
@@ -125,6 +127,36 @@ lapply(1:total.tasks, function(i){
 }
 })
 
+finalize()
+\end{Code}
+
+
+\item {\bf\color{blue} Q:}
+      Can I run un-barrier task jobs, such as task pull parallelism,
+      by using \pkg{pbdMPI}? \\
+      {\bf\color{blue} A:}
+      Yes, it is relatively straightforward via \pkg{pbdMPI} API function
+      \code{task.pull()} in SPMD. For example, the next is available
+      in demo which has a user
+      defined function \code{FUN()} run on workers, and master (rank 0)
+      controls the task management.
+\begin{Command}
+mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
+\end{Command}
+\begin{Code}[title=SPMD R Script (task\_pull)]
+### Initial
+library(pbdMPI, quiet = TRUE)
+
+### Examples
+FUN <- function(jid){
+  Sys.sleep(1)
+  jid * 10
+}
+
+ret <- task.pull(1:10, FUN)
+comm.print(ret)
+
+### Finish
 finalize()
 \end{Code}
 

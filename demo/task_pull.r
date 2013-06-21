@@ -1,7 +1,7 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 ### Initial
-library(pbdDMPI, quiet = TRUE)
+library(pbdMPI, quiet = TRUE)
 
 ### Examples
 FUN <- function(jid){
