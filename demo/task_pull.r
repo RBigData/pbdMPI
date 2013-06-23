@@ -12,5 +12,11 @@ FUN <- function(jid){
 ret <- task.pull(1:10, FUN)
 comm.print(ret)
 
+if(comm.rank() == 0){
+  ret.jobs <- unlist(ret)
+  ret.jobs <- ret.jobs[names(ret.jobs) == "ret"]
+  print(ret.jobs)
+}
+
 ### Finish
 finalize()

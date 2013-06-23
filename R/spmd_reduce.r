@@ -3,7 +3,7 @@
 ### Default method.
 spmd.reduce.default <- function(x, x.buffer = NULL, op = .SPMD.CT$op,
     rank.dest = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  op <- match.arg(tolower(op[1]), .SPMD.CT$op)
+  op <- match.arg(tolower(op[1]), .SPMD.OP)
 
   rank.dest <- as.integer(rank.dest)
   comm <- as.integer(comm)

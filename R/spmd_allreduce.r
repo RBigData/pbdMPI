@@ -3,7 +3,7 @@
 ### Default method.
 spmd.allreduce.default <- function(x, x.buffer = NULL,
     op = .SPMD.CT$op, comm = .SPMD.CT$comm){
-  op <- match.arg(tolower(op[1]), .SPMD.CT$op)
+  op <- match.arg(tolower(op[1]), .SPMD.OP)
 
   comm <- as.integer(comm)
   all.array <- spmd.allreduce.integer(
