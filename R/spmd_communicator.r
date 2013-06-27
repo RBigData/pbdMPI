@@ -55,7 +55,7 @@ spmd.comm.free <- function(comm = .SPMD.CT$comm){
 
 comm.free <- spmd.comm.free
 
-spmd.init <- function(){
+spmd.init <- function(set.seed = TRUE){
   ### Check even ".__DISABLE_MPI_INIT" is set by external API.
   # if(! exists(".__DISABLE_MPI_INIT__", envir = .GlobalEnv) ||
   #    get(".__DISABLE_MPI_INIT__", envir = .GlobalEnv) != TRUE){
@@ -67,6 +67,11 @@ spmd.init <- function(){
   ret <- .Call("spmd_initialize", PACKAGE = "pbdMPI")
   # assign(".comm.size", spmd.comm.size(), envir = .GlobalEnv)
   # assign(".comm.rank", spmd.comm.rank(), envir = .GlobalEnv)
+
+  if(set.seed){
+    seed <- as.integer(Sys.getpid() + Sys.time())
+    comm.set.seed(rep(seed, 6), diff = TRUE)
+  }
   invisible(ret)
 } # End of spmd.init().
 

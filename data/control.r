@@ -17,8 +17,8 @@
   divide.method = c("block", "block0", "cycle"),
   mpi.finalize = TRUE,
   quit = TRUE,
-  msg.flush = FALSE,
-  msg.barrier = FALSE
+  msg.flush = TRUE,
+  msg.barrier = TRUE
 ) # End of .SPMD.CT
 
 .SPMD.OP <- c("sum", "prod", "max", "min")

@@ -30,8 +30,8 @@
   \code{divide.method}  \tab "block" \tab a way to divide jobs or data \cr
   \code{mpi.finalize}   \tab TRUE    \tab if shutdown MPI \cr
   \code{quit}           \tab TRUE    \tab if quit when errors occur \cr
-  \code{msg.flush}      \tab FALSE   \tab if flush message for comm.cat/comm.print \cr
-  \code{msg.barrier}    \tab FALSE   \tab if barrier message for comm.cat/comm.print \cr
+  \code{msg.flush}      \tab TRUE    \tab if flush message for comm.cat/comm.print \cr
+  \code{msg.barrier}    \tab TRUE    \tab if barrier message for comm.cat/comm.print \cr
 }
 
   The elements of \code{.SPMD.OP} list the implemented operations for

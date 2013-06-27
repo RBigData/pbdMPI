@@ -62,7 +62,7 @@
   # assign(".comm.size", .comm.size, envir = .GlobalEnv)
   # assign(".comm.rank", .comm.rank, envir = .GlobalEnv)
 
-  base:::set.seed(1234)
+  # base:::set.seed(1234)
   invisible()
 } # End of .onLoad().
 
