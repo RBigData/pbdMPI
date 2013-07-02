@@ -1,4 +1,4 @@
-2013-06-20: Ver. 0.1-7
+2013-07-02: Ver. 0.1-7
   * Fix man page.
   * Fix pbdApply.
   * Add messages to interactive mode.
@@ -6,6 +6,7 @@
   * Add FAQ to vignette.
   * Add fpmmpi.
   * Add task pull parallelism.
+  * Move vignettes.
 
 2013-03-24: Ver. 0.1-6
   * License changed.
