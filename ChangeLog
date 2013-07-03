@@ -1,3 +1,6 @@
+2013-07-03: Ver. 0.1-8
+  * Move inst/doc/vignettes/ to vignettes/.
+
 2013-07-02: Ver. 0.1-7
   * Fix man page.
   * Fix pbdApply.
