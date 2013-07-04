@@ -62,7 +62,7 @@
   # assign(".comm.size", .comm.size, envir = .GlobalEnv)
   # assign(".comm.rank", .comm.rank, envir = .GlobalEnv)
 
-  base:::set.seed(1234)
+  # base:::set.seed(1234)
   invisible()
 } # End of .onLoad().
 
@@ -102,17 +102,17 @@
   if(interactive()){
     pbdR.msg <-
 "
-  pbdR is mainly designed for batch environment or in SPMD programming.
-  Please utilize High Performance Computing Resource or consider an
-  allociation via ``http://www.nics.tennessee.edu/getting-an-allocation''
-  with XSEDE at ``http://www.xsede.org/overview''.
+    pbdR is mainly designed for batch environment or in SPMD programming.
+    Please utilize High Performance Computing Resource or consider an
+    allociation via ``http://www.nics.tennessee.edu/getting-an-allocation''
+    with XSEDE at ``http://www.xsede.org/overview''.
 "
   } else{
     pbdR.msg <-
 "
-  High Performance Computing Resource is available via
-  ``http://www.nics.tennessee.edu/getting-an-allocation''
-  with XSEDE at ``http://www.xsede.org/overview''.
+    High Performance Computing Resource is available via
+    ``http://www.nics.tennessee.edu/getting-an-allocation''
+    with XSEDE at ``http://www.xsede.org/overview''.
 "
   }
   if(spmd.comm.rank(0L) == 0){
