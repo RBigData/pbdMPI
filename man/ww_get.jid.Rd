@@ -50,6 +50,9 @@
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
+\seealso{
+  \code{\link{task.pull}}.
+}
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 4 processors by

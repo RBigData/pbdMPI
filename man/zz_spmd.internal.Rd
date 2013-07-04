@@ -95,6 +95,8 @@
 \alias{spmd.comm.cat}
 \alias{spmd.probe}
 \alias{spmd.iprobe}
+\alias{spmd.anysource}
+\alias{spmd.anytag}
 \alias{spmd.get.sourcetag}
 \alias{spmd.get.count}
 \alias{spmd.wait}

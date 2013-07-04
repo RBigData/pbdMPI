@@ -22,7 +22,7 @@
   comm.size(comm = .SPMD.CT$comm)
   comm.dup(comm, newcomm)
   comm.free(comm = .SPMD.CT$comm)
-  init()
+  init(set.seed = TRUE)
   finalize(mpi.finalize = .SPMD.CT$mpi.finalize)
   comm.disconnect(comm = .SPMD.CT$comm)
   comm.c2f(comm = .SPMD.CT$comm)
@@ -31,6 +31,7 @@
   \item{comm}{a communicator number.}
   \item{newcomm}{a new communicator number.}
   \item{mpi.finalize}{if MPI should be shutdown.}
+  \item{set.seed}{if a random seed preset.}
 }
 \details{
   Another functions are direct calls to MPI library.
@@ -51,7 +52,9 @@
   \code{comm.free} free a \code{comm}.
 
   \code{init} initializes a MPI world, and set two global variables
-  \code{.comm.size} and \code{.comm.rank} in \code{.GlobalEnv}.
+  \code{.comm.size} and \code{.comm.rank} in \code{.GlobalEnv}. A random seed
+  will be preset by default (\code{Sys.getpid() + Sys.time()}) to the package
+  \pkg{rlecuyer}.
 
   \code{finalize} frees memory and finishes a MPI world if
   \code{mpi.finalize = TRUE}.

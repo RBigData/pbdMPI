@@ -58,7 +58,9 @@ export(
   ### "R/spmd_utility.r"
   "probe",
   "iprobe",
-#  "get.sourcetag",
+  "anysource",
+  "anytag",
+  "get.sourcetag",
 #  "get.count",
 
   ### "R/spmd_wait.r"
@@ -83,6 +85,9 @@ export(
   "comm.all",
   "comm.stop",
   "comm.warning",
-  "comm.warnings"
+  "comm.warnings",
+  "task.pull.workers",
+  "task.pull.master",
+  "task.pull"
 )
 

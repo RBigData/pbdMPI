@@ -1,7 +1,16 @@
-2013-04-23: Ver. 0.1-7
+2013-07-03: Ver. 0.1-8
+  * Move inst/doc/vignettes/ to vignettes/.
+  * Add fpmpi license.
+
+2013-07-02: Ver. 0.1-7
   * Fix man page.
   * Fix pbdApply.
   * Add messages to interactive mode.
+  * Drop some barrier in comm.print and comm.cat.
+  * Add FAQ to vignette.
+  * Add fpmmpi.
+  * Add task pull parallelism.
+  * Move vignettes.
 
 2013-03-24: Ver. 0.1-6
   * License changed.

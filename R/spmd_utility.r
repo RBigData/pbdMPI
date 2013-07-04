@@ -18,6 +18,18 @@ spmd.iprobe <- function(rank.source = .SPMD.CT$rank.source,
 
 iprobe <- spmd.iprobe
 
+spmd.anysource <- function(){
+  .Call("spmd_anysource", PACKAGE = "pbdMPI")
+} # End of spmd.anysource().
+
+anysource <- spmd.anysource
+
+spmd.anytag <- function(){
+  .Call("spmd_anytag", PACKAGE = "pbdMPI")
+} # End of spmd.anytag().
+
+anytag <- spmd.anytag
+
 spmd.get.sourcetag <- function(status = .SPMD.CT$status){
   .Call("spmd_get_sourcetag", as.integer(status), PACKAGE = "pbdMPI")
 } # End of spmd.get.sourcetag().

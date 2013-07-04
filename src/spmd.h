@@ -145,6 +145,8 @@ SEXP spmd_bcast_raw(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 /* In file "spmd_utility.c". */
 SEXP spmd_probe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
 SEXP spmd_iprobe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
+SEXP spmd_anysource();
+SEXP spmd_anytag();
 SEXP spmd_get_sourcetag(SEXP R_status);
 SEXP spmd_get_count(SEXP R_data_type, SEXP R_status);
 
