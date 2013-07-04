@@ -20,3 +20,5 @@ rm -rf ./R/zzz.r
 rm -rf ./src/fpmpi/*.o
 rm -rf ./src/fpmpi/fpmpiconf.h
 rm -rf ./src/fpmpi/profiler.h
+
+rm -rf ./inst/doc/

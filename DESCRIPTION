@@ -10,7 +10,7 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
 Depends: R (>= 2.14.0), methods, rlecuyer
 LazyLoad: yes
 LazyData: yes
-Copyright: See pbdMPI/inst/fpmpi_COPYING for the files in src/fpmpi/.
+Copyright: See pbdMPI/inst/fpmpi_LICENSE.txt for the files in src/fpmpi/.
 Description: pbdMPI provides an efficient interface to MPI by utilizing S4
         classes and methods with a focus on Single Program/Multiple Data (SPMD)
         parallel programming style, which is intended for batch parallel
