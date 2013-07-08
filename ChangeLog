@@ -1,5 +1,5 @@
 2013-07-05: Ver. 0.1-9
-  * Add wait to spmd.isend.default().
+  * Change spmd.isend.default() to blocking send.
 
 2013-07-03: Ver. 0.1-8
   * Move inst/doc/vignettes/ to vignettes/.
