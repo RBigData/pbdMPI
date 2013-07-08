@@ -9,9 +9,12 @@ spmd.isend.default <- function(x,
   ###      protected by R when the call "spmd.isend.default()" is returned.
   ###      Add wait() is equivalent to use send() function.
   # spmd.isend.raw(serialize(x, NULL), rank.dest = as.integer(rank.dest),
+  #                tag = as.integer(tag), comm = as.integer(comm),
+  #                request = as.integer(request))
+  ### This implementation is the same as spmd.send.default(), because
+  ### a blocking ait should be evoked to make sure buffer is sent completely.
   spmd.send.raw(serialize(x, NULL), rank.dest = as.integer(rank.dest),
-                 tag = as.integer(tag), comm = as.integer(comm),
-                 request = as.integer(request))
+                tag = as.integer(tag), comm = as.integer(comm))
   invisible()
 } # End of spmd.isend.default().
 
