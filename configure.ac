@@ -1,12 +1,20 @@
+dnl This file was original for Rmpi written by Dr. Yu Hao, and may be
+dnl modified by Prof. Brian Rieply and suggested by R Core Team.
+dnl Later, it was added by Wei-Chen Chen for pbdMPI and pbdPROF for more
+dnl functionalities combining with Makevars.in.
+
+
 dnl Process this file with autoconf to produce a configure script
 AC_INIT(DESCRIPTION)
 
 dnl Determine R_HOME.
-: ${R_HOME=‘R RHOME‘}
+: ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
   echo "could not determine R_HOME"
   exit 1
 fi
+R_SCMD="${R_HOME}/bin/Rscript -e"
+
 
 dnl One way is to specify both include and lib paths
 AC_ARG_WITH([Rmpi-include],
@@ -526,115 +534,52 @@ if test "$MPIRUN" = "F" -a "$MPIEXEC" = "F" -a "$ORTERUN" = "F" ; then
 fi
 
 
-dnl Incorporate internal fpmpi, partly adopted from fpmpi's "configure.in".
-FPMPI_EXT_LINK=""
-FPMPI_INTERNAL=""
-FPMPI_OBJS=""
-INT32=""
-AC_ARG_ENABLE([fpmpi],
-    AC_HELP_STRING([--enable-fpmpi], [Enable fpmpi bindings.]),
-    FPMPI_INTERNAL="yes", FPMPI_INTERNAL="no")
+dnl pbdPROF
+AC_ARG_ENABLE([pbdPROF],
+    AC_HELP_STRING([--enable-pbdPROF], [Enable pbdPROF.]),
+    ENABLE_PBDPROF="yes", ENABLE_PBDPROF="no")
 
-dnl "--enable-fpmpi" is set.
-if test "X${FPMPI_INTERNAL}" = "Xyes"; then
-  FPMPI_OBJS="\$(FPMPI_OBJS)"
-  INT32=""
-  AC_CONFIG_HEADER(src/fpmpi/fpmpiconf.h)
-
-  AC_ARG_WITH(max_procs,
-              [--with-max_procs - define the maximum number of processes],
-              max_procs_value=$withval,max_procs_value=512)
-  # As a convenience, we could change a "k" in the value to *1024.
-  AC_DEFINE_UNQUOTED(MAX_PROCS,$max_procs_value,[maximum number of processes])
-  max_procsby32=`expr \( $max_procs_value + 31 \) / 32`
-  AC_DEFINE_UNQUOTED(MAX_PROCBY32,$max_procsby32,[maximum number of processes,
-                     divided by 32 (for use with int32 bit vectors)])
-
-  FPMPI2_VERSION='"'2.2'"'
-  AC_DEFINE_UNQUOTED(FPMPI2_VERSION,$FPMPI2_VERSION,
-                     [Provide the version for FPMPI 2])
-
-  # See if unsigned ints are 32-bit
-  AC_LANG_C
-  if test -z "$CROSS_SIZEOF_UINT" ; then
-    CROSS_SIZEOF_UINT=0
+PROF_LDFLAGS=""
+if test "X${ENABLE_PBDPROF}" = "Xyes"; then
+  CHECK_PROF=`${R_SCMD} "cat(sum(rownames(installed.packages())=='pbdPROF'))"`
+  if test ${CHECK_PROF} -ne 1; then
+    AC_MSG_ERROR([pbdPROF is not installed correctly])
   fi
-  AC_CACHE_CHECK([for int32_t],pac_cv_have_int32_t,[
-  AC_TRY_COMPILE([
-  #include <stdlib.h>
-  #include <sys/types.h>],
-  [int32_t a=0;],pac_cv_have_int32_t=yes,pac_cv_have_int32_t=no)])
 
-  if test "$pac_cv_have_int32_t" = yes ; then
-    AC_DEFINE(HAVE_INT32_T,1,[Define if int32_t is available])
-  else
-    AC_CHECK_SIZEOF(unsigned int,$CROSS_SIZEOF_UINT)
-    if test "X$ac_cv_sizeof_unsigned_int" = "X4" ; then
-        INT32="unsigned int"
+  FPMPI_EXT_LINK=`${R_SCMD} "source('./R/get_conf.r');get.conf('FPMPI_EXT_LINK','"${R_ARCH}"','pbdPROF')"`
+  FPMPI_INTERNAL=`${R_SCMD} "source('./R/get_conf.r');get.conf('FPMPI_INTERNAL','"${R_ARCH}"','pbdPROF')"`
+  MPIP_EXT_LINK=`${R_SCMD} "source('./R/get_conf.r');get.conf('MPIP_EXT_LINK','"${R_ARCH}"','pbdPROF')"`
+  TAU_EXT_LINK=`${R_SCMD} "source('./R/get_conf.r');get.conf('TAU_EXT_LINK','"${R_ARCH}"','pbdPROF')"`
+  PROF_TYPE=`${R_SCMD} "source('./R/get_conf.r');get.conf('PROF_TYPE','"${R_ARCH}"','pbdPROF')"`
+
+  dnl fpmpi is asked.
+  if test "X$PROF_TYPE" = "Xfpmpi"; then
+    if test "X$FPMPI_INTERNAL" = "Xyes"; then
+      dnl Internal library is available.
+      R_FPMPI=`${R_SCMD} "source('./R/get_lib.r');get.lib('R_FPMPI','"${R_ARCH}"','pbdPROF')"`
+      if test -f "$R_FPMPI"; then
+        PROF_LDFLAGS="$R_FPMPI"
+      else
+        AC_MSG_ERROR([R_FPMPI is not found.])
+      fi
     else
-        INT32=""
-        AC_MSG_WARN($ac_t You must define int32 in profiler.h manually!)
+      dnl External library is available.
+      PROF_LDFLAGS="$FPMPI_EXT_LINK"
     fi
-    AC_SUBST(INT32)
-  fi
-  AC_CHECK_SIZEOF(long long)
-  AC_CHECK_SIZEOF(int)
-  AC_CHECK_SIZEOF(MPI_Status,,[#include "mpi.h"])
-  SIZEOF_MPI_STATUS=$ac_cv_sizeof_MPI_Status
-  AC_DEFINE_UNQUOTED(SIZEOF_MPI_STATUS,$SIZEOF_MPI_STATUS,
-                     [Define the size of MPI_Status])
-  if test "$ac_cv_sizeof_int" != "0" ; then
-    SIZEOF_MPI_STATUS_IN_INTS=`expr $SIZEOF_MPI_STATUS / $ac_cv_sizeof_int`
-  else
-    # Pick a likely default (the actual code will check this)
-    SIZEOF_MPI_STATUS_IN_INTS=5
-  fi
-  AC_DEFINE_UNQUOTED(SIZEOF_MPI_STATUS_IN_INTS,$SIZEOF_MPI_STATUS_IN_INTS,
-                     [Define the size of MPI_Status in ints])
-
-  AC_CHECK_HEADERS(stdlib.h)
-  AC_CHECK_HEADERS(unistd.h)
-  AC_CHECK_HEADERS(sys/time.h)
-  AC_CHECK_HEADERS(sys/resource.h)
-  AC_TRY_LINK([#ifdef HAVE_UNISTD_H
-    #include <unistd.h>
-    #endif
-    #ifdef HAVE_SYS_RESOURCE_H
-    #include <sys/resource.h>
-    #endif],
-    [getrusage(RUSAGE_SELF,NULL);],
-    pac_cv_has_getrusage=yes,pac_cv_has_getrusage=no)
-   if test "$pac_cv_has_getrusage" = "yes" ; then
-     AC_DEFINE(HAVE_GETRUSAGE,1,[Define for getrusage() availability])
-     # Now, test that the fields are available (they may not be if strrict POSIX
-     # compatibility is set in the compiler) 
-     AC_CACHE_CHECK([whether minflt field of struct rusage is available],
-                    pac_cv_have_rusage_minflt,[
-       AC_TRY_COMPILE([
-         #include <unistd.h>
-         #include <resource.h>],[struct rusage r; r.ru_minflt=0; r.ru_majflt=0;],
-         pac_cv_have_rusage_minflt=yes,pac_cv_have_rusage_minflt=no)])
-     if test "$pac_cv_have_rusage_minflt" = "yes" ; then
-        AC_DEFINE(GETRUSAGE_HAS_MINFLT,1,
-                  [Define if minflt field for getrusage is available])
-     fi
   fi
 
-  AC_OUTPUT(src/fpmpi/profiler.h)
-fi
+  dnl mpiP is asked.
+  if test "X$PROF_TYPE" = "XmpiP"; then
+    PROF_LDFLAGS="$MPIP_EXT_LINK"
+  fi
 
+  dnl TAU is asked.
+  if test "X$PROF_TYPE" = "XTAU"; then
+    PROF_LDFLAGS="$TAU_EXT_LINK"
+  fi
 
-dnl Incorporate external fpmpi.
-FPMPI_EXT_LINK=""
-AC_ARG_WITH([fpmpi],
-            AC_HELP_STRING([--with-fpmpi="'-L/..../fpmpi/lib -lfpmpi'"],
-                           [location and name of libfpmpi.a]),
-            [fpmpi_ext_link=$withval])
-if test -n "$fpmpi_ext_link"; then
-  FPMPI_EXT_LINK="${fpmpi_ext_link}"
-  FPMPI_INTERNAL="no"
-  FPMPI_OBJS=""
-  INT32=""
+  dnl reset PKG_LIBS to take off MPI library but redirect to profiler libraries.
+  PKG_LIBS="${PROF_LDFLAGS} ${PKG_LIBS}"
 fi
 
 
@@ -652,11 +597,8 @@ echo ">> MPI_LIBS = ${MPI_LIBS}"
 echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
-echo ">> PKG_LIBS = ${FPMPI_EXT_LINK} ${PKG_LIBS}"
-echo ">> FPMPI_EXT_LINK = ${FPMPI_EXT_LINK}"
-echo ">> FPMPI_INTERNAL = ${FPMPI_INTERNAL}"
-echo ">> FPMPI_OBJS = ${FPMPI_OBJS}"
-echo ">> INT32 = ${INT32}"
+echo ">> PKG_LIBS = ${PKG_LIBS}"
+echo ">> PROF_LDFLAGS = ${PROF_LDFLAGS}"
 echo " "
 echo "*************************************************************************"
 echo " "
@@ -676,13 +618,7 @@ AC_SUBST(MPI_DEFS)
 AC_SUBST(MPI_INCL2)
 AC_SUBST(PKG_CPPFLAGS)
 AC_SUBST(PKG_LIBS)
-
-dnl For fpmpi
-AC_SUBST(FPMPI_EXT_LINK)
-AC_SUBST(FPMPI_INTERNAL)
-AC_SUBST(FPMPI_OBJS)
-AC_SUBST(INT32)
-
+AC_SUBST(PROF_LDFLAGS)
 AC_OUTPUT(src/Makevars)
 
 AC_SUBST(MPI_LIBPATH)

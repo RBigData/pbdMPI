@@ -1,48 +1,10 @@
 ### Setup R source code and objects.
 PKG_CPPFLAGS = @PKG_CPPFLAGS@
-PKG_LIBS     = @FPMPI_EXT_LINK@ @PKG_LIBS@
-               # Order is matter for external fpmpi
+### Order is matter
+PKG_LIBS     = @PKG_LIBS@
 
 ### For user configuration.
 USER_CONF = Makeconf
-
-### For fpmpi
-FPMPI_OBJS= \
-fpmpi/commused.o \
-fpmpi/fputil.o \
-fpmpi/profiler.o \
-fpmpi/resrc.o \
-fpmpi/testwait.o \
-fpmpi/topology.o
-
-### For pbdMPI
-R_OBJS= \
-  comm_errors.o \
-  comm_sort_double.o \
-  comm_sort_integer.o \
-  pkg_dl.o \
-  pkg_tools.o \
-  spmd_allgather.o \
-  spmd_allgatherv.o \
-  spmd_allreduce.o \
-  spmd_bcast.o \
-  spmd.o \
-  spmd_communicator.o \
-  spmd_gather.o \
-  spmd_gatherv.o \
-  spmd_info.o \
-  spmd_recv.o \
-  spmd_reduce.o \
-  spmd_scatter.o \
-  spmd_scatterv.o \
-  spmd_send.o \
-  spmd_sendrecv.o \
-  spmd_sendrecv_replace.o \
-  spmd_tool.o \
-  spmd_utility.o \
-  spmd_wait.o
-
-OBJECTS = $(R_OBJS) @FPMPI_OBJS@
 
 ### Start making here.
 all: $(SHLIB)
@@ -59,15 +21,11 @@ all: $(SHLIB)
 	@echo "MPI_DEFS = @MPI_DEFS@" >> $(USER_CONF)
 	@echo "MPI_INCL2 = @MPI_INCL2@" >> $(USER_CONF)
 	@echo "PKG_CPPFLAGS = @PKG_CPPFLAGS@" >> $(USER_CONF)
-	@echo "PKG_LIBS = @FPMPI_EXT_LINK@ @PKG_LIBS@" >> $(USER_CONF)
-	@echo "FPMPI_EXT_LINK = @FPMPI_EXT_LINK@" >> $(USER_CONF)
-	@echo "FPMPI_INTERNAL = @FPMPI_INTERNAL@" >> $(USER_CONF)
-	@echo "FPMPI_OBJS = @FPMPI_OBJS@" >> $(USER_CONF)
-	@echo "INT32 = @INT32@" >> $(USER_CONF)
+	@echo "PKG_LIBS = ${PKG_LIBS}" >> $(USER_CONF)
+	@echo "PROF_LDFLAGS = @PROF_LDFLAGS@" >> $(USER_CONF)
 
 $(SHLIB): $(OBJECTS)
 
 clean:
 	@rm -rf *.o *.d *.rc *.so* *.dll *.dylib *.a *.lib \
                 Makedeps Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)
-	@rm -rf fpmpi/*.o fpmpi/fpmpiconf.h fpmpi/profiler.h
