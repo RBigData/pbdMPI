@@ -4,6 +4,11 @@ dnl Later, it was added by Wei-Chen Chen for pbdMPI and pbdPROF for more
 dnl functionalities combining with Makevars.in.
 
 
+dnl In Rmpi, "MPICH" means MPICH version 1.
+dnl In pbdMPI, I use "MPICH" for MPICH version 3 or later. MPICH2 should be
+dnl eventually discarded and relapced by MPICH.
+
+
 dnl Process this file with autoconf to produce a configure script
 AC_INIT(DESCRIPTION)
 
@@ -60,7 +65,7 @@ MPITYPE="UNKNOWN"
 
 AC_ARG_WITH([Rmpi-type],
             AC_HELP_STRING([--with-Rmpi-type=MPI_TYPE],
-                           [type of MPI: OPENMPI, MPICH2, or LAM]),
+                           [type of MPI: OPENMPI, MPICH2/MPICH, or LAM]),
             [mpi_type=$withval])
 if test -n "${mpi_type}" ; then
   MPITYPE="${mpi_type}"
@@ -145,11 +150,11 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 fi
 
 
-dnl For MPICH2
+dnl For MPICH2/MPICH
 if test -z "${MPI_INCLUDE_PATH}" ; then
 #  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "MPICH2" ; then
 ### MPICH2 users have to specify --with-Rmpi-type=MPICH2 to get this.
-  if test "$MPITYPE" = "MPICH2" ; then
+  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" ; then
     if test "$SED" != "F" -a "$MPICC" != "F" -a "$MPICH2VERSION" != "F" ; then
       echo "found sed, mpicc, and mpich2version ..."
       TMP_INC="F"
@@ -194,7 +199,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         echo "found mpi.h and libmpich.so ..."
         echo ">> TMP_INC = ${TMP_INC}"
         echo ">> TMP_LIB = ${TMP_LIB}"
-        MPITYPE="MPICH2"
+        MPITYPE="${MPITYPE}"
         MPI_INCLUDE_PATH="${TMP_INC}"
         MPI_LIBPATH="${TMP_LIB}"
       fi
@@ -317,6 +322,11 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         MPI_ROOT=$d/mpich2
         MPITYPE="MPICH2"
         break
+      elif test -f $d/mpich/include/mpi.h; then
+        echo "I am here $d/mpich and it is MPICH"
+        MPI_ROOT=$d/mpich
+        MPITYPE="MPICH"
+        break
       elif test -f $d/mpi/include/mpi.h; then
         echo "I am here $d/mpi"
         MPI_ROOT=$d/mpi
@@ -389,6 +399,9 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     elif test -f ${MPI_ROOT}/include/mpich2/mpi.h; then
       echo "Found in ${MPI_ROOT}/include/mpich2"
       MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich2"
+    elif test -f ${MPI_ROOT}/include/mpich/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/mpich"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich"
     elif test -f ${MPI_ROOT}/include/mpi.h; then
       echo "Found in ${MPI_ROOT}/include"
       MPI_INCLUDE_PATH="${MPI_ROOT}/include"		  
@@ -503,7 +516,7 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH"; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -515,10 +528,10 @@ case "$MPITYPE" in
   LAM)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
     ;;
-  MPICH)
+  MPICH2)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
     ;;
-  MPICH2)
+  MPICH)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
     ;;
   *)
