@@ -12,3 +12,13 @@ comm.all <- function(x, na.rm = FALSE, comm = .SPMD.CT$comm){
   all(ret, na.rm = na.rm)
 } # End of comm.all().
 
+comm.timer <- function(timed, comm = .SPMD.CT$comm){
+  ltime <- system.time(timed)[3]
+
+  mintime <- allreduce(ltime, op = 'min')
+  maxtime <- allreduce(ltime, op = 'max')
+
+  meantime <- allreduce(ltime, op = 'sum') / comm.size(comm)
+
+  return(c(min = mintime, mean = meantime, max = maxtime) )
+} # End of comm.timer().

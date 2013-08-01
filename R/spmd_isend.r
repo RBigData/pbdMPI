@@ -4,9 +4,17 @@
 spmd.isend.default <- function(x,
     rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
     comm = .SPMD.CT$comm, request = .SPMD.CT$request){
-  spmd.isend.raw(serialize(x, NULL), rank.dest = as.integer(rank.dest),
-                 tag = as.integer(tag), comm = as.integer(comm),
-                 request = as.integer(request))
+  ### WCC: This isend() should go with wait(), otherwise the new R object,
+  ###      "serialize(x, NULL)", is NOT sent correctly since it is not
+  ###      protected by R when the call "spmd.isend.default()" is returned.
+  ###      Add wait() is equivalent to use send() function.
+  # spmd.isend.raw(serialize(x, NULL), rank.dest = as.integer(rank.dest),
+  #                tag = as.integer(tag), comm = as.integer(comm),
+  #                request = as.integer(request))
+  ### This implementation is the same as spmd.send.default(), because
+  ### a blocking ait should be evoked to make sure buffer is sent completely.
+  spmd.send.raw(serialize(x, NULL), rank.dest = as.integer(rank.dest),
+                tag = as.integer(tag), comm = as.integer(comm))
   invisible()
 } # End of spmd.isend.default().
 

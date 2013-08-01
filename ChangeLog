@@ -1,3 +1,11 @@
+2013-07-24: Ver. 0.2-0
+  * Move fpmpi to pbdPROF and link with it's static library.
+  * Add mpiP and TAU.
+  * Move pbdDEMO::timer() to pbdMPI::comm.timer().
+
+2013-07-05: Ver. 0.1-9 (unreleased and merged to Ver. 0.2-0)
+  * Change spmd.isend.default() to blocking send.
+
 2013-07-03: Ver. 0.1-8
   * Move inst/doc/vignettes/ to vignettes/.
   * Add fpmpi license.
@@ -8,7 +16,7 @@
   * Add messages to interactive mode.
   * Drop some barrier in comm.print and comm.cat.
   * Add FAQ to vignette.
-  * Add fpmmpi.
+  * Add fpmpi.
   * Add task pull parallelism.
   * Move vignettes.
 

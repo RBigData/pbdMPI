@@ -34,8 +34,19 @@ ifeq "$(MPI_LIB)" ""
   MPI_LIB = $(MPI_ROOT)/lib
 endif
 
+### Set FPMPI and pbdPROF
+### This is not working for windows since "sys/resource.h" does not exist.
+# FPMPI_LDFLAGS = ""
+# ifeq "$(enable-pbdPROF)" "yes"
+#   ### Get fpmpi information from "pbdPROF".
+#   FPMPI_LDFLAGS = $(shell ${R_SCMD} \
+#     "source('../R/get_lib.r');get.lib('R_FPMPI','"${R_ARCH}"'))")
+# endif
+
 ### Set PKG_*
 PKG_CPPFLAGS = -I"$(MPI_ROOT)/include" -DMPI2 -DWIN
+### Order is matter.
+# PKG_LIBS = "$(FPMPI_LDFLAGS)" -L"$(MPI_LIB)" -lmpi
 PKG_LIBS = -L"$(MPI_LIB)" -lmpi
 
 ### For user configuration.
