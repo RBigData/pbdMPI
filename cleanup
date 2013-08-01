@@ -16,7 +16,3 @@ rm -rf ./src/*.rds
 rm -rf ./src-*
 rm -rf ./inst/etc*
 rm -rf ./R/zzz.r
-
-rm -rf ./src/fpmpi/*.o
-rm -rf ./src/fpmpi/fpmpiconf.h
-rm -rf ./src/fpmpi/profiler.h

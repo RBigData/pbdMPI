@@ -1,5 +1,6 @@
 \name{pbdMPI-package}
 \alias{pbdMPI-package}
+\alias{pbdMPI}
 \docType{package}
 \title{Programming with Big Data -- Interface to MPI}
 \description{
