@@ -14,7 +14,9 @@
   mpi.libpath <- "@MPI_LIBPATH@"
 
   ### Nautilus needs MPT.
-  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPT"){
+  i.lib <- NULL
+  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
+      mpi.type == "MPT"){
     if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
       mpi.libname <- "libmpi"
     } else{
@@ -28,7 +30,6 @@
               # list.files(path = mpi.libpath,
               #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
               #            full.names = TRUE))
-    i.lib <- NULL
     for(i in 1:length(libs)){
       ret <- try(dyn.load(libs[i]), silent = TRUE)
       if(class(ret) != "try-error"){
@@ -76,7 +77,9 @@
   mpi.type <- "@MPITYPE@"
   mpi.libpath <- "@MPI_LIBPATH@"
 
-  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPT"){
+  ### Nautilus needs MPT.
+  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
+      mpi.type == "MPT"){
     if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
       mpi.libname <- "libmpi"
     } else{
