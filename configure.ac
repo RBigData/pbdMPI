@@ -21,36 +21,43 @@ fi
 R_SCMD="${R_HOME}/bin/Rscript -e"
 
 
-dnl One way is to specify both include and lib paths
-AC_ARG_WITH([Rmpi-include],
-            AC_HELP_STRING([--with-Rmpi-include=INCLUDE_PATH],
+dnl All AC_ARG_WITH
+AC_ARG_WITH([mpi-include],
+            AC_HELP_STRING([--with-mpi-include=INCLUDE_PATH],
                            [location of MPI header files]),
             [mpi_include_path=$withval])
+AC_ARG_WITH([mpi-libpath],
+            AC_HELP_STRING([--with-mpi-libpath=LIB_PATH],
+                           [location of MPI library files]),
+            [mpi_lib_path=$withval])
+AC_ARG_WITH([mpi-type],
+            AC_HELP_STRING([--with-mpi-type=MPI_TYPE],
+                           [type of MPI: OPENMPI, MPICH2/MPICH, or LAM]),
+            [mpi_type=$withval])
+
+
+dnl One way is to specify both include and lib paths
 if test -n "${mpi_include_path}" ; then
   MPI_INCLUDE_PATH="${mpi_include_path}"
   if test ! -f "${MPI_INCLUDE_PATH}/mpi.h" ; then
-    AC_MSG_ERROR([Value of --with-Rmpi-include does not contain mpi.h])
+    AC_MSG_ERROR([Value of --with-mpi-include does not contain mpi.h])
   fi
 else
-  if test -n "${RMPI_INCLUDE}" ; then
-    MPI_INCLUDE_PATH="${RMPI_INCLUDE}"
+  if test -n "${MPI_INCLUDE}" ; then
+    MPI_INCLUDE_PATH="${MPI_INCLUDE}"
     if test ! -f "${MPI_INCLUDE_PATH}/mpi.h" ; then
-      AC_MSG_ERROR([Value of RMPI_INCLUDE does not contain mpi.h])
+      AC_MSG_ERROR([Value of MPI_INCLUDE does not contain mpi.h])
     fi
-    echo "setting mpi include path from RMPI_INCLUDE"
+    echo "setting mpi include path from MPI_INCLUDE"
   fi
 fi
 
-AC_ARG_WITH([Rmpi-libpath],
-            AC_HELP_STRING([--with-Rmpi-libpath=LIB_PATH],
-                           [location of MPI library files]),
-            [mpi_lib_path=$withval])
 if test -n "${mpi_lib_path}" ; then
   MPI_LIBPATH="${mpi_lib_path}"
 else
-  if test -n "${RMPI_LIB_PATH}" ; then
-    MPI_LIBPATH="${RMPI_LIB_PATH}"
-    echo "setting mpi lib path from RMPI_LIB_PATH"
+  if test -n "${MPI_LIB_PATH}" ; then
+    MPI_LIBPATH="${MPI_LIB_PATH}"
+    echo "setting mpi lib path from MPI_LIB_PATH"
   fi
 fi
 
@@ -63,15 +70,11 @@ fi
 
 MPITYPE="UNKNOWN"
 
-AC_ARG_WITH([Rmpi-type],
-            AC_HELP_STRING([--with-Rmpi-type=MPI_TYPE],
-                           [type of MPI: OPENMPI, MPICH2/MPICH, or LAM]),
-            [mpi_type=$withval])
 if test -n "${mpi_type}" ; then
   MPITYPE="${mpi_type}"
 else
-  if test -n "${RMPI_TYPE}" ; then
-    MPITYPE="${RMPI_TYPE}"
+  if test -n "${MPI_TYPE}" ; then
+    MPITYPE="${MPI_TYPE}"
   fi
 fi
 
@@ -153,7 +156,7 @@ fi
 dnl For MPICH2/MPICH
 if test -z "${MPI_INCLUDE_PATH}" ; then
 #  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "MPICH2" ; then
-### MPICH2 users have to specify --with-Rmpi-type=MPICH2 to get this.
+### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
   if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" ; then
     if test "$SED" != "F" -a "$MPICC" != "F" -a "$MPICH2VERSION" != "F" ; then
       echo "found sed, mpicc, and mpich2version ..."
@@ -213,7 +216,7 @@ dnl 'Paths not specified'
 if test -z "${MPI_INCLUDE_PATH}" ; then
   dnl Another way is to specify MPI_ROOT, perhaps via --with-mpi
   AC_ARG_WITH(mpi,
-              AC_HELP_STRING([--with-mpi=LIB_PATH],
+              AC_HELP_STRING([--with-mpi=MPI_ROOT],
                              [location of top-level MPI directory]),
               [ if test "${withval}" != "no"; then
                       MPI_ROOT=${withval}
@@ -535,7 +538,7 @@ case "$MPITYPE" in
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
     ;;
   *)
-    AC_MSG_ERROR([Unknown type of mpi: use --with-Rmpi-type or RMPI_TYPE to specify it])
+    AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
     ;;
 esac
 

@@ -28,10 +28,10 @@
   Other arguments include
 \tabular{ll}{
   Argument \tab Default \cr
-  \code{--with-Rmpi-type}    \tab \code{OPENMPI} \cr
-  \code{--with-Rmpi-include} \tab \code{${MPI_ROOT}/include} \cr
-  \code{--with-Rmpi-libpath} \tab \code{${MPI_ROOT}/lib} \cr
-  \code{--with-mpi}          \tab \code{${MPI_ROOT}} \cr
+  \code{--with-mpi-type}    \tab \code{OPENMPI} \cr
+  \code{--with-mpi-include} \tab \code{${MPI_ROOT}/include} \cr
+  \code{--with-mpi-libpath} \tab \code{${MPI_ROOT}/lib} \cr
+  \code{--with-mpi}         \tab \code{${MPI_ROOT}} \cr
 }
   where \code{${MPI_ROOT}} is the path to the MPI root.
   See the package source file \code{pbdMPI/configure} for details.

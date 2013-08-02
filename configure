@@ -691,9 +691,9 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
-with_Rmpi_include
-with_Rmpi_libpath
-with_Rmpi_type
+with_mpi_include
+with_mpi_libpath
+with_mpi_type
 with_mpi
 enable_pbdPROF
 '
@@ -1318,13 +1318,13 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-Rmpi-include=INCLUDE_PATH
+  --with-mpi-include=INCLUDE_PATH
                           location of MPI header files
-  --with-Rmpi-libpath=LIB_PATH
+  --with-mpi-libpath=LIB_PATH
                           location of MPI library files
-  --with-Rmpi-type=MPI_TYPE
+  --with-mpi-type=MPI_TYPE
                           type of MPI: OPENMPI, MPICH2/MPICH, or LAM
-  --with-mpi=LIB_PATH     location of top-level MPI directory
+  --with-mpi=MPI_ROOT     location of top-level MPI directory
 
 Some influential environment variables:
   CC          C compiler command
@@ -2104,38 +2104,46 @@ R_SCMD="${R_HOME}/bin/Rscript -e"
 
 
 
-# Check whether --with-Rmpi-include was given.
-if test "${with_Rmpi_include+set}" = set; then :
-  withval=$with_Rmpi_include; mpi_include_path=$withval
+# Check whether --with-mpi-include was given.
+if test "${with_mpi_include+set}" = set; then :
+  withval=$with_mpi_include; mpi_include_path=$withval
 fi
+
+
+# Check whether --with-mpi-libpath was given.
+if test "${with_mpi_libpath+set}" = set; then :
+  withval=$with_mpi_libpath; mpi_lib_path=$withval
+fi
+
+
+# Check whether --with-mpi-type was given.
+if test "${with_mpi_type+set}" = set; then :
+  withval=$with_mpi_type; mpi_type=$withval
+fi
+
+
 
 if test -n "${mpi_include_path}" ; then
   MPI_INCLUDE_PATH="${mpi_include_path}"
   if test ! -f "${MPI_INCLUDE_PATH}/mpi.h" ; then
-    as_fn_error $? "Value of --with-Rmpi-include does not contain mpi.h" "$LINENO" 5
+    as_fn_error $? "Value of --with-mpi-include does not contain mpi.h" "$LINENO" 5
   fi
 else
-  if test -n "${RMPI_INCLUDE}" ; then
-    MPI_INCLUDE_PATH="${RMPI_INCLUDE}"
+  if test -n "${MPI_INCLUDE}" ; then
+    MPI_INCLUDE_PATH="${MPI_INCLUDE}"
     if test ! -f "${MPI_INCLUDE_PATH}/mpi.h" ; then
-      as_fn_error $? "Value of RMPI_INCLUDE does not contain mpi.h" "$LINENO" 5
+      as_fn_error $? "Value of MPI_INCLUDE does not contain mpi.h" "$LINENO" 5
     fi
-    echo "setting mpi include path from RMPI_INCLUDE"
+    echo "setting mpi include path from MPI_INCLUDE"
   fi
-fi
-
-
-# Check whether --with-Rmpi-libpath was given.
-if test "${with_Rmpi_libpath+set}" = set; then :
-  withval=$with_Rmpi_libpath; mpi_lib_path=$withval
 fi
 
 if test -n "${mpi_lib_path}" ; then
   MPI_LIBPATH="${mpi_lib_path}"
 else
-  if test -n "${RMPI_LIB_PATH}" ; then
-    MPI_LIBPATH="${RMPI_LIB_PATH}"
-    echo "setting mpi lib path from RMPI_LIB_PATH"
+  if test -n "${MPI_LIB_PATH}" ; then
+    MPI_LIBPATH="${MPI_LIB_PATH}"
+    echo "setting mpi lib path from MPI_LIB_PATH"
   fi
 fi
 
@@ -2148,17 +2156,11 @@ fi
 
 MPITYPE="UNKNOWN"
 
-
-# Check whether --with-Rmpi-type was given.
-if test "${with_Rmpi_type+set}" = set; then :
-  withval=$with_Rmpi_type; mpi_type=$withval
-fi
-
 if test -n "${mpi_type}" ; then
   MPITYPE="${mpi_type}"
 else
-  if test -n "${RMPI_TYPE}" ; then
-    MPITYPE="${RMPI_TYPE}"
+  if test -n "${MPI_TYPE}" ; then
+    MPITYPE="${MPI_TYPE}"
   fi
 fi
 
@@ -3282,7 +3284,7 @@ fi
 
 if test -z "${MPI_INCLUDE_PATH}" ; then
 #  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "MPICH2" ; then
-### MPICH2 users have to specify --with-Rmpi-type=MPICH2 to get this.
+### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
   if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" ; then
     if test "$SED" != "F" -a "$MPICC" != "F" -a "$MPICH2VERSION" != "F" ; then
       echo "found sed, mpicc, and mpich2version ..."
@@ -4301,7 +4303,7 @@ case "$MPITYPE" in
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
     ;;
   *)
-    as_fn_error $? "Unknown type of mpi: use --with-Rmpi-type or RMPI_TYPE to specify it" "$LINENO" 5
+    as_fn_error $? "Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it" "$LINENO" 5
     ;;
 esac
 
