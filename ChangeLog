@@ -1,5 +1,7 @@
 2013-08-01: Ver. 0.2-1
   * Fix i.lib problem in "R/zzz.r.in".
+  * Remove --with-Rmpi-* from configure.ac.
+  * Add MPICH for MPICH version 3 or later.
 
 2013-07-24: Ver. 0.2-0
   * Move fpmpi to pbdPROF and link with it's static library.

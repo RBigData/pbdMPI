@@ -150,10 +150,10 @@ Further configure arguments include
 \vspace{0.2cm}
 \begin{tabular}{ll} \hline\hline
 Argument                   & Default \\ \hline
-\code{-}\code{--with-Rmpi-type}    & \code{OPENMPI} \\
-\code{-}\code{--with-Rmpi-include} & \code{$\{MPI_ROOT\}/include} \\
-\code{-}\code{--with-Rmpi-libpath} & \code{$\{MPI_ROOT\}/lib} \\
-\code{-}\code{--with-mpi}          & \code{$\{MPI_ROOT\}} \\
+\code{-}\code{--with-mpi-type}    & \code{OPENMPI} \\
+\code{-}\code{--with-mpi-include} & \code{$\{MPI_ROOT\}/include} \\
+\code{-}\code{--with-mpi-libpath} & \code{$\{MPI_ROOT\}/lib} \\
+\code{-}\code{--with-mpi}         & \code{$\{MPI_ROOT\}} \\
 \hline\hline
 \end{tabular}
 \vspace{0.2cm}
@@ -164,12 +164,12 @@ be
 \begin{Command}
 ### Under command mode
 R CMD INSTALL pbdMPI \
-  --configure-args="--with-Rmpi-type=OPENMPI \
+  --configure-args="--with-mpi-type=OPENMPI \
                     --with-mpi=/usr/local"
 R CMD INSTALL pbdMPI \
-  --configure-args="--with-Rmpi-type=OPENMPI \
-                    --with-Rmpi-include=/usr/local/ompi/include \
-                    --with-Rmpi-libpath=/usr/local/ompi/lib"
+  --configure-args="--with-mpi-type=OPENMPI \
+                    --with-mpi-include=/usr/local/ompi/include \
+                    --with-mpi-libpath=/usr/local/ompi/lib"
 \end{Command}
 See the package source file \code{pbdMPI/configure} for details.
 
