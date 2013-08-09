@@ -1,6 +1,6 @@
 pbdMPI is an R package providing a simplified interface to MPI by utilizing
 S4 classes and methods with a focus on SPMD parallel programming style.
-
+ 
 pbdMPI requires
   - R version 2.14.0 or higher.
   - SUN HPC 8.2.1 (OpenMPI) for Solaris.
