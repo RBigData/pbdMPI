@@ -2,6 +2,7 @@
   * Fix i.lib problem in "R/zzz.r.in".
   * Remove --with-Rmpi-* from configure.ac.
   * Add MPICH for MPICH version 3 or later.
+  * Replace LENGTH by XLENGTH in all src/*.c to support longer vectors.
 
 2013-07-24: Ver. 0.2-0
   * Move fpmpi to pbdPROF and link with it's static library.

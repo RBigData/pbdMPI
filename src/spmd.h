@@ -12,6 +12,10 @@
 #include <Rdefines.h>
 #include <Rinternals.h>
 
+/* For no 64 bit integer and long vectors support. */
+#ifndef XLENGTH
+#define XLENGTH LENGTH
+#endif
 
 /* In file "spmd.c". */
 SEXP spmd_initialize();

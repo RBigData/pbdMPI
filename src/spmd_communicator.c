@@ -55,7 +55,7 @@ SEXP spmd_comm_set_errhandler(SEXP R_comm){
 #ifdef MPI2
 SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 		SEXP R_info, SEXP R_rank_source, SEXP R_intercomm){
-	int i, n_workers = INTEGER(R_n_workers)[0], len = LENGTH(R_workerargv);
+	int i, n_workers = INTEGER(R_n_workers)[0], len = XLENGTH(R_workerargv);
 	int infon = INTEGER(R_info)[0], rank_source = INTEGER(R_rank_source)[0];
 	int intercommn = INTEGER(R_intercomm)[0], *worker_errcodes, realns;
 
