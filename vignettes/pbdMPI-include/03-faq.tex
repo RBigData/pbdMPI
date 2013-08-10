@@ -63,6 +63,33 @@
       {\bf\color{blue} A:}
       Yes, S4 methods allow users to add their own data type, and functions.
       Quick examples can be found in \code{pbdMPI/inst/examples/test_s4/}.
+
+\item {\bf\color{blue} Q:}
+      Does \pkg{pbdMPI} support 64 bits integer? \\
+      {\bf\color{blue} A:}
+      The answer is dependent on your MPI libraries even you have 64 bits
+      integer in \proglang{R} which does not mean you can use 64 bits integer
+      in \pkg{pbdMPI}. You may need to recompile MPI libraries for 64 bits
+      integer support. For example, the OpenMPI provides this next to check if
+      64 bits integer is used.
+\begin{Command}
+ompi_info -a | grep 'Fort integer size'
+\end{Command}
+      If the output is
+\begin{Command}
+       Fort integer size: 8
+\end{Command}
+       then the OpenMPI supports 64 bits integer. Otherwise, you may use the
+       next to reinstall OpenMPI.
+\begin{Command}
+./configure --prefix=/path_to_openmpi \
+            CFLAGS=-fPIC \
+            FFLAGS="-m64 -fdefault-integer-8" \
+            FCFLAGS="-m64 -fdefault-integer-8" \
+            CFLAGS=-m64 \
+            CXXFLAGS=-m64
+\end{Command}
+      
 \end{enumerate}
 
 
