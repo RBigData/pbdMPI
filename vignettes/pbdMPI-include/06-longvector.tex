@@ -24,7 +24,11 @@ In x86\_64 system, computers or compilers use either \code{long} or
 address or in \code{ptrdiff_t} for signed address.
 For example, in GNU C (\code{gcc}), the flag \code{-m64} is to
 use 4 bytes for \code{int} and 8 bytes for \code{long}
-in x86\_64 system.
+in x86\_64 system.\footnote{
+\color{red}
+Is there a way to have 8 bytes integer?
+The answer is that it is dependent on compiler.
+}
 
 Therefore, the question is what are the differences of 64-bit and
 32-bit system? One of them is ``pointer size''
@@ -112,7 +116,10 @@ If the output is
       Fort integer8 size: 8
      Fort integer16 size: -1
 \end{Command}
-then the OpenMPI supports 64-bit system.
+then the OpenMPI supports 64-bit system.\footnote{
+\color{red}
+The C integer is still in 4 bytes rather than 8 bytes.
+}
 Otherwise, users may use the next to reinstall OpenMPI as
 \begin{Command}
 ./configure --prefix=/path_to_openmpi \

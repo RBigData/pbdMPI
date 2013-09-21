@@ -397,3 +397,31 @@ collect2: ld returned 1 exit status
 
 \end{enumerate}
 
+
+\subsection[Other Errors]{Other Errors}
+\label{sec:other_errors}
+\addcontentsline{toc}{subsection}{\thesubsection. Other Errors}
+
+
+\begin{enumerate}
+\item {\bf\color{blue} Q:} 
+      \pkg{pbdMPI} is linked with \pkg{pbdPROF}~\citep{Chen2013pbdPROFpackage}
+      and \pkg{mpiP}~\citep{mpiP}.
+      (i.e. \code{--enable-pbdPROF} is used in \pkg{pbdMPI} and
+            \code{--with-mpiP} is used in \pkg{pbdPROF}.)
+      If \pkg{pbdMPI} compilation successful, but load fails with 
+\begin{Error}
+Error : .onLoad failed in loadNamespace() for 'pbdMPI', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object 'pbdMPI.so':
+  pbdMPI/libs/pbdMPI.so: undefined symbol: _Ux86_64_getcontext
+\end{Error}
+      {\bf\color{blue} A:}
+      Some prerequisite packages by \pkg{mpiP} is installed correctly.
+      Reinstall \pkg{mpiP} by
+\begin{Code}
+./configure --disable-libunwind CPPFLAGS="-fPIC -I/usr/lib/openmpi/include" LDFLAGS="-L/usr/lib/openmpi/lib -lmpi"
+\end{Code}
+      and followed by reinstall \pkg{pbdPROF} and \pkg{pbdMPI}.
+
+\end{enumerate}
