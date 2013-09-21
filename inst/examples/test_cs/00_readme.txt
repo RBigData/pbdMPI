@@ -1,0 +1,28 @@
+These examples are based on
+``http://www.mpi-forum.org/docs/mpi-20-html/node106.htm''
+
+1. Simple Client-Server Example (one client and one server)
+
+   Run in two terminals separately. In terminal 1, run server as
+
+     > mpiexec -np 1 Rscript simple.server.r
+
+   and this prints a port name randomly to STDOUT and hand, such as
+
+   Port name:
+   1247084544.0;tcp://10.0.2.15:51581+1247084545.0;tcp://10.0.2.15:39522:300
+
+   then the terminal 1 will hang and wait response from a client.
+   In terminal 2, run client with the random port name as
+
+     > mpiexec -np 1 Rscript simple.client.r \
+'1247084544.0;tcp://10.0.2.15:51581+1247084545.0;tcp://10.0.2.15:39522:300'
+
+
+2. Named Client-Server Example (one client and one server)
+
+     > # ompi-server -d --report-uri urifile &
+     > mpiexec --report-uri urifile -np 1 Rscript named.server.r &
+     > mpiexec --ompi-server file:urifile -np 1 Rscript named.client.r
+     > rm -f urifile
+

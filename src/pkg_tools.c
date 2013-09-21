@@ -43,7 +43,7 @@ void set_MPI_APTS_in_R(){
 	MPI_APTS.STATUS_MAXSIZE = &STATUS_MAXSIZE;
 	MPI_APTS.REQUEST_MAXSIZE = &REQUEST_MAXSIZE;
 
-	#if (MPI_APTS_DEBUG & 1) == 1
+#if (MPI_APTS_DEBUG & 1) == 1
 	int myrank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	if(myrank == 0){
@@ -58,7 +58,7 @@ void set_MPI_APTS_in_R(){
 		REprintf("  %s (a): %x %x %x.\n", __FILE__, &COMM_MAXSIZE,
 			&STATUS_MAXSIZE, &REQUEST_MAXSIZE);
 	}
-	#endif
+#endif
 
 	/* Unprotect R objects. */
 	UNPROTECT(1);
@@ -88,7 +88,7 @@ void get_MPI_APTS_from_R(){
         STATUS_MAXSIZE = *MPI_APTS_ptr->STATUS_MAXSIZE;
         REQUEST_MAXSIZE = *MPI_APTS_ptr->REQUEST_MAXSIZE;
 
-	#if (MPI_APTS_DEBUG & 1) == 1
+#if (MPI_APTS_DEBUG & 1) == 1
 	int myrank;
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	if(myrank == 0){
@@ -103,6 +103,6 @@ void get_MPI_APTS_from_R(){
 		REprintf("  %s (a): %x %x %x.\n", __FILE__, &COMM_MAXSIZE,
 			&STATUS_MAXSIZE, &REQUEST_MAXSIZE);
 	}
-	#endif
+#endif
 } /* End of get_MPI_APTS_from_R(). */
 

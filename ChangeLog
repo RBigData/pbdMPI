@@ -1,3 +1,17 @@
+2013-09-21: Ver. 0.2-1
+  * Fix pbdPROF configure problem.
+
+2013-09-14: Ver. 0.2-1
+  * Add Comm_connect, Comm_accept, Open_port, Close_port, Publish_name,
+    Unpublish_name, and Lookup_name.
+  * Add Client/Server examples.
+
+2013-09-03: Ver. 0.2-1
+  * Simply replace LENGTH by XLENGTH does not solve the longer vector problem.
+    Follow R/src/main/memory.c to support longer vectors since int is 32-bit
+    for both of i386 and x86_64 systems.
+  * Add MPI_PROC_NULL to sendrecv() and sendrecv.replace().
+
 2013-08-01: Ver. 0.2-1
   * Fix i.lib problem in "R/zzz.r.in".
   * Remove --with-Rmpi-* from configure.ac.

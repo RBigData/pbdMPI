@@ -1,0 +1,131 @@
+
+\section[Long Vector and 64-bit for MPI]{Long Vector and 64-bit for MPI}
+\label{sec:long_vector}
+\addcontentsline{toc}{section}{\thesection. Long Vector and 64-bit for MPI}
+
+\subsection{Long Vector for MPI}
+The current \proglang{R} (3.1.0) uses \proglang{C} structure to extend
+32-bit length limitation ($2^{31} - 1 = 2147483647$ defined as
+\code{R_SHORT_LEN_MAX}) to 52-bit length ($2^{51} - 1 = 4503599627370496$
+defined as \code{R_XLEN_T_MAX}).
+In general, this is more portable and extensible when 128-bit integer
+comming on (who know when the day comes ...)
+However, a vector with elements
+larger than $2^{31} - 1$ needs extra effort to be accessed in
+\proglang{R}.
+See ``R Internals'' for details.
+
+The reason is that an integer is 4 bytes in both of
+x86\_64 system (64-bit) and i386 system (32-bit).
+Since the capacity of current machine and performance issues, there is no
+benefit to use 8 bytes for integer.
+In x86\_64 system, computers or compilers use either \code{long} or
+\code{long long} for pointer address which is in \code{size_t} for unsigned
+address or in \code{ptrdiff_t} for signed address.
+For example, in GNU C (\code{gcc}), the flag \code{-m64} is to
+use 4 bytes for \code{int} and 8 bytes for \code{long}
+in x86\_64 system.
+
+Therefore, the question is what are the differences of 64-bit and
+32-bit system? One of them is ``pointer size''
+which is 8 bytes in x86\_64 machine and it is 4 bytes in i386 machine.
+This allows computer to lengthen memory and disk space.
+Note that address is indexed by \code{long} or \code{long long} which is no
+confilict with integer size, and 4 bytes integer is efficient and safe enough
+for general purpose.
+For example, \code{double *a} is a pointer (\code{a}) pointing to a real
+scaler (\code{*a}), but the pointer's address (\code{\&a}) is in
+\code{size_t} (\code{long} or \code{long long})
+which is 8 bytes in x86\_64 system and is 4 bytes in i386 system.
+
+% The other question is that is there a way to force an integer to be 8 bytes?
+% The answer is yes for some compilers.
+% For example, in GNU C (\code{gcc}), the flag \code{-m64} is to force compiler
+% to compile code for x86\_64 system (4 bytes for \code{int} and 8 bytes for
+% \code{long}), and the flag \code{-mint64} is to force
+% compiler to use 8 bytes for integer.
+
+To deal with long vector,
+\pkg{pbdMPI} uses the same framework as \proglang{R} to build up MPI
+collective functions. \pkg{pbdMPI} follows \proglang{R}'s standard to
+assume a vector normally has length smaller than \code{R_SHORT_LEN_MAX}
+which can be handled by most 32-bit functions. If the vector length
+is greater than \code{R_SHORT_LEN_MAX}, then \proglang{R} names this as
+long vector which also has the maximum \code{R_XLEN_T_MAX}. The vector length
+is stored in type \code{R_xlen_t}. The \code{R_xlen_t} is \code{long} if
+\code{LONG_VECTOR_SUPPORT} is defined, otherwise it is \code{int}.
+\proglang{R} provides several \proglang{C} macro to check, access, and
+manipulate the vector in \code{VECSXP} or general \code{SEXP}.
+See \code{Rinternals.h} for details.
+
+The \pkg{pbdMPI} first checks if the data size for
+communication is greater than \code{SPMD_SHORT_LEN_MAX} or not.
+If the data is long vector, then \pkg{pbdMPI} evokes collective functions
+to send/receive chunk of data partitioned by \code{SPMD_SHORT_LEN_MAX} until
+all chunks are all received/sent.
+For some MPI collective functions such as
+\code{allgather()} and \code{gather()}, extra space may be allocated
+for receving chunks, then the chunks are copied to right memory address
+by the rank of communicator from the extra space to the receiving buffer.
+
+The reason is that most MPI collective functions rely on arguments
+for indexing buff types and counting buffer sizes where the types and sizes
+are both in \code{int}.
+\code{SPMD_SHORT_LEN_MAX} is defined in \code{pbdMPI/src/spmd.h} and
+usually is equal to \code{R_SHORT_LEN_MAX}. Developers may want to
+use shorter length (such as \code{SPMD_INT8_LEN_MAX} which is $2^7 - 1 = 127$)
+for testing without a large memory machine or
+for debugging without recompiling \proglang{R} with shorter
+\code{R_SHORT_LEN_MAX}.
+
+In \pkg{pbdMPI},
+the implemented MPI collective functions for long vector are
+\code{bcast()}, \code{allreduce()},
+\code{reduce()}, \code{send()}, \code{recv()}, \code{isend()},
+\code{irecv()}, \code{allgather()}, \code{gather()}, and \code{scatter()}.
+The other MPI collective functions are
+``NOT'' implemented due to the complexity of memory allocation for long vector
+including \code{allgatherv()}, \code{gatherv()}, \code{scatterv()},
+\code{sendrecv()}, and \code{sendrecv.replace()}.
+
+
+\subsection{64-bit for MPI}
+
+The remaining question is that does MPI library support 64-bit system?
+The answer is yes, but users may need to recompile MPI libraries for
+64-bit support.
+The same way as \proglang{R} to enable 64-bit system that MPI libraries
+may have 8 bytes pointer in order to communicate larger memory or disk space.
+
+For example, the OpenMPI provides next to check if 64-bit system is used.
+\begin{Command}
+ompi_info -a | grep 'int.* size: '
+\end{Command}
+If the output is
+\begin{Command}
+              C int size: 4
+          C pointer size: 8
+       Fort integer size: 8
+      Fort integer1 size: 1
+      Fort integer2 size: 2
+      Fort integer4 size: 4
+      Fort integer8 size: 8
+     Fort integer16 size: -1
+\end{Command}
+then the OpenMPI supports 64-bit system.
+Otherwise, users may use the next to reinstall OpenMPI as
+\begin{Command}
+./configure --prefix=/path_to_openmpi \
+            CFLAGS=-fPIC \
+            FFLAGS="-m64 -fdefault-integer-8" \
+            FCFLAGS="-m64 -fdefault-integer-8" \
+            CFLAGS=-m64 \
+            CXXFLAGS=-m64
+\end{Command}
+and remember to reinstall \pkg{pbdMPI} as well.
+
+Note that 64-bit pointer may only provide larger size of data, but
+may degrade hugely for other computing. In general, communication with a
+large amount of data is a very bad idea. Try to redesign algorithms to
+communicate lightly such as via sufficient statistics, or to rearrange and
+load large data partially or equally likely to every processors.

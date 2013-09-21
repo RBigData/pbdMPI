@@ -32,7 +32,15 @@
 \alias{spmd.finalize}
 \alias{spmd.is.master}
 \alias{spmd.get.processor.name}
+\alias{spmd.comm.abort}
 \alias{spmd.comm.disconnect}
+\alias{spmd.comm.connect}
+\alias{spmd.comm.accept}
+\alias{spmd.port.open}
+\alias{spmd.port.close}
+\alias{spmd.serv.publish}
+\alias{spmd.serv.unpublish}
+\alias{spmd.serv.lookup}
 \alias{spmd.comm.spawn}
 \alias{spmd.comm.get.parent}
 \alias{spmd.intercomm.merge}

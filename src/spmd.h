@@ -12,9 +12,22 @@
 #include <Rdefines.h>
 #include <Rinternals.h>
 
-/* For no 64 bit integer and long vectors support. */
-#ifndef XLENGTH
-#define XLENGTH LENGTH
+/* 64-bit and long vector support. */
+#define SPMD_INT8_LEN_MAX 127				// 2^7 - 1
+#define SPMD_INT16_LEN_MAX 32767			// 2^15 - 1
+#define SPMD_INT32_LEN_MAX 2147483647			// 2^31 - 1
+#define SPMD_INT64_LEN_MAX 4503599627370496		// 2^52 - 1
+#if (MPI_LONG_DEBUG & 1) == 0
+	/* 1.
+	   gcc -m64 gives 4 byes to an integer (int), and
+	   gcc -m32 gives 4 byes to an integer (int), too.
+	   2.
+	   gcc -m64 gives 8 byes to an integer pointer (int*), but
+	   gcc -m32 gives 4 byes to an integer pointer (int*).
+	 */
+	#define SPMD_SHORT_LEN_MAX R_SHORT_LEN_MAX	// SPMD_INT32_LEN_MAX
+#else
+	#define SPMD_SHORT_LEN_MAX SPMD_INT8_LEN_MAX
 #endif
 
 /* In file "spmd.c". */
@@ -29,12 +42,26 @@ SEXP spmd_comm_size(SEXP R_comm);
 SEXP spmd_comm_rank(SEXP R_comm);
 SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm);
 SEXP spmd_comm_set_errhandler(SEXP R_comm);
+
+// For MPI-2 only
 SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_nworker,
 		SEXP R_info, SEXP R_rank_source, SEXP R_intercomm);
+
 SEXP spmd_comm_get_parent(SEXP R_comm);
 SEXP spmd_is_master();
+SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode);
 SEXP spmd_comm_disconnect(SEXP R_comm);
+SEXP spmd_comm_connect(SEXP R_port_name, SEXP R_info, SEXP R_root, SEXP R_comm,
+                SEXP R_newcomm);
+SEXP spmd_comm_accept(SEXP R_port_name, SEXP R_info, SEXP R_root, SEXP R_comm,
+                SEXP R_newcomm);
+SEXP spmd_port_open(SEXP R_info);
+SEXP spmd_port_close(SEXP R_port_name);
+SEXP spmd_serv_publish(SEXP R_serv_name, SEXP R_info, SEXP R_port_name);
+SEXP spmd_serv_unpublish(SEXP R_serv_name, SEXP R_info, SEXP R_port_name);
+SEXP spmd_serv_lookup(SEXP R_serv_name, SEXP R_info);
 SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm);
+
 SEXP spmd_comm_c2f(SEXP R_comm);
 
 /* In file "spmd_allgather.c". */
