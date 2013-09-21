@@ -7,7 +7,15 @@
 \alias{comm.free}
 \alias{init}
 \alias{finalize}
+\alias{comm.abort}
 \alias{comm.disconnect}
+\alias{comm.connect}
+\alias{comm.accept}
+\alias{port.open}
+\alias{port.close}
+\alias{serv.publish}
+\alias{serv.unpublish}
+\alias{serv.lookup}
 \alias{COMM.SIZE}
 \alias{COMM.RANK}
 \alias{comm.c2f}
@@ -24,14 +32,34 @@
   comm.free(comm = .SPMD.CT$comm)
   init(set.seed = TRUE)
   finalize(mpi.finalize = .SPMD.CT$mpi.finalize)
+  comm.abort(errorcode = 1, comm = .SPMD.CT$comm)
   comm.disconnect(comm = .SPMD.CT$comm)
+  comm.connect(port.name, info = .SPMD.CT$info,
+               rank.root = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
+               newcomm = .SPMD.CT$newcomm)
+  comm.accept(port.name, info = .SPMD.CT$info,
+              rank.root = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
+              newcomm = .SPMD.CT$newcomm)
+  port.open(info = .SPMD.CT$info)
+  port.close(port.name)
+  serv.publish(port.name, serv.name = .SPMD.CT$serv.name,
+               info = .SPMD.CT$info)
+  serv.unpublish(port.name, serv.name = .SPMD.CT$serv.name,
+                 info = .SPMD.CT$info)
+  serv.lookup(serv.name = .SPMD.CT$serv.name, info = .SPMD.CT$info)
   comm.c2f(comm = .SPMD.CT$comm)
 }
 \arguments{
   \item{comm}{a communicator number.}
-  \item{newcomm}{a new communicator number.}
   \item{mpi.finalize}{if MPI should be shutdown.}
   \item{set.seed}{if a random seed preset.}
+  \item{port.name}{a port name with default maximum length
+                   1024 characters for OpenMPI.}
+  \item{info}{a info number.}
+  \item{rank.root}{a root rank.}
+  \item{newcomm}{a new communicator number.}
+  \item{serv.name}{a service name.}
+  \item{errorcode}{an error code to abort MPI.}
 }
 \details{
   Another functions are direct calls to MPI library.
@@ -59,7 +87,23 @@
   \code{finalize} frees memory and finishes a MPI world if
   \code{mpi.finalize = TRUE}.
 
+  \code{comm.abort} aborts MPI.
+
   \code{comm.disconnect} frees a \code{comm}.
+
+  \code{comm.connect} connects a \code{newcomm}.
+
+  \code{comm.accept} accepts a \code{newcomm}.
+
+  \code{port.open} opens a port and returns the port name.
+
+  \code{port.close} closes a port by name.
+
+  \code{serv.publish} publishs a service via \code{port.name}.
+
+  \code{serv.unpublish} unpublishs a service via \code{port.name}.
+
+  \code{serv.lookup} lookup the \code{serv.name} and returns the port name.
 
   \code{comm.c2f} returns an integer for Fortran MPI support.
 }

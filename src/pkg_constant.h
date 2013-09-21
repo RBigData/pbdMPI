@@ -28,6 +28,7 @@ int WHO_LOAD_FIRST;
 
 
 /* For debugging. */
+#define MPI_LONG_DEBUG		0
 #define MPI_APTS_DEBUG		0
 
 

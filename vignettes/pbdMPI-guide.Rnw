@@ -98,6 +98,7 @@ London, Ontario, Canada \\
 \input{./pbdMPI-include/03-faq}
 \input{./pbdMPI-include/04-windows}
 \input{./pbdMPI-include/05-analog}
+\input{./pbdMPI-include/06-longvector}
 
 \newpage
 \phantomsection

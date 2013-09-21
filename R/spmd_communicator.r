@@ -114,6 +114,13 @@ spmd.get.processor.name <- function(short = TRUE){
 
 get.processor.name <- spmd.get.processor.name
 
+spmd.comm.abort <- function(errorcode = 1, comm = .SPMD.CT$comm){
+  ret <- .Call("spmd_comm_abort", as.integer(comm), PACKAGE = "pbdMPI")
+  invisible(ret)
+}
+
+comm.abort <- spmd.comm.abort
+
 spmd.comm.disconnect <- function(comm = .SPMD.CT$comm){
   if(spmd.comm.size(comm)== 0){
     stop(paste("It seems no members (workers) associated with comm", comm))
@@ -126,6 +133,90 @@ spmd.comm.disconnect <- function(comm = .SPMD.CT$comm){
 }
 
 comm.disconnect <- spmd.comm.disconnect
+
+spmd.comm.connect <- function(port.name,
+    info = .SPMD.CT$info, rank.root = .SPMD.CT$rank.root,
+    comm = .SPMD.CT$comm, newcomm = .SPMD.CT$newcomm){
+  if(! is.loaded("spmd_comm_connect", PACKAGE = "pbdMPI")){
+    stop("MPI_Comm_connect is not supported.")
+  }
+  ret <- .Call("spmd_comm_connect", as.character(port.name),
+               as.integer(info), as.integer(rank.root),
+               as.integer(comm), as.integer(newcomm), PACKAGE = "pbdMPI")
+  invisible(ret)
+}
+
+comm.connect <- spmd.comm.connect
+
+spmd.comm.accept <- function(port.name,
+    info = .SPMD.CT$info, rank.root = .SPMD.CT$rank.root,
+    comm = .SPMD.CT$comm, newcomm = .SPMD.CT$newcomm){
+  if(! is.loaded("spmd_comm_accept", PACKAGE = "pbdMPI")){
+    stop("MPI_Comm_accept is not supported.")
+  }
+  ret <- .Call("spmd_comm_accept", as.character(port.name),
+               as.integer(info), as.integer(rank.root),
+               as.integer(comm), as.integer(newcomm), PACKAGE = "pbdMPI")
+  invisible(ret)
+}
+
+comm.accept <- spmd.comm.accept
+
+spmd.port.open <- function(info = .SPMD.CT$info){
+  if(! is.loaded("spmd_port_open", PACKAGE = "pbdMPI")){
+    stop("MPI_Open_port is not supported.")
+  }
+  port.name <- .Call("spmd_port_open", as.integer(info), PACKAGE = "pbdMPI")
+  port.name
+}
+
+port.open <- spmd.port.open
+
+spmd.port.close <- function(port.name){
+  if(! is.loaded("spmd_port_close", PACKAGE = "pbdMPI")){
+    stop("MPI_Close_port is not supported.")
+  }
+  ret <- .Call("spmd_port_close", as.character(port.name), PACKAGE = "pbdMPI")
+  invisible(ret)
+}
+
+port.close <- spmd.port.close
+
+spmd.serv.publish <- function(port.name, serv.name = .SPMD.CT$serv.name,
+    info = .SPMD.CT$info){
+  if(! is.loaded("spmd_serv_publish", PACKAGE = "pbdMPI")){
+    stop("MPI_Publish_name is not supported.")
+  }
+  ret <- .Call("spmd_serv_publish", as.character(serv.name),
+               as.integer(info), as.character(port.name), PACKAGE = "pbdMPI")
+  invisible(ret)
+}
+
+serv.publish <- spmd.serv.publish
+
+spmd.serv.unpublish <- function(port.name, serv.name = .SPMD.CT$serv.name,
+    info = .SPMD.CT$info){
+  if(! is.loaded("spmd_serv_unpublish", PACKAGE = "pbdMPI")){
+    stop("MPI_Unpublish_name is not supported.")
+  }
+  ret <- .Call("spmd_serv_unpublish", as.character(serv.name),
+               as.integer(info), as.character(port.name), PACKAGE = "pbdMPI")
+  invisible(ret)
+}
+
+serv.unpublish <- spmd.serv.unpublish
+
+spmd.serv.lookup <- function(serv.name = .SPMD.CT$serv.name,
+    info = .SPMD.CT$info){
+  if(! is.loaded("spmd_serv_lookup", PACKAGE = "pbdMPI")){
+    stop("MPI_Lookup_name is not supported.")
+  }
+  port.name <- .Call("spmd_serv_lookup", as.character(serv.name),
+                     as.integer(info), PACKAGE = "pbdMPI")
+  port.name
+}
+
+serv.lookup <- spmd.serv.lookup
 
 spmd.comm.spawn <- function(worker, worker.arg, n.workers,
     info = .SPMD.CT$info, rank.source = .SPMD.CT$rank.source,
