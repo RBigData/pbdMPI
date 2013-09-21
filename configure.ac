@@ -4,11 +4,6 @@ dnl Later, it was added by Wei-Chen Chen for pbdMPI and pbdPROF for more
 dnl functionalities combining with Makevars.in.
 
 
-dnl In Rmpi, "MPICH" means MPICH version 1.
-dnl In pbdMPI, I use "MPICH" for MPICH version 3 or later. MPICH2 should be
-dnl eventually discarded and relapced by MPICH.
-
-
 dnl Process this file with autoconf to produce a configure script
 AC_INIT(DESCRIPTION)
 
@@ -32,7 +27,7 @@ AC_ARG_WITH([mpi-libpath],
             [mpi_lib_path=$withval])
 AC_ARG_WITH([mpi-type],
             AC_HELP_STRING([--with-mpi-type=MPI_TYPE],
-                           [type of MPI: OPENMPI, MPICH2/MPICH, or LAM]),
+                           [type of MPI: OPENMPI, MPICH2, or MPICH3]),
             [mpi_type=$withval])
 
 
@@ -153,11 +148,11 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 fi
 
 
-dnl For MPICH2/MPICH
+dnl For MPICH3/MPICH2/MPICH
 if test -z "${MPI_INCLUDE_PATH}" ; then
 #  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "MPICH2" ; then
 ### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
-  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" ; then
+  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3"; then
     if test "$SED" != "F" -a "$MPICC" != "F" -a "$MPICH2VERSION" != "F" ; then
       echo "found sed, mpicc, and mpich2version ..."
       TMP_INC="F"
@@ -320,6 +315,11 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         MPI_ROOT=$d
         MPITYPE="LAM"
         break
+      elif test -f $d/mpich3/include/mpi.h; then
+        echo "I am here $d/mpich3 and it is MPICH3"
+        MPI_ROOT=$d/mpich3
+        MPITYPE="MPICH3"
+        break
       elif test -f $d/mpich2/include/mpi.h; then
         echo "I am here $d/mpich2 and it is MPICH2"
         MPI_ROOT=$d/mpich2
@@ -402,6 +402,9 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     elif test -f ${MPI_ROOT}/include/mpich2/mpi.h; then
       echo "Found in ${MPI_ROOT}/include/mpich2"
       MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich2"
+    elif test -f ${MPI_ROOT}/include/mpich3/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/mpich3"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich3"
     elif test -f ${MPI_ROOT}/include/mpich/mpi.h; then
       echo "Found in ${MPI_ROOT}/include/mpich"
       MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich"
@@ -519,7 +522,7 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" ; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -530,6 +533,9 @@ case "$MPITYPE" in
     ;;
   LAM)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
+    ;;
+  MPICH3)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
     ;;
   MPICH2)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
@@ -558,7 +564,7 @@ AC_ARG_ENABLE([pbdPROF],
 PROF_LDFLAGS=""
 if test "X${ENABLE_PBDPROF}" = "Xyes"; then
   CHECK_PROF=`${R_SCMD} "cat(sum(rownames(installed.packages())=='pbdPROF'))"`
-  if test ${CHECK_PROF} -ne 1; then
+  if test ${CHECK_PROF} -lt 1; then
     AC_MSG_ERROR([pbdPROF is not installed correctly])
   fi
 

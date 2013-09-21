@@ -10,7 +10,7 @@ SEXP spmd_comm_is_null(SEXP R_comm){
 		return(AsInt(-1));
 	}
 	return(AsInt(comm[INTEGER(R_comm)[0]] == MPI_COMM_NULL));
-} /* End of RmPI_comm_is_null(). */
+} /* End of spmd_comm_is_null(). */
 
 SEXP spmd_comm_size(SEXP R_comm){
 	int size;
@@ -87,6 +87,7 @@ SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 		realns, n_workers - realns);
 	return AsInt(realns);
 } /* End of spmd_comm_spawn(). */
+#endif
 
 SEXP spmd_comm_get_parent(SEXP R_comm){
         return(AsInt(
@@ -105,13 +106,105 @@ SEXP spmd_is_master(){
 	return(AsInt(check));
 } /* End of spmd_is_master(). */
 
+SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode){
+	return(AsInt(
+		spmd_errhandler(MPI_Abort(
+			comm[INTEGER(R_comm)[0]],
+			INTEGER(R_errorcode)[0]))));
+} /* End of spmd_comm_abort(). */
+
 SEXP spmd_comm_disconnect(SEXP R_comm){
 	return(AsInt(
 		spmd_errhandler(MPI_Comm_disconnect(
 			&comm[INTEGER(R_comm)[0]]))));
 } /* End of spmd_comm_disconnect(). */
 
-#endif
+SEXP spmd_comm_connect(SEXP R_port_name, SEXP R_info, SEXP R_rank_root,
+		SEXP R_comm, SEXP R_newcomm){
+	return(AsInt(
+		spmd_errhandler(MPI_Comm_connect(
+			CHARPT(R_port_name, 0),
+			info[INTEGER(R_info)[0]],
+			INTEGER(R_rank_root)[0],
+			comm[INTEGER(R_comm)[0]],
+			&comm[INTEGER(R_newcomm)[0]]))));
+} /* End of spmd_comm_connect(). */
+
+SEXP spmd_comm_accept(SEXP R_port_name, SEXP R_info, SEXP R_rank_root,
+		SEXP R_comm, SEXP R_newcomm){
+	return(AsInt(
+		spmd_errhandler(MPI_Comm_accept(
+			CHARPT(R_port_name, 0),
+			info[INTEGER(R_info)[0]],
+			INTEGER(R_rank_root)[0],
+			comm[INTEGER(R_comm)[0]],
+			&comm[INTEGER(R_newcomm)[0]]))));
+} /* End of spmd_comm_accept(). */
+
+SEXP spmd_port_open(SEXP R_info){
+	char port_name[MPI_MAX_PORT_NAME];
+	SEXP R_port_name;
+	char errmsg[MPI_MAX_ERROR_STRING];
+	int merr, msglen;
+
+	merr = MPI_Open_port(
+			info[INTEGER(R_info)[0]],
+			port_name);
+	if(merr){
+		MPI_Error_string(merr, errmsg, &msglen);
+		REprintf("Error in Open_port: \"%s\"\n", errmsg);
+	}
+
+	PROTECT(R_port_name = allocVector(STRSXP, 1));
+	SET_STRING_ELT(R_port_name, 0, mkChar(port_name));
+	UNPROTECT(1);
+
+	return(R_port_name);
+} /* End of spmd_port_open(). */
+
+SEXP spmd_port_close(SEXP R_port_name){
+	return(AsInt(
+		spmd_errhandler(MPI_Close_port(
+			CHARPT(R_port_name, 0)))));
+} /* End of spmd_port_close(). */
+
+SEXP spmd_serv_publish(SEXP R_serv_name, SEXP R_info, SEXP R_port_name){
+	return(AsInt(
+		spmd_errhandler(MPI_Publish_name(
+			CHARPT(R_serv_name, 0),
+			info[INTEGER(R_info)[0]],
+			CHARPT(R_port_name, 0)))));
+} /* End of spmd_serv_publish(). */
+
+SEXP spmd_serv_unpublish(SEXP R_serv_name, SEXP R_info, SEXP R_port_name){
+	return(AsInt(
+		spmd_errhandler(MPI_Unpublish_name(
+			CHARPT(R_serv_name, 0),
+			info[INTEGER(R_info)[0]],
+			CHARPT(R_port_name, 0)))));
+} /* End of spmd_serv_unpublish(). */
+
+SEXP spmd_serv_lookup(SEXP R_serv_name, SEXP R_info){
+	char port_name[MPI_MAX_PORT_NAME];
+	SEXP R_port_name;
+	char errmsg[MPI_MAX_ERROR_STRING];
+	int merr, msglen;
+
+	merr = MPI_Lookup_name(
+			CHARPT(R_serv_name, 0),
+			info[INTEGER(R_info)[0]],
+			port_name);
+	if(merr){
+		MPI_Error_string(merr, errmsg, &msglen);
+		REprintf("Error in Lookup_name: \"%s\"\n", errmsg);
+	}
+
+	PROTECT(R_port_name = allocVector(STRSXP, 1));
+	SET_STRING_ELT(R_port_name, 0, mkChar(port_name));
+	UNPROTECT(1);
+
+	return(R_port_name);
+} /* End of spmd_serv_lookup(). */
 
 SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm){
 	return(AsInt(
