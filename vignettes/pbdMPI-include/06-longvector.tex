@@ -92,6 +92,22 @@ The other MPI collective functions are
 including \code{allgatherv()}, \code{gatherv()}, \code{scatterv()},
 \code{sendrecv()}, and \code{sendrecv.replace()}.
 
+Further, \pkg{pbdMPI} provides a way to mimic long vector support.
+Users can set 
+\begin{Command}[title=pkg\_constant.h,language=C]
+#define MPI_LONG_DEBUG 1
+\end{Command}
+in \code{pbdMPI/src/pkg_constant.h}
+to turn on debugging mode and recompile \pkg{pbdMPI}. Then, run examples in
+\code{pbdMPI/inst/examples/test_long_vector/} to see how the mimic
+long vectors are communicated between processors. Also, users can also adjust
+the length limit of mimic long vector (buffer size)
+by changing
+\begin{Command}[title=spmd.h,language=C]
+#define SPMD_SHORT_LEN_MAX R_SHORT_LEN_MAX
+\end{Command}
+in \code{pbdMPI/src/spmd.h}.
+
 
 \subsection{64-bit for MPI}
 
@@ -99,7 +115,10 @@ The remaining question is that does MPI library support 64-bit system?
 The answer is yes, but users may need to recompile MPI libraries for
 64-bit support.
 The same way as \proglang{R} to enable 64-bit system that MPI libraries
-may have 8 bytes pointer in order to communicate larger memory or disk space.
+may have 8 bytes pointer in order to communicate larger memory or disk
+space.\footnote{
+\url{http://wiki.chem.vu.nl/dirac/index.php/How_to_build_MPI_libraries_for_64-bit_integers}.
+}
 
 For example, the OpenMPI provides next to check if 64-bit system is used.
 \begin{Command}

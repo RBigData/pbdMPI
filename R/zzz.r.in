@@ -63,14 +63,14 @@
   # assign(".comm.size", .comm.size, envir = .GlobalEnv)
   # assign(".comm.rank", .comm.rank, envir = .GlobalEnv)
 
-  # base:::set.seed(1234)
+  # base::set.seed(1234)
   invisible()
 } # End of .onLoad().
 
 .onUnload <- function(libpath){
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
-  pbdMPI:::spmd.finalize(mpi.finalize = FALSE)
+  pbdMPI::spmd.finalize(mpi.finalize = FALSE)
   library.dynam.unload("pbdMPI", libpath)
 
   ### Shared library needs to be unloaded after "pbdMPI.so"

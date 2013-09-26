@@ -13,18 +13,18 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 	R_xlen_t C_length_recv_data = XLENGTH(R_recv_data),
 	         C_length_recv_data_fix = XLENGTH(R_recv_data);
 	int C_rank_source = INTEGER(R_rank_source)[0],
-	    C_comm = INTEGER(R_comm)[0], comm_size, comm_rank, i;
+	    C_comm = INTEGER(R_comm)[0], C_comm_size, C_comm_rank, i;
 
 	if(C_length_recv_data > SPMD_SHORT_LEN_MAX){
 		/* R_recv_data is a long vector, so is R_send_data. */
 
 		/* Since C_send_data is not contiguious, use extra buffer to
 		   store chunk data for MPI calls. */
-		MPI_Comm_size(comm[C_comm], &comm_size);
-		MPI_Comm_rank(comm[C_comm], &comm_rank);
-		if(comm_rank == C_rank_source){
+		MPI_Comm_size(comm[C_comm], &C_comm_size);
+		MPI_Comm_rank(comm[C_comm], &C_comm_rank);
+		if(C_comm_rank == C_rank_source){
 			PROTECT(R_buff_data = allocVector(INTSXP,
-				(R_xlen_t) comm_size *
+				(R_xlen_t) C_comm_size *
 				(R_xlen_t) SPMD_SHORT_LEN_MAX));
 		} else{
 			PROTECT(R_buff_data = allocVector(INTSXP, 1));
@@ -34,9 +34,16 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Loop through all. */
 		while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+			#if (MPI_LONG_DEBUG & 1) == 1
+				if(C_comm_rank == C_rank_source){
+					Rprintf("C_length_recv_data: %ld\n",
+						C_length_recv_data);
+				}
+			#endif
+
 			/* Memory copy from C_send_data to C_buff_data. */
-			if(comm_rank == C_rank_source){
-				for(i = 0; i < comm_size; i++){
+			if(C_comm_rank == C_rank_source){
+				for(i = 0; i < C_comm_size; i++){
 					memcpy(C_buff_data, C_send_data,
 						SPMD_SHORT_LEN_MAX *
 						sizeof(int));
@@ -63,9 +70,16 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Remainder. */
 		if(C_length_recv_data > 0){
+			#if (MPI_LONG_DEBUG & 1) == 1
+				if(C_comm_rank == C_rank_source){
+					Rprintf("C_length_recv_data: %ld\n",
+						C_length_recv_data);
+				}
+			#endif
+
 			/* Memory copy from C_send_data to C_buff_data. */
-			if(comm_rank == C_rank_source){
-				for(i = 0; i < comm_size; i++){
+			if(C_comm_rank == C_rank_source){
+				for(i = 0; i < C_comm_size; i++){
 					memcpy(C_buff_data, C_send_data,
 						(int) C_length_recv_data *
 						sizeof(int));
@@ -113,18 +127,18 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 	R_xlen_t C_length_recv_data = XLENGTH(R_recv_data),
 	         C_length_recv_data_fix = XLENGTH(R_recv_data);
 	int C_rank_source = INTEGER(R_rank_source)[0],
-	    C_comm = INTEGER(R_comm)[0], comm_size, comm_rank, i;
+	    C_comm = INTEGER(R_comm)[0], C_comm_size, C_comm_rank, i;
 
 	if(C_length_recv_data > SPMD_SHORT_LEN_MAX){
 		/* R_recv_data is a long vector, so is R_send_data. */
 
 		/* Since C_send_data is not contiguious, use extra buffer to
 		   store chunk data for MPI calls. */
-		MPI_Comm_size(comm[C_comm], &comm_size);
-		MPI_Comm_rank(comm[C_comm], &comm_rank);
-		if(comm_rank == C_rank_source){
+		MPI_Comm_size(comm[C_comm], &C_comm_size);
+		MPI_Comm_rank(comm[C_comm], &C_comm_rank);
+		if(C_comm_rank == C_rank_source){
 			PROTECT(R_buff_data = allocVector(REALSXP,
-				(R_xlen_t) comm_size *
+				(R_xlen_t) C_comm_size *
 				(R_xlen_t) SPMD_SHORT_LEN_MAX));
 		} else{
 			PROTECT(R_buff_data = allocVector(REALSXP, 1));
@@ -134,9 +148,16 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Loop through all. */
 		while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+			#if (MPI_LONG_DEBUG & 1) == 1
+				if(C_comm_rank == C_rank_source){
+					Rprintf("C_length_recv_data: %ld\n",
+						C_length_recv_data);
+				}
+			#endif
+
 			/* Memory copy from C_send_data to C_buff_data. */
-			if(comm_rank == C_rank_source){
-				for(i = 0; i < comm_size; i++){
+			if(C_comm_rank == C_rank_source){
+				for(i = 0; i < C_comm_size; i++){
 					memcpy(C_buff_data, C_send_data,
 						SPMD_SHORT_LEN_MAX *
 						sizeof(double));
@@ -163,9 +184,16 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Remainder. */
 		if(C_length_recv_data > 0){
+			#if (MPI_LONG_DEBUG & 1) == 1
+				if(C_comm_rank == C_rank_source){
+					Rprintf("C_length_recv_data: %ld\n",
+						C_length_recv_data);
+				}
+			#endif
+
 			/* Memory copy from C_send_data to C_buff_data. */
-			if(comm_rank == C_rank_source){
-				for(i = 0; i < comm_size; i++){
+			if(C_comm_rank == C_rank_source){
+				for(i = 0; i < C_comm_size; i++){
 					memcpy(C_buff_data, C_send_data,
 						(int) C_length_recv_data *
 						sizeof(double));
@@ -214,18 +242,18 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 	R_xlen_t C_length_recv_data = XLENGTH(R_recv_data),
 	         C_length_recv_data_fix = XLENGTH(R_recv_data);
 	int C_rank_source = INTEGER(R_rank_source)[0],
-	    C_comm = INTEGER(R_comm)[0], comm_size, comm_rank, i;
+	    C_comm = INTEGER(R_comm)[0], C_comm_size, C_comm_rank, i;
 
 	if(C_length_recv_data > SPMD_SHORT_LEN_MAX){
 		/* R_recv_data is a long vector, so is R_send_data. */
 
 		/* Since C_send_data is not contiguious, use extra buffer to
 		   store chunk data for MPI calls. */
-		MPI_Comm_size(comm[C_comm], &comm_size);
-		MPI_Comm_rank(comm[C_comm], &comm_rank);
-		if(comm_rank == C_rank_source){
+		MPI_Comm_size(comm[C_comm], &C_comm_size);
+		MPI_Comm_rank(comm[C_comm], &C_comm_rank);
+		if(C_comm_rank == C_rank_source){
 			PROTECT(R_buff_data = allocVector(RAWSXP,
-				(R_xlen_t) comm_size *
+				(R_xlen_t) C_comm_size *
 				(R_xlen_t) SPMD_SHORT_LEN_MAX));
 		} else{
 			PROTECT(R_buff_data = allocVector(RAWSXP, 1));
@@ -235,9 +263,16 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Loop through all. */
 		while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+			#if (MPI_LONG_DEBUG & 1) == 1
+				if(C_comm_rank == C_rank_source){
+					Rprintf("C_length_recv_data: %ld\n",
+						C_length_recv_data);
+				}
+			#endif
+
 			/* Memory copy from C_send_data to C_buff_data. */
-			if(comm_rank == C_rank_source){
-				for(i = 0; i < comm_size; i++){
+			if(C_comm_rank == C_rank_source){
+				for(i = 0; i < C_comm_size; i++){
 					memcpy(C_buff_data, C_send_data,
 						SPMD_SHORT_LEN_MAX);
 					C_send_data = C_send_data +
@@ -263,9 +298,16 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Remainder. */
 		if(C_length_recv_data > 0){
+			#if (MPI_LONG_DEBUG & 1) == 1
+				if(C_comm_rank == C_rank_source){
+					Rprintf("C_length_recv_data: %ld\n",
+						C_length_recv_data);
+				}
+			#endif
+
 			/* Memory copy from C_send_data to C_buff_data. */
-			if(comm_rank == C_rank_source){
-				for(i = 0; i < comm_size; i++){
+			if(C_comm_rank == C_rank_source){
+				for(i = 0; i < C_comm_size; i++){
 					memcpy(C_buff_data, C_send_data,
 						(int) C_length_recv_data);
 					C_send_data = C_send_data +

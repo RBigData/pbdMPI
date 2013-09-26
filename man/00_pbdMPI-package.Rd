@@ -51,11 +51,16 @@
   such as
 \tabular{ll}{
   Directory \tab Examples \cr
-  \code{pbdMPI/inst/examples/test_spmd/}     \tab major SPMD functions \cr
-  \code{pbdMPI/inst/examples/test_rmpi/}     \tab analog to \pkg{Rmpi} \cr
-  \code{pbdMPI/inst/examples/test_parallel/} \tab analog to \pkg{parallel} \cr
-  \code{pbdMPI/inst/examples/test_s4/}       \tab S4 extension \cr
+  \code{pbdMPI/inst/examples/test_spmd/}        \tab major SPMD functions \cr
+  \code{pbdMPI/inst/examples/test_rmpi/}        \tab analog to \pkg{Rmpi} \cr
+  \code{pbdMPI/inst/examples/test_parallel/}    \tab analog to \pkg{parallel} \cr
+  \code{pbdMPI/inst/examples/test_performance/} \tab performance tests \cr
+  \code{pbdMPI/inst/examples/test_s4/}          \tab S4 extension \cr
+  \code{pbdMPI/inst/examples/test_cs/}          \tab client/server examples \cr
+  \code{pbdMPI/inst/examples/test_long_vector/} \tab long vector examples \cr
 }
+  where \code{test_long_vector} needs to recompile with setting
+  \code{#define MPI_LONG_DEBUG 1} in \code{pbdMPI/src/pkg_constant.h}.
 
   The current version is mainly written and tested under OpenMPI
   environments in Linux system (xubuntu-11.04). Also, it is tested
