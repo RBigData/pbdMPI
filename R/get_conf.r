@@ -4,7 +4,7 @@
 ###   "pbd*/etc${R_ARCH}/Makconf".
 get.conf <- function(arg, arch = '', package = "pbdMPI"){
   file.name <- paste("./etc", arch, "/Makeconf", sep = "")
-  file.path <- tools:::file_path_as_absolute(
+  file.path <- tools::file_path_as_absolute(
                  system.file(file.name, package = package))
   ret <- scan(file.path, what = character(), sep = "\n", quiet = TRUE)
 

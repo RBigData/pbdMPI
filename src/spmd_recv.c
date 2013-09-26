@@ -17,6 +17,11 @@ SEXP spmd_recv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Loop through all. */
 	while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Recv(C_recv_data, SPMD_SHORT_LEN_MAX,
 			MPI_INT, C_rank_source, C_tag, comm[C_comm],
 			&status[C_status]));
@@ -26,6 +31,11 @@ SEXP spmd_recv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Remainder. */
 	if(C_length_recv_data > 0){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Recv(C_recv_data, (int) C_length_recv_data,
 			MPI_INT, C_rank_source, C_tag, comm[C_comm],
 			&status[C_status]));
@@ -54,6 +64,11 @@ SEXP spmd_recv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Loop through all. */
 	while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Recv(C_recv_data, SPMD_SHORT_LEN_MAX,
 			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
 			&status[C_status]));
@@ -63,6 +78,11 @@ SEXP spmd_recv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Remainder. */
 	if(C_length_recv_data > 0){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Recv(C_recv_data, (int) C_length_recv_data,
 			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
 			&status[C_status]));
@@ -91,6 +111,11 @@ SEXP spmd_recv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Loop through all. */
 	while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Recv(C_recv_data, SPMD_SHORT_LEN_MAX,
 			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
 			&status[C_status]));
@@ -100,6 +125,11 @@ SEXP spmd_recv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Remainder. */
 	if(C_length_recv_data > 0){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Recv(C_recv_data, (int) C_length_recv_data,
 			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
 			&status[C_status]));
@@ -130,6 +160,11 @@ SEXP spmd_irecv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Loop through all. */
 	while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Irecv(C_recv_data, SPMD_SHORT_LEN_MAX,
 			MPI_INT, C_rank_source, C_tag, comm[C_comm],
 			&request[C_request]));
@@ -139,6 +174,11 @@ SEXP spmd_irecv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Remainder. */
 	if(C_length_recv_data > 0){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Irecv(C_recv_data, (int) C_length_recv_data,
 			MPI_INT, C_rank_source, C_tag, comm[C_comm],
 			&request[C_request]));
@@ -167,6 +207,11 @@ SEXP spmd_irecv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Loop through all. */
 	while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Irecv(C_recv_data, SPMD_SHORT_LEN_MAX,
 			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
 			&request[C_request]));
@@ -176,6 +221,11 @@ SEXP spmd_irecv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Remainder. */
 	if(C_length_recv_data > 0){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Irecv(C_recv_data, (int) C_length_recv_data,
 			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
 			&request[C_request]));
@@ -204,6 +254,11 @@ SEXP spmd_irecv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Loop through all. */
 	while(C_length_recv_data > SPMD_SHORT_LEN_MAX){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Irecv(C_recv_data, SPMD_SHORT_LEN_MAX,
 			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
 			&request[C_request]));
@@ -213,6 +268,11 @@ SEXP spmd_irecv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 
 	/* Remainder. */
 	if(C_length_recv_data > 0){
+		#if (MPI_LONG_DEBUG & 1) == 1
+			Rprintf("C_length_recv_data: %ld\n",
+				C_length_recv_data);
+		#endif
+
 		spmd_errhandler(MPI_Irecv(C_recv_data, (int) C_length_recv_data,
 			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
 			&request[C_request]));

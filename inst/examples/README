@@ -6,3 +6,11 @@ test_parallel/     comparison to parallel
 test_performance/  performance testing
 test_s4/           S4 extension
 test_cs/           client/server examples
+test_long_vector/  long vectors examples (#define DMPI_LONG_DEBUG 1)
+-------------------------------------
+
+ps. "test_long_vector/" needs to recompile with setting
+
+#define MPI_LONG_DEBUG 1
+
+in "pbdMPI/src/pkg_constant.h".

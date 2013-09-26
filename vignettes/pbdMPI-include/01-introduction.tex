@@ -259,9 +259,16 @@ Directory & Examples \\ \hline
 \code{pbdMPI/inst/examples/test_performance/}  & performance testing \\
 \code{pbdMPI/inst/examples/test_s4/}           & S4 extension \\
 \code{pbdMPI/inst/examples/test_cs/}           & client/server examples \\
+\code{pbdMPI/inst/examples/test_long_vector/}  & long vector examples \\
 \hline\hline
 \end{tabular}
 \end{center}
+where \code{test_long_vector/} requires to recompile with setting
+\begin{Command}[title=pkg\_constant.h,language=C]
+#define MPI_LONG_DEBUG 1
+\end{Command}
+in \code{pbdMPI/src/pkg_constant.h}.
+See Scetion~\ref{sec:long_vector} for details.
 
 Further examples can be found at including:
 \begin{itemize}
