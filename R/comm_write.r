@@ -25,6 +25,7 @@ comm.write.table <- function(x, file = "", append = FALSE,
 
   if(comm.rank != 0){
     append <- TRUE
+    col.names <- FALSE
   }
   for(i in 0:(spmd.comm.size(comm = comm) - 1)){
     if(comm.rank == i){
@@ -43,6 +44,7 @@ comm.write.csv <- function(..., comm = .SPMD.CT$comm){
 
   if(comm.rank != 0){
     append <- TRUE
+    col.names <- FALSE
   }
 
   for(i in 0:(spmd.comm.size(comm = comm) - 1)){
@@ -59,6 +61,7 @@ comm.write.csv2 <- function(..., comm = .SPMD.CT$comm){
 
   if(comm.rank != 0){
     append <- TRUE
+    col.names <- FALSE
   }
 
   for(i in 0:(spmd.comm.size(comm = comm) - 1)){
