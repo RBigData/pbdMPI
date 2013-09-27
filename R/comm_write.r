@@ -31,7 +31,7 @@ comm.write.table <- function(x, file = "", append = FALSE,
       write.table(x, file = file, append = append, quote = quote, sep = sep,
                   eol = eol, na = na, dec = dec, row.names = row.names,
                   col.names = col.names, qmethod = qmethod,
-                  fileEncoding = fileEncoding, comm = comm)
+                  fileEncoding = fileEncoding)
     }
     spmd.barrier(comm = comm)
   }
@@ -47,7 +47,7 @@ comm.write.csv <- function(..., comm = .SPMD.CT$comm){
 
   for(i in 0:(spmd.comm.size(comm = comm) - 1)){
     if(comm.rank == i){
-      write.csv(..., append = append, comm = comm)
+      write.csv(..., append = append)
     }
     spmd.barrier(comm = comm)
   }
@@ -63,7 +63,7 @@ comm.write.csv2 <- function(..., comm = .SPMD.CT$comm){
 
   for(i in 0:(spmd.comm.size(comm = comm) - 1)){
     if(comm.rank == i){
-      write.csv2(..., append = append, comm = comm)
+      write.csv2(..., append = append)
     }
     spmd.barrier(comm = comm)
   }
