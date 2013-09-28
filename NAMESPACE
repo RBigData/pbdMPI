@@ -94,6 +94,10 @@ export(
   "comm.stop",
   "comm.warning",
   "comm.warnings",
+  "comm.write",
+  "comm.write.table",
+  "comm.write.csv",
+  "comm.write.csv2",
   "task.pull.workers",
   "task.pull.master",
   "task.pull"
