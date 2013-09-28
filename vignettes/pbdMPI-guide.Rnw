@@ -2,6 +2,7 @@
 
 \documentclass[article,shortnames,nojss]{pbdMPI-include/jss}
 
+\newcommand{\mpiversion}{0.2-2}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,9 +31,8 @@ London, Ontario, Canada \\
 %\\
 %\today
 }
-\title{A Quick Guide for the \pkg{pbdMPI} Package}
-%\\
-%\vspace{0.2cm} \large (Based on Version 0.1-2)}
+\title{A Quick Guide for the \pkg{pbdMPI} Package {\small (Ver. \mpiversion)}}
+
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Wei-Chen Chen, George Ostrouchov, Drew Schmidt, Pragneshkumar Patel, Hao Yu} %% comma-separated
