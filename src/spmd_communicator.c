@@ -1,6 +1,5 @@
 #include "spmd.h"
 
-/* ----- COMM ----- */
 SEXP spmd_barrier(SEXP R_comm){
 	return(AsInt(spmd_errhandler(MPI_Barrier(comm[INTEGER(R_comm)[0]]))));
 } /* End of spmd_barrier(). */
@@ -42,52 +41,11 @@ SEXP spmd_comm_free(SEXP R_comm){
 		spmd_errhandler(MPI_Comm_free(&comm[INTEGER(R_comm)[0]]))));
 } /* End of spmd_comm_free(). */
 
-
-/* ----- Intercomm ----- */
 SEXP spmd_comm_set_errhandler(SEXP R_comm){
 	return(AsInt(
 		MPI_Errhandler_set(comm[INTEGER(R_comm)[0]],
 		MPI_ERRORS_RETURN)));
 } /* End of spmd_comm_set_errhandler(). */
-
-
-/* ----- spawn ----- */
-#ifdef MPI2
-SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
-		SEXP R_info, SEXP R_rank_source, SEXP R_intercomm){
-	int i, n_workers = INTEGER(R_n_workers)[0], len = LENGTH(R_workerargv);
-	int infon = INTEGER(R_info)[0], rank_source = INTEGER(R_rank_source)[0];
-	int intercommn = INTEGER(R_intercomm)[0], *worker_errcodes, realns;
-
-	worker_errcodes = (int *) Calloc(n_workers, int);
-	if(len == 0){
-		spmd_errhandler(MPI_Comm_spawn(CHARPT(R_worker, 0),
-			MPI_ARGV_NULL, n_workers, info[infon], rank_source,
-			MPI_COMM_SELF, &comm[intercommn], worker_errcodes)); 
-        } else{
-		char **argv = (char **) R_alloc(len + 1, sizeof(char *));
-		for(i = 0; i < len; i++){
-			argv[i] = CHARPT(R_workerargv, i);
-		}
-		argv[len] = NULL;
-		spmd_errhandler(MPI_Comm_spawn(CHARPT(R_worker, 0),
-			argv, n_workers, info[infon], rank_source, MPI_COMM_SELF,
-			&comm[intercommn], worker_errcodes)); 
-	}
-	MPI_Comm_remote_size(comm[intercommn], &realns);
-	if(realns < n_workers){
-		for(i = 0; i < n_workers; i++){
-			spmd_errhandler(worker_errcodes[i]);
-		}
-	}
-
-        Free(worker_errcodes);
-
-	Rprintf("\t%d workers are spawned successfully. %d failed.\n",
-		realns, n_workers - realns);
-	return AsInt(realns);
-} /* End of spmd_comm_spawn(). */
-#endif
 
 SEXP spmd_comm_get_parent(SEXP R_comm){
         return(AsInt(
@@ -112,6 +70,14 @@ SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode){
 			comm[INTEGER(R_comm)[0]],
 			INTEGER(R_errorcode)[0]))));
 } /* End of spmd_comm_abort(). */
+
+SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key, SEXP R_newcomm){
+	return(AsInt(
+		spmd_errhandler(MPI_Comm_split(
+			comm[INTEGER(R_comm)[0]],
+			INTEGER(R_color)[0], INTEGER(R_key)[0],
+			&comm[INTEGER(R_newcomm)[0]]))));
+} /* End of spmd_comm_split(). */
 
 SEXP spmd_comm_disconnect(SEXP R_comm){
 	return(AsInt(
@@ -213,6 +179,18 @@ SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm){
 			&comm[INTEGER(R_comm)[0]]))));
 } /* End of spmd_intercomm_merge(). */
 
+SEXP spmd_intercomm_create(SEXP R_local_comm, SEXP R_local_leader,
+		SEXP R_peer_comm, SEXP R_remote_leader, SEXP R_tag,
+		SEXP R_newintercomm){
+	return(AsInt(
+		spmd_errhandler(MPI_Intercomm_create(
+			comm[INTEGER(R_local_comm)[0]],
+			INTEGER(R_local_leader)[0],
+			comm[INTEGER(R_peer_comm)[0]],
+			INTEGER(R_remote_leader)[0],
+			INTEGER(R_tag)[0],
+			&comm[INTEGER(R_newintercomm)[0]]))));
+} /* End of spmd_intercomm_create(). */
 
 /* Fortran supporting functions. */
 SEXP spmd_comm_c2f(SEXP R_comm){

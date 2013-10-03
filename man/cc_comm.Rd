@@ -8,6 +8,7 @@
 \alias{init}
 \alias{finalize}
 \alias{comm.abort}
+\alias{comm.split}
 \alias{comm.disconnect}
 \alias{comm.connect}
 \alias{comm.accept}
@@ -16,9 +17,11 @@
 \alias{serv.publish}
 \alias{serv.unpublish}
 \alias{serv.lookup}
+\alias{intercomm.merge}
+\alias{intercomm.create}
+\alias{comm.c2f}
 \alias{COMM.SIZE}
 \alias{COMM.RANK}
-\alias{comm.c2f}
 \title{ Communicator Functions }
 \description{
   The functions provide controls to communicators.
@@ -32,7 +35,10 @@
   comm.free(comm = .SPMD.CT$comm)
   init(set.seed = TRUE)
   finalize(mpi.finalize = .SPMD.CT$mpi.finalize)
+
   comm.abort(errorcode = 1, comm = .SPMD.CT$comm)
+  comm.split(comm = .SPMD.CT$comm, color = 0L, key = 0L,
+             newcomm = .SPMD.CT$newcomm)
   comm.disconnect(comm = .SPMD.CT$comm)
   comm.connect(port.name, info = .SPMD.CT$info,
                rank.root = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
@@ -40,6 +46,7 @@
   comm.accept(port.name, info = .SPMD.CT$info,
               rank.root = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
               newcomm = .SPMD.CT$newcomm)
+
   port.open(info = .SPMD.CT$info)
   port.close(port.name)
   serv.publish(port.name, serv.name = .SPMD.CT$serv.name,
@@ -47,6 +54,14 @@
   serv.unpublish(port.name, serv.name = .SPMD.CT$serv.name,
                  info = .SPMD.CT$info)
   serv.lookup(serv.name = .SPMD.CT$serv.name, info = .SPMD.CT$info)
+
+  intercomm.merge(intercomm = .SPMD.CT$intercomm,
+                  high = 0L, comm = .SPMD.CT$comm)
+  intercomm.create(local.comm = .SPMD.CT$comm,
+    local.leader = .SPMD.CT$rank.source, peer.comm = .SPMD.CT$intercomm,
+    remote.leader = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag, 
+    newintercomm = .SPMD.CT$newcomm)
+
   comm.c2f(comm = .SPMD.CT$comm)
 }
 \arguments{
@@ -58,8 +73,18 @@
   \item{info}{a info number.}
   \item{rank.root}{a root rank.}
   \item{newcomm}{a new communicator number.}
+  \item{color}{control of subset assignment.}
+  \item{key}{control of rank assigment.}
   \item{serv.name}{a service name.}
   \item{errorcode}{an error code to abort MPI.}
+  \item{intercomm}{a intercommunicator number.}
+  \item{high}{used to order the groups within comm.}
+  \item{local.comm}{a local communicator number.}
+  \item{local.leader}{the leader number of local communicator.}
+  \item{peer.comm}{a peer communicator number.}
+  \item{remote.leader}{the remote leader number of peer communicator.}
+  \item{newintercomm}{a new intercommunicator number.}
+  \item{tag}{a tag number.}
 }
 \details{
   Another functions are direct calls to MPI library.
@@ -89,6 +114,8 @@
 
   \code{comm.abort} aborts MPI.
 
+  \code{comm.split} create a \code{newcomm} by color and key.
+
   \code{comm.disconnect} frees a \code{comm}.
 
   \code{comm.connect} connects a \code{newcomm}.
@@ -104,6 +131,11 @@
   \code{serv.unpublish} unpublishs a service via \code{port.name}.
 
   \code{serv.lookup} lookup the \code{serv.name} and returns the port name.
+
+  \code{intercomm.merge} merges the \code{intercomm} to intracommunicator.
+
+  \code{intercomm.create} creates a new \code{intercomm} from two
+  peer intracommunicators.
 
   \code{comm.c2f} returns an integer for Fortran MPI support.
 }

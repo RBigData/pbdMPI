@@ -1,6 +1,7 @@
-2013-09-27: Ver. 0.2-2
+2013-10-02: Ver. 0.2-2
   * Add comm.write(), comm.write.table(), comm.rite.csv(), and
     comm.write.csv2().
+  * Add intercomm.merge() and intercomm.create().
 
 2013-09-21: Ver. 0.2-1
   * Fix pbdPROF configure problem.
