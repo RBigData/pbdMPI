@@ -14,7 +14,7 @@
   comm.write.table(x, file = "", append = FALSE, quote = TRUE, sep = " ",
                    eol = "\n", na = "NA", dec = ".", row.names = TRUE,
                    col.names = TRUE, qmethod = c("escape", "double"),
-                   fileEncoding = "", comm = .SPMD$comm)
+                   fileEncoding = "", comm = .SPMD.CT$comm)
   comm.write.csv(..., comm = .SPMD.CT$comm)
   comm.write.csv2(..., comm = .SPMD.CT$comm)
 }
