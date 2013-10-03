@@ -117,133 +117,93 @@ get.processor.name <- spmd.get.processor.name
 spmd.comm.abort <- function(errorcode = 1, comm = .SPMD.CT$comm){
   ret <- .Call("spmd_comm_abort", as.integer(comm), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End of spmd.comm.abort().
 
 comm.abort <- spmd.comm.abort
+
+spmd.comm.split <- function(comm = .SPMD.CT$comm, color = 0L, key = 0L,
+    newcomm = .SPMD.CT$newcomm){
+  ret <- .Call("spmd_comm_split", as.integer(comm), as.integer(color),
+               as.integer(key), as.integer(newcomm), PACKAGE = "pbdMPI")
+  invisible(ret)
+} # End of spmd.comm.split().
+
+comm.split <- spmd.comm.split
 
 spmd.comm.disconnect <- function(comm = .SPMD.CT$comm){
   if(spmd.comm.size(comm)== 0){
     stop(paste("It seems no members (workers) associated with comm", comm))
   }
-  if(! is.loaded("spmd_comm_disconnect", PACKAGE = "pbdMPI")){
-    stop("MPI_Comm_disconnect is not supported.")
-  }
   ret <- .Call("spmd_comm_disconnect", as.integer(comm), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End of spmd.comm.disconnect().
 
 comm.disconnect <- spmd.comm.disconnect
 
 spmd.comm.connect <- function(port.name,
     info = .SPMD.CT$info, rank.root = .SPMD.CT$rank.root,
     comm = .SPMD.CT$comm, newcomm = .SPMD.CT$newcomm){
-  if(! is.loaded("spmd_comm_connect", PACKAGE = "pbdMPI")){
-    stop("MPI_Comm_connect is not supported.")
-  }
   ret <- .Call("spmd_comm_connect", as.character(port.name),
                as.integer(info), as.integer(rank.root),
                as.integer(comm), as.integer(newcomm), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End of spmd.comm.connect().
 
 comm.connect <- spmd.comm.connect
 
 spmd.comm.accept <- function(port.name,
     info = .SPMD.CT$info, rank.root = .SPMD.CT$rank.root,
     comm = .SPMD.CT$comm, newcomm = .SPMD.CT$newcomm){
-  if(! is.loaded("spmd_comm_accept", PACKAGE = "pbdMPI")){
-    stop("MPI_Comm_accept is not supported.")
-  }
   ret <- .Call("spmd_comm_accept", as.character(port.name),
                as.integer(info), as.integer(rank.root),
                as.integer(comm), as.integer(newcomm), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End spmd.comm.accept().
 
 comm.accept <- spmd.comm.accept
 
 spmd.port.open <- function(info = .SPMD.CT$info){
-  if(! is.loaded("spmd_port_open", PACKAGE = "pbdMPI")){
-    stop("MPI_Open_port is not supported.")
-  }
   port.name <- .Call("spmd_port_open", as.integer(info), PACKAGE = "pbdMPI")
   port.name
-}
+} # End spmd.port.open().
 
 port.open <- spmd.port.open
 
 spmd.port.close <- function(port.name){
-  if(! is.loaded("spmd_port_close", PACKAGE = "pbdMPI")){
-    stop("MPI_Close_port is not supported.")
-  }
   ret <- .Call("spmd_port_close", as.character(port.name), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End spmd.port.close().
 
 port.close <- spmd.port.close
 
 spmd.serv.publish <- function(port.name, serv.name = .SPMD.CT$serv.name,
     info = .SPMD.CT$info){
-  if(! is.loaded("spmd_serv_publish", PACKAGE = "pbdMPI")){
-    stop("MPI_Publish_name is not supported.")
-  }
   ret <- .Call("spmd_serv_publish", as.character(serv.name),
                as.integer(info), as.character(port.name), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End of spmd.serv.publish().
 
 serv.publish <- spmd.serv.publish
 
 spmd.serv.unpublish <- function(port.name, serv.name = .SPMD.CT$serv.name,
     info = .SPMD.CT$info){
-  if(! is.loaded("spmd_serv_unpublish", PACKAGE = "pbdMPI")){
-    stop("MPI_Unpublish_name is not supported.")
-  }
   ret <- .Call("spmd_serv_unpublish", as.character(serv.name),
                as.integer(info), as.character(port.name), PACKAGE = "pbdMPI")
   invisible(ret)
-}
+} # End of spmd.serv.unpublish().
 
 serv.unpublish <- spmd.serv.unpublish
 
 spmd.serv.lookup <- function(serv.name = .SPMD.CT$serv.name,
     info = .SPMD.CT$info){
-  if(! is.loaded("spmd_serv_lookup", PACKAGE = "pbdMPI")){
-    stop("MPI_Lookup_name is not supported.")
-  }
   port.name <- .Call("spmd_serv_lookup", as.character(serv.name),
                      as.integer(info), PACKAGE = "pbdMPI")
   port.name
-}
+} # End of spmd.serv.lookup().
 
 serv.lookup <- spmd.serv.lookup
 
-spmd.comm.spawn <- function(worker, worker.arg, n.workers,
-    info = .SPMD.CT$info, rank.source = .SPMD.CT$rank.source,
-    intercomm = .SPMD.CT$intercomm){
-  if(! is.loaded("spmd_comm_spawn", PACKAGE = "pbdMPI")){
-    stop("spmd_comm_spawn is not supported.")
-  }
-
-  if(! is.character(worker)){
-    stop("Character argument (worker) expected.")
-  } else if(n.workers < 1){
-    stop("Choose a positive number of workers.")
-  }
-
-  ret <- .Call("spmd_comm_spawn", as.character(worker),
-               as.character(worker.arg), as.integer(n.workers),
-               as.integer(info), as.integer(rank.source),
-               as.integer(intercomm), PACKAGE = "pbdMPI")
-  invisible(ret)
-} # End of spmd.comm.spawn().
-
-comm.spawn <- spmd.comm.spawn
-
 spmd.comm.get.parent <- function(comm = .SPMD.CT$intercomm){
-  if(! is.loaded("spmd_comm_get_parent", PACKAGE = "pbdMPI")){
-    stop("MPI_Comm_get_parent is not supported.")
-  }
   .Call("spmd_comm_get_parent", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.get.parent().
 
@@ -257,6 +217,19 @@ spmd.intercomm.merge <- function(intercomm = .SPMD.CT$intercomm,
 } # End of spmd.intercomm.merge().
 
 intercomm.merge <- spmd.intercomm.merge
+
+spmd.intercomm.create <- function(local.comm = .SPMD.CT$comm,
+    local.leader = .SPMD.CT$rank.source, peer.comm = .SPMD.CT$intercomm,
+    remote.leader = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
+    newintercomm = .SPMD.CT$newcomm){
+  ret <- .Call("spmd_intercomm_create", as.integer(local.comm),
+               as.integer(local.leader), as.integer(peer.comm),
+               as.integer(remote.leader), as.integer(tag),
+               as.integer(newintercomm), PACKAGE = "pbdMPI")
+  invisible(ret)
+} # End of spmd.intercomm.merge().
+
+intercomm.create <- spmd.intercomm.create
 
 
 ### Fortran supporting function.

@@ -39,9 +39,11 @@ export(
 #  "is.master",
 #  "get.processor.name",
   "comm.abort",
+  "comm.split",
   "comm.disconnect",
   "comm.connect",
   "comm.accept",
+  "comm.split",
   "port.open",
   "port.close",
   "serv.lookup",
@@ -49,7 +51,8 @@ export(
   "serv.unpublish",
 #  "comm.spawn",
 #  "comm.get.parent",
-#  "intercomm.merge",
+  "intercomm.merge",
+  "intercomm.create",
   "comm.c2f",
 
   ### "R/spmd_info.r"
