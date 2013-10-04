@@ -80,7 +80,7 @@ London, Ontario, Canada \\
 \pagenumbering{roman}
 \tableofcontents
 
-\newpage
+%\newpage
 \input{./pbdMPI-include/01-copyright}
 
 %% include your article here, just as usual
