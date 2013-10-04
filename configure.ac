@@ -30,6 +30,11 @@ AC_ARG_WITH([mpi-type],
                            [type of MPI: OPENMPI, MPICH2, or MPICH3]),
             [mpi_type=$withval])
 
+dnl All AC_ARG_ENABLE
+AC_ARG_ENABLE(opa,
+  AC_HELP_STRING([--enable-opa], [Enable opa for MPICH*, default yes.]),
+  [ENABLE_OPA="no"], [ENABLE_OPA="yes"])
+
 
 dnl One way is to specify both include and lib paths
 if test -n "${mpi_include_path}" ; then
@@ -90,7 +95,7 @@ AC_CHECK_PROG(ORTERUN, orterun, orterun, "F")
 AC_CHECK_PROG(SED, sed, sed, "F")
 AC_CHECK_PROG(MPICC, mpicc, mpicc, "F")
 AC_CHECK_PROG(OMPI_INFO, ompi_info, ompi_info, "F")
-AC_CHECK_PROG(MPICH2VERSION, mpich2version, mpich2version, "F")
+dnl AC_CHECK_PROG(MPICH2VERSION, mpich2version, mpich2version, "F")
 
 
 dnl For OpenMPI
@@ -148,22 +153,27 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 fi
 
 
-dnl For MPICH3/MPICH2/MPICH
+dnl For MPICH2
 if test -z "${MPI_INCLUDE_PATH}" ; then
-#  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "MPICH2" ; then
 ### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
   if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3"; then
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$MPICH2VERSION" != "F" ; then
-      echo "found sed, mpicc, and mpich2version ..."
+    if test "$SED" != "F" -a "$MPICC" != "F" ; then
+      echo "found sed and mpicc ..."
       TMP_INC="F"
       TMP_LIB="F"
 
       TMP_CMD=`mpicc -show`
       echo ">> TMP_CMD = ${TMP_CMD}"
 
+      dnl check "mpi.h".
       TMP_IFS="${IFS}"; IFS=" "
       for dir in ${TMP_CMD}; do
         dir_inc=`echo ${dir} | sed -e "s/^-I\(.*\)$/\1/"`
+
+        dnl use a different way to test.
+        if test "X${dir_inc}" = "X" ; then
+          dir_inc=`echo ${dir} | sed -e "s/-I\(.*\)/\1/"`
+        fi
 
         echo "checking ${dir_inc} ..."
         if test -f "${dir_inc}/mpi.h" ; then
@@ -174,9 +184,15 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       done
       IFS="${TMP_IFS}"
 
+      dnl check library.
       TMP_IFS="${IFS}"; IFS=" "
       for dir in ${TMP_CMD}; do
         dir_lib=`echo ${dir} | sed -e "s/^-L\(.*\)$/\1/"`
+
+        dnl use a different way to test.
+        if test "X${dir_lib}" = "X" ; then
+          dir_lib=`echo ${dir} | sed -e "s/-L\(.*\)/\1/"`
+        fi
 
         echo "checking ${dir_lib} ..." 
         if test -f "${dir_lib}/libmpich.so" ; then
@@ -535,13 +551,25 @@ case "$MPITYPE" in
     PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
     ;;
   MPICH3)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
     ;;
   MPICH2)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
     ;;
   MPICH)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
     ;;
   *)
     AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
@@ -558,8 +586,8 @@ fi
 
 dnl pbdPROF
 AC_ARG_ENABLE([pbdPROF],
-    AC_HELP_STRING([--enable-pbdPROF], [Enable pbdPROF.]),
-    ENABLE_PBDPROF="yes", ENABLE_PBDPROF="no")
+    AC_HELP_STRING([--enable-pbdPROF], [Enable pbdPROF, default no.]),
+    [ENABLE_PBDPROF="yes"], [ENABLE_PBDPROF="no"])
 
 PROF_LDFLAGS=""
 if test "X${ENABLE_PBDPROF}" = "Xyes"; then

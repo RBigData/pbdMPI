@@ -395,6 +395,20 @@ collect2: ld returned 1 exit status
       static library \code{libmpich.a} instead. Try to recompile MPICH2 with
       a flag \code{--enable-shared} and reinstall \pkg{pbdMPI} again.
 
+\item {\bf\color{blue} Q:}
+      For MPICH2 and MPICH3 users, if installation fails with
+\begin{Error}
+/usr/bin/ld: cannot find -lopa
+collect2: error: ld returned 1 exit status
+make: *** [pbdMPI.so] Error 1
+ERROR: compilation failed for package 'pbdMPI'
+\end{Error}
+      {\bf\color{blue} A:}
+      By default, \code{-lopa} is required for some systems. However, some
+      systems may not have it and can be disable with a configuration flag
+      when install \pkg{pbdMPI}, such as
+      \code{R CMD INSTALL pbdMPI*.tar.gz --configure-args="--disable-opa"}.
+
 \end{enumerate}
 
 
