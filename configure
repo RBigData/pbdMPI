@@ -636,7 +636,6 @@ TMP_INC
 EGREP
 GREP
 CPP
-MPICH2VERSION
 OMPI_INFO
 MPICC
 SED
@@ -694,6 +693,7 @@ enable_option_checking
 with_mpi_include
 with_mpi_libpath
 with_mpi_type
+enable_opa
 with_mpi
 enable_pbdPROF
 '
@@ -1313,7 +1313,8 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-pbdPROF        Enable pbdPROF.
+  --enable-opa            Enable opa for MPICH*, default yes.
+  --enable-pbdPROF        Enable pbdPROF, default no.
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -2119,6 +2120,14 @@ fi
 # Check whether --with-mpi-type was given.
 if test "${with_mpi_type+set}" = set; then :
   withval=$with_mpi_type; mpi_type=$withval
+fi
+
+
+# Check whether --enable-opa was given.
+if test "${enable_opa+set}" = set; then :
+  enableval=$enable_opa; ENABLE_OPA="no"
+else
+  ENABLE_OPA="yes"
 fi
 
 
@@ -3189,44 +3198,6 @@ $as_echo "no" >&6; }
 fi
 
 
-# Extract the first word of "mpich2version", so it can be a program name with args.
-set dummy mpich2version; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_MPICH2VERSION+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$MPICH2VERSION"; then
-  ac_cv_prog_MPICH2VERSION="$MPICH2VERSION" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_MPICH2VERSION="mpich2version"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_MPICH2VERSION" && ac_cv_prog_MPICH2VERSION=""F""
-fi
-fi
-MPICH2VERSION=$ac_cv_prog_MPICH2VERSION
-if test -n "$MPICH2VERSION"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MPICH2VERSION" >&5
-$as_echo "$MPICH2VERSION" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
 
 
 if test -z "${MPI_INCLUDE_PATH}" ; then
@@ -3283,20 +3254,23 @@ fi
 
 
 if test -z "${MPI_INCLUDE_PATH}" ; then
-#  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "MPICH2" ; then
 ### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
   if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3"; then
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$MPICH2VERSION" != "F" ; then
-      echo "found sed, mpicc, and mpich2version ..."
+    if test "$SED" != "F" -a "$MPICC" != "F" ; then
+      echo "found sed and mpicc ..."
       TMP_INC="F"
       TMP_LIB="F"
 
       TMP_CMD=`mpicc -show`
       echo ">> TMP_CMD = ${TMP_CMD}"
 
-      TMP_IFS="${IFS}"; IFS=" "
+            TMP_IFS="${IFS}"; IFS=" "
       for dir in ${TMP_CMD}; do
         dir_inc=`echo ${dir} | sed -e "s/^-I\(.*\)$/\1/"`
+
+                if test "X${dir_inc}" = "X" ; then
+          dir_inc=`echo ${dir} | sed -e "s/-I\(.*\)/\1/"`
+        fi
 
         echo "checking ${dir_inc} ..."
         if test -f "${dir_inc}/mpi.h" ; then
@@ -3307,9 +3281,13 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       done
       IFS="${TMP_IFS}"
 
-      TMP_IFS="${IFS}"; IFS=" "
+            TMP_IFS="${IFS}"; IFS=" "
       for dir in ${TMP_CMD}; do
         dir_lib=`echo ${dir} | sed -e "s/^-L\(.*\)$/\1/"`
+
+                if test "X${dir_lib}" = "X" ; then
+          dir_lib=`echo ${dir} | sed -e "s/-L\(.*\)/\1/"`
+        fi
 
         echo "checking ${dir_lib} ..."
         if test -f "${dir_lib}/libmpich.so" ; then
@@ -4305,13 +4283,25 @@ case "$MPITYPE" in
     PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
     ;;
   MPICH3)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
     ;;
   MPICH2)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
     ;;
   MPICH)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
     ;;
   *)
     as_fn_error $? "Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it" "$LINENO" 5
