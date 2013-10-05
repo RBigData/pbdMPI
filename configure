@@ -633,15 +633,15 @@ MPITYPE
 MPI_ROOT
 TMP_LIB
 TMP_INC
+ORTERUN
+MPIEXEC
+MPIRUN
 EGREP
 GREP
 CPP
 OMPI_INFO
 MPICC
 SED
-ORTERUN
-MPIEXEC
-MPIRUN
 OBJEXT
 EXEEXT
 ac_ct_CC
@@ -2967,120 +2967,6 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 if test "X$CC" = "X" ; then
   # Our best guess...
   CC="gcc -std=gnu99"
-fi
-
-
-# Extract the first word of "mpirun", so it can be a program name with args.
-set dummy mpirun; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_MPIRUN+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$MPIRUN"; then
-  ac_cv_prog_MPIRUN="$MPIRUN" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_MPIRUN="mpirun"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_MPIRUN" && ac_cv_prog_MPIRUN=""F""
-fi
-fi
-MPIRUN=$ac_cv_prog_MPIRUN
-if test -n "$MPIRUN"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MPIRUN" >&5
-$as_echo "$MPIRUN" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-# Extract the first word of "mpiexec", so it can be a program name with args.
-set dummy mpiexec; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_MPIEXEC+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$MPIEXEC"; then
-  ac_cv_prog_MPIEXEC="$MPIEXEC" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_MPIEXEC="mpiexec"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_MPIEXEC" && ac_cv_prog_MPIEXEC=""F""
-fi
-fi
-MPIEXEC=$ac_cv_prog_MPIEXEC
-if test -n "$MPIEXEC"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MPIEXEC" >&5
-$as_echo "$MPIEXEC" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-# Extract the first word of "orterun", so it can be a program name with args.
-set dummy orterun; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_ORTERUN+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$ORTERUN"; then
-  ac_cv_prog_ORTERUN="$ORTERUN" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_ORTERUN="orterun"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_ORTERUN" && ac_cv_prog_ORTERUN=""F""
-fi
-fi
-ORTERUN=$ac_cv_prog_ORTERUN
-if test -n "$ORTERUN"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ORTERUN" >&5
-$as_echo "$ORTERUN" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
 fi
 
 
