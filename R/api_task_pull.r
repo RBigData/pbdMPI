@@ -237,12 +237,16 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
 
 
 task.pull <- function(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
-    comm = .SPMD.CT$comm){
+    comm = .SPMD.CT$comm, bcast = FALSE){
 
   if(spmd.comm.rank(comm) != rank.master){
     ret <- task.pull.workers(FUN, ..., rank.master = rank.master, comm = comm)
   } else{
     ret <- task.pull.master(jids, rank.master = rank.master, comm = comm)
+  }
+
+  if(bcast){
+    ret <- bcast(ret, rank.source = rank.master, comm = comm)
   }
 
   ret
