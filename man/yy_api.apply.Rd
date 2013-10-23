@@ -33,7 +33,7 @@
   serial version.
 
   If \code{pbd.mode = "mw"}, the \code{X} in \code{rank.source} (master)
-  will be redistributed to all processors (workers), then apply \code{FUN}
+  will be redistributed to processors (workers), then apply \code{FUN}
   on the new data, and results are gathered to \code{rank.source}.
   ``In SPMD, master is one of workers.''
   \code{...} is also \code{scatter} from \code{rank.source}.
