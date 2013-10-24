@@ -5,7 +5,8 @@ list.to.list <- function(i, X){
 } # End of list.to.list().
 
 pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
-    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm){
+    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
+    bcast = FALSE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -39,6 +40,25 @@ pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
     ret <- spmd.gather.object(ret, rank.dest = rank.source, comm = comm)
     if(COMM.RANK != rank.source){
       ret <- NULL
+    } else{
+      tmp <- list()
+      for(i in 1:length(ret)){
+        tmp <- c(tmp, ret[[i]])
+      }
+      ret <- tmp
+    }
+
+    if(bcast){
+      ret <- spmd.bcast.object(ret, rank.source = rank.source, comm = comm)
+    }
+  } else{
+    if(bcast){
+      ret <- spmd.allgather.object(ret, comm = comm, unlist = FALSE)
+      tmp <- list()
+      for(i in 1:length(ret)){
+        tmp <- c(tmp, ret[[i]])
+      }
+      ret <- tmp
     }
   }
 

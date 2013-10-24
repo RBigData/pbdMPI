@@ -246,7 +246,7 @@ task.pull <- function(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
   }
 
   if(bcast){
-    ret <- bcast(ret, rank.source = rank.master, comm = comm)
+    ret <- spmd.bcast.object(ret, rank.source = rank.master, comm = comm)
   }
 
   ret

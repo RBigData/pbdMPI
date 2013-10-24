@@ -10,10 +10,11 @@
   pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
            rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm)
   pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd"),
-            rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm)
+            rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
+            bcast = FALSE)
   pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
             pbd.mode = c("mw", "spmd"), rank.source = .SPMD.CT$rank.root,
-            comm = .SPMD.CT$comm)
+            comm = .SPMD.CT$comm, bcast = FALSE)
 }
 \arguments{
   \item{X}{a matrix or array in \code{pbdApply} or a list in \code{pbdLapply} and
@@ -26,6 +27,7 @@
   \item{pbd.mode}{mode of distributed data \code{X}.}
   \item{rank.source}{a rank of source where \code{X} broadcast from.}
   \item{comm}{a communicator number.}
+  \item{bcast}{if bcast to all ranks.}
 }
 \details{
   All functions are majorly called in manager/workers mode

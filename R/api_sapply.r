@@ -37,6 +37,19 @@ pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
     if(COMM.RANK != rank.source){
       ret <- NULL
     }
+
+    if(bcast){
+      ret <- spmd.bcast.object(ret, rank.source = rank.source, comm = comm)
+    }
+  } else{
+    if(bcast){
+      ret <- spmd.allgather.object(ret, comm = comm, unlist = FALSE)
+      tmp <- list()
+      for(i in 1:length(ret)){
+        tmp <- c(tmp, ret[[i]])
+      }
+      ret <- tmp
+    }
   }
 
   ret
