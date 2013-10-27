@@ -89,9 +89,6 @@ fi
 
 
 dnl Check MPI in path.
-AC_CHECK_PROG(MPIRUN, mpirun, mpirun, "F")
-AC_CHECK_PROG(MPIEXEC, mpiexec, mpiexec, "F")
-AC_CHECK_PROG(ORTERUN, orterun, orterun, "F")
 AC_CHECK_PROG(SED, sed, sed, "F")
 AC_CHECK_PROG(MPICC, mpicc, mpicc, "F")
 AC_CHECK_PROG(OMPI_INFO, ompi_info, ompi_info, "F")

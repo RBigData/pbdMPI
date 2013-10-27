@@ -9,7 +9,7 @@
 }
 \usage{
   task.pull(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
-            comm = .SPMD.CT$comm)
+            comm = .SPMD.CT$comm, bcast = FALSE)
 
   task.pull.workers(FUN = function(jid, ...){ return(jid) }, ...,
                     rank.master = .SPMD.CT$rank.root, comm = .SPMD.CT$comm)
@@ -22,6 +22,7 @@
   \item{...}{extra variables for \code{FUN}.}
   \item{rank.master}{a rank of master where \code{jid} sent from.}
   \item{comm}{a communicator number.}
+  \item{bcast}{if bcast to all ranks.}
 }
 \details{
   All of these functions are for SPMD, NOT for master/workers.
