@@ -94,6 +94,8 @@ export(
   "comm.sort.double",
   "comm.any",
   "comm.all",
+  "comm.timer",
+  "comm.Rprof",
   "comm.stop",
   "comm.warning",
   "comm.warnings",
