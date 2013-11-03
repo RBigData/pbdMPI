@@ -21,7 +21,8 @@
   mpi.finalize = TRUE,
   quit = TRUE,
   msg.flush = TRUE,
-  msg.barrier = TRUE
+  msg.barrier = TRUE,
+  prof.all.rank = FALSE
 ) # End of .SPMD.CT
 
 .SPMD.OP <- c("sum", "prod", "max", "min")

@@ -1,3 +1,8 @@
+2013-11-02: Ver. 0.2-2
+  * Fix some bugs and add gathering for task.pull(), pbdLapply(), and
+    pbdSapply().
+  * Add comm.Rprof().
+
 2013-10-02: Ver. 0.2-2
   * Add comm.write(), comm.write.table(), comm.rite.csv(), and
     comm.write.csv2().
