@@ -35,6 +35,7 @@
   \code{quit}           \tab TRUE       \tab if quit when errors occur \cr
   \code{msg.flush}      \tab TRUE       \tab if flush message for comm.cat/comm.print \cr
   \code{msg.barrier}    \tab TRUE       \tab if barrier message for comm.cat/comm.print \cr
+  \code{Rprof.all.rank} \tab FALSE      \tab if call Rprof for all ranks \cr
 }
 
   The elements of \code{.SPMD.OP} list the implemented operations for
