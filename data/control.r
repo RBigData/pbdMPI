@@ -22,7 +22,7 @@
   quit = TRUE,
   msg.flush = TRUE,
   msg.barrier = TRUE,
-  prof.all.rank = FALSE
+  Rprof.all.rank = FALSE
 ) # End of .SPMD.CT
 
 .SPMD.OP <- c("sum", "prod", "max", "min")
