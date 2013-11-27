@@ -57,6 +57,10 @@
   #   assign(".__DISABLE_MPI_INIT__", FALSE, envir = .GlobalEnv)
   # }
 
+  if(exists(".__MPI_APTS__", envir = .GlobalEnv)){
+    rm(list = c(".__MPI_APTS__"), envir = .GlobalEnv)
+  }
+
   .Call("spmd_initialize", PACKAGE = "pbdMPI")
   # .comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
   # .comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")

@@ -9,13 +9,17 @@
 .onLoad <- function(libname, pkgname){
   library.dynam("pbdMPI", pkgname, libname)
 
-  if(! is.loaded("spmd_initialize", PACKAGE = "pbdMPI")){
-    stop("pbdMPI is not loaded.")
-  }
+  # if(! is.loaded("spmd_initialize", PACKAGE = "pbdMPI")){
+  #   stop("pbdMPI is not loaded.")
+  # }
 
   # if(! exists(".__DISABLE_MPI_INIT__", envir = .GlobalEnv)){
   #   assign(".__DISABLE_MPI_INIT__", FALSE, envir = .GlobalEnv)
   # }
+
+  if(exists(".__MPI_APTS__", envir = .GlobalEnv)){
+    rm(list = c(".__MPI_APTS__"), envir = .GlobalEnv)
+  }
 
   .Call("spmd_initialize", PACKAGE = "pbdMPI")
   # .comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")

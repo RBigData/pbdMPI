@@ -322,6 +322,17 @@ mca_base_param_reg_int
       \end{itemize}
 
 \item {\bf\color{blue} Q:}
+      (Mac) If installs successfully, but fails at initialization with
+\begin{Error}
+Library not loaded: /usr/lib/libmpi.0.dylib
+\end{Error}
+      {\bf\color{blue} A:}
+      Please make sure the GNU compiler, \proglang{R}, OpenMPI, and
+      \pkg{pbdMPI} are all built and installed under unified conditions,
+      such as 64-bits environment. 32-bits \proglang{R} may not be able to
+      load 64-bits OpenMPI nor \pkg{pbdMPI}.
+
+\item {\bf\color{blue} Q:}
       (Linux) If OpenMPI \code{mpiexec} fails with
 %{\color{red}
 \begin{Error}
