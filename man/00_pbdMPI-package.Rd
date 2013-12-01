@@ -60,7 +60,10 @@
   \code{pbdMPI/inst/examples/test_long_vector/} \tab long vector examples \cr
 }
   where \code{test_long_vector} needs to recompile with setting
-  \code{#define MPI_LONG_DEBUG 1} in \code{pbdMPI/src/pkg_constant.h}.
+
+  \code{#define MPI_LONG_DEBUG 1}
+
+  in \code{pbdMPI/src/pkg_constant.h}.
 
   The current version is mainly written and tested under OpenMPI
   environments in Linux system (xubuntu-11.04). Also, it is tested
