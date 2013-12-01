@@ -11,8 +11,6 @@ spmd.comm.set.errhandler <- function(comm = .SPMD.CT$comm){
   invisible(ret)
 } # End of spmd.comm.set.errhandler().
 
-comm.set.errhandler <- spmd.comm.set.errhandler
-
 spmd.comm.is.null <- function(comm = .SPMD.CT$comm){
   .Call("spmd_comm_is_null", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.is.null().
@@ -206,8 +204,6 @@ serv.lookup <- spmd.serv.lookup
 spmd.comm.get.parent <- function(comm = .SPMD.CT$intercomm){
   .Call("spmd_comm_get_parent", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.get.parent().
-
-comm.get.parent <- spmd.comm.get.parent
 
 spmd.intercomm.merge <- function(intercomm = .SPMD.CT$intercomm,
     high = 0L, comm = .SPMD.CT$comm){

@@ -60,7 +60,7 @@
 # > mpiexec -np 2 Rscript demo.r
 
 ### Initial
-library(pbdMPI, quiet = TRUE)
+library(pbdMPI, quietly = TRUE)
 init()
 
 ### Example

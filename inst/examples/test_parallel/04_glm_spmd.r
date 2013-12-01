@@ -1,7 +1,7 @@
 ### This example is analog to "glm_par.r", and one can run it by the command
 ### > mpiexec -np 2 Rscript --vanilla 04_glm_spmd.r
 
-library(pbdMPI, quiet = TRUE)
+library(pbdMPI, quietly = TRUE)
 init()
 
 rdata <- function(n){

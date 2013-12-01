@@ -1,4 +1,4 @@
-library(pbdMPI, quiet = TRUE)
+library(pbdMPI, quietly = TRUE)
 init()
 
 time.proc <- list()

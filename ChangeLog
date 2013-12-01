@@ -1,3 +1,10 @@
+2013-11-30: Ver. 0.2-2
+  * Add comm.range(), comm.max(), and comm.min().
+  * Add comm.which(), comm.which.max(), and comm.which.min().
+
+2013-11-26: Ver. 0.2-2
+  * Disable seg. fault of overloading .RData and .RHistory.
+
 2013-11-02: Ver. 0.2-2
   * Fix some bugs and add gathering for task.pull(), pbdLapply(), and
     pbdSapply().

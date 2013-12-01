@@ -17,5 +17,3 @@ spmd.comm.spawn <- function(worker, worker.arg, n.workers,
                as.integer(intercomm), PACKAGE = "pbdMPI")
   invisible(ret)
 } # End of spmd.comm.spawn().
-
-comm.spawn <- spmd.comm.spawn

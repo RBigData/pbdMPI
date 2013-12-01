@@ -12,8 +12,6 @@ spmd.hostinfo <- function(comm = .SPMD.CT$comm){
   invisible()
 } # End of spmd.hostinfo().
 
-comm.hostinfo <- spmd.hostinfo
-
 spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
     rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
     quiet = .SPMD.CT$print.quiet, flush = .SPMD.CT$msg.flush,

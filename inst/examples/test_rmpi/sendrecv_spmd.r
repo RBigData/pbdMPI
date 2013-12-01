@@ -1,6 +1,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...]_spmd.r
 
-library(pbdMPI, quiet = TRUE)
+library(pbdMPI, quietly = TRUE)
 init()
 
 source("./01_setting")
