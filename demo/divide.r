@@ -1,6 +1,6 @@
 ### > mpiexec -np 4 Rscript divide.r
 
-library(pbdMPI)
+library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()

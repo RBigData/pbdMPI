@@ -624,6 +624,7 @@ LIBOBJS
 PROF_LDFLAGS
 PKG_LIBS
 PKG_CPPFLAGS
+MPI_LDFLAGS
 MPI_INCL2
 MPI_DEFS
 MPI_LIBS
@@ -1324,7 +1325,7 @@ Optional Packages:
   --with-mpi-libpath=LIB_PATH
                           location of MPI library files
   --with-mpi-type=MPI_TYPE
-                          type of MPI: OPENMPI, MPICH2, or MPICH3
+                          type of MPI: OPENMPI, MPICH2, MPICH3, or INTELMPI
   --with-mpi=MPI_ROOT     location of top-level MPI directory
 
 Some influential environment variables:
@@ -4189,8 +4190,15 @@ case "$MPITYPE" in
       PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
     fi
     ;;
+  INTELMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
+    ;;
   *)
-    as_fn_error $? "Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it" "$LINENO" 5
+        if test "X${MPI_LDFLAGS}" != "X" ; then
+      PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
+    else
+      as_fn_error $? "Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it" "$LINENO" 5
+    fi
     ;;
 esac
 
@@ -4259,12 +4267,14 @@ echo ">> MPI_LIBPATH = ${MPI_LIBPATH}"
 echo ">> MPI_LIBS = ${MPI_LIBS}"
 echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
+echo ">> MPI_LDFLAGS = ${MPI_LDFLAGS}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${PKG_LIBS}"
 echo ">> PROF_LDFLAGS = ${PROF_LDFLAGS}"
 echo " "
 echo "*************************************************************************"
 echo " "
+
 
 
 

@@ -1,3 +1,6 @@
+2013-12-03: Ver. 0.2-2
+  * Add Intel MPI support.
+
 2013-12-01: Ver. 0.2-2
   * Add comm.range(), comm.max(), and comm.min().
   * Add comm.which(), comm.which.max(), and comm.which.min().
