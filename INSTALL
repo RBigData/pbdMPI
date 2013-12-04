@@ -111,6 +111,8 @@ SET RTOOLS=C:\Rtools\bin\
 SET MINGW=C:\Rtools\gcc-4.6.3\bin
 SET MPI_ROOT_64=C:\Program Files\MPICH2
 SET MPI_ROOT_32=C:\Program Files (x86)\MPICH2
+rem SET MPI_ROOT_64=C:\Program Files\Miscrosoft HPC Pack 2012
+rem SET MPI_ROOT_32=C:\Program Files\Miscrosoft HPC Pack 2012
 :X64
 set MPI_ROOT=%MPI_ROOT_64%
 IF "%1"=="64" GOTO END 
@@ -140,7 +142,7 @@ SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%\BIN\;%PATH_ORG%
 
      C:/> set_mpisrc
      C:/> tar zxvf pbdMPI_0.1-0.tar.gz
-     C:/> R CMD INSTALL --build pbdMPI
+     C:/> R CMD INSTALL --build --no-test-load pbdMPI
      C:/> R CMD INSTALL pbdMPI_0.1-0.zip
 
 

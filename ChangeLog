@@ -1,5 +1,6 @@
 2013-12-03: Ver. 0.2-2
   * Add Intel MPI support.
+  * Add Intel Miscrosoft HPC Pack 2012 (MS-MPI) support.
 
 2013-12-01: Ver. 0.2-2
   * Add comm.range(), comm.max(), and comm.min().
