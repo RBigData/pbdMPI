@@ -91,7 +91,7 @@
 
 Example 1:
 \begin{Code}[title=SPMD R Script]
-  library(pbdMPI, quiet = TRUE)
+  library(pbdMPI, quietly = TRUE)
   init()
 
   id <- get.jid(total.tasks)
@@ -116,7 +116,7 @@ unless communicated.
 
 Example 2:
 \begin{Code}[title=SPMD R Script]
-  library(pbdMPI, quiet = TRUE)
+  library(pbdMPI, quietly = TRUE)
   init()
 
   ### Directly using a loop
@@ -151,7 +151,7 @@ mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
 \end{Command}
 \begin{Code}[title=SPMD R Script (task\_pull)]
 ### Initial
-library(pbdMPI, quiet = TRUE)
+library(pbdMPI, quietly = TRUE)
 
 ### Examples
 FUN <- function(jid){

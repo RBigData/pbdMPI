@@ -27,7 +27,7 @@ AC_ARG_WITH([mpi-libpath],
             [mpi_lib_path=$withval])
 AC_ARG_WITH([mpi-type],
             AC_HELP_STRING([--with-mpi-type=MPI_TYPE],
-                           [type of MPI: OPENMPI, MPICH2, or MPICH3]),
+                           [type of MPI: OPENMPI, MPICH2, MPICH3, or INTELMPI]),
             [mpi_type=$withval])
 
 dnl All AC_ARG_ENABLE
@@ -568,8 +568,16 @@ case "$MPITYPE" in
       PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
     fi
     ;;
+  INTELMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
+    ;;
   *)
-    AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
+    dnl suppose MPI_LDFLAGS is provided
+    if test "X${MPI_LDFLAGS}" != "X" ; then
+      PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
+    else
+      AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
+    fi
     ;;
 esac
 
@@ -643,6 +651,7 @@ echo ">> MPI_LIBPATH = ${MPI_LIBPATH}"
 echo ">> MPI_LIBS = ${MPI_LIBS}"
 echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
+echo ">> MPI_LDFLAGS = ${MPI_LDFLAGS}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${PKG_LIBS}"
 echo ">> PROF_LDFLAGS = ${PROF_LDFLAGS}"
@@ -663,6 +672,7 @@ AC_SUBST(MPI_LIBPATH)
 AC_SUBST(MPI_LIBS)
 AC_SUBST(MPI_DEFS)
 AC_SUBST(MPI_INCL2)
+AC_SUBST(MPI_LDFLAGS)
 AC_SUBST(PKG_CPPFLAGS)
 AC_SUBST(PKG_LIBS)
 AC_SUBST(PROF_LDFLAGS)

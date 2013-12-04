@@ -1,7 +1,7 @@
 ### This example is analog to "parMM_par.r", and one can run it by the command
 ### > mpiexec -np 2 Rscript --vanilla 02_parMM_spmd.r
 
-library(pbdMPI, quiet = TRUE)
+library(pbdMPI, quietly = TRUE)
 init()
 
 set.seed(123)

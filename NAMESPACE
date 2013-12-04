@@ -6,6 +6,7 @@ import(methods, rlecuyer)
 
 exportPattern("^spmd\\.[[:alpha:]]+")
 # exportPattern("^[\\.]")
+exportPattern("^comm\\.[[:alpha:]]+")
 
 exportMethods(
   "allgather",
@@ -28,43 +29,23 @@ export(
 
   ### "R/spmd_communicator.r"
   "barrier",
-#  "comm.set.errhandler",
-  "comm.is.null",
-  "comm.rank",
-  "comm.size",
-  "comm.dup",
-  "comm.free",
   "init",
   "finalize",
 #  "is.master",
 #  "get.processor.name",
-  "comm.abort",
-  "comm.split",
-  "comm.disconnect",
-  "comm.connect",
-  "comm.accept",
-  "comm.split",
   "port.open",
   "port.close",
   "serv.lookup",
   "serv.publish",
   "serv.unpublish",
-#  "comm.spawn",
-#  "comm.get.parent",
   "intercomm.merge",
   "intercomm.create",
-  "comm.c2f",
 
   ### "R/spmd_info.r"
   "info.create",
   "info.set",
   "info.free",
   "info.c2f",
-
-  ### "R/spmd_tool.r"
-#  "comm.hostinfo",
-  "comm.print",
-  "comm.cat",
 
   ### "R/spmd_utility.r"
   "probe",
@@ -85,24 +66,6 @@ export(
   "pbdApply",
   "pbdLapply",
   "pbdSapply",
-  "comm.set.seed",
-  "comm.reset.seed",
-  "comm.end.seed",
-  "comm.sort",
-  "comm.sort.default",
-  "comm.sort.integer",
-  "comm.sort.double",
-  "comm.any",
-  "comm.all",
-  "comm.timer",
-  "comm.Rprof",
-  "comm.stop",
-  "comm.warning",
-  "comm.warnings",
-  "comm.write",
-  "comm.write.table",
-  "comm.write.csv",
-  "comm.write.csv2",
   "task.pull.workers",
   "task.pull.master",
   "task.pull"
