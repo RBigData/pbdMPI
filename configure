@@ -3226,7 +3226,8 @@ fi
              /usr/lib/mpi/gcc/openmpi \
              /usr/lib64/mpi/gcc/openmpi \
              /usr/lib/mpi/gcc/ompi \
-             /usr/lib64/mpi/gcc/ompi ; do
+             /usr/lib64/mpi/gcc/ompi \
+             /usr/local/mpi/openmpi ; do
       if test -f $d/include/openmpi-i386/mpi.h && test -d $d/lib/openmpi/lib; then
               echo "I am here $d and it is openmpi"
         MPI_ROOT=$d

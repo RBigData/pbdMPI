@@ -244,7 +244,8 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
              /usr/lib/mpi/gcc/openmpi \
              /usr/lib64/mpi/gcc/openmpi \
              /usr/lib/mpi/gcc/ompi \
-             /usr/lib64/mpi/gcc/ompi ; do
+             /usr/lib64/mpi/gcc/ompi \
+             /usr/local/mpi/openmpi ; do
       if test -f $d/include/openmpi-i386/mpi.h && test -d $d/lib/openmpi/lib; then
       dnl This is what Fedora 17 had
         echo "I am here $d and it is openmpi"
