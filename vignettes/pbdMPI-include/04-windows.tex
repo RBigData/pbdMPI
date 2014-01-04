@@ -93,3 +93,50 @@ R CMD INSTALL --build pbdMPI
 R CMD INSTALL pbdMPI_0.1-0.zip
 \end{Command}
 
+
+\subsection[Microsoft HPC Pack 2012 (MS-MPI)]{Microsoft HPC Pack 2012 (MS-MPI)}
+\label{sec:msmpi}
+\addcontentsline{toc}{subsection}{\thesubsection. Microsoft HPC Pack 2012 (MS-MPI)}
+
+It is possible to use Microsoft HPC Pack 2012 (MS-MPI) on Windows 7 machines.
+The binary installations of MS-MPI system is available
+from the website (\url{https://www.microsoft.com/hpc/}).
+\code{mpi_x86.msi} is for 32-bits and
+\code{mpi_x64.msi} is for 64-bits.
+The installation is easily done with a few clicks provided some service packs
+and Visual C++ runtime are installed correctly. The
+default environment and path are recommended.
+
+Make sure that \proglang{R}, \pkg{Rtools}, and \pkg{MINGW} are in the
+\code{PATH}. See details on the website "Building R for Windows" at
+\url{http://cran.r-project.org/bin/windows/Rtools/}.
+
+For example, the minimum requirement may be
+\begin{Command}
+### Under command mode, or save in a batch file.
+SET R_HOME=C:\Program Files\R\R-2.15.1
+SET RTOOLS=C:\Rtools\bin\
+SET MINGW=C:\Rtools\gcc-4.6.3\bin
+SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%PATH%
+SET MPI_ROOT_64=C:\Program Files\Microsoft HPC Pack 2012
+SET MPI_ROOT_32=C:\Program Files\Microsoft HPC Pack 2012
+\end{Command}
+
+With a correct \code{PATH}, one can use the \proglang{R} commands
+to install/build the \pkg{pbdMPI}:
+\begin{Command}
+### Under command mode, build and install the binary.
+tar zxvf pbdMPI_0.1-0.tar.gz
+R CMD INSTALL --build --no-test-load pbdMPI
+R CMD INSTALL pbdMPI_0.1-0.zip
+\end{Command}
+
+{\color{red} \bf Warning:} For some reasons, MS-MPI fails at the test load step
+of installation for 64-bits version. \code{-}\code{--no-test-load} can avoid
+crash and complete building of binary file, and should be similar for building
+downstream packages.
+
+{\code{red} \bf Warning:} For other \proglang{pbdR} packages, it is possible to
+compile without further changes of configurations. However, only
+\pkg{pbdMPI} is tested regularly before any release.
+

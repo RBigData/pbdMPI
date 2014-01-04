@@ -390,6 +390,19 @@ ORTE_ERROR_LOG: Error in file ..\..\..\openmpi-1
 
 
 \item {\bf\color{blue} Q:}
+      (Windows) If MPICH2 \code{mpiexec} fails with
+%{\color{red}
+\begin{Error}
+c:\>"C:\Program Files\MPICH2\bin\mpiexec.exe" −np 2 Rscript C:\my_script.r
+launch failed: CreateProcess(Rscript C:\my_script.r) on 
+failed, error 2 - The system cannot find the file specified.
+\end{Error}
+%}
+      {\bf\color{blue} A:}
+      Please try to use \code{Rscript.exe} in windows system.
+
+
+\item {\bf\color{blue} Q:}
       For MPICH2 users, if installation fails with
 %{\color{red}
 \begin{Error}
@@ -404,7 +417,7 @@ collect2: ld returned 1 exit status
       MPICH2 by default does not install a shared library which means
       \code{libmpich.so} is missing and \pkg{pbdMPI} trys to link with a
       static library \code{libmpich.a} instead. Try to recompile MPICH2 with
-      a flag \code{--enable-shared} and reinstall \pkg{pbdMPI} again.
+      a flag \code{-}\code{--enable-shared} and reinstall \pkg{pbdMPI} again.
 
 \item {\bf\color{blue} Q:}
       For MPICH2 and MPICH3 users, if installation fails with
@@ -432,8 +445,8 @@ ERROR: compilation failed for package 'pbdMPI'
 \item {\bf\color{blue} Q:} 
       \pkg{pbdMPI} is linked with \pkg{pbdPROF}~\citep{Chen2013pbdPROFpackage}
       and \pkg{mpiP}~\citep{mpiP}.
-      (i.e. \code{--enable-pbdPROF} is used in \pkg{pbdMPI} and
-            \code{--with-mpiP} is used in \pkg{pbdPROF}.)
+      (i.e. \code{-}\code{--enable-pbdPROF} is used in \pkg{pbdMPI} and
+            \code{-}\code{--with-mpiP} is used in \pkg{pbdPROF}.)
       If \pkg{pbdMPI} compilation successful, but load fails with 
 \begin{Error}
 Error : .onLoad failed in loadNamespace() for 'pbdMPI', details:

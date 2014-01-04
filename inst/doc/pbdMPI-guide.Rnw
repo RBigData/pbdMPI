@@ -12,20 +12,24 @@
 \author{
 \begin{minipage}{6in}
 \centering
-Wei-Chen Chen$^1$, George Ostrouchov$^{1,2}$, Drew Schmidt$^2$, \\
-Pragneshkumar Patel$^2$, Hao Yu$^3$
+Wei-Chen Chen$^1$, George Ostrouchov$^{2,3}$, Drew Schmidt$^3$, \\
+Pragneshkumar Patel$^3$, Hao Yu$^4$
 \end{minipage}
 \\
 \\
-$^1$Computer Science and Mathematics Division, \\
-Oak Ridge National Laboratory, \\
-Oak Ridge, TN, USA \\
-\\
-$^2$Remote Data Analysis and Visualization Center,\\
+$^1$Department of Ecology and Evolutionary Biology, \\
 University of Tennessee, \\
 Knoxville, TN, USA \\
 \\
-$^3$University of Western Ontario, \\
+$^2$Computer Science and Mathematics Division, \\
+Oak Ridge National Laboratory, \\
+Oak Ridge, TN, USA \\
+\\
+$^3$National Institute for Computational Sciences, \\
+University of Tennessee, \\
+Knoxville, TN, USA \\
+\\
+$^4$University of Western Ontario, \\
 London, Ontario, Canada \\
 %\\
 %\\
