@@ -1,8 +1,8 @@
 # Some base functions.
 
 comm.length <- function(x, comm = .SPMD.CT$comm){
-  if(! comm.all(is.vector(x))){
-    comm.stop("x should be a vector.")
+  if(! comm.all(is.vector(x), comm = comm)){
+    comm.stop("x should be a vector.", comm = comm)
   }
 
   ret <- allreduce(length(x), op = "sum", comm = comm)
@@ -16,8 +16,8 @@ comm.sum <- function(..., na.rm = TRUE, comm = .SPMD.CT$comm){
 } # End of comm.sum().
 
 comm.mean <- function(x, na.rm = TRUE, comm = .SPMD.CT$comm){
-  if(! comm.all(is.vector(x))){
-    comm.stop("x should be a vector.")
+  if(! comm.all(is.vector(x), comm = comm)){
+    comm.stop("x should be a vector.", comm = comm)
   }
 
   if(na.rm){
@@ -26,13 +26,13 @@ comm.mean <- function(x, na.rm = TRUE, comm = .SPMD.CT$comm){
   }
   tl.x <- allreduce(length(x), op = "sum", comm = comm)
 
-  ret <- comm.sum(x / tl.x)
+  ret <- comm.sum(x / tl.x, comm = comm)
   ret
 } # End of comm.mean().
 
 comm.var <- function(x, na.rm = TRUE, comm = .SPMD.CT$comm){
-  if(! comm.all(is.vector(x))){
-    comm.stop("x should be a vector.")
+  if(! comm.all(is.vector(x), comm = comm)){
+    comm.stop("x should be a vector.", comm = comm)
   }
 
   if(na.rm){
@@ -41,8 +41,8 @@ comm.var <- function(x, na.rm = TRUE, comm = .SPMD.CT$comm){
   }
   tl.x <- allreduce(length(x), op = "sum", comm = comm)
 
-  mean.x.2 <- comm.sum(x^2 / (tl.x - 1))
-  mean.x <- comm.sum(x / tl.x)
+  mean.x.2 <- comm.sum(x^2 / (tl.x - 1), comm = comm)
+  mean.x <- comm.sum(x / tl.x, comm = comm)
   ret <- mean.x.2 - mean.x^2 * (tl.x / (tl.x - 1))
   ret
 } # End of comm.var().
