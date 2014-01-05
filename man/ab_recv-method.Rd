@@ -29,14 +29,14 @@
   \item{status}{a status number.}
 }
 \details{
-  A corresponding \code{send} should be evoked at the corresponding rank
+  A corresponding \code{send()} should be evoked at the corresponding rank
   \code{rank.source}.
 }
 \value{
   An object is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.recv.*}:
+For calling \code{spmd.recv.*()}:
 \describe{
 \item{\code{signature(x = "ANY")}}{}
 \item{\code{signature(x = "integer")}}{}
@@ -52,7 +52,7 @@ For calling \code{spmd.recv.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{irecv}}, \code{\link{send}}, \code{\link{isend}}.
+  \code{\link{irecv}()}, \code{\link{send}()}, \code{\link{isend}()}.
 }
 \examples{
 \dontrun{

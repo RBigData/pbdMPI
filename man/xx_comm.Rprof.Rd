@@ -12,20 +12,21 @@
     rank.Rprof = .SPMD.CT$rank.source, comm = .SPMD.CT$comm)
 }
 \arguments{
-  \item{filename}{as in \code{\link[utils]{Rprof}}.}
-  \item{append}{as in \code{\link[utils]{Rprof}}.}
-  \item{interval}{as in \code{\link[utils]{Rprof}}.}
-  \item{memory.profiling}{as in \code{\link[utils]{Rprof}}.}
-  \item{gc.profiling}{as in \code{\link[utils]{Rprof}}.}
-  \item{line.profiling}{as in \code{\link[utils]{Rprof}}.}
-  \item{numfiles}{as in \code{\link[utils]{Rprof}}.}
-  \item{bufsize}{as in \code{\link[utils]{Rprof}}.}
+  \item{filename}{as in \code{\link[utils]{Rprof}()}.}
+  \item{append}{as in \code{\link[utils]{Rprof}()}.}
+  \item{interval}{as in \code{\link[utils]{Rprof}()}.}
+  \item{memory.profiling}{as in \code{\link[utils]{Rprof}()}.}
+  \item{gc.profiling}{as in \code{\link[utils]{Rprof}()}.}
+  \item{line.profiling}{as in \code{\link[utils]{Rprof}()}.}
+  \item{numfiles}{as in \code{\link[utils]{Rprof}()}.}
+  \item{bufsize}{as in \code{\link[utils]{Rprof}()}.}
   \item{all.rank}{if calling Rprof on all ranks (default = FALSE).}
-  \item{rank.Rprof}{rank for calling Rprof if \code{all.rank = FALSE} (default = 0).}
+  \item{rank.Rprof}{rank for calling Rprof if
+                    \code{all.rank = FALSE} (default = 0).}
   \item{comm}{a communicator number.}
 }
 \details{
-  as in \code{\link[utils]{Rprof}}.
+  as in \code{\link[utils]{Rprof}()}.
 }
 \references{
   Programming with Big Data in R Website:

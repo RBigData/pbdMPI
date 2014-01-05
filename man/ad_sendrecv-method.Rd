@@ -37,7 +37,7 @@
   \item{status}{a status number.}
 }
 \details{
-  A corresponding \code{sendrecv} should be evoked at the corresponding ranks
+  A corresponding \code{sendrecv()} should be evoked at the corresponding ranks
   \code{rank.dest} and \code{rank.source}.
 
   \code{rank.dest} and \code{rank.source} can be \code{as.integer(NULL)} to
@@ -48,7 +48,7 @@
   A \code{x} is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.sendrecv.*}:
+For calling \code{spmd.sendrecv.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "ANY")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer")}}{}
@@ -64,7 +64,7 @@ For calling \code{spmd.sendrecv.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{sendrecv.replace}}.
+  \code{\link{sendrecv.replace}()}.
 }
 \examples{
 \dontrun{

@@ -25,7 +25,7 @@ comm.sort <- function(x, decreasing = FALSE, na.last = NA,
 ### S3 Methods.
 comm.sort.default <- function(x, decreasing = FALSE, na.last = NA,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
-  stop("x should be all in vector.")
+  comm.stop("x should be all in vector.", comm = comm)
 } # End of comm.sort.default().
 
 comm.sort.integer <- function(x, decreasing = FALSE, na.last = NA,

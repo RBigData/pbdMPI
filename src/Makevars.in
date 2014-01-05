@@ -22,7 +22,7 @@ all: $(SHLIB)
 	@echo "MPI_INCL2 = @MPI_INCL2@" >> $(USER_CONF)
 	@echo "MPI_LDFLAGS = @MPI_LDFLAGS@" >> $(USER_CONF)
 	@echo "PKG_CPPFLAGS = @PKG_CPPFLAGS@" >> $(USER_CONF)
-	@echo "PKG_LIBS = ${PKG_LIBS}" >> $(USER_CONF)
+	@echo "PKG_LIBS = @PKG_LIBS@" >> $(USER_CONF)
 	@echo "PROF_LDFLAGS = @PROF_LDFLAGS@" >> $(USER_CONF)
 
 $(SHLIB): $(OBJECTS)

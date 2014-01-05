@@ -43,14 +43,14 @@
   unspecified. If specified, the type should be one of integer, double, or
   raw specified correctly according to the type of \code{x}.
 
-  If \code{x.count} is specified, then the \code{spmd.scatterv.*} is 
+  If \code{x.count} is specified, then the \code{spmd.scatterv.*()} is 
   called.
 }
 \value{
   An element of \code{x} is returned according to the rank id.
 }
 \section{Methods}{
-For calling \code{spmd.scatter.*}:
+For calling \code{spmd.scatter.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "missing", x.count = "missing")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer", x.count = "missing")}}{}
@@ -58,7 +58,7 @@ For calling \code{spmd.scatter.*}:
 \item{\code{signature(x = "raw", x.buffer = "raw", x.count = "missing")}}{}
 }
 
-For calling \code{spmd.scatterv.*}:
+For calling \code{spmd.scatterv.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "missing", x.count = "integer")}}{}
 \item{\code{signature(x = "ANY", x.buffer = "ANY", x.count = "integer")}}{}
@@ -75,7 +75,7 @@ For calling \code{spmd.scatterv.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{bcast}}.
+  \code{\link{bcast}()}.
 }
 \examples{
 \dontrun{

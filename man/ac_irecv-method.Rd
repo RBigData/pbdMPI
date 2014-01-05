@@ -30,19 +30,19 @@
   \item{status}{a status number.}
 }
 \details{
-  A corresponding \code{send}/\code{isend} should be evoked at the
+  A corresponding \code{send()}/\code{isend()} should be evoked at the
   corresponding rank \code{rank.source}.
 
-  \strong{Warning:} \code{irecv} is not safe for \R since \R is not a thread
+  \strong{Warning:} \code{irecv()} is not safe for \R since \R is not a thread
   safe package that a dynamic returning object requires certain blocking or
   barrier at some where. Current, the default method is equivalent to the
-  default method of \code{recv}.
+  default method of \code{recv()}.
 }
 \value{
   An object is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.irecv.*}:
+For calling \code{spmd.irecv.*()}:
 \describe{
 \item{\code{signature(x = "ANY")}}{}
 \item{\code{signature(x = "integer")}}{}
@@ -58,7 +58,7 @@ For calling \code{spmd.irecv.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{recv}}, \code{\link{send}}, \code{\link{isend}}.
+  \code{\link{recv}()}, \code{\link{send}()}, \code{\link{isend}()}.
 }
 \examples{
 \dontrun{

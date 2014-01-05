@@ -48,7 +48,7 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{get.jid}}.
+  \code{\link{get.jid}()}.
 }
 \examples{
 \dontrun{

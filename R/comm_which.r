@@ -4,12 +4,12 @@ comm.which <- function(x, arr.ind = FALSE, useNames = TRUE,
                        comm = .SPMD.CT$comm){
   tmp <- which(x, arr.ind = arr.ind, useNames = useNames)
   if(length(tmp) > 0){
-    tmp <- cbind(comm.rank(), tmp)
+    tmp <- cbind(comm.rank(comm), tmp)
   } else{
     tmp <- NULL
   }
 
-  ret <- allgather(tmp)
+  ret <- allgather(tmp, comm = comm)
   ret <- do.call("rbind", ret)
   if(!is.null(ret)){
     dim(ret) <- c(length(ret) / 2, 2)
@@ -22,13 +22,13 @@ comm.which <- function(x, arr.ind = FALSE, useNames = TRUE,
 comm.which.max <- function(x, comm = .SPMD.CT$comm){
   id.max <- which.max(x)
   x.max <- x[id.max] 
-  global.x.max <- max(do.call("c", allgather(x.max)),
+  global.x.max <- max(do.call("c", allgather(x.max, comm = comm)),
                       na.rm = TRUE, comm = comm)
 
   if(!is.null(global.x.max)){
-    rank.max <- comm.size()
+    rank.max <- comm.size(comm)
     if(x.max == global.x.max){
-      rank.max <- comm.rank()
+      rank.max <- comm.rank(comm)
     }
     global.rank.max <- allreduce(rank.max, op = "min", comm = comm)
     global.id.max <- bcast(id.max, comm = comm)
@@ -45,13 +45,13 @@ comm.which.max <- function(x, comm = .SPMD.CT$comm){
 comm.which.min <- function(x, comm = .SPMD.CT$comm){
   id.min <- which.min(x)
   x.min <- x[id.min] 
-  global.x.min <- min(do.call("c", allgather(x.min)),
+  global.x.min <- min(do.call("c", allgather(x.min, comm = comm)),
                       na.rm = TRUE, comm = comm)
 
   if(!is.null(global.x.min)){
-    rank.min <- comm.size()
+    rank.min <- comm.size(comm)
     if(x.min == global.x.min){
-      rank.min <- comm.rank()
+      rank.min <- comm.rank(comm)
     }
     global.rank.min <- allreduce(rank.min, op = "min", comm = comm)
     global.id.min <- bcast(id.min, comm = comm)

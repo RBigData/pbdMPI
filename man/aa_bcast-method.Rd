@@ -46,7 +46,7 @@ For calling \code{spmd.bcast.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{scatter}}.
+  \code{\link{scatter}()}.
 }
 \examples{
 \dontrun{
