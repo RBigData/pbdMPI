@@ -44,7 +44,7 @@
   unspecified. If specified, the type should be one of integer, double, or
   raw specified correctly according to the type of \code{x}.
 
-  If \code{x.count} is specified, then the \code{spmd.gatherv.*} is 
+  If \code{x.count} is specified, then the \code{spmd.gatherv.*()} is 
   called.
 }
 \value{
@@ -52,7 +52,7 @@
   is returned by default. Otherwise, \code{NULL} is returned.
 }
 \section{Methods}{
-For calling \code{spmd.gather.*}:
+For calling \code{spmd.gather.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "missing", x.count = "missing")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer", x.count = "missing")}}{}
@@ -60,7 +60,7 @@ For calling \code{spmd.gather.*}:
 \item{\code{signature(x = "raw", x.buffer = "raw", x.count = "missing")}}{}
 }
 
-For calling \code{spmd.gatherv.*}:
+For calling \code{spmd.gatherv.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "missing", x.count = "integer")}}{}
 \item{\code{signature(x = "ANY", x.buffer = "ANY", x.count = "integer")}}{}
@@ -77,7 +77,7 @@ For calling \code{spmd.gatherv.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{gather}}, \code{\link{allreduce}}, \code{\link{reduce}}.
+  \code{\link{gather}()}, \code{\link{allreduce}()}, \code{\link{reduce}()}.
 }
 \examples{
 \dontrun{

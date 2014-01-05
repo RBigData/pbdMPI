@@ -39,7 +39,7 @@
 }
 
   The elements of \code{.SPMD.OP} list the implemented operations for
-  \code{reduce} and \code{allreduce}. Currently, four operations are
+  \code{reduce()} and \code{allreduce()}. Currently, four operations are
   implemented "sum", "prod", "max", and "min".
 }
 \references{

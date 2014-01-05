@@ -43,14 +43,14 @@
   unspecified. If specified, the type should be one of integer, double, or
   raw specified correctly according to the type of \code{x}.
 
-  If \code{x.count} is specified, then the \code{spmd.allgatherv.*} is 
+  If \code{x.count} is specified, then the \code{spmd.allgatherv.*()} is 
   called.
 }
 \value{
   A list of length \code{comm.size(comm)} is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.allgather.*}:
+For calling \code{spmd.allgather.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "missing", x.count = "missing")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer", x.count = "missing")}}{}
@@ -67,7 +67,7 @@ For calling \code{spmd.allgatherv.*}:
 \item{\code{signature(x = "raw", x.buffer = "raw", x.count = "integer")}}{}
 }}
 \seealso{
-  \code{\link{gather}}, \code{\link{allreduce}}, \code{\link{reduce}}.
+  \code{\link{gather}()}, \code{\link{allreduce}()}, \code{\link{reduce}()}.
 }
 \references{
   Programming with Big Data in R Website:

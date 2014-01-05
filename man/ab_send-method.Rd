@@ -26,14 +26,14 @@
   \item{comm}{a communicator number.}
 }
 \details{
-  A corresponding \code{recv} should be evoked at the corresponding rank
+  A corresponding \code{recv()} should be evoked at the corresponding rank
   \code{rank.dest}.
 }
 \value{
   A \code{NULL} is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.send.*}:
+For calling \code{spmd.send.*()}:
 \describe{
 \item{\code{signature(x = "ANY")}}{}
 \item{\code{signature(x = "integer")}}{}
@@ -49,7 +49,7 @@ For calling \code{spmd.send.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{isend}}, \code{\link{recv}}, \code{\link{irecv}}.
+  \code{\link{isend}()}, \code{\link{recv}()}, \code{\link{irecv}()}.
 }
 \examples{
 \dontrun{

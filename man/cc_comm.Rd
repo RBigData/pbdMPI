@@ -89,55 +89,55 @@
 \details{
   Another functions are direct calls to MPI library.
 
-  \code{barrier} blocks all processors until everyone call this.
+  \code{barrier()} blocks all processors until everyone call this.
 
-  \code{comm.is.null} returns \code{-1} if the array of communicators is not
-  allocated, i.e. \code{init} is not called yet. It returns \code{1}
+  \code{comm.is.null()} returns \code{-1} if the array of communicators is not
+  allocated, i.e. \code{init()} is not called yet. It returns \code{1}
   if the communicator is not initialized, i.e. \code{NULL}. It
   returns \code{0} if the communicator is initialized.
 
-  \code{comm.rank} returns the processor's rank for the given \code{comm}.
+  \code{comm.rank()} returns the processor's rank for the given \code{comm}.
 
-  \code{comm.size} returns the total processes for the given \code{comm}.
+  \code{comm.size()} returns the total processes for the given \code{comm}.
 
-  \code{comm.dup} duplicate a \code{newcomm} from \code{comm}.
+  \code{comm.dup()} duplicate a \code{newcomm} from \code{comm}.
 
-  \code{comm.free} free a \code{comm}.
+  \code{comm.free()} free a \code{comm}.
 
-  \code{init} initializes a MPI world, and set two global variables
+  \code{init()} initializes a MPI world, and set two global variables
   \code{.comm.size} and \code{.comm.rank} in \code{.GlobalEnv}. A random seed
   will be preset by default (\code{Sys.getpid() + Sys.time()}) to the package
   \pkg{rlecuyer}.
 
-  \code{finalize} frees memory and finishes a MPI world if
+  \code{finalize()} frees memory and finishes a MPI world if
   \code{mpi.finalize = TRUE}.
 
-  \code{comm.abort} aborts MPI.
+  \code{comm.abort()} aborts MPI.
 
-  \code{comm.split} create a \code{newcomm} by color and key.
+  \code{comm.split()} create a \code{newcomm} by color and key.
 
-  \code{comm.disconnect} frees a \code{comm}.
+  \code{comm.disconnect()} frees a \code{comm}.
 
-  \code{comm.connect} connects a \code{newcomm}.
+  \code{comm.connect()} connects a \code{newcomm}.
 
-  \code{comm.accept} accepts a \code{newcomm}.
+  \code{comm.accept()} accepts a \code{newcomm}.
 
-  \code{port.open} opens a port and returns the port name.
+  \code{port.open()} opens a port and returns the port name.
 
-  \code{port.close} closes a port by name.
+  \code{port.close()} closes a port by name.
 
-  \code{serv.publish} publishs a service via \code{port.name}.
+  \code{serv.publish()} publishs a service via \code{port.name}.
 
-  \code{serv.unpublish} unpublishs a service via \code{port.name}.
+  \code{serv.unpublish()} unpublishs a service via \code{port.name}.
 
-  \code{serv.lookup} lookup the \code{serv.name} and returns the port name.
+  \code{serv.lookup()} lookup the \code{serv.name} and returns the port name.
 
-  \code{intercomm.merge} merges the \code{intercomm} to intracommunicator.
+  \code{intercomm.merge()} merges the \code{intercomm} to intracommunicator.
 
-  \code{intercomm.create} creates a new \code{intercomm} from two
+  \code{intercomm.create()} creates a new \code{intercomm} from two
   peer intracommunicators.
 
-  \code{comm.c2f} returns an integer for Fortran MPI support.
+  \code{comm.c2f()} returns an integer for Fortran MPI support.
 }
 \value{
   Most function return an invisible state of MPI call.

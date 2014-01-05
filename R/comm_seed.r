@@ -1,7 +1,7 @@
 ### Seed functions for random number generators.
 
 comm.set.seed <- function(seed = rep(12345, 6), diff = FALSE, name = NULL,
-    comm = .SPMD.CT$comm){
+    state = NULL, comm = .SPMD.CT$comm){
   if(exists(".lec.Random.seed.table", envir = .GlobalEnv)){
     comm.end.seed(comm)
   }
@@ -23,7 +23,7 @@ comm.set.seed <- function(seed = rep(12345, 6), diff = FALSE, name = NULL,
       }
       name <- names[comm.rank(comm) + 1]
     } else{
-      if(length(stream.name) != 1){
+      if(length(names) != 1){
         comm.stop("name should be of length 1 since diff = FALSE.",
                   comm = comm)
       }
@@ -33,6 +33,9 @@ comm.set.seed <- function(seed = rep(12345, 6), diff = FALSE, name = NULL,
 
   invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
   invisible(eval(.lec.CreateStream(names), envir = .GlobalEnv))
+  if(! is.null(state)){
+    invisible(eval(.lec.SetSeed(name, state), envir = .GlobalEnv))
+  }
   invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
   invisible()
 } # End of comm.set.seed().
@@ -71,7 +74,7 @@ comm.reset.seed <- function(comm = .SPMD.CT$comm){
   invisible()
 } # End of comm.reset.seed().
 
-comm.get.seed <- function(comm = .SPMD.CT$comm){
+comm.seed.state <- function(comm = .SPMD.CT$comm){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
 
   if(is.null(seed.table)){
@@ -94,5 +97,5 @@ comm.get.seed <- function(comm = .SPMD.CT$comm){
   invisible(.lec.SetSeed(name, ret))
   invisible(.lec.CurrentStream(name))
   ret
-} # End of comm.get.seed.state().
+} # End of comm.seed.state().
 

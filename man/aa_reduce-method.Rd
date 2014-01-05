@@ -41,7 +41,7 @@
   The reduced object of the same type as \code{x} is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.reduce.*}:
+For calling \code{spmd.reduce.*()}:
 \describe{
 \item{\code{signature(x = "ANY", x.buffer = "missing")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer")}}{}
@@ -56,7 +56,7 @@ For calling \code{spmd.reduce.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{allgather}}, \code{\link{gather}}, \code{\link{reduce}}.
+  \code{\link{allgather}()}, \code{\link{gather}()}, \code{\link{reduce}()}.
 }
 \examples{
 \dontrun{

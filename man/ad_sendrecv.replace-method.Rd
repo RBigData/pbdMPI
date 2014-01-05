@@ -36,23 +36,23 @@
   \item{status}{a status number.}
 }
 \details{
-  A corresponding \code{sendrecv.replace} should be evoked at the
+  A corresponding \code{sendrecv.replace()} should be evoked at the
   corresponding ranks \code{rank.dest} and \code{rank.source}.
 
   \code{rank.dest} and \code{rank.source} can be \code{as.integer(NULL)} to
   create a silent sendrecv operation which is more efficient than setting
   \code{rank.dest} and \code{rank.source} to be equal.
 
-  \strong{Warning:} \code{sendrecv.replace} is not safe for \R since \R is
+  \strong{Warning:} \code{sendrecv.replace()} is not safe for \R since \R is
   not a thread safe package that a dynamic returning object requires certain
   blocking or barrier at some where. The replaced object or memory address
-  `MUST' return correctly. This is almost equivalent to \code{sendrecv}.
+  `MUST' return correctly. This is almost equivalent to \code{sendrecv()}.
 }
 \value{
   A \code{x} is returned by default.
 }
 \section{Methods}{
-For calling \code{spmd.sendrecv.replace.*}:
+For calling \code{spmd.sendrecv.replace.*()}:
 \describe{
 \item{\code{signature(x = "ANY")}}{}
 \item{\code{signature(x = "integer")}}{}
@@ -68,7 +68,7 @@ For calling \code{spmd.sendrecv.replace.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{sendrecv}}.
+  \code{\link{sendrecv}()}.
 }
 \examples{
 \dontrun{

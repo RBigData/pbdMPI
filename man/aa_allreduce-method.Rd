@@ -52,7 +52,7 @@ For calling \code{spmd.allreduce.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{allgather}}, \code{\link{gather}}, \code{\link{reduce}}.
+  \code{\link{allgather}()}, \code{\link{gather}()}, \code{\link{reduce}()}.
 }
 \examples{
 \dontrun{

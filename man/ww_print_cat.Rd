@@ -25,16 +25,16 @@
   \item{rank.print}{rank for printing if not all ranks print (default = 0).}
   \item{comm}{communicator for printing (default = 1).}
   \item{quiet}{FALSE for printing rank number.}
-  \item{sep}{sep argument as in the \code{cat} function.}
-  \item{fill}{fill argument as in the \code{cat} function.}
-  \item{labels}{labels argument as in the \code{cat} function.}
-  \item{append}{labels argument as in the \code{cat} function.}
+  \item{sep}{sep argument as in the \code{cat()} function.}
+  \item{fill}{fill argument as in the \code{cat()} function.}
+  \item{labels}{labels argument as in the \code{cat()} function.}
+  \item{append}{labels argument as in the \code{cat()} function.}
   \item{flush}{if flush \code{con}.}
   \item{barrier}{if barrier \code{con}.}
   \item{con}{\code{stdout()} is the default to print message.}
 }
 \details{
-  \strong{Warning:} These two functions use \code{barrier} to make sure
+  \strong{Warning:} These two functions use \code{barrier()} to make sure
   the well printing process on screen, so should be called by all processors
   to avoid a deadlock. A typical misuse is called inside a condition check,
   such as \code{if(.comm.rank == 0) comm.cat(...)}.
@@ -43,7 +43,7 @@
   processors which print messages.
 }
 \value{
-  A \code{print} or \code{cat} is called for the specified processors
+  A \code{print()} or \code{cat()} is called for the specified processors
   and the messages of the input variables is shown on screen by default.
 }
 \references{
