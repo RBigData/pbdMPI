@@ -17,7 +17,7 @@
   comm.reset.seed(comm = .SPMD.CT$comm)
 }
 \arguments{
-  \item{seed}{one integer or six integers.}
+  \item{seed}{one integer or six integers as in \pkg{rlecuyer}.}
   \item{diff}{if all ranks use the same stream. (default = FALSE)}
   \item{state}{a new state to overwrite seed.}
   \item{comm}{a communicator number.}
