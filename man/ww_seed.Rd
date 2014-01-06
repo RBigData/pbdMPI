@@ -11,14 +11,13 @@
   developed by L'Ecuyer et al (2002).
 }
 \usage{
-  comm.set.seed(seed = rep(12345, 6), diff = FALSE,
-                state = NULL, comm = .SPMD.CT$comm)
+  comm.set.seed(seed, diff = FALSE, state = NULL, comm = .SPMD.CT$comm)
   comm.seed.state(comm = .SPMD.CT$comm)
   comm.end.seed(comm = .SPMD.CT$comm)
   comm.reset.seed(comm = .SPMD.CT$comm)
 }
 \arguments{
-  \item{seed}{six integers.}
+  \item{seed}{one integer or six integers.}
   \item{diff}{if all ranks use the same stream. (default = FALSE)}
   \item{state}{a new state to overwrite seed.}
   \item{comm}{a communicator number.}
@@ -82,21 +81,21 @@ library(pbdMPI, quietly = TRUE)
 init()
 
 ### Examples
-comm.set.seed()
+comm.set.seed(123456)
 comm.print(runif(5), all.rank = TRUE)
 comm.reset.seed()
 comm.print(runif(5), all.rank = TRUE)
 comm.end.seed()
 
 ### Obtain the seed state
-comm.set.seed(diff = TRUE)
+comm.set.seed(123456, diff = TRUE)
 comm.print(runif(5), all.rank = TRUE)
 saved.seed <- comm.seed.state()   # save the state
 comm.print(runif(5), all.rank = TRUE)
 comm.end.seed()
 
 ### Start from a saved state
-comm.set.seed(state = saved.seed) # rewind to the state
+comm.set.seed(123456, state = saved.seed) # rewind to the state
 comm.print(runif(5), all.rank = TRUE)
 comm.end.seed()
 
