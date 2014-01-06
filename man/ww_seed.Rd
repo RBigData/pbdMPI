@@ -11,7 +11,7 @@
   developed by L'Ecuyer et al (2002).
 }
 \usage{
-  comm.set.seed(seed = rep(12345, 6), diff = FALSE, name = NULL,
+  comm.set.seed(seed = rep(12345, 6), diff = FALSE,
                 state = NULL, comm = .SPMD.CT$comm)
   comm.seed.state(comm = .SPMD.CT$comm)
   comm.end.seed(comm = .SPMD.CT$comm)
@@ -20,7 +20,6 @@
 \arguments{
   \item{seed}{six integers.}
   \item{diff}{if all ranks use the same stream. (default = FALSE)}
-  \item{name}{a character vector of stream names passed to \pkg{rlecuyer}.}
   \item{state}{a new state to overwrite seed.}
   \item{comm}{a communicator number.}
 }

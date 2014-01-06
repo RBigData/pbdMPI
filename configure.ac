@@ -150,10 +150,10 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 fi
 
 
-dnl For MPICH2
+dnl For MPICH3/MPICH2/MPICH
 if test -z "${MPI_INCLUDE_PATH}" ; then
 ### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
-  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3"; then
+  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3" ; then
     if test "$SED" != "F" -a "$MPICC" != "F" ; then
       echo "found sed and mpicc ..."
       TMP_INC="F"

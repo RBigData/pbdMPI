@@ -30,22 +30,11 @@ else
   MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc(32)")
 endif
 
-### MPI_LIB is still not found then set to the default.
-ifeq "$(MPI_INCLUDE)" ""
-  MPI_LIB = $(MPI_ROOT)/include
-endif
-
-
 ### set MPI_LIB
 ifeq "$(WIN)" "64"
   MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib(64)")
 else
   MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib(32)")
-endif
-
-### MPI_LIB is still not found then set to the default.
-ifeq "$(MPI_LIB)" ""
-  MPI_LIB = -L"$(MPI_ROOT)"/lib -lmpi
 endif
 
 
