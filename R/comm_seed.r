@@ -1,34 +1,19 @@
 ### Seed functions for random number generators.
 
-comm.set.seed <- function(seed = rep(12345, 6), diff = FALSE, name = NULL,
+comm.set.seed <- function(seed = rep(12345, 6), diff = FALSE,
     state = NULL, comm = .SPMD.CT$comm){
   if(exists(".lec.Random.seed.table", envir = .GlobalEnv)){
     comm.end.seed(comm)
   }
+  seed <- as.integer(seed)
+  seed <- spmd.bcast.integer(seed, rank.source = 0L, comm = comm)
 
-  if(is.null(name)){
-    if(diff){
-      names <- as.character(0:(comm.size(comm) - 1))
-      name <- as.character(comm.rank(comm))
-    } else{
-      names <- "0"
-      name <- "0"
-    }
+  if(diff){
+    names <- as.character(0:(comm.size(comm) - 1))
+    name <- as.character(comm.rank(comm))
   } else{
-    names <- as.character(name)
-    if(diff){
-      if(length(names) != comm.size(comm)){
-        comm.stop("name should be of length comm.size() since diff = TRUE.",
-                  comm = comm)
-      }
-      name <- names[comm.rank(comm) + 1]
-    } else{
-      if(length(names) != 1){
-        comm.stop("name should be of length 1 since diff = FALSE.",
-                  comm = comm)
-      }
-      name <- names
-    }
+    names <- "0"
+    name <- "0"
   }
 
   invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
