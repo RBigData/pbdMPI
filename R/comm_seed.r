@@ -1,11 +1,14 @@
 ### Seed functions for random number generators.
 
-comm.set.seed <- function(seed = rep(12345, 6), diff = FALSE,
-    state = NULL, comm = .SPMD.CT$comm){
+comm.set.seed <- function(seed, diff = FALSE, state = NULL,
+    comm = .SPMD.CT$comm){
   if(exists(".lec.Random.seed.table", envir = .GlobalEnv)){
     comm.end.seed(comm)
   }
-  seed <- as.integer(seed)
+  if(length(seed) == 1){
+    seed <- rep(seed, 6)
+  }
+  seed <- as.integer(seed[1:6])
   seed <- spmd.bcast.integer(seed, rank.source = 0L, comm = comm)
 
   if(diff){
