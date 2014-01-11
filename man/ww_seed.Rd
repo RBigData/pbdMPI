@@ -63,13 +63,13 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link[rlecuyer]{.lec.SetPackageSeed}()},
-  \code{\link[rlecuyer]{.lec.CreateStream}()},
-  \code{\link[rlecuyer]{.lec.CurrentStream}()},
-  \code{\link[rlecuyer]{.lec.CurrentStreamEnd}()},
-  \code{\link[rlecuyer]{.lec.DeleteStream}()},
-  \code{\link[rlecuyer]{.lec.SetSeed}()}, and
-  \code{\link[rlecuyer]{.lec.GetState}()}.
+  \code{.lec.SetPackageSeed()},
+  \code{.lec.CreateStream()},
+  \code{.lec.CurrentStream()},
+  \code{.lec.CurrentStreamEnd()},
+  \code{.lec.DeleteStream()},
+  \code{.lec.SetSeed()}, and
+  \code{.lec.GetState()}.
 }
 \examples{
 \dontrun{

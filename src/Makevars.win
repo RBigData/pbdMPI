@@ -1,3 +1,13 @@
+# This Makevars.win supports for MPICH2 and MS-MPI in Windows 7 (32/64bits).
+# MPI_ROOT_64, MPI_ROOT_32, or MPI_ROOT need to be defined in the batch file
+# outside of packages.
+#
+# MPICH2 works for both 32 and 64 bits.
+# MS-MPI works only for 32 bits, while 64 bits be built and installed, but
+#        hangs or crashes in testing.
+#
+# Author: Wei-Chen Chen
+
 ### Rscript
 R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
@@ -37,6 +47,15 @@ else
   MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib(32)")
 endif
 
+### set WIN_FLAGS
+# mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
+# and MSMPI_NO_DEPRECATE_20 to turn off warning
+ifeq "$(WIN)" "64"
+  WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
+else
+  WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
+endif
+
 
 ### Set FPMPI and pbdPROF
 ### This is not working for windows since "sys/resource.h" does not exist.
@@ -49,7 +68,7 @@ endif
 
 
 ### Set PKG_*
-PKG_CPPFLAGS = -I"$(MPI_INCLUDE)" -DMPI2 -DWIN
+PKG_CPPFLAGS = -I"$(MPI_INCLUDE)" -DMPI2 $(WIN_FLAGS)
 ### Order is matter.
 # PKG_LIBS = "$(FPMPI_LDFLAGS)" -L"$(MPI_LIB)" -lmpi
 PKG_LIBS = $(MPI_LIB)
@@ -63,6 +82,7 @@ all: $(SHLIB)
 	@$(ECHO) 'MPI_ROOT = $(MPI_ROOT)' > $(USER_CONF)
 	@$(ECHO) 'MPI_INCLUDE = $(MPI_INCLUDE)' >> $(USER_CONF)
 	@$(ECHO) 'MPI_LIB = $(MPI_LIB)' >> $(USER_CONF)
+	@$(ECHO) 'WIN_FLAGS = $(WIN_FLAGS)' >> $(USER_CONF)
 
 $(SHLIB): $(OBJECTS)
 

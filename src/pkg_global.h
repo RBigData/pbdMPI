@@ -8,6 +8,11 @@
 
 #include <R.h>
 #include <Rinternals.h>
+
+#ifdef _WIN64
+#include <stdint.h>
+#endif
+
 #include <mpi.h>
 #include "pkg_constant.h"
 
