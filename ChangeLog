@@ -1,6 +1,10 @@
+2014-01-12: Ver. 0.2-2
+  * Add Prof. Brian Ripley's trick to MS-MPI's 64bits support.
+  * Move system requirements from MPICH2 to MS-MPI as Windows standard MPI.
+
 2014-01-05: Ver. 0.2-2
   * Add Intel Miscrosoft HPC Pack 2012 (MS-MPI) support.
-  * Add FreeBSD support.
+  * Add FreeBSD support suggested by Christian Heckendorf.
   * Fix seed problems.
 
 2013-12-03: Ver. 0.2-2

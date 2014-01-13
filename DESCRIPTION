@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.2-2
-Date: 2014-01-04
+Date: 2014-01-12
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
@@ -8,7 +8,8 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         person("Drew", "Schmidt", role = "aut"),
         person("Pragneshkumar", "Patel", role = "aut"),
         person("Hao", "Yu", role = "aut"),
-        person("Christian", "Heckendorf", role = "ctb"))
+        person("Christian", "Heckendorf", role = "ctb"),
+        person("Brian", "Ripley", role = "ctb"))
 Depends: R (>= 3.0.0), methods, rlecuyer
 Enhances: pbdPROF
 LazyLoad: yes
@@ -18,17 +19,9 @@ Description: pbdMPI provides an efficient interface to MPI by utilizing S4
         parallel programming style, which is intended for batch parallel
         execution.
 SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
-        FreeBSD, MPICH2 (>= 1.4.1p1) on Windows.
+        FreeBSD. MS-MPI (Microsoft HPC Pack 2012) on Windows.
 License: Mozilla Public License 2.0
 URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
-Packaged: 2014-01-06 21:53:18 UTC; snoweye
-Author: Wei-Chen Chen [aut, cre],
-  George Ostrouchov [aut],
-  Drew Schmidt [aut],
-  Pragneshkumar Patel [aut],
-  Hao Yu [aut],
-  Christian Heckendorf [ctb]
-Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
