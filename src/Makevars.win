@@ -20,7 +20,7 @@
 
 
 ### Define MPI_TYPE in the outside batch file or specify it at the next.
- WIN_MPI_TYPE = "MS-MPI"
+WIN_MPI_TYPE = "MS-MPI"
 # WIN_MPI_TYPE = "MPICH2"
 
 

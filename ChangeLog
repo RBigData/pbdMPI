@@ -1,3 +1,6 @@
+2014-01-20: Ver. 0.2-2
+  * More tests on downstream pbdR package with MS-MPI.
+
 2014-01-12: Ver. 0.2-2
   * Add Prof. Brian Ripley's trick to MS-MPI's 64bits support.
   * Move system requirements from MPICH2 to MS-MPI as Windows standard MPI.

@@ -3,6 +3,7 @@
 ### "MPI_ROOT" preset by users.
 get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
   mpi.root <- paste("MPI_ROOT_", arch[1], sep = "") 
+  mpi.root <- Sys.getenv(mpi.root)
 
   if(type[1] == "MS-MPI"){
     if(arch[1] == "32"){
@@ -11,14 +12,16 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
       arch.c <- "amd64"
     }
 
-    lib.file <- try(paste(Sys.getenv(mpi.root), "/Lib/", arch.c,
+    lib.file <- try(paste(mpi.root, "/Lib/", arch.c,
                           "/msmpi.lib", sep = ""))
     if(file.exists(lib.file)){
-      mpi.lib <- paste("\"", lib.file, "\"", sep = "")
+      # mpi.lib <- paste("\"", lib.file, "\"", sep = "")
+      mpi.lib <- shortPathName(lib.file)
+      mpi.lib <- gsub("\\\\", "/", mpi.lib)
       cat(mpi.lib)
     }
   } else{
-    lib.file <- try(paste(Sys.getenv(mpi.root),
+    lib.file <- try(paste(mpi.root,
                           c("/bin/libmpi.dll", "/lib/libmpi.a"), sep = ""))
     for(i.file in lib.file){
       if(file.exists(i.file)){
@@ -35,11 +38,12 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
 
 get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
   mpi.root <- paste("MPI_ROOT_", arch[1], sep = "") 
+  mpi.root <- gsub("\\\\", "/", Sys.getenv(mpi.root))
 
   if(type[1] == "MS-MPI"){
-    lib.file <- try(paste(Sys.getenv(mpi.root), "/Inc/mpi.h", sep = ""))
+    lib.file <- try(paste(mpi.root, "/Inc/mpi.h", sep = ""))
   } else{
-    lib.file <- try(paste(Sys.getenv(mpi.root), "/include/mpi.h", sep = ""))
+    lib.file <- try(paste(mpi.root, "/include/mpi.h", sep = ""))
   }
 
   if(file.exists(lib.file)){
