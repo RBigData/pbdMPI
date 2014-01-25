@@ -1,3 +1,6 @@
+2014-01-25: Ver. 0.2-2
+  * Add comm.read.table().
+
 2014-01-20: Ver. 0.2-2
   * More tests on downstream pbdR package with MS-MPI.
 
