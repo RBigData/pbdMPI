@@ -1,5 +1,7 @@
 2014-01-25: Ver. 0.2-2
-  * Add comm.read.table().
+  * Add comm.read.table(), comm.read.csv(), and comm.read.csv2(), and man pages.
+  * Fix get.jid() option.
+  * Fix bugs in comm.write.csv() and comm.write.csv2().
 
 2014-01-20: Ver. 0.2-2
   * More tests on downstream pbdR package with MS-MPI.

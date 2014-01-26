@@ -5,7 +5,7 @@
   This function obtains job id which can be used to divide jobs.
 }
 \usage{
-  get.jid(n, method = .SPMD.CT$divide.method, all = FALSE,
+  get.jid(n, method = .SPMD.CT$divide.method[1], all = FALSE,
           comm = .SPMD.CT$comm)
 }
 \arguments{

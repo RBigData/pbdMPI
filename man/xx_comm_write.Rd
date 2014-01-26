@@ -21,18 +21,18 @@
 \arguments{
   \item{x}{as in \code{write()} or \code{write.table()}.}
   \item{file}{as in \code{write()} or \code{write.table()}.}
-  \item{ncolumns}{as usual in \code{write*()}.}
-  \item{append}{as usual in \code{write*()}.}
-  \item{sep}{as usual in \code{write*()}.}
-  \item{quote}{as usual in \code{write*()}.}
-  \item{eol}{as usual in \code{write*()}.}
-  \item{na}{as usual in \code{write*()}.}
-  \item{dec}{as usual in \code{write*()}.}
-  \item{row.names}{as usual in \code{write*()}.}
-  \item{col.names}{as usual in \code{write*()}.}
-  \item{qmethod}{as usual in \code{write*()}.}
-  \item{fileEncoding}{as usual in \code{write*()}.}
-  \item{...}{as usual in \code{write*()}.}
+  \item{ncolumns}{as in \code{write*()}.}
+  \item{append}{as in \code{write*()}.}
+  \item{sep}{as in \code{write*()}.}
+  \item{quote}{as in \code{write*()}.}
+  \item{eol}{as in \code{write*()}.}
+  \item{na}{as in \code{write*()}.}
+  \item{dec}{as in \code{write*()}.}
+  \item{row.names}{as in \code{write*()}.}
+  \item{col.names}{as in \code{write*()}.}
+  \item{qmethod}{as in \code{write*()}.}
+  \item{fileEncoding}{as in \code{write*()}.}
+  \item{...}{as in \code{write*()}.}
   \item{comm}{a communicator number.}
 }
 \details{
