@@ -15,6 +15,7 @@
                    eol = "\n", na = "NA", dec = ".", row.names = TRUE,
                    col.names = TRUE, qmethod = c("escape", "double"),
                    fileEncoding = "", comm = .SPMD.CT$comm)
+
   comm.write.csv(..., comm = .SPMD.CT$comm)
   comm.write.csv2(..., comm = .SPMD.CT$comm)
 }
@@ -51,6 +52,10 @@
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
+}
+\seealso{
+  \code{\link{comm.load.balance}()} and
+  \code{\link{comm.read.table}()}
 }
 \examples{
 \dontrun{

@@ -1,8 +1,12 @@
 ### This file contains functions to load balance of data X.gbd.
 ### Assume gbd.major = 1.
 
-balance.info <- function(X.gbd, balance.method = .SPMD.IO$balance.method[1],
-    comm = .SPMD.CT$comm){
+comm.balance.info <- function(X.gbd,
+    balance.method = .SPMD.IO$balance.method[1], comm = .SPMD.CT$comm){
+  if(length(dim(X.gbd)) != 2){
+    comm.stop("Dimension of X.gbd should be 2.", comm = comm)
+  }
+
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -12,19 +16,19 @@ balance.info <- function(X.gbd, balance.method = .SPMD.IO$balance.method[1],
   N <- sum(N.allgbd)
 
   #### Build table by method.
-  if(balance.method == "block"){
+  if(balance.method[1] == "block"){
     n <- floor(N / COMM.SIZE)
     n.residual <- N %% COMM.SIZE
     new.N.allgbd <- rep(n, COMM.SIZE) +
                     rep(c(0, 1), c(COMM.SIZE - n.residual, n.residual))
     rank.belong <- rep(0:(COMM.SIZE - 1), new.N.allgbd)
-  } else if(balance.method == "block0"){
+  } else if(balance.method[1] == "block0"){
     n <- floor(N / COMM.SIZE)
     n.residual <- N %% COMM.SIZE
     new.N.allgbd <- rep(n, COMM.SIZE) +
                     rep(c(1, 0), c(n.residual, COMM.SIZE - n.residual))
     rank.belong <- rep(0:(COMM.SIZE - 1), new.N.allgbd)
-  } else if(balance.method == "block.cyclic"){
+  } else if(balance.method[1] == "block.cyclic"){
     n <- ceiling(N / COMM.SIZE)
     rep.n <- N %/% n
     new.N.allgbd <- rep(n, rep.n)
@@ -49,15 +53,19 @@ balance.info <- function(X.gbd, balance.method = .SPMD.IO$balance.method[1],
                           belong = rank.belong[rank.belong == COMM.RANK])
 
   list(send = send.info, recv = recv.info, N.allgbd = N.allgbd,
-       new.N.allgbd = new.N.allgbd)
-} # End of balance.info()
+       new.N.allgbd = new.N.allgbd, balance.method = balance.method[1])
+} # End of comm.balance.info()
 
 
-load.balance <- function(X.gbd, bal.info = NULL,
+comm.load.balance <- function(X.gbd, bal.info = NULL,
     balance.method = .SPMD.IO$balance.method, comm = .SPMD.CT$comm){
+  if(length(dim(X.gbd)) != 2){
+    comm.stop("Dimension of X.gbd should be 2.", comm = comm)
+  }
+
   COMM.RANK <- spmd.comm.rank(comm)
   if(is.null(bal.info)){
-    bal.info <- balance.info(X.gbd, balance.method, comm = comm)
+    bal.info <- comm.balance.info(X.gbd, balance.method, comm = comm)
   }
 
   p <- ncol(X.gbd)
@@ -95,5 +103,16 @@ load.balance <- function(X.gbd, bal.info = NULL,
   spmd.wait()
 
   ret
-} # End of load.balance().
+} # End of comm.load.balance().
+
+
+comm.unload.balance <- function(new.X.gbd, bal.info, comm = .SPMD.CT$comm){
+  rev.bal.info <- list(send = data.frame(org = bal.info$recv$belong,
+                                         belong = bal.info$recv$org),
+                       recv = data.frame(org = bal.info$send$belong,
+                                         belong = bal.info$send$org),
+                       N.allgbd = bal.info$new.N.allgbd,
+                       new.N.allgbd = bal.info$N.allgbd)
+  comm.load.balance(new.X.gbd, bal.info = rev.bal.info, comm = comm)
+} # End of comm.unload.balance().
 

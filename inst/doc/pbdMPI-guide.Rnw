@@ -103,6 +103,7 @@ London, Ontario, Canada \\
 \input{./pbdMPI-include/04-windows}
 \input{./pbdMPI-include/05-analog}
 \input{./pbdMPI-include/06-longvector}
+\input{./pbdMPI-include/07-simpleio}
 
 \newpage
 \phantomsection

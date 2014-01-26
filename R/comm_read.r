@@ -146,7 +146,8 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
         spmd.barrier(comm = comm)
       }
 
-      ret <- load.balance(ret, balance.method = balance.method, comm = comm)
+      ret <- comm.load.balance(ret, balance.method = balance.method,
+                               comm = comm)
     }
   } else{
     # Suppose nrows and skip are provided.

@@ -70,7 +70,7 @@
   read portion of rows in "gbd" format as described in \pkg{pbdDEMO}
   vignettes and used in \pkg{pmclust}.
 
-  \code{load.balance} (an internal function) is called for "gbd" method as
+  \code{\link{comm.load.balance}()} is called for "gbd" method as
   as \code{nrows = -1} and \code{skip = 0} are set. Note that the default
   method "block" is the better way for performance in general that distributes
   equally and leaves residuals on higher ranks evenly.
@@ -91,6 +91,7 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
+  \code{\link{comm.load.balance}()} and
   \code{\link{comm.write.table}()}
 }
 \examples{
