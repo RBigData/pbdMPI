@@ -1,6 +1,6 @@
 ### This file contains some useful tools.
 
-divide.job <- function(n, method = .SPMD.CT$divide.method,
+divide.job <- function(n, method = .SPMD.CT$divide.method[1],
     comm = .SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
@@ -41,7 +41,7 @@ divide.job <- function(n, method = .SPMD.CT$divide.method,
   jid
 } # End of divide.job().
 
-divide.job.all <- function(n, method = .SPMD.CT$divide.method,
+divide.job.all <- function(n, method = .SPMD.CT$divide.method[1],
     comm = .SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
@@ -92,7 +92,7 @@ divide.job.all <- function(n, method = .SPMD.CT$divide.method,
   alljid
 } # End of divide.job.all().
 
-get.jid <- function(n, method = .SPMD.CT$divide.method, all = FALSE,
+get.jid <- function(n, method = .SPMD.CT$divide.method[1], all = FALSE,
     comm = .SPMD.CT$comm){
   if(! method[1] %in% .SPMD.CT$divide.method){
     stop("The method for dividing jobs is not found.")

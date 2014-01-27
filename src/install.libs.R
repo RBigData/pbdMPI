@@ -1,7 +1,7 @@
 ### Modified from Rserve/src/install.libs.R
 ### For libs
 files <- c("pbdMPI.so", "pbdMPI.so.dSYM", "pbdMPI.dylib", "pbdMPI.dll",
-           "symbols.rds")
+           "symbols.rds", "libmsmpi64.a")
 files <- files[file.exists(files)]
 if(length(files) > 0){
   libsarch <- if (nzchar(R_ARCH)) paste("libs", R_ARCH, sep='') else "libs"

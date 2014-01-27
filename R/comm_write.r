@@ -40,36 +40,20 @@ comm.write.table <- function(x, file = "", append = FALSE,
 } # End of comm.write.table().
      
 comm.write.csv <- function(..., comm = .SPMD.CT$comm){
-  comm.rank <- spmd.comm.rank(comm = comm)
-
-  if(comm.rank != 0){
-    append <- TRUE
-    col.names <- FALSE
-  }
-
-  for(i in 0:(spmd.comm.size(comm = comm) - 1)){
-    if(comm.rank == i){
-      write.csv(..., append = append)
-    }
-    spmd.barrier(comm = comm)
-  }
-  invisible()
+  Call <- match.call(expand.dots = TRUE)
+  Call$sep <- ","
+  Call$dec <- "."
+  Call$qmethod <- "double"
+  Call[[1L]] <- as.name("comm.write.table")
+  eval.parent(Call)
 } # End of comm.write.csv().
 
 comm.write.csv2 <- function(..., comm = .SPMD.CT$comm){
-  comm.rank <- spmd.comm.rank(comm = comm)
-
-  if(comm.rank != 0){
-    append <- TRUE
-    col.names <- FALSE
-  }
-
-  for(i in 0:(spmd.comm.size(comm = comm) - 1)){
-    if(comm.rank == i){
-      write.csv2(..., append = append)
-    }
-    spmd.barrier(comm = comm)
-  }
-  invisible()
+  Call <- match.call(expand.dots = TRUE)
+  Call$sep <- ";"
+  Call$dec <- ","
+  Call$qmethod <- "double"
+  Call[[1L]] <- as.name("comm.write.table")
+  eval.parent(Call)
 } # End of comm.write.csv2().
 

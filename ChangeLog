@@ -1,6 +1,19 @@
+2014-01-25: Ver. 0.2-2
+  * Add comm.read.table(), comm.read.csv(), and comm.read.csv2(), and
+    man pages and a section to vignettes.
+  * Fix get.jid() option.
+  * Fix bugs in comm.write.csv() and comm.write.csv2().
+
+2014-01-20: Ver. 0.2-2
+  * More tests on downstream pbdR package with MS-MPI.
+
+2014-01-12: Ver. 0.2-2
+  * Add Prof. Brian Ripley's trick to MS-MPI's 64bits support.
+  * Move system requirements from MPICH2 to MS-MPI as Windows standard MPI.
+
 2014-01-05: Ver. 0.2-2
   * Add Intel Miscrosoft HPC Pack 2012 (MS-MPI) support.
-  * Add FreeBSD support.
+  * Add FreeBSD support suggested by Christian Heckendorf.
   * Fix seed problems.
 
 2013-12-03: Ver. 0.2-2

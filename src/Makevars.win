@@ -1,40 +1,114 @@
-### Rscript
+# This Makevars.win supports for MPICH2 and MS-MPI in Windows 7 (32/64bits).
+# MPI_ROOT_64, MPI_ROOT_32, or MPI_ROOT need to be defined in the batch file
+# outside of packages.
+#
+# Note for MS-MPI 64 bits:
+#   It needs to export symbols from C:\Windows\System32\msmpi.dll
+#   The original C:\Program Files\Microsoft HPC 2012\Lib\amd64\msmpi.lib does
+#   not work for 64 bits, while 32 bits is fine.
+#   Steps:
+#     1. use "gendef" to dump symbols to "msmpi.def"
+#     2. use "dlltool" to convert "msmpi.dll" and "msmpi.def" to "libmsmpi.a"
+#     3. link with the static library "libmsmpi.a"
+#   "msmpi.def" and the steps are provided by Prof. Brian Ripley.
+#   "gendef" is not available in Rtools currently.
+#
+# In order to make down stream pbdR packages working:
+#   "MPI_LIB" needs to be redirect to path where "libmsmpi64.a" installed and
+#   "libmpi64.a" needs to be copied to there via "install.libs.R". While
+#   "PKG_LIB" is for building "pbdMPI" only, no need to change it.
+
+
+### Define MPI_TYPE in the outside batch file or specify it at the next.
+WIN_MPI_TYPE = "MS-MPI"
+# WIN_MPI_TYPE = "MPICH2"
+
+
+### Check.
+ifndef WIN_MPI_TYPE
+  $(error WIN_MPI_TYPE is not defined ...)
+else
+  ifneq ($(WIN_MPI_TYPE), "MS-MPI")
+    ifneq ($(WIN_MPI_TYPE), "MPICH2")
+      $(error WIN_MPI_TYPE is not implemented ...)
+    endif
+  endif
+endif
+
+
+### Get Rscript.
 R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
-### set MPI_ROOT, MPI_ROOT_32, and MPI_ROOT_64
-ifeq "$(WIN)" "64"
-  ifeq "$(MPI_ROOT_64)" ""
-    ifeq "$(MPI_ROOT)" ""
-      MPI_ROOT = C:/Program Files/MPICH2
+
+### Check again.
+ifeq ($(WIN_MPI_TYPE), "MS-MPI")
+  ### For MS-MPI
+  ### set MPI_ROOT, MPI_ROOT_32, and MPI_ROOT_64
+  ifeq "$(WIN)" "64"
+    ifeq "$(MPI_ROOT_64)" ""
+      ifeq "$(MPI_ROOT)" ""
+        MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
+      endif
+      MPI_ROOT_64 = $(MPI_ROOT)
+    else
+      MPI_ROOT = $(MPI_ROOT_64)
     endif
-    MPI_ROOT_64 = $(MPI_ROOT)
   else
-    MPI_ROOT = $(MPI_ROOT_64)
+    ifeq "$(MPI_ROOT_32)" ""
+      ifeq "$(MPI_ROOT)" ""
+        MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
+      endif
+      MPI_ROOT_32 = $(MPI_ROOT)
+    else
+      MPI_ROOT = $(MPI_ROOT_32)
+    endif
+  endif
+
+  ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
+  # mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
+  # and MS-MPI_NO_DEPRECATE_20 to turn off warning
+  ifeq "$(WIN)" "64"
+    MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc('64','MS-MPI')")
+    MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib('64','MS-MPI')")
+    WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
+  else
+    MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc('32','MS-MPI')")
+    MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib('32','MS-MPI')")
+    WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
   endif
 else
-  ifeq "$(MPI_ROOT_32)" ""
-    ifeq "$(MPI_ROOT)" ""
-      MPI_ROOT = C:/Program Files (x86)/MPICH2
+  ### For MPICH2
+  ### set MPI_ROOT, MPI_ROOT_32, and MPI_ROOT_64
+  ifeq "$(WIN)" "64"
+    ifeq "$(MPI_ROOT_64)" ""
+      ifeq "$(MPI_ROOT)" ""
+        MPI_ROOT = C:/Program Files/MPICH2
+      endif
+      MPI_ROOT_64 = $(MPI_ROOT)
+    else
+      MPI_ROOT = $(MPI_ROOT_64)
     endif
-    MPI_ROOT_32 = $(MPI_ROOT)
   else
-    MPI_ROOT = $(MPI_ROOT_32)
+    ifeq "$(MPI_ROOT_32)" ""
+      ifeq "$(MPI_ROOT)" ""
+        MPI_ROOT = C:/Program Files (x86)/MPICH2
+      endif
+      MPI_ROOT_32 = $(MPI_ROOT)
+    else
+      MPI_ROOT = $(MPI_ROOT_32)
+    endif
   endif
-endif
 
-
-### set MPI_INCLUDE
-ifeq "$(WIN)" "64"
-  MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc(64)")
-else
-  MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc(32)")
-endif
-
-### set MPI_LIB
-ifeq "$(WIN)" "64"
-  MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib(64)")
-else
-  MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib(32)")
+  ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
+  ifeq "$(WIN)" "64"
+    MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc('64','MPICH2')")
+    MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib('64','MPICH2')")
+    WIN_FLAGS = -DWIN
+  else
+    MPI_INCLUDE = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.wininc('32','MPICH2')")
+    MPI_LIB = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.winlib('32','MPICH2')")
+    WIN_FLAGS = -DWIN
+  endif
 endif
 
 
@@ -49,7 +123,7 @@ endif
 
 
 ### Set PKG_*
-PKG_CPPFLAGS = -I"$(MPI_INCLUDE)" -DMPI2 -DWIN
+PKG_CPPFLAGS = -I"$(MPI_INCLUDE)" -DMPI2 $(WIN_FLAGS)
 ### Order is matter.
 # PKG_LIBS = "$(FPMPI_LDFLAGS)" -L"$(MPI_LIB)" -lmpi
 PKG_LIBS = $(MPI_LIB)
@@ -57,14 +131,41 @@ PKG_LIBS = $(MPI_LIB)
 ### For user configuration.
 USER_CONF = Makeconf
 
+
 ### Start making here.
 all: $(SHLIB)
 	@$(CP) ../R/windows/zzz.r ../R/
 	@$(ECHO) 'MPI_ROOT = $(MPI_ROOT)' > $(USER_CONF)
 	@$(ECHO) 'MPI_INCLUDE = $(MPI_INCLUDE)' >> $(USER_CONF)
 	@$(ECHO) 'MPI_LIB = $(MPI_LIB)' >> $(USER_CONF)
+	@$(ECHO) 'WIN_FLAGS = $(WIN_FLAGS)' >> $(USER_CONF)
+	@$(ECHO) 'WIN_MPI_TYPE = $(WIN_MPI_TYPE)' >> $(USER_CONF)
+
+
+### Shared library here.
+ifeq ($(WIN_MPI_TYPE), "MS-MPI")
+  ifeq "$(WIN)" "64"
+    MPI_LIB = $(R_PACKAGE_DIR)/libs$(R_ARCH)/libmsmpi64.a
+    PKG_LIBS = libmsmpi64.a
+
+$(SHLIB): $(OBJECTS) libmsmpi64.a
+
+  else
 
 $(SHLIB): $(OBJECTS)
+
+  endif
+
+else
+
+$(SHLIB): $(OBJECTS)
+
+endif
+
+
+### Others.
+libmsmpi64.a: msmpi.def
+	$(DLLTOOL) -k -d msmpi.def -l libmsmpi64.a -D msmpi.dll $(DT_ARCH)
 
 clean:
 	@$(RM) -rf *.o *.d *.rc *.so* *.dll *.dylib *.a *.lib \

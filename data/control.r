@@ -31,4 +31,3 @@
 #   name = c("int", "double", "char", "raw"),
 #   id = as.integer(1:4)
 # ) # End of .SPMD.DT
-

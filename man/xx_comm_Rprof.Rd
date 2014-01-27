@@ -1,4 +1,4 @@
-\name{Global Rprof function}
+\name{global Rprof function}
 \alias{comm.Rprof}
 \title{ A Rprof Function for SPMD Routines }
 \description{

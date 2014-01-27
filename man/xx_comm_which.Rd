@@ -44,6 +44,9 @@
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
+\seealso{
+  \code{\link{comm.read.table}()}
+}
 \examples{
 \dontrun{
 # Save code in a file "demo.r" and run with 2 processors by

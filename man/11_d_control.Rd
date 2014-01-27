@@ -1,7 +1,7 @@
 \name{SPMD Control}
 \alias{.SPMD.CT}
 \alias{.SPMD.OP}
-\alias{.SPMD.MD}
+\alias{.SPMD.IO}
 \docType{data}
 \title{A set of controls in pbdMPI.}
 \description{
@@ -11,7 +11,8 @@
   Objects contain several parameters for communicators and methods.
 }
 \details{
-  The elements of \code{.SPMD.CT} are default values
+  The elements of \code{.SPMD.CT} are default values for controls
+  including
 \tabular{lcl}{
   Elements              \tab Default    \tab Usage \cr
   \code{comm}           \tab 0L         \tab a communicator index \cr
@@ -41,6 +42,18 @@
   The elements of \code{.SPMD.OP} list the implemented operations for
   \code{reduce()} and \code{allreduce()}. Currently, four operations are
   implemented "sum", "prod", "max", and "min".
+
+  The elements of \code{.SPMD.IO} are default values for input and output
+  including
+\tabular{lcl}{
+  Elements              \tab Default    \tab Usage \cr
+  \code{max.read.size}  \tab 5.2e6      \tab max of reading size (5 MB) \cr
+  \code{max.test.lines} \tab 500        \tab max of testing lines \cr
+  \code{read.method}    \tab "gbd"      \tab default reading method \cr
+  \code{balance.method} \tab "block"    \tab default load balance method \cr
+}
+  where \code{balance.method} is only used for "gbd" reading method when
+  \code{nrows = -1} and \code{skip = 0} are set.
 }
 \references{
   Programming with Big Data in R Website:

@@ -131,12 +131,12 @@ R CMD INSTALL --build --no-test-load pbdMPI
 R CMD INSTALL pbdMPI_0.1-0.zip
 \end{Command}
 
-{\color{red} \bf Warning:} For some reasons, MS-MPI fails at the test load step
-of installation for 64-bits version. \code{-}\code{--no-test-load} can avoid
-crash and complete building of binary file, and should be similar for building
-downstream packages.
+%{\color{red} \bf Warning:} For some reasons, MS-MPI fails at the test load step
+%of installation for 64-bits version. \code{-}\code{--no-test-load} can avoid
+%crash and complete building of binary file, and should be similar for building
+%downstream packages.
 
-{\code{red} \bf Warning:} For other \proglang{pbdR} packages, it is possible to
-compile without further changes of configurations. However, only
+{\color{red} \bf Warning:} For other \proglang{pbdR} packages, it is possible
+to compile without further changes of configurations. However, only
 \pkg{pbdMPI} is tested regularly before any release.
 

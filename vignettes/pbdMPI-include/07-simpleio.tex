@@ -1,0 +1,63 @@
+
+\section[Simple Input and Output]{Simple Input and Output}
+\label{sec:simple_io}
+\addcontentsline{toc}{section}{\thesection. Simple Input and Output}
+
+Two quick demos can simply explain how a dataset can be input and output
+via \pkg{pbdMPI} functions \code{comm.write.table()} and
+\code{comm.read.table()}. The first is
+\begin{Command}
+### Run the demo with 4 processors by
+mpiexec -np 4 Rscript -e "demo(simple_io,'pbdMPI',ask=F,echo=F)"
+\end{Command}
+The demo utilizing \code{iris} data~\citep{Fisher1936} to show simple input
+and output functions of \pkg{pbdMPI} and is summarized as in next.
+\begin{itemize}
+\item 150 rows of \code{iris} are divided in 4 processors, and processors
+      own 37, 37, 38, and 38 rows of \code{iris} as a gbd row-block format.
+      i.e. Rank 0 owns row 1 to 37, rank 1 owns row 38 to 74, and so on.
+\item A text file ``iris.txt'' is dumped via \code{comm.write.table()} which
+      sequentially append processor owned row blocks.
+\item \code{comm.read.table()} then reads the text file back in memory, and
+      again in a gbd row-block format.
+\end{itemize}
+
+Note that \code{comm.read.table()} may read a first few lines to predetermine
+how many lines of the file to read in. This is an approximation and results
+in unbalance data across processors. In particular, either the highest order
+rank may own the largest portion of whole dataset, or several higher order
+ranks may own zero row. So, a call
+\code{comm.load.balance()} within \code{comm.read.table()}
+is to move rows across processors if necessary.
+Basically, the reading steps are described as in the next.
+\begin{enumerate}
+\item If file size were less than 5MB, then rank 0 would read in the whole file
+      and scatter rows to other ranks.
+\item If file size were large than 5MB, then rank 0 would read in the first
+      500 lines and estimate total number of records in the file. All ranks
+      sequentially read in the designated records.    
+\item Call \code{comm.load.balance()} to balance the data.
+\end{enumerate}
+The file size limit is controlled by \code{.SPMD.IO$max.file.size}, and
+the first few line limit is controlled by \code{.SPMD.IO$max.test.lines}.
+Further, users can specify options \code{nrows} and \code{skip} to
+\code{comm.read.*()} to manually read the file and call
+\code{comm.load.balance()} later if needed.
+
+There are several way to distributed or balance data among processors.
+Currently \pkg{pbdMPI} supports 3 formats: \code{block}, \code{block0}, and
+\code{block.cyclic}. In the above demo, the 150 rows are mainly distributed in
+$(37, 37, 38, 38)$ which is a \code{block} format. The second demo shows
+how to load balance between different formats next.
+\begin{Command}
+### Run the demo with 4 processors by
+mpiexec -np 4 Rscript -e "demo(simple_balance,'pbdMPI',ask=F,echo=F)"
+\end{Command}
+In the \code{block0}, the \code{iris} is distributed as $(38, 38, 37, 37)$
+row-bock of each processor.
+In the \code{block.cyclic}, the \code{iris} is distributed as
+$(38, 38, 38, 36)$ row-bock of each processor. i.e. Each cycle has 38
+rows and one cycle per processor.
+
+See \pkg{pbdDEMO} vignettes~\citep{Schmidt2013pbdDEMOvignette}
+for more details about ``block-cyclic'' and ``gbd''.
