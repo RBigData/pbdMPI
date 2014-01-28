@@ -23,19 +23,23 @@
 
   .Call("spmd_initialize", PACKAGE = "pbdMPI")
 
-  ### For rlecuyer
-  seed <- as.integer(Sys.getpid() + Sys.time())
-  seed <- .Call("spmd_bcast_integer", seed, 0L, 0L, PACKAGE = "pbdMPI")
-  seed <- rep(seed, 6)
+  ### For seed.
+  if(! exists(".lec.Random.seed.table", envir = .GlobalEnv) &&
+     ! exists(".Random.seed", envir = .GlobalEnv)){
+    # seed <- as.integer(Sys.getpid() + Sys.time())
+    seed <- as.integer(runif(6, 1L, 2147483647L))
+    seed <- .Call("spmd_bcast_integer", seed, 0L, 0L, PACKAGE = "pbdMPI")
+    # seed <- rep(seed, 6)
 
-  comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
-  comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
-  names <- as.character(0:(comm.size - 1))
-  name <- as.character(comm.rank)
+    comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
+    comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
+    names <- as.character(0:(comm.size - 1))
+    name <- as.character(comm.rank)
 
-  invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
-  invisible(eval(.lec.CreateStream(names), envir = .GlobalEnv))
-  invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
+    invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
+    invisible(eval(.lec.CreateStream(names), envir = .GlobalEnv))
+    invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
+  }
 
   invisible()
 } # End of .onLoad().
