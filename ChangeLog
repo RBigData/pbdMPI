@@ -1,5 +1,6 @@
 2014-01-27: Ver. 0.2-3
   * Fix bcast() bugs.
+  * Fix spmd.scatter.array() bugs.
 
 2014-01-25: Ver. 0.2-2
   * Add comm.read.table(), comm.read.csv(), and comm.read.csv2(), and

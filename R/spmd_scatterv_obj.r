@@ -32,15 +32,22 @@ spmd.scatter.array <- function(x,
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
-  check <- do.call("sum", lapply(1:COMM.SIZE,
-                                 function(i) is.double(x[[i]]))) == COMM.SIZE
-  check.double <- spmd.bcast.integer(check, rank.source = rank.source,
-                                     comm = comm)
-
-  check <- do.call("sum", lapply(1:COMM.SIZE,
-                                 function(i) is.integer(x[[i]]))) == COMM.SIZE
-  check.integer <- spmd.bcast.integer(check, rank.source = rank.source,
-                                      comm = comm)
+  if(COMM.RANK == rank.source){
+    check.double <- do.call("sum",
+                      lapply(1:COMM.SIZE,
+                             function(i) is.double(x[[i]]))) == COMM.SIZE
+    check.integer <- do.call("sum",
+                       lapply(1:COMM.SIZE,
+                              function(i) is.integer(x[[i]]))) == COMM.SIZE
+    check <- c(check.double, check.integer)
+    spmd.bcast.integer(as.integer(check), rank.source = rank.source,
+                       comm = comm)
+  } else{
+    check <- spmd.bcast.integer(integer(2), rank.source = rank.source,
+                                comm = comm)
+    check.double <- check[1]
+    check.integer <- check[2]
+  }
 
   if(check.double || check.integer){
     if(COMM.RANK == rank.source){
