@@ -3,8 +3,6 @@
 ### Default method.
 spmd.bcast.default <- function(x,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  rank.source <- as.integer(rank.source)
-  comm <- as.integer(comm)
   if(spmd.comm.rank(comm) == rank.source){
     is.array <- spmd.bcast.integer(as.integer(is.array(x)), comm = comm)
   } else{
@@ -21,17 +19,20 @@ spmd.bcast.default <- function(x,
 ### For bcast and basic types.
 spmd.bcast.integer <- function(x,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  .Call("spmd_bcast_integer", x, rank.source, comm, PACKAGE = "pbdMPI")
+  .Call("spmd_bcast_integer", x,
+        as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.bcast.integer().
 
 spmd.bcast.double <- function(x,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  .Call("spmd_bcast_double", x, rank.source, comm, PACKAGE = "pbdMPI")
+  .Call("spmd_bcast_double", x,
+        as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.bcast.double().
 
 spmd.bcast.raw <- function(x,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  .Call("spmd_bcast_raw", x, rank.source, comm, PACKAGE = "pbdMPI")
+  .Call("spmd_bcast_raw", x,
+        as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.bcast.raw().
 
 

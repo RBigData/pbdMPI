@@ -13,7 +13,7 @@ spmd.gather.object <- function(x,
   ### It only passes the pointer, so displs[1:length(displs)] is OK, too.
   ret <- spmd.gatherv.raw(x.raw, raw(sum(x.count)), x.count = x.count,
                           displs = displs,
-                          rank.dest = as.integer(rank.dest), comm = comm)
+                          rank.dest = rank.dest, comm = comm)
 
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())

@@ -5,7 +5,7 @@ library(pbdMPI, quietly = TRUE)
 
 ### Examples
 FUN <- function(jid){
-  Sys.sleep(1)
+  Sys.sleep(0.5)
   jid * 10
 }
 

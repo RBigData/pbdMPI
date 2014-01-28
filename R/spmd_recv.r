@@ -10,8 +10,8 @@ spmd.recv.default <- function(x.buffer = NULL,
   unserialize(spmd.recv.raw(raw(total.length),
                             rank.source = source.tag[1],
                             tag = source.tag[2],
-                            comm = as.integer(comm),
-                            status = as.integer(status)))
+                            comm = comm,
+                            status = status))
 } # End of spmd.recv.default().
 
 

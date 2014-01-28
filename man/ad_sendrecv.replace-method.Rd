@@ -18,11 +18,11 @@
 }
 \usage{
   sendrecv.replace(x,
-    rank.dest = as.integer((comm.rank(.SPMD.CT$comm) + 1) \%\%
-                           comm.size(.SPMD.CT$comm)),
+    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) \%\%
+                comm.size(.SPMD.CT$comm),
     send.tag = .SPMD.CT$tag,
-    rank.source = as.integer((comm.rank(.SPMD.CT$comm) - 1) \%\%
-                             comm.size(.SPMD.CT$comm)),
+    rank.source = (comm.rank(.SPMD.CT$comm) - 1) \%\%
+                  comm.size(.SPMD.CT$comm),
     recv.tag = .SPMD.CT$tag,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status)
 }

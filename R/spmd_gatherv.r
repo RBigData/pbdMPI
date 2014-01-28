@@ -4,8 +4,6 @@
 spmd.gather.default <- function(x, x.buffer = NULL, x.count = NULL,
     displs = NULL, rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
-  rank.dest <- as.integer(rank.dest)
-  comm <- as.integer(comm)
   all.array <- spmd.allreduce.integer(as.integer(is.array(x)),
                                       integer(1), op = "sum",
                                       comm = comm) == spmd.comm.size(comm)
@@ -23,8 +21,8 @@ spmd.gatherv.default <- spmd.gather.default
 spmd.gather.integer <- function(x, x.buffer, x.count = NULL, displs = NULL,
     rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
-  ret <- .Call("spmd_gather_integer", x, x.buffer, rank.dest, comm,
-               PACKAGE = "pbdMPI")
+  ret <- .Call("spmd_gather_integer", x, x.buffer,
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }
@@ -34,8 +32,8 @@ spmd.gather.integer <- function(x, x.buffer, x.count = NULL, displs = NULL,
 spmd.gather.double <- function(x, x.buffer, x.count = NULL, displs = NULL,
     rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
-  ret <- .Call("spmd_gather_double", x, x.buffer, rank.dest, comm,
-               PACKAGE = "pbdMPI")
+  ret <- .Call("spmd_gather_double", x, x.buffer,
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }
@@ -45,8 +43,8 @@ spmd.gather.double <- function(x, x.buffer, x.count = NULL, displs = NULL,
 spmd.gather.raw <- function(x, x.buffer, x.count = NULL, displs = NULL,
     rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
-  ret <- .Call("spmd_gather_raw", x, x.buffer, rank.dest, comm,
-               PACKAGE = "pbdMPI")
+  ret <- .Call("spmd_gather_raw", x, x.buffer,
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }
@@ -60,7 +58,7 @@ spmd.gatherv.integer <- function(x, x.buffer, x.count,
     rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
   ret <- .Call("spmd_gatherv_integer", x, x.buffer, x.count, displs,
-               rank.dest, comm, PACKAGE = "pbdMPI")
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }
@@ -71,8 +69,8 @@ spmd.gatherv.double <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
     rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
-  ret <- .Call("spmd_gatherv_double", x, x.buffer, x.count, displs, rank.dest,
-               comm, PACKAGE = "pbdMPI")
+  ret <- .Call("spmd_gatherv_double", x, x.buffer, x.count, displs,
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }
@@ -83,8 +81,8 @@ spmd.gatherv.raw <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
     rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
     unlist = .SPMD.CT$unlist){
-  ret <- .Call("spmd_gatherv_raw", x, x.buffer, x.count, displs, rank.dest,
-               comm, PACKAGE = "pbdMPI")
+  ret <- .Call("spmd_gatherv_raw", x, x.buffer, x.count, displs,
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }

@@ -7,7 +7,7 @@ spmd.allreduce.object <- function(x, op = .SPMD.CT$op, comm = .SPMD.CT$comm){
     stop(x)
   }
   .Call("spmd_allreduce_double", x, double(length(x)),
-        which(op[1] == .SPMD.OP), comm, PACKAGE = "pbdMPI")
+        which(op[1] == .SPMD.OP), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allreduce.object().
 
 ### For array only.

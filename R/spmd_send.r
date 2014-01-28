@@ -3,8 +3,8 @@
 ### Default method.
 spmd.send.default <- function(x,
     rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag, comm = .SPMD.CT$comm){
-  spmd.send.raw(serialize(x, NULL), rank.dest = as.integer(rank.dest),
-                tag = as.integer(tag), comm = as.integer(comm))
+  spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
+                tag = tag, comm = comm)
   invisible()
 } # End of spmd.send.default().
 

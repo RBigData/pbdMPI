@@ -3,9 +3,6 @@
 ### For general types.
 spmd.bcast.object <- function(x,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  rank.source <- as.integer(rank.source)
-  comm <- as.integer(comm)
-
   if(spmd.comm.rank(comm) == rank.source){
     x.raw <- serialize(x, NULL)
     spmd.bcast.integer(length(x.raw), rank.source = rank.source, comm = comm)

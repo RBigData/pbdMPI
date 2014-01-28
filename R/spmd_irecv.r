@@ -7,9 +7,8 @@ spmd.irecv.default <- function(x.buffer = NULL,
   ### This implementation is the same as spmd.recv.default(), because
   ### a blocking probe should be evoked to get the length of object for
   ### preparing enough x.buffer.
-  spmd.recv.default(rank.source = as.integer(rank.source),
-                    tag = as.integer(tag), comm = as.integer(comm),
-                    status = as.integer(status))
+  spmd.recv.default(rank.source = rank.source, tag = tag, comm = comm,
+                    status = status)
 } # End of spmd.irecv.default().
 
 ### For irecv.
