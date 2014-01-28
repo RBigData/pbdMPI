@@ -5,8 +5,6 @@ spmd.reduce.default <- function(x, x.buffer = NULL, op = .SPMD.CT$op,
     rank.dest = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
   op <- match.arg(tolower(op[1]), .SPMD.OP)
 
-  rank.dest <- as.integer(rank.dest)
-  comm <- as.integer(comm)
   all.array <- spmd.allreduce.integer(
                    as.integer(is.array(x) && length(x) > 0),
                    integer(1), op = "sum",
@@ -25,7 +23,7 @@ spmd.reduce.integer <- function(x, x.buffer, op = .SPMD.CT$op,
     rank.dest = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
   ret <- .Call("spmd_reduce_integer", x, x.buffer,
                which(op[1] == .SPMD.OP),
-               rank.dest, comm, PACKAGE = "pbdMPI")
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }
@@ -36,7 +34,7 @@ spmd.reduce.double <- function(x, x.buffer, op = .SPMD.CT$op,
     rank.dest = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
   ret <- .Call("spmd_reduce_double", x, x.buffer,
                which(op[1] == .SPMD.OP),
-               rank.dest, comm, PACKAGE = "pbdMPI")
+               as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
   }

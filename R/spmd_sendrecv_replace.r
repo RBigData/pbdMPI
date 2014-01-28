@@ -2,28 +2,28 @@
 
 ### Default method.
 spmd.sendrecv.replace.default <- function(x,
-    rank.dest = as.integer((comm.rank(.SPMD.CT$comm) + 1) %%
-                           comm.size(.SPMD.CT$comm)),
+    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
+                comm.size(.SPMD.CT$comm),
     send.tag = .SPMD.CT$tag,
-    rank.source = as.integer((comm.rank(.SPMD.CT$comm) - 1) %%
-                             comm.size(.SPMD.CT$comm)),
+    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
+                  comm.size(.SPMD.CT$comm),
     recv.tag = .SPMD.CT$tag,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   x.raw <- serialize(x, NULL)
   total.org <- length(x.raw)
   total.new <- spmd.sendrecv.replace.integer(as.integer(total.org),
-                 rank.dest = as.integer(rank.source),
-                 send.tag = as.integer(send.tag),
-                 rank.source = as.integer(rank.dest),
-                 recv.tag = as.integer(recv.tag),
-                 comm = as.integer(comm), status = as.integer(status))
+                 rank.dest = rank.source,
+                 send.tag = send.tag,
+                 rank.source = rank.dest,
+                 recv.tag = recv.tag,
+                 comm = comm, status = status)
   if(total.org == total.new){
     unserialize(spmd.sendrecv.replace.raw(x.raw,
-                  rank.dest = as.integer(rank.dest),
-                  send.tag = as.integer(send.tag),
-                  rank.source = as.integer(rank.source),
-                  recv.tag = as.integer(recv.tag),
-                  comm = as.integer(comm), status = as.integer(status)))
+                  rank.dest = rank.dest,
+                  send.tag = send.tag,
+                  rank.source = rank.source,
+                  recv.tag = recv.tag,
+                  comm = comm, status = status))
   } else{
     stop("Objects are not consistent.")
   }
@@ -32,42 +32,45 @@ spmd.sendrecv.replace.default <- function(x,
 
 ### For sendrecv.replace.
 spmd.sendrecv.replace.integer <- function(x,
-    rank.dest = as.integer((comm.rank(.SPMD.CT$comm) + 1) %%
-                           comm.size(.SPMD.CT$comm)),
+    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
+                comm.size(.SPMD.CT$comm),
     send.tag = .SPMD.CT$tag,
-    rank.source = as.integer((comm.rank(.SPMD.CT$comm) - 1) %%
-                             comm.size(.SPMD.CT$comm)),
+    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
+                  comm.size(.SPMD.CT$comm),
     recv.tag = .SPMD.CT$tag,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   .Call("spmd_sendrecv_replace_integer", x,
-        rank.dest, send.tag, rank.source, recv.tag,
-        comm, status, PACKAGE = "pbdMPI")
+        as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
+        as.integer(recv.tag),
+        as.integer(comm), as.integer(status), PACKAGE = "pbdMPI")
 } # End of spmd.sendrecv.replace.integer().
 
 spmd.sendrecv.replace.double <- function(x,
-    rank.dest = as.integer((comm.rank(.SPMD.CT$comm) + 1) %%
-                           comm.size(.SPMD.CT$comm)),
+    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
+                comm.size(.SPMD.CT$comm),
     send.tag = .SPMD.CT$tag,
-    rank.source = as.integer((comm.rank(.SPMD.CT$comm) - 1) %%
-                             comm.size(.SPMD.CT$comm)),
+    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
+                  comm.size(.SPMD.CT$comm),
     recv.tag = .SPMD.CT$tag,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   .Call("spmd_sendrecv_replace_double", x,
-        rank.dest, send.tag, rank.source, recv.tag,
-        comm, status, PACKAGE = "pbdMPI")
+        as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
+        as.integer(recv.tag),
+        as.integer(comm), as.integer(status), PACKAGE = "pbdMPI")
 } # End of spmd.sendrecv.replace.double().
 
 spmd.sendrecv.replace.raw <- function(x,
-    rank.dest = as.integer((comm.rank(.SPMD.CT$comm) + 1) %%
-                           comm.size(.SPMD.CT$comm)),
+    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
+                comm.size(.SPMD.CT$comm),
     send.tag = .SPMD.CT$tag,
-    rank.source = as.integer((comm.rank(.SPMD.CT$comm) - 1) %%
-                             comm.size(.SPMD.CT$comm)),
+    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
+                  comm.size(.SPMD.CT$comm),
     recv.tag = .SPMD.CT$tag,
     comm = .SPMD.CT$comm, status = .SPMD.CT$status){
   .Call("spmd_sendrecv_replace_raw", x,
-        rank.dest, send.tag, rank.source, recv.tag,
-        comm, status, PACKAGE = "pbdMPI")
+        as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
+        as.integer(recv.tag),
+        as.integer(comm), as.integer(status), PACKAGE = "pbdMPI")
 } # End of spmd.sendrecv.replace.raw().
 
 

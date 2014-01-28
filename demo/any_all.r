@@ -7,7 +7,7 @@ init()
 .comm.rank <- comm.rank()
 
 if(.comm.size != 2){
-  comm.cat("2 processors are requried.\n", quiet = TRUE)
+  comm.stop("2 processors are requried.\n", quiet = TRUE)
   finalize()
 }
 
