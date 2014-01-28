@@ -8,9 +8,11 @@ spmd.scatter.default <- function(x, x.buffer = NULL, x.count = NULL,
     check <- c(is.list(x) && length(x) == spmd.comm.size(comm),
                do.call("sum", lapply(1:COMM.SIZE,
                                 function(i) is.array(x[[i]]))) == COMM.SIZE)
-    spmd.bcast.integer(as.integer(check), comm = comm)
+    spmd.bcast.integer(as.integer(check), rank.source = rank.source,
+                       comm = comm)
   } else{                             
-    check <- spmd.bcast.integer(integer(2), comm = comm)
+    check <- spmd.bcast.integer(integer(2), rank.source = rank.source,
+                                comm = comm)
   }
 
   if(!check[1]){
