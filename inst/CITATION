@@ -24,7 +24,7 @@ citEntry(
                       as.person("Hao Yu")),
   year = "2014",
   note = "{R} Vignette, URL http://cran.r-project.org/package=pbdMPI",
-  textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2014) A Quick Guide for the pbdMPI Package. R Vignette, URL http://cran.r-project.org/package=pbdMPI",
+  textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2014) A Quick Guide for the pbdMPI Package (Ver. 0.2-2). R Vignette, URL http://cran.r-project.org/package=pbdMPI",
   key = "Chen2014pbdMPIvignette"
 )
 
