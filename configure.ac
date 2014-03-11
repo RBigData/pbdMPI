@@ -80,12 +80,14 @@ fi
 
 
 dnl Check compiler.
-CC=`"${R_HOME}/bin/R" CMD config CC`
-AC_PROG_CC
 if test "X$CC" = "X" ; then
-  # Our best guess...
-  CC="gcc -std=gnu99"
+  CC=`"${R_HOME}/bin/R" CMD config CC`
+  if test "X$CC" = "X" ; then
+    # Our best guess...
+    CC="gcc -std=gnu99"
+  fi
 fi
+AC_PROG_CC
 
 
 dnl Check MPI in path.

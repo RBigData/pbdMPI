@@ -1,3 +1,6 @@
+2014-03-11: Ver. 0.2-3
+  * Add try options to task.pull().
+
 2014-01-28: Ver. 0.2-3
   * Fix bcast() bugs.
   * Fix spmd.scatter.array() bugs.
