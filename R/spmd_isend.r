@@ -12,7 +12,7 @@ spmd.isend.default <- function(x,
   #                tag = as.integer(tag), comm = as.integer(comm),
   #                request = as.integer(request))
   ### This implementation is the same as spmd.send.default(), because
-  ### a blocking ait should be evoked to make sure buffer is sent completely.
+  ### a blocking wait should be evoked to make sure buffer is sent completely.
   spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
                 tag = tag, comm = comm)
   invisible()
