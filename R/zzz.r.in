@@ -12,6 +12,8 @@
   ### Shared library needs to be loaded before "pbdMPI.so"
   mpi.type <- "@MPITYPE@"
   mpi.libpath <- "@MPI_LIBPATH@"
+  mpi.libname <- "@MPI_LIBNAME@"
+  libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
 
   ### Nautilus needs MPT.
   i.lib <- NULL
@@ -23,7 +25,8 @@
       mpi.libname <- "libmpich"
     }
 
-    libs <- c(list.files(path = mpi.libpath,
+    libs <- c(libs,
+              list.files(path = mpi.libpath,
                          pattern = paste(mpi.libname, "\\.so.*", sep = ""),
                          full.names = TRUE))
               ### For Mac OS X, but let system takes care of loading problem.
@@ -66,10 +69,8 @@
   ### For seed.
   if(! exists(".lec.Random.seed.table", envir = .GlobalEnv) &&
      ! exists(".Random.seed", envir = .GlobalEnv)){
-    # seed <- as.integer(Sys.getpid() + Sys.time())
     seed <- as.integer(runif(6, 1L, 2147483647L))
     seed <- .Call("spmd_bcast_integer", seed, 0L, 0L, PACKAGE = "pbdMPI")
-    # seed <- rep(seed, 6)
 
     comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
     comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
@@ -93,6 +94,8 @@
   ### Shared library needs to be unloaded after "pbdMPI.so"
   mpi.type <- "@MPITYPE@"
   mpi.libpath <- "@MPI_LIBPATH@"
+  mpi.libname <- "@MPI_LIBNAME@"
+  libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
 
   ### Nautilus needs MPT.
   if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
@@ -103,7 +106,8 @@
       mpi.libname <- "libmpich"
     }
 
-    libs <- c(list.files(path = mpi.libpath,
+    libs <- c(libs,
+              list.files(path = mpi.libpath,
                          pattern = paste(mpi.libname, "\\.so.*", sep = ""),
                          full.names = TRUE))
               ### For Mac OS X, but let system takes care of loading problem.

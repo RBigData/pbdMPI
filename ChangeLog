@@ -1,3 +1,6 @@
+2014-03-22: Ver. 0.2-3
+  * Adjust configure.ac and Makeconf for pbdSSLAP.
+
 2014-03-11: Ver. 0.2-3
   * Add try options to task.pull().
 
