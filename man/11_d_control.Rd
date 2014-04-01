@@ -2,10 +2,11 @@
 \alias{.SPMD.CT}
 \alias{.SPMD.OP}
 \alias{.SPMD.IO}
+\alias{.SPMD.TP}
 \docType{data}
-\title{A set of controls in pbdMPI.}
+\title{Sets of controls in pbdMPI.}
 \description{
-  This set of controls is used to provide default values in this package.
+  These sets of controls are used to provide default values in this package.
 }
 \format{
   Objects contain several parameters for communicators and methods.
@@ -54,6 +55,16 @@
 }
   where \code{balance.method} is only used for "gbd" reading method when
   \code{nrows = -1} and \code{skip = 0} are set.
+
+  The elements of \code{.SPMD.TP} are default values mainly for task pull
+  including
+\tabular{lcl}{
+  Elements          \tab Default \tab Usage \cr
+  \code{bcast}      \tab FALSE   \tab if \code{bcase()} objects to all ranks \cr
+  \code{try}        \tab TRUEE   \tab if use \code{try()} in works \cr
+  \code{try.silent} \tab FALSE   \tab if silent the \code{try()} message \cr
+  See \code{\link{task.pull}()} for details.
+}
 }
 \references{
   Programming with Big Data in R Website:

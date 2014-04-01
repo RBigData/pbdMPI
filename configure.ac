@@ -1,6 +1,6 @@
 dnl This file was original for Rmpi written by Dr. Yu Hao, and may be
 dnl modified by Prof. Brian Rieply and suggested by R Core Team.
-dnl Later, it was added by Wei-Chen Chen for pbdMPI and pbdPROF for more
+dnl Later, it was added and cleaned by Wei-Chen Chen for pbdR for more
 dnl functionalities combining with Makevars.in.
 
 
@@ -80,12 +80,14 @@ fi
 
 
 dnl Check compiler.
-CC=`"${R_HOME}/bin/R" CMD config CC`
-AC_PROG_CC
 if test "X$CC" = "X" ; then
-  # Our best guess...
-  CC="gcc -std=gnu99"
+  CC=`"${R_HOME}/bin/R" CMD config CC`
+  if test "X$CC" = "X" ; then
+    # Our best guess...
+    CC="gcc -std=gnu99"
+  fi
 fi
+AC_PROG_CC
 
 
 dnl Check MPI in path.
@@ -126,12 +128,14 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         if test -f "${dir}/libmpi.so" ; then
           echo "found ${dir}/libmpi.so ..." 
           TMP_LIB=${dir}
+          TMP_LIBNAME="libmpi.so"
           break
         fi
         dnl For Mac OS X
         if test -f "${dir}/libmpi.dylib" ; then
           echo "found ${dir}/libmpi.dylib ..."
           TMP_LIB=${dir}
+          TMP_LIBNAME="libmpi.dylib"
           break
         fi
       done
@@ -144,6 +148,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         MPITYPE="OPENMPI"
         MPI_INCLUDE_PATH="${TMP_INC}"
         MPI_LIBPATH="${TMP_LIB}"
+        MPI_LIBNAME="${TMP_LIBNAME}"
       fi
     fi
   fi
@@ -195,12 +200,14 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         if test -f "${dir_lib}/libmpich.so" ; then
           echo "found ${dir_lib}/libmpich.so ..." 
           TMP_LIB=${dir_lib}
+          TMP_LIBNAME="libmpich.so"
           break
         fi
         dnl For Mac OS X
         if test -f "${dir_lib}/libmpich.dylib" ; then
           echo "found ${dir_lib}/libmpich.dylib ..."
           TMP_LIB=${dir_lib}
+          TMP_LIBNAME="libmpich.dylib"
           break
         fi
       done
@@ -213,6 +220,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         MPITYPE="${MPITYPE}"
         MPI_INCLUDE_PATH="${TMP_INC}"
         MPI_LIBPATH="${TMP_LIB}"
+        MPI_LIBNAME="${TMP_LIBNAME}"
       fi
     fi
   fi
@@ -440,64 +448,81 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     dnl This is what Fedora 10 had
     echo "Found libmpi in ${MPI_ROOT}"
     MPI_LIBPATH="${MPI_ROOT}"
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib/openmpi/lib/libmpi.so; then
     dnl This is what Fedora 17 had
     echo "Found libmpi in ${MPI_ROOT}/lib/openmpi/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib/openmpi/lib"
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib64/openmpi/lib/libmpi.so; then
     dnl This is what Fedora 17 had
     echo "Found libmpi in ${MPI_ROOT}/lib64/openmpi/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib64/openmpi/lib"
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib/openmpi/libmpi.so; then
     echo "Found libmpi in ${MPI_ROOT}/lib/openmpi"
     MPI_LIBPATH="${MPI_ROOT}/lib/openmpi"
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib/openmpi/libmpi.dylib; then
     echo "Found libmpi in ${MPI_ROOT}/lib/openmpi"
     MPI_LIBPATH="${MPI_ROOT}/lib/openmpi"
+    MPI_LIBNAME="libmpi.dylib"
   elif test -f ${MPI_ROOT}/lib64/openmpi/libmpi.so; then
     echo "Found libmpi in ${MPI_ROOT}/lib64/openmpi"
     MPI_LIBPATH="${MPI_ROOT}/lib64/openmpi"
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib64/openmpi/libmpi.dylib; then
     echo "Found libmpi in ${MPI_ROOT}/lib64/openmpi"
     MPI_LIBPATH="${MPI_ROOT}/lib64/openmpi"
+    MPI_LIBNAME="libmpi.dylib"
   elif test -f ${MPI_ROOT}/lib/libmpi.so; then
     echo "Found libmpi in ${MPI_ROOT}/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib"
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib/libmpi.dylib; then
     echo "Found libmpi in ${MPI_ROOT}/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib"
+    MPI_LIBNAME="libmpi.dylib"
   elif test -f ${MPI_ROOT}/lib64/libmpi.so; then
     echo "Found libmpi in ${MPI_ROOT}/lib64"
     MPI_LIBPATH="${MPI_ROOT}/lib64"		
+    MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib64/libmpi.dylib; then
     echo "Found libmpi in ${MPI_ROOT}/lib64"
     MPI_LIBPATH="${MPI_ROOT}/lib64"		
+    MPI_LIBNAME="libmpi.dylib"
   elif test -f ${MPI_ROOT}/lib/lam/libmpi.so; then
     echo "Found libmpi in ${MPI_ROOT}/lib/lam"
     MPI_LIBPATH="${MPI_ROOT}/lib/lam"
+    MPI_LIBNAME="libmpi.so"
     MPI_INCL2="-I${MPI_INCLUDE_PATH}/32"
   elif test -f ${MPI_ROOT}/lib64/lam/libmpi.so; then
     echo "Found libmpi in ${MPI_ROOT}/lib64/lam"
     MPI_LIBPATH="${MPI_ROOT}/lib64/lam"
+    MPI_LIBNAME="libmpi.so"
     MPI_INCL2="-I${MPI_INCLUDE_PATH}/64"
   elif test -f ${MPI_ROOT}/lib/libmpich.so; then
     echo "Found libmpich in ${MPI_ROOT}/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib"
+    MPI_LIBNAME="libmpich.so"
     AC_CHECK_DECLS([MPICH2, MPICH2],[  MPI_DEFS="-DMPI2" ],, 
                    [#include <mpi.h>])
   elif test -f ${MPI_ROOT}/lib64/libmpich.so; then
     echo "Found libmpich in ${MPI_ROOT}/lib64"
     MPI_LIBPATH="${MPI_ROOT}/lib64"
+    MPI_LIBNAME="libmpich.so"
     AC_CHECK_DECLS([MPICH2, MPICH2],[  MPI_DEFS="-DMPI2" ],, 
                    [#include <mpi.h>])
   elif test -f ${MPI_ROOT}/lib/libmpich.a; then
     echo "Found libmpich in ${MPI_ROOT}/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib"
+    MPI_LIBNAME="libmpich.a"
     AC_CHECK_DECLS([MPICH2, MPICH2],[  MPI_DEFS="-DMPI2" ],, 
                    [#include <mpi.h>])
   elif test -f ${MPI_ROOT}/lib64/libmpich.a; then
     echo "Found libmpich in ${MPI_ROOT}/lib64"
     MPI_LIBPATH="${MPI_ROOT}/lib64"
+    MPI_LIBNAME="libmpich.a"
     AC_CHECK_DECLS([MPICH2, MPICH2],[  MPI_DEFS="-DMPI2" ],, 
                    [#include <mpi.h>])
   else
@@ -512,15 +537,19 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     if test -f ${MPI_ROOT}/lib/liblam.so; then
       echo "Found liblam in ${MPI_ROOT}/lib"
       MPI_LIBPATH="${MPI_ROOT}/lib"
+      MPI_LIBNAME="liblam.so"
     elif test -f ${MPI_ROOT}/lib64/liblam.so; then
       echo "Found liblam in ${MPI_ROOT}/lib64"
       MPI_LIBPATH="${MPI_ROOT}/lib64"
+      MPI_LIBNAME="liblam.so"
     elif test -f ${MPI_ROOT}/lib/lam/liblam.so; then
       echo "Found liblam in ${MPI_ROOT}/lib/lam"
       MPI_LIBPATH="${MPI_ROOT}/lib/lam"
+      MPI_LIBNAME="liblam.so"
     elif test -f ${MPI_ROOT}/lib64/lam/liblam.so; then
       echo "Found liblam in ${MPI_ROOT}/lib64/lam"
       MPI_LIBPATH="${MPI_ROOT}/lib64/lam"
+      MPI_LIBNAME="liblam.so"
     else
       AC_CHECK_LIB(lam, main, [ echo "liblam not found. Probably not LAM-MPI" ])
     fi    
@@ -645,10 +674,12 @@ echo "******************* Results of pbdMPI package configure *****************"
 echo " "
 echo ">> TMP_INC = ${TMP_INC}"
 echo ">> TMP_LIB = ${TMP_LIB}"
+echo ">> TMP_LIBNAME = ${TMP_LIBNAME}"
 echo ">> MPI_ROOT = ${MPI_ROOT}"
 echo ">> MPITYPE = ${MPITYPE}"
 echo ">> MPI_INCLUDE_PATH = ${MPI_INCLUDE_PATH}"
 echo ">> MPI_LIBPATH = ${MPI_LIBPATH}"
+echo ">> MPI_LIBNAME = ${MPI_LIBNAME}"
 echo ">> MPI_LIBS = ${MPI_LIBS}"
 echo ">> MPI_DEFS = ${MPI_DEFS}"
 echo ">> MPI_INCL2 = ${MPI_INCL2}"
@@ -666,10 +697,12 @@ AC_SUBST(MPIEXEC)
 AC_SUBST(ORTERUN)
 AC_SUBST(TMP_INC)
 AC_SUBST(TMP_LIB)
+AC_SUBST(TMP_LIBNAME)
 AC_SUBST(MPI_ROOT)
 AC_SUBST(MPITYPE)
 AC_SUBST(MPI_INCLUDE_PATH)
 AC_SUBST(MPI_LIBPATH)
+AC_SUBST(MPI_LIBNAME)
 AC_SUBST(MPI_LIBS)
 AC_SUBST(MPI_DEFS)
 AC_SUBST(MPI_INCL2)
@@ -680,6 +713,7 @@ AC_SUBST(PROF_LDFLAGS)
 AC_OUTPUT(src/Makevars)
 
 AC_SUBST(MPI_LIBPATH)
+AC_SUBST(MPI_LIBNAME)
 AC_SUBST(MPITYPE)
 AC_OUTPUT(R/zzz.r)
 

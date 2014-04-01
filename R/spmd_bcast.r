@@ -4,16 +4,18 @@
 spmd.bcast.default <- function(x,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.source){
-    is.array <- spmd.bcast.integer(as.integer(is.array(x)), comm = comm)
+    is.check <- spmd.bcast.integer(as.integer(is.array(x)), comm = comm)
   } else{
-    is.array <- spmd.bcast.integer(integer(1), comm = comm)
+    is.check <- spmd.bcast.integer(integer(1), comm = comm)
   }
 
-  if(is.array){
-    spmd.bcast.array(x, rank.source = rank.source, comm = comm)
+  if(is.check[1]){
+    ret <- spmd.bcast.array(x, rank.source = rank.source, comm = comm)
   } else{
-    spmd.bcast.object(x, rank.source = rank.source, comm = comm)
+    ret <- spmd.bcast.object(x, rank.source = rank.source, comm = comm)
   }
+
+  ret
 } # End of spmd.bcast.default().
 
 ### For bcast and basic types.
@@ -51,12 +53,12 @@ setMethod(
 setMethod(
   f = "bcast",
   signature = signature(x = "integer"),
-  definition = spmd.bcast.integer
+  definition = spmd.bcast.default
 )
 setMethod(
   f = "bcast",
   signature = signature(x = "numeric"),
-  definition = spmd.bcast.double
+  definition = spmd.bcast.default
 )
 setMethod(
   f = "bcast",
