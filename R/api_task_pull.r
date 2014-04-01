@@ -63,7 +63,7 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
     comm.stop("Wrong master id.")
   }
   if(spmd.comm.size(comm) == 1){
-    comm.stop("Comm size = 2 is required.")
+    comm.stop("Comm size >= 2 is required.")
   }
 
   # Note the use of the tag for received messages:
