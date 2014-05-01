@@ -1,3 +1,7 @@
+2014-04-01: Ver. 0.2-3
+  * Fix a bcast() bug of unblance call stack by switching to spmd.bcast.default
+    for vectors of integer and double.
+
 2014-03-22: Ver. 0.2-3
   * Adjust configure.ac and Makeconf for pbdSSLAP.
 

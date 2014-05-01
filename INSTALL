@@ -48,7 +48,7 @@
 
 1. Default Installation:
    This should work with most platforms with 'OpenMPI' installed. The
-   configuration is based on 'Rmpi' but detect the flags and libraries from
+   configuration detects the flags and libraries from
    'mpicc --showme:*' which is more portable.
 
      > R CMD INSTALL pbdMPI
@@ -56,7 +56,7 @@
 2. Non-default Installation:
 
      > R CMD INSTALL pbdMPI \
-     +   --configure-args="--with-Rmpi-type=OPENMPI \
+     +   --configure-args="--with-mpi-type=OPENMPI \
      +                     --with-mpi=/usr/local"
 
 3. Unusual Installation:
@@ -64,9 +64,9 @@
    to header files and libraries, then I can install 'pbdMPI' by
 
      > R CMD INSTALL pbdMPI \
-     +   --configure-args="--with-Rmpi-type=OPENMPI \
-     +                     --with-Rmpi-include=/usr/local/ompi/include  \
-     +                     --with-Rmpi-libpath=/usr/local/ompi/lib" \
+     +   --configure-args="--with-mpi-type=OPENMPI \
+     +                     --with-mpi-include=/usr/local/ompi/include  \
+     +                     --with-mpi-libpath=/usr/local/ompi/lib" \
 
    Note that I still need 'PATH' and 'LD_LIBRARY_PATH' to be set correctly in
    this case.
