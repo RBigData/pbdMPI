@@ -57,8 +57,9 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{comm.read.table}()} and
-  \code{\link{comm.write.table}()}
+  \code{\link{comm.read.table}()},
+  \code{\link{comm.write.table}()}, and
+  \code{\link{comm.as.gbd}()}.
 }
 \examples{
 \dontrun{

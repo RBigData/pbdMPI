@@ -1,3 +1,6 @@
+2014-05-02: Ver. 0.2-3
+  * Add comm.as.gbd(), comm.pairwise(), and comm.dist().
+
 2014-04-01: Ver. 0.2-3
   * Fix a bcast() bug of unblance call stack by switching to spmd.bcast.default
     for vectors of integer and double.

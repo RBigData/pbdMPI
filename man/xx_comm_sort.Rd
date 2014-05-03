@@ -25,7 +25,7 @@
   The returns are the same size of \code{x} but in global sorting order.
 }
 \section{Warning}{
-  All ranks should not have a NULL \code{x}.
+  All ranks may not have a NULL \code{x}.
 }
 \references{
   Programming with Big Data in R Website:
@@ -47,7 +47,7 @@ init()
 .comm.rank <- comm.rank()
 
 ### Examples
-comm.set.seed(diff = TRUE)
+comm.set.seed(123456, diff = TRUE)
 x <- c(rnorm(5 + .comm.rank * 2), NA)
 # x <- sample(1:5, 5 + .comm.rank * 2, replace = TRUE)
 comm.end.seed()
