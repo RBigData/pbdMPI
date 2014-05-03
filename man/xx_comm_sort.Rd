@@ -53,7 +53,7 @@ x <- c(rnorm(5 + .comm.rank * 2), NA)
 comm.end.seed()
 
 if(.comm.rank == 1){
-  x <- NULL    ### Test for NULL or 0 vector.
+  x <- NULL    ### Test for NULL or 0 vector
 }
 
 y <- allgather(x)

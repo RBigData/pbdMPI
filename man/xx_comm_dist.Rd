@@ -41,6 +41,7 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
+  \code{\link{comm.allpairs}()} and
   \code{\link{comm.pairwise}()}.
 }
 \examples{
@@ -56,12 +57,11 @@ init()
 comm.set.seed(123456, diff = TRUE)
 
 X.gbd <- matrix(runif(6), ncol = 3)
-dist.X.gbd <- as.matrix(comm.dist(X.gbd))
-comm.print(dist.X.gbd, all.rank = TRUE)
+dist.X.gbd <- comm.dist(X.gbd)
 
-### Verify.
-dist.X <- as.matrix(dist(do.call("rbind", allgather(X.gbd))))
-comm.print(dist.X)
+### Verify
+dist.X <- dist(do.call("rbind", allgather(X.gbd)))
+comm.print(all(dist.X.gbd == dist.X))
 
 ### Finish
 finalize()

@@ -60,7 +60,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
   COMM.SIZE <- spmd.comm.size(comm = comm)
   COMM.RANK <- spmd.comm.rank(comm = comm)
 
-  ### All ranks should read from the same file.
+  # All ranks should read from the same file.
   file.source <- spmd.bcast.default(file, comm = comm)
   if(comm.any(file != file.source)){
     comm.stop("All file should be the same, otherwise use read.table().",
@@ -176,7 +176,6 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
 
   # Sychronize colnames.
   colnames(ret) <- spmd.bcast.object(colnames(ret), comm = comm)
-
   ret
 } # End of read.table.gbd().
 
@@ -264,6 +263,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
     }
   }
 
+  # Return.
   ret
 } # End of read.table.common().
 

@@ -1,4 +1,5 @@
 ### Redistributing a regular matrix to be a gbd matrix.
+### Assume gbd.major = 1.
 
 comm.as.gbd <- function(X, balance.method = .SPMD.IO$balance.method,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
@@ -19,6 +20,6 @@ comm.as.gbd <- function(X, balance.method = .SPMD.IO$balance.method,
   }
 
   # Redistributed.
-  X.gbd <- comm.load.balance(X, balance.method = balance.method, comm = comm)
-  X.gbd
+  ret <- comm.load.balance(X, balance.method = balance.method, comm = comm)
+  ret
 } # End of comm.as.gdb().

@@ -36,7 +36,7 @@
 }
 \examples{
 \dontrun{
-### See source code of spmd.recv.default() for an example.
+### See source code of spmd.recv.default() for an example
 }
 }
 \keyword{programming}
