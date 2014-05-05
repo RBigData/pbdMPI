@@ -1,6 +1,6 @@
 ### SHELL> mpiexec -np 4 Rscript --vanilla [...].r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
 ### Get two gbd row-block data.frame.
@@ -16,5 +16,5 @@ da.org <- comm.unload.balance(da.new, bal.info)
 comm.print(c(sum(da.new != da.block), sum(da.org != da.block0)),
            all.rank = TRUE)
 
-### Finish
+### Finish.
 finalize()

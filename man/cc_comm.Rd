@@ -152,24 +152,23 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
-### Examples 
+### Examples .
 comm.print(.comm.size)
 comm.print(.comm.rank, all.rank = TRUE)
 comm.print(comm.rank(), rank.print = 1)
 comm.print(comm.c2f())
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{programming}
-

@@ -23,4 +23,3 @@ if(.comm.rank == 0){
 comm.print(y[N - (1:5)], rank.print = 1)
 
 finalize()
-

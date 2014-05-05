@@ -1,9 +1,9 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
-### Examples
+### Examples.
 FUN <- function(jid){
   Sys.sleep(0.5)
   jid * 10
@@ -18,5 +18,5 @@ if(comm.rank() == 0){
   print(ret.jobs)
 }
 
-### Finish
+### Finish.
 finalize()

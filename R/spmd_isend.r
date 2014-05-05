@@ -13,8 +13,18 @@ spmd.isend.default <- function(x,
   #                request = as.integer(request))
   ### This implementation is the same as spmd.send.default(), because
   ### a blocking wait should be evoked to make sure buffer is sent completely.
-  spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
-                tag = tag, comm = comm)
+  ### But this can cause dead lock.
+  # spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
+  #               tag = tag, comm = comm)
+  ### Use non-blocking buffer to avoid dead lock and use non-block send.
+  if(is.null(.pbdMPIEnv$nb.buffer)){
+    .pbdMPIEnv$nb.buffer <- list()
+  }
+  .pbdMPIEnv$nb.buffer[[length(.pbdMPIEnv$nb.buffer) + 1]] <- serialize(x, NULL)
+  spmd.isend.raw(.pbdMPIEnv$nb.buffer[[length(.pbdMPIEnv$nb.buffer)]],
+                 rank.dest = as.integer(rank.dest),
+                 tag = as.integer(tag), comm = as.integer(comm),
+                 request = as.integer(request))
   invisible()
 } # End of spmd.isend.default().
 

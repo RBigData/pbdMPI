@@ -24,4 +24,3 @@ x <- sendrecv.replace(as.double(x))
 comm.print(x, rank.print = 1)
 
 finalize()
-

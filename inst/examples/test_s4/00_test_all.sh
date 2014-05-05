@@ -9,4 +9,3 @@ do
   mpiexec -np $NP Rscript --vanilla $f
   echo "=============================="
 done
-

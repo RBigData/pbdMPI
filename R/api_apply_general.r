@@ -1,4 +1,4 @@
-### These functions are supposed to run in SPMD, even when pbd.model = "mw"
+### These functions are supposed to run in SPMD, even when pbd.model = "mw".
 
 build.index.matrix <- function(dim.X, MARGIN){
   tmp.dim <- dim.X[MARGIN]
@@ -16,13 +16,13 @@ build.index.matrix <- function(dim.X, MARGIN){
   }
 
   ret
-} # build.index.matrix().
+} # End of build.index.matrix().
 
 build.index.list <- function(dim.X, MARGIN){
   ret <- build.index.matrix(dim.X, MARGIN)
   ret <- lapply(1:nrow(ret), function(i) ret[i,])
   ret
-} # build.index.matrix().
+} # End of build.index.matrix().
 
 subset.by.index <- function(i.id, X, dim.X, MARGIN){
   tl <- length(dim.X)
@@ -39,7 +39,7 @@ subset.by.index <- function(i.id, X, dim.X, MARGIN){
   ret <- eval(parse(text = text.X))
 
   ret
-} # subset.by.index().
+} # End of subset.by.index().
 
 array.to.list <- function(jid, X, dim.X, MARGIN){
   tmp.id <- build.index.list(dim.X, MARGIN)

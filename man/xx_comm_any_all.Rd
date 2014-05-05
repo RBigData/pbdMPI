@@ -1,4 +1,4 @@
-\name{global any and all functions}
+\name{global any and all}
 \alias{comm.any}
 \alias{comm.all}
 \alias{comm.allcommon}
@@ -39,14 +39,14 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 
-### Examples
+### Examples.
 if(comm.rank() == 0){
   a <- c(T, F, NA)
 } else{
@@ -61,9 +61,8 @@ comm.all(a, na.rm = TRUE)
 comm.allcommon(a)
 comm.allcommon(1:3)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

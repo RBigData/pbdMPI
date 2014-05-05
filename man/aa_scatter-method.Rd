@@ -79,16 +79,16 @@ For calling \code{spmd.scatterv.*()}:
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
-### Examples
+### Examples.
 N <- 5
 x <- split(1:(N * .comm.size), rep(1:.comm.size, N))
 y <- scatter(lapply(x, matrix, nrow = 1))
@@ -96,7 +96,7 @@ comm.print(y)
 y <- scatter(x, double(N))
 comm.print(y)
 
-### Finish
+### Finish.
 finalize()
 }
 }

@@ -55,14 +55,14 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 4 processors by
-# > mpiexec -np 4 Rscript demo.r
+### Save code in a file "demo.r" and run with 4 processors by
+### SHELL> mpiexec -np 4 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 
-### Examples
+### Examples.
 comm.cat(">>> block\n", quiet = TRUE)
 jid <- get.jid(7, method = "block")
 comm.print(jid, all.rank = TRUE)
@@ -79,9 +79,8 @@ comm.cat(">>> cycle (all)\n", quiet = TRUE)
 alljid <- get.jid(7, method = "cycle", all = TRUE)
 comm.print(alljid)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

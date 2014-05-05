@@ -40,4 +40,3 @@ comm.print(y, rank.print = 1)
 waitall(as.integer(comm.size()))
 
 finalize()
-

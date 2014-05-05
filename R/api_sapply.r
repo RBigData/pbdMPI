@@ -1,4 +1,4 @@
-### These functions are supposed to run in SPMD, even when pbd.mode = "mw"
+### These functions are supposed to run in SPMD, even when pbd.mode = "mw".
 
 pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
     pbd.mode = c("mw", "spmd"), rank.source = .SPMD.CT$rank.root,

@@ -1,4 +1,4 @@
-\name{global stop and warning functions}
+\name{global stop and warning}
 \alias{comm.stop}
 \alias{comm.warning}
 \alias{comm.warnings}
@@ -51,10 +51,10 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 if(comm.size() != 2){
@@ -62,14 +62,13 @@ if(comm.size() != 2){
   finalize()
 }
 
-### Examples
+### Examples.
 comm.warning("test warning.\n")
 comm.warnings()
 comm.stop("test stop.\n")
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

@@ -1,4 +1,4 @@
-\name{global sort function}
+\name{global sort}
 \alias{comm.sort}
 \title{ Global Quick Sort for Distributed Vectors or Matrices }
 \description{
@@ -37,16 +37,16 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
-### Examples
+### Examples.
 comm.set.seed(123456, diff = TRUE)
 x <- c(rnorm(5 + .comm.rank * 2), NA)
 # x <- sample(1:5, 5 + .comm.rank * 2, replace = TRUE)
@@ -63,9 +63,8 @@ y <- comm.sort(x)
 y <- allgather(y)
 comm.print(y)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

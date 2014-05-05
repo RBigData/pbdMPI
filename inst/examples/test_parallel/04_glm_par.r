@@ -1,6 +1,6 @@
 ### This is an example to apply glm() in a large number of tasks.
 ### One can source this file into R interactive model or run it by the command
-### > Rscript --vanilla 04_glm_spmd.r
+### SHELL> Rscript --vanilla 04_glm_spmd.r
 
 library(parallel)
 
@@ -20,4 +20,3 @@ obs <- lapply(rep(2000, 500), rdata)
 
 system.time(ret <- lapply(1:length(obs), fitmodel, obs))
 system.time(ret.mc <- mclapply(1:length(obs), fitmodel, obs))
-

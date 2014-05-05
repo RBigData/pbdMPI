@@ -34,8 +34,7 @@
 }
 \examples{
 \dontrun{
-### See source code for the details
+### See source code for the details.
 }
 }
 \keyword{programming}
-

@@ -47,4 +47,3 @@ time.proc$double.nobuffer <- system.time({
 comm.print(time.proc, quiet = TRUE)
 
 finalize()
-

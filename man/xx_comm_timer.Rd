@@ -1,4 +1,4 @@
-\name{global timer function}
+\name{global timer}
 \alias{comm.timer}
 \title{ A Timing Function for SPMD Routines }
 \description{
@@ -24,4 +24,3 @@
   Drew Schmidt.
 }
 \keyword{utility}
-

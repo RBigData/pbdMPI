@@ -1,12 +1,19 @@
 \name{global distance function}
 \alias{comm.dist}
+\alias{comm.dist.common}
+\alias{comm.dist.gbd}
 \title{ Global Distance for Distributed Matrices }
 \description{
-  This function globally compute distance for all ranks.
+  These functions globally compute distance for all ranks.
 }
 \usage{
   comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
-            p = 2, comm = .SPMD.CT$comm)
+            p = 2, comm = .SPMD.CT$comm return.type = c("common", "gbd"))
+
+  comm.dist.common(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
+                   p = 2, comm = .SPMD.CT$comm)
+  comm.dist.gbd(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
+                p = 2, comm = .SPMD.CT$comm)
 }
 \arguments{
   \item{X.gbd}{a gbd matrix.}
@@ -15,19 +22,30 @@
   \item{upper}{as in \code{dist()}.}
   \item{p}{as in \code{dist()}.}
   \item{comm}{a communicator number.}
+  \item{return.type}{returning type for the distance.}
 }
 \details{
   The distance function is implemented for a distributed matrix.
 
-  This function is only useful when the number of rows of the
-  matrix is small.
+  The \code{comm.dist.common()} function is only useful when the number
+  of rows of the matrix is small since the returning matrix is \code{N * N}
+  for every rank where \code{N} is the total number of rows of \code{X.gbd}
+  of all ranks.
+
+  The \code{comm.dist.gbd()} function returns a gbd matrix (distributed across
+  all ranks, and the gbd matrix has 3 columns, named "i", "j", and "value",
+  where \code{(i, j)} is the global indices of the
+  i-th and j-th rows of \code{X.gbd}, and \code{value} is the corresponding
+  distance. The \code{(i, j)} is orded as a distance matrix.
 }
 \value{
-  A full distance or distance matrix is returned.
-
+  A full distance matrix is returned from \code{comm.dist.common()}.
   Suppose \code{N.gbd} is total rows of \code{X.gbd}, then
   the distance will have \code{N.gbd * (N.gbd - 1) / 2} elements
   and the distance matrix will have \code{N.gbd^2} elements.
+
+  A gbd distance matrix with 3 columns is returned from
+  \code{comm.dist.gbd()}.
 }
 \section{Warning}{
   The distance or distance matrix could be huge.
@@ -46,26 +64,32 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 
-### Examples
+### Examples.
 comm.set.seed(123456, diff = TRUE)
 
 X.gbd <- matrix(runif(6), ncol = 3)
-dist.X.gbd <- comm.dist(X.gbd)
+dist.X.common <- comm.dist(X.gbd)
+dist.X.gbd <- comm.dist(X.gbd, return.type = "gbd")
 
-### Verify
+### Verify 1.
 dist.X <- dist(do.call("rbind", allgather(X.gbd)))
-comm.print(all(dist.X.gbd == dist.X))
+comm.print(all(dist.X == dist.X.common))
 
-### Finish
+### Verify 2.
+dist.X.df <- do.call("rbind", allgather(dist.X.gbd))
+comm.print(all(dist.X == dist.X.df[, 3]))
+comm.print(dist.X)
+comm.print(dist.X.df)
+
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

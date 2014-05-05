@@ -1,4 +1,4 @@
-\name{global as.gbd functions}
+\name{global as.gb}
 \alias{comm.as.gbd}
 \title{ Global As GBD Function }
 \description{
@@ -43,21 +43,20 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 4 processors by
-# > mpiexec -np 4 Rscript demo.r
+### Save code in a file "demo.r" and run with 4 processors by
+### SHELL> mpiexec -np 4 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 
-### Examples
+### Examples.
 X <- matrix(1:15, ncol = 3)
 X.gbd <- comm.as.gbd(X)
 comm.print(X.gbd, all.rank = TRUE)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

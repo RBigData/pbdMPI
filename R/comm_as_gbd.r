@@ -3,7 +3,7 @@
 
 comm.as.gbd <- function(X, balance.method = .SPMD.IO$balance.method,
     rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
-  # Check.
+  ### Check.
   COMM.RANK <- spmd.comm.rank(comm)
   ncol.X <- integer(1)
   if(COMM.RANK == rank.source){
@@ -14,12 +14,12 @@ comm.as.gbd <- function(X, balance.method = .SPMD.IO$balance.method,
   }
   ncol.X <- spmd.bcast.integer(ncol.X, rank.source = rank.source, comm = comm)
 
-  # Elimate all others.
+  ### Elimate all others.
   if(COMM.RANK != rank.source){
     X <- matrix(0, nrow = 0, ncol = ncol.X)
   }
 
-  # Redistributed.
+  ### Redistributed.
   ret <- comm.load.balance(X, balance.method = balance.method, comm = comm)
   ret
 } # End of comm.as.gdb().

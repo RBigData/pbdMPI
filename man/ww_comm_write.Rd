@@ -1,4 +1,4 @@
-\name{global writing functions}
+\name{global writing}
 \alias{comm.write}
 \alias{comm.write.table}
 \alias{comm.write.csv}
@@ -59,10 +59,10 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 if(comm.size() != 2){
@@ -70,12 +70,11 @@ if(comm.size() != 2){
   finalize()
 }
 
-### Examples
+### Examples.
 comm.write((1:5) + comm.rank(), file = "test.txt")
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

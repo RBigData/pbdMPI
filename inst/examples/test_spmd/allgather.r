@@ -26,4 +26,3 @@ y <- allgather(as.double(x), double(x.total), as.integer(x.count))
 comm.print(y)
 
 finalize()
-

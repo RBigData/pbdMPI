@@ -1,4 +1,4 @@
-\name{global range, max, and min functions}
+\name{global range, max, and min}
 \alias{comm.range}
 \alias{comm.max}
 \alias{comm.min}
@@ -36,10 +36,10 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 if(comm.size() != 2){
@@ -47,7 +47,7 @@ if(comm.size() != 2){
   finalize()
 }
 
-### Examples
+### Examples.
 a <- 1:(comm.rank() + 1)
 
 b <- comm.range(a)
@@ -57,9 +57,8 @@ comm.print(b)
 b <- comm.min(a)
 comm.print(b)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

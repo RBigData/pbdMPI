@@ -96,14 +96,14 @@ Example 1:
 
   id <- get.jid(total.tasks)
 
-  ### Using a loop
+  ### Using a loop.
   for(i in id){
-    # put independent task i script here
+    ### Put independent task i script here.
   }
 
-  ### or using apply-like functions.
+  ### Or using apply-like functions.
   lapply(id, function(i){
-    # put independent task i script here.
+    ### Put independent task i script here.
   })
 
   finalize()
@@ -119,17 +119,17 @@ Example 2:
   library(pbdMPI, quietly = TRUE)
   init()
 
-  ### Directly using a loop
+  ### Directly using a loop.
   for(i in 1:total.tasks){
     if(i %% comm.size() == comm.rank()){
-    # put independent task i script here
+    ### Put independent task i script here.
   }
 }
 
-### or using apply-like function.
+### Or using apply-like function.
 lapply(1:total.tasks, function(i){
   if(i %% comm.size() == comm.rank()){
-  # put independent task i script here.
+  ### Put independent task i script here.
 }
 })
 
@@ -150,10 +150,10 @@ finalize()
 mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
 \end{Command}
 \begin{Code}[title=SPMD R Script (task\_pull)]
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
-### Examples
+### Examples.
 FUN <- function(jid){
   Sys.sleep(1)
   jid * 10
@@ -168,7 +168,7 @@ if(comm.rank() == 0){
   print(ret.jobs)
 }
 
-### Finish
+### Finish.
 finalize()
 \end{Code}
 

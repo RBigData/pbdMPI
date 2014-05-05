@@ -36,4 +36,3 @@ comm.cat("\n-- Print from rank 1:\n", rank.print = 1, quiet = TRUE)
 comm.print(y, rank.print = 1)
 
 finalize()
-

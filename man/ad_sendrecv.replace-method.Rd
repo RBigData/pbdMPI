@@ -72,22 +72,22 @@ For calling \code{spmd.sendrecv.replace.*()}:
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
-### Examples
+### Examples.
 N <- 5
 x <- (1:N) + N * .comm.size
 x <- sendrecv.replace(matrix(x, nrow = 1))
 comm.print(x, rank.print = 1)
 
-### Finish
+### Finish.
 finalize()
 }
 }

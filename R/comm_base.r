@@ -1,4 +1,4 @@
-# Some base functions.
+### Some base functions.
 
 comm.length <- function(x, comm = .SPMD.CT$comm){
   if(! comm.all(is.vector(x), comm = comm)){

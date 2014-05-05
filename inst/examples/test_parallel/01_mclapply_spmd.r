@@ -1,5 +1,5 @@
 ### This example is analog to "glm_par.r", and one can run it by the command
-### > mpiexec -np 2 Rscript --vanilla 01_mclapply_spmd.r
+### SHELL> mpiexec -np 2 Rscript --vanilla 01_mclapply_spmd.r
 
 library(pbdMPI, quietly = TRUE)
 init()

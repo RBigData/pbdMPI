@@ -1,10 +1,12 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
+### Examples.
 N <- 5
 x <- (1:N) + N * .comm.rank
 comm.cat("Original x:\n", quiet = TRUE)
@@ -26,5 +28,5 @@ y <- allreduce(x, op = "min")
 comm.cat("\nAllreduce min:\n", quiet = TRUE)
 comm.print(y)
 
+### Finish.
 finalize()
-

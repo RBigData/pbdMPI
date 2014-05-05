@@ -31,10 +31,10 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
@@ -42,7 +42,7 @@ init()
 if(.comm.size < 2)
   comm.stop("At least two processors are requried.")
 
-### Examples
+### Examples.
 if(.comm.rank != 0){
   send(as.integer(.comm.rank * 10), rank.dest = 0L,
        tag = as.integer(.comm.rank + 10))
@@ -56,9 +56,8 @@ if(.comm.rank == 0){
   }
 }
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{programming}
-

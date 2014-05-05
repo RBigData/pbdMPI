@@ -27,4 +27,3 @@ y <- sendrecv(as.double(x), double(N))
 comm.print(y, rank.print = 1)
 
 finalize()
-
