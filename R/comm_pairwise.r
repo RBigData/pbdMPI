@@ -24,44 +24,77 @@ comm.pairwise <- function(X.gbd,
   N <- sum(N.allgbd)
   N.cumsum <- c(1, cumsum(N.allgbd) + 1)
 
-  ### Check pairs.gbd.
-  if(!comm.allcommon(is.null(pairs.gbd), comm = comm)){
-    comm.stop("pairs.gbd is not common.", comm = comm)
-  }
-  if(!is.null(pairs.gbd)){
-    if(!comm.allcommon(ncol(pairs.gbd) == 2, comm = comm)){
-      comm.stop("pairs.gbd should have 2 columns.", comm = comm)
-    }
-  } else{
-    ### Initial pairs.gbd if NULL.
-    pairs.gbd <- comm.allpairs(N, diag = diag, symmetric = symmetric,
-                               comm = comm)
-  }
-
-  ### Allocate values for all given pairs (i, j).
-  pairs <- do.call("rbind", allgather(pairs.gbd, comm = comm))
-  value <- rep(0.0, nrow(pairs))
-
-  ### Compute.
-  local.id <- N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1)
-  for(i.rank in 0:(COMM.SIZE - 1)){
-    other.id <- N.cumsum[i.rank + 1]:(N.cumsum[i.rank + 2] - 1)
-    X.other <- bcast(X.gbd, rank.source = i.rank, comm = comm)
-
-    id.sub <- which(pairs[, 1] %in% local.id & pairs[, 2] %in% other.id)
-    if(length(id.sub) > 0){
-      for(i.id in id.sub){
-        x <- X.gbd[local.id == pairs[i.id, 1],]
-        y <- X.other[other.id == pairs[i.id, 2],]
-
-        value[i.id] <- FUN(x, y, ...)
+  ### Only local diagonal block.
+  if(N.gbd > 0){
+    ret.local <- matrix(0.0, nrow = N.gbd, ncol = N.gbd)
+    for(i in 1:N.gbd){
+      for(j in 1:N.gbd){
+        ### Check.
+        flag <- FALSE
+        if(i > j){                      ### lower-triangular.
+          flag <- TRUE
+        }
+        if((!symmetric) && (i < j)){    ### Upper-triangular.
+          flag <- TRUE
+        }
+        if(diag && (i == j)){           ### Diagonals.
+          flag <- TRUE
+        }
+        if(flag){                       ### Compute.
+          ret.local[i, j] <- FUN(X.gbd[i,], X.gbd[j,], ...)
+        }
       }
     }
   }
 
+  #### Obtain all other ranks.
+  if(COMM.SIZE > 1){
+    ret.lower <- NULL
+    ret.upper <- NULL
+
+    for(i.rank in 0:(COMM.SIZE - 1)){
+      if(N.allgbd[i.rank + 1] != 0){
+        X.other <- bcast(X.gbd, rank.source = i.rank, comm = comm)
+
+        if(N.gbd > 0){
+          ### Lower-triangular block.
+          if(COMM.RANK < i.rank){
+            tmp <- matrix(0.0, nrow = N.allgbd[i.rank + 1], ncol = N.gbd)
+            for(i in 1:N.allgbd[i.rank + 1]){
+              for(j in 1:N.gbd){
+                ret[i, j] <- FUN(X.other[i,], X.gbd[j,], ...)
+              }
+            }
+            ret.lower <- rbind(ret.lower, tmp)
+          }
+
+          ### Upper-triangular block.
+          if(COMM.RANK > i.rank && !symmetric){
+            tmp <- matrix(0.0, nrow = N.allgbd[i.rank + 1], ncol = N.gbd)
+            for(i in 1:N.allgbd[i.rank + 1]){
+              for(j in 1:N.gbd){
+                ret[i, j] <- FUN(X.other[i,], X.gbd[j,], ...)
+              }
+            }
+            ret.upper <- rbind(ret.upper, tmp)
+          }
+        }
+      }
+    }
+
+    ### Combine all blocks.
+    if(N.gbd > 0){
+      ret <- rbind(ret.upper, ret.local, ret.lower)
+    }
+  }
+
+  ### WCC TODO: finish indexing for a gbd matrix.
+  ### Check symmetric, drop upper-triangular parts if TRUE.
+  ### Check diag, drop diagonals if TRUE.
+  ### Build the i-j-value matrix.
+
   ### Return.
-  value <- spmd.allreduce.double(value, op = "sum", comm = comm)
-  ret <- cbind(pairs, value)
+  dim(ret) <- c(length(ret) / 3, 3)
   colnames(ret) <- c("i", "j", "value")
   rownames(ret) <- NULL
   ret

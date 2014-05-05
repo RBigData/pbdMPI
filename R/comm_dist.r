@@ -56,7 +56,7 @@ comm.dist.common <- function(X.gbd, method = "euclidean", diag = FALSE,
         tmp <- as.matrix(dist(rbind(X.gbd, X.other), method = method,
                               diag = diag, upper = upper, p = p))
 
-        ### Replace the off-diagonal block.
+        ### Replace the lower-triangular block.
         ret[N.cumsum[i.rank + 1]:(N.cumsum[i.rank + 2] - 1),
             N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1)] <-
           tmp[(nrow(X.gbd) + 1):nrow(tmp), 1:nrow(X.gbd)]
@@ -65,7 +65,7 @@ comm.dist.common <- function(X.gbd, method = "euclidean", diag = FALSE,
         tmp <- as.matrix(dist(rbind(X.other, X.gbd), method = method,
                               diag = diag, upper = upper, p = p))
 
-        ### Replace the off-diagonal block.
+        ### Replace the lower-triangular block.
         ret[N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1),
             N.cumsum[i.rank + 1]:(N.cumsum[i.rank + 2] - 1)] <-
           tmp[(nrow(X.other) + 1):nrow(tmp), 1:nrow(X.other)]
@@ -112,12 +112,12 @@ comm.dist.gbd <- function(X.gbd, method = "euclidean", diag = FALSE,
       if(N.allgbd[i.rank + 1] != 0){
         X.other <- bcast(X.gbd, rank.source = i.rank, comm = comm)
 
-        if(COMM.RANK < i.rank){
+        if(COMM.RANK < i.rank && N.gbd > 0){
           ### Keep the right order.
           tmp <- as.matrix(dist(rbind(X.gbd, X.other), method = method,
                                 diag = diag, upper = upper, p = p))
 
-          ### Only need the off-diagonal block.
+          ### Only need the lower-triangular block.
           ret <- rbind(ret, tmp[(nrow(X.gbd) + 1):nrow(tmp), 1:nrow(X.gbd)])
         }
       }

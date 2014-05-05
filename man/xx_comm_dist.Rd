@@ -8,7 +8,7 @@
 }
 \usage{
   comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
-            p = 2, comm = .SPMD.CT$comm return.type = c("common", "gbd"))
+            p = 2, comm = .SPMD.CT$comm, return.type = c("common", "gbd"))
 
   comm.dist.common(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
                    p = 2, comm = .SPMD.CT$comm)
