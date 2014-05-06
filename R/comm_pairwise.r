@@ -62,7 +62,7 @@ comm.pairwise <- function(X.gbd,
             tmp <- matrix(0.0, nrow = N.allgbd[i.rank + 1], ncol = N.gbd)
             for(i in 1:N.allgbd[i.rank + 1]){
               for(j in 1:N.gbd){
-                ret[i, j] <- FUN(X.other[i,], X.gbd[j,], ...)
+                tmp[i, j] <- FUN(X.other[i,], X.gbd[j,], ...)
               }
             }
             ret.lower <- rbind(ret.lower, tmp)
@@ -73,7 +73,7 @@ comm.pairwise <- function(X.gbd,
             tmp <- matrix(0.0, nrow = N.allgbd[i.rank + 1], ncol = N.gbd)
             for(i in 1:N.allgbd[i.rank + 1]){
               for(j in 1:N.gbd){
-                ret[i, j] <- FUN(X.other[i,], X.gbd[j,], ...)
+                tmp[i, j] <- FUN(X.other[i,], X.gbd[j,], ...)
               }
             }
             ret.upper <- rbind(ret.upper, tmp)
@@ -84,17 +84,33 @@ comm.pairwise <- function(X.gbd,
 
     ### Combine all blocks.
     if(N.gbd > 0){
-      ret <- rbind(ret.upper, ret.local, ret.lower)
+      ret.value <- rbind(ret.upper, ret.local, ret.lower)
     }
   }
 
-  ### WCC TODO: finish indexing for a gbd matrix.
-  ### Check symmetric, drop upper-triangular parts if TRUE.
-  ### Check diag, drop diagonals if TRUE.
-  ### Build the i-j-value matrix.
+  ### Add and combine i, j, and value.
+  if(N.gbd > 0){
+    if(symmetric){
+      ret <- cbind(rep(N.cumsum[COMM.RANK + 1]:N, N.gbd),
+                   rep(N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1),
+                       each = N - N.cumsum[COMM.RANK + 1] + 1),
+                   ret.value)
+      ret <- ret[ret[, 1] >= ret[, 2],]
+    } else{
+      ret <- cbind(rep(1:N, N.gbd),
+                   rep(N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1),
+                       each = N),
+                   ret.value)
+    }
+
+    if(!diag){
+      ret <- ret[ret[, 1] != ret[, 2],]
+    }
+  } else{
+    ret <- matrix(0, nrow = 0, ncol = 3)
+  }
 
   ### Return.
-  dim(ret) <- c(length(ret) / 3, 3)
   colnames(ret) <- c("i", "j", "value")
   rownames(ret) <- NULL
   ret
