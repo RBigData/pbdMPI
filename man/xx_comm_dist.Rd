@@ -1,7 +1,5 @@
 \name{global distance function}
 \alias{comm.dist}
-\alias{comm.dist.common}
-\alias{comm.dist.gbd}
 \title{ Global Distance for Distributed Matrices }
 \description{
   These functions globally compute distance for all ranks.
@@ -9,11 +7,6 @@
 \usage{
   comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
             p = 2, comm = .SPMD.CT$comm, return.type = c("common", "gbd"))
-
-  comm.dist.common(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
-                   p = 2, comm = .SPMD.CT$comm)
-  comm.dist.gbd(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
-                p = 2, comm = .SPMD.CT$comm)
 }
 \arguments{
   \item{X.gbd}{a gbd matrix.}
@@ -27,25 +20,25 @@
 \details{
   The distance function is implemented for a distributed matrix.
 
-  The \code{comm.dist.common()} function is only useful when the number
+  The return type \code{common} is only useful when the number
   of rows of the matrix is small since the returning matrix is \code{N * N}
   for every rank where \code{N} is the total number of rows of \code{X.gbd}
   of all ranks.
 
-  The \code{comm.dist.gbd()} function returns a gbd matrix (distributed across
+  The return type \code{gbd} returns a gbd matrix (distributed across
   all ranks, and the gbd matrix has 3 columns, named "i", "j", and "value",
   where \code{(i, j)} is the global indices of the
   i-th and j-th rows of \code{X.gbd}, and \code{value} is the corresponding
   distance. The \code{(i, j)} is orded as a distance matrix.
 }
 \value{
-  A full distance matrix is returned from \code{comm.dist.common()}.
+  A full distance matrix is returned from the \code{common} return type.
   Suppose \code{N.gbd} is total rows of \code{X.gbd}, then
   the distance will have \code{N.gbd * (N.gbd - 1) / 2} elements
   and the distance matrix will have \code{N.gbd^2} elements.
 
-  A gbd distance matrix with 3 columns is returned from
-  \code{comm.dist.gbd()}.
+  A gbd distance matrix with 3 columns is returned from the
+  \code{gbd} return type.
 }
 \section{Warning}{
   The distance or distance matrix could be huge.

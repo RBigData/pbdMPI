@@ -1,7 +1,52 @@
 ### Distributed all pair-wise functions.
 ### Assume gbd.major = 1.
 
-comm.pairwise <- function(X.gbd,
+comm.pairwise <- function(X, pairid.gbd = NULL,
+    FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
+    ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
+  ### FUN <- function(x, y, ...) is a user defined function.
+
+  ### TODO:
+  ### - global check consistant X if pairid is provided.
+  ### - do comm.pairwise.common if pairid is provided.
+  ### - do comm.pairwise.gbd if pairid is NULL.
+  ### - return gbd no matter pairid is provided or not.
+
+} # End of comm.pairwise().
+
+### Input a common matrix and a gbd pairid.
+comm.pairwise.common <- function(X, pairid.gbd,
+    FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
+    ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
+  ### FUN <- function(x, y, ...) is a user defined function.
+
+  ### Check pairid.gbd.
+  if(!comm.allcommon(length(dim(pairid.gbd)), comm = comm)){
+    comm.stop("Dimension of pairid.gbd should all equal to 2.", comm = comm)
+  }
+  if(!comm.allcommon(ncol(pairid.gbd), comm = comm)){
+    comm.stop("pairid.gbd should have the same # of columns.", comm = comm)
+  }
+
+  if(nrow(pairid.gbd) > 0){
+    tmp <- rep(0, nrow(pairid.gbd))
+    for(i.pair in 1:nrow(pairid.gbd)){
+      tmp[i.pair] <- FUN(X[pairid.gbd[i.pair, 1]],
+                         X[pairid.gbd[i.pair, 2]], ...)
+    }
+    ret <- cbind(pairid.gbd, tmp)
+  } else{
+    ret <- matrix(0, nrow = 0, ncol = 3)
+  }
+
+  ### Return.
+  colnames(ret) <- c("i", "j", "value")
+  rownames(ret) <- NULL
+  ret
+} # End of comm.pairwise.common().
+
+### Input a gbd matrix.
+comm.pairwise.gbd <- function(X.gbd,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
     ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
   ### FUN <- function(x, y, ...) is a user defined function.
@@ -114,5 +159,5 @@ comm.pairwise <- function(X.gbd,
   colnames(ret) <- c("i", "j", "value")
   rownames(ret) <- NULL
   ret
-} # End of comm.pairwise().
+} # End of comm.pairwise.gbd().
 

@@ -5,12 +5,13 @@
   This function provides global pairwise evaulations.
 }
 \usage{
-  comm.pairwise(X.gbd,
+  comm.pairwise(X, pairid.gbd = NULL,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
     ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm)
 }
 \arguments{
-  \item{X.gbd}{a gbd matrix.}
+  \item{X}{a common matrix across ranks, or a gbd matrix. (See details.)}
+  \item{pairid.gbd}{a pair-wise id in a gbd format. (See details.)}
   \item{FUN}{a function to be evaluated for given pairs.}
   \item{...}{extra variables for \code{FUN}.}
   \item{diag}{if matching the same elements, \code{(i, i)} for all \code{i}.}
@@ -24,6 +25,9 @@
   on any given pair \code{(i, j)} of a global matrix \code{X} which 
   is composed by all \code{X.gbd}'s. i.e. \code{(i, j)} are global indices
   as in a distance matrix for i-th row and j-th columns.
+
+  ### TODO
+  that indicates which rows of \code{X} are evaluated by \code{FUN}.
 }
 \value{
   This function returns a common matrix with 3 columns

@@ -2,6 +2,10 @@
 \alias{comm.sort.integer}
 \alias{comm.sort.double}
 \alias{comm.sort.default}
+\alias{comm.dist.common}
+\alias{comm.dist.gbd}
+\alias{comm.pairwise.common}
+\alias{comm.pairwise.gbd}
 \title{ All Comm Internal Functions }
 \description{ All comm internal functions }
 \references{
