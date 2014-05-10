@@ -2,8 +2,8 @@
 \alias{comm.as.gbd}
 \title{ Global As GBD Function }
 \description{
-  This function redistribtes a regular matrix existed in rank.soure
-  and turn in a gbd matrix in row blocks.
+  This function redistributes a regular matrix existed in rank.soure
+  and turns it in a gbd matrix in row blocks.
 }
 \usage{
   comm.as.gbd(X, balance.method = .SPMD.IO$balance.method,

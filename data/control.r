@@ -22,10 +22,12 @@
   quit = TRUE,
   msg.flush = TRUE,
   msg.barrier = TRUE,
-  Rprof.all.rank = FALSE
+  Rprof.all.rank = FALSE,
+  lazy.check = FALSE
 ) # End of .SPMD.CT
 
-.SPMD.OP <- c("sum", "prod", "max", "min")
+.SPMD.OP <- c("sum", "prod", "max", "min", "land", "band", "lor", "bor",
+              "lxor", "bxor")
 
 # .SPMD.DT <- data.frame(
 #   name = c("int", "double", "char", "raw"),

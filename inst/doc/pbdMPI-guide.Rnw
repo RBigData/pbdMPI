@@ -104,6 +104,7 @@ London, Ontario, Canada \\
 \input{./pbdMPI-include/05-analog}
 \input{./pbdMPI-include/06-longvector}
 \input{./pbdMPI-include/07-simpleio}
+\input{./pbdMPI-include/08-simplepairs}
 
 \newpage
 \phantomsection

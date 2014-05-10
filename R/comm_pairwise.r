@@ -4,14 +4,20 @@
 comm.pairwise <- function(X, pairid.gbd = NULL,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
     ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
-  ### FUN <- function(x, y, ...) is a user defined function.
+  ### Check if all non-NULL.
+  check <- spmd.allreduce.integer(!is.null(pairid.gbd), integer(1),
+                                  comm = comm) == spmd.comm.size(comm)
 
-  ### TODO:
-  ### - global check consistant X if pairid is provided.
-  ### - do comm.pairwise.common if pairid is provided.
-  ### - do comm.pairwise.gbd if pairid is NULL.
-  ### - return gbd no matter pairid is provided or not.
+  ### Evaluate accordingly.
+  if(check){
+    ret <- comm.pairwise.common(X, pairid.gbd, FUN, ..., diag = diag,
+                                symmetric = symmetric, comm = comm)
+  } else{
+    ret <- comm.pairwise.gbd(X, FUN, ..., diag = diag,
+                             symmetric = symmetric, comm = comm)
+  }
 
+  ret
 } # End of comm.pairwise().
 
 ### Input a common matrix and a gbd pairid.
@@ -21,20 +27,20 @@ comm.pairwise.common <- function(X, pairid.gbd,
   ### FUN <- function(x, y, ...) is a user defined function.
 
   ### Check pairid.gbd.
-  if(!comm.allcommon(length(dim(pairid.gbd)), comm = comm)){
+  if(!comm.allcommon.integer(length(dim(pairid.gbd)), comm = comm)){
     comm.stop("Dimension of pairid.gbd should all equal to 2.", comm = comm)
   }
-  if(!comm.allcommon(ncol(pairid.gbd), comm = comm)){
+  if(!comm.allcommon.integer(ncol(pairid.gbd), comm = comm)){
     comm.stop("pairid.gbd should have the same # of columns.", comm = comm)
   }
 
+  ### Evaluate the user defined function
   if(nrow(pairid.gbd) > 0){
-    tmp <- rep(0, nrow(pairid.gbd))
-    for(i.pair in 1:nrow(pairid.gbd)){
-      tmp[i.pair] <- FUN(X[pairid.gbd[i.pair, 1]],
-                         X[pairid.gbd[i.pair, 2]], ...)
-    }
-    ret <- cbind(pairid.gbd, tmp)
+    ret <- lapply(1:nrow(pairid.gbd),
+             function(i.pair){
+               FUN(X[pairid.gbd[i.pair, 1],], X[pairid.gbd[i.pair, 2],], ...)
+             }, ...) 
+    ret <- cbind(pairid.gbd, do.call("c", ret))
   } else{
     ret <- matrix(0, nrow = 0, ncol = 3)
   }
@@ -52,10 +58,10 @@ comm.pairwise.gbd <- function(X.gbd,
   ### FUN <- function(x, y, ...) is a user defined function.
 
   ### Check X.gbd.
-  if(!comm.allcommon(length(dim(X.gbd)), comm = comm)){
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
   }
-  if(!comm.allcommon(ncol(X.gbd), comm = comm)){
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
     comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 
@@ -70,8 +76,8 @@ comm.pairwise.gbd <- function(X.gbd,
   N.cumsum <- c(1, cumsum(N.allgbd) + 1)
 
   ### Only local diagonal block.
+  ret.local <- matrix(0.0, nrow = N.gbd, ncol = N.gbd)
   if(N.gbd > 0){
-    ret.local <- matrix(0.0, nrow = N.gbd, ncol = N.gbd)
     for(i in 1:N.gbd){
       for(j in 1:N.gbd){
         ### Check.
@@ -92,11 +98,12 @@ comm.pairwise.gbd <- function(X.gbd,
     }
   }
 
-  #### Obtain all other ranks.
+  #### Obtain all other ranks if more than one processor.
   if(COMM.SIZE > 1){
     ret.lower <- NULL
     ret.upper <- NULL
 
+    ### Evaluate the user defined function
     for(i.rank in 0:(COMM.SIZE - 1)){
       if(N.allgbd[i.rank + 1] != 0){
         X.other <- bcast(X.gbd, rank.source = i.rank, comm = comm)
@@ -129,9 +136,10 @@ comm.pairwise.gbd <- function(X.gbd,
 
     ### Combine all blocks.
     if(N.gbd > 0){
-      ret.value <- rbind(ret.upper, ret.local, ret.lower)
+      ret.local <- rbind(ret.upper, ret.local, ret.lower)
     }
   }
+  dim(ret.local) <- c(length(ret.local), 1)
 
   ### Add and combine i, j, and value.
   if(N.gbd > 0){
@@ -139,20 +147,23 @@ comm.pairwise.gbd <- function(X.gbd,
       ret <- cbind(rep(N.cumsum[COMM.RANK + 1]:N, N.gbd),
                    rep(N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1),
                        each = N - N.cumsum[COMM.RANK + 1] + 1),
-                   ret.value)
+                   ret.local)
       ret <- ret[ret[, 1] >= ret[, 2],]
     } else{
       ret <- cbind(rep(1:N, N.gbd),
                    rep(N.cumsum[COMM.RANK + 1]:(N.cumsum[COMM.RANK + 2] - 1),
                        each = N),
-                   ret.value)
+                   ret.local)
     }
+    dim(ret) <- c(length(ret) / 3, 3)       ### Could be all gone.
 
-    if(!diag){
+    if(!diag && nrow(ret) > 0){
       ret <- ret[ret[, 1] != ret[, 2],]
     }
+
+    dim(ret) <- c(length(ret) / 3, 3)       ### Could be all gone.
   } else{
-    ret <- matrix(0, nrow = 0, ncol = 3)
+    ret <- matrix(0, nrow = 0, ncol = 3)    ### Could be all gone.
   }
 
   ### Return.

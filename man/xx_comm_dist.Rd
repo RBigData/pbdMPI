@@ -29,7 +29,7 @@
   all ranks, and the gbd matrix has 3 columns, named "i", "j", and "value",
   where \code{(i, j)} is the global indices of the
   i-th and j-th rows of \code{X.gbd}, and \code{value} is the corresponding
-  distance. The \code{(i, j)} is orded as a distance matrix.
+  distance. The \code{(i, j)} is ordered as a distance matrix.
 }
 \value{
   A full distance matrix is returned from the \code{common} return type.
@@ -71,7 +71,7 @@ X.gbd <- matrix(runif(6), ncol = 3)
 dist.X.common <- comm.dist(X.gbd)
 dist.X.gbd <- comm.dist(X.gbd, return.type = "gbd")
 
-### Verify 1.
+### Verify.
 dist.X <- dist(do.call("rbind", allgather(X.gbd)))
 comm.print(all(dist.X == dist.X.common))
 

@@ -4,10 +4,10 @@
 comm.balance.info <- function(X.gbd,
     balance.method = .SPMD.IO$balance.method[1], comm = .SPMD.CT$comm){
   ### Check gbd.
-  if(!comm.allcommon(length(dim(X.gbd)), comm = comm)){
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
   }
-  if(!comm.allcommon(ncol(X.gbd), comm = comm)){
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
     comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 
@@ -64,10 +64,10 @@ comm.balance.info <- function(X.gbd,
 comm.load.balance <- function(X.gbd, bal.info = NULL,
     balance.method = .SPMD.IO$balance.method, comm = .SPMD.CT$comm){
   ### Check.
-  if(!comm.allcommon(length(dim(X.gbd)), comm = comm)){
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
   }
-  if(!comm.allcommon(ncol(X.gbd), comm = comm)){
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
     comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 

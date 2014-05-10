@@ -2,6 +2,7 @@
 \alias{comm.sort.integer}
 \alias{comm.sort.double}
 \alias{comm.sort.default}
+\alias{comm.allcommon.integer}
 \alias{comm.dist.common}
 \alias{comm.dist.gbd}
 \alias{comm.pairwise.common}

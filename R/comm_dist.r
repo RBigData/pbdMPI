@@ -20,10 +20,10 @@ comm.dist <- function(X.gbd, method = "euclidean", diag = FALSE,
 comm.dist.common <- function(X.gbd, method = "euclidean", diag = FALSE,
     upper = FALSE, p = 2, comm = .SPMD.CT$comm){
   ### Check.
-  if(!comm.allcommon(length(dim(X.gbd)), comm = comm)){
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
   }
-  if(!comm.allcommon(ncol(X.gbd), comm = comm)){
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
     comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 
@@ -83,10 +83,10 @@ comm.dist.common <- function(X.gbd, method = "euclidean", diag = FALSE,
 comm.dist.gbd <- function(X.gbd, method = "euclidean", diag = FALSE,
     upper = FALSE, p = 2, comm = .SPMD.CT$comm){
   ### Check.
-  if(!comm.allcommon(length(dim(X.gbd)), comm = comm)){
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
   }
-  if(!comm.allcommon(ncol(X.gbd), comm = comm)){
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
     comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 

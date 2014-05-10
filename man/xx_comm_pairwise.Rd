@@ -1,8 +1,8 @@
 \name{global pairwise}
 \alias{comm.pairwise}
-\title{ Global Pairwise Evaulations }
+\title{ Global Pairwise Evaluations }
 \description{
-  This function provides global pairwise evaulations.
+  This function provides global pairwise evaluations.
 }
 \usage{
   comm.pairwise(X, pairid.gbd = NULL,
@@ -22,12 +22,23 @@
 \details{
   This function evaluates the objective function
   \code{FUN(X[i,], X[j, ])} (usually distance of two elements)
-  on any given pair \code{(i, j)} of a global matrix \code{X} which 
-  is composed by all \code{X.gbd}'s. i.e. \code{(i, j)} are global indices
-  as in a distance matrix for i-th row and j-th columns.
+  on any given pair \code{(i, j)} of a matrix \code{X}.
 
-  ### TODO
-  that indicates which rows of \code{X} are evaluated by \code{FUN}.
+  The input \code{X} must be in common across all ranks if \code{pairid.gbd}
+  is provided, e.g. from \code{comm.pairwise()}.
+  i.e. \code{X} is exactly the same in every ranks, but
+  \code{pairid.gbd} is different and in gbd format indicating the row pair
+  \code{(i, j)} should be evaluated. The returning gbd matrix is ordered
+  and indexed by \code{pairid.gbd}.
+
+  Note that checking consistence of \code{X} across all ranks is not
+  implemented within this function since that drops performance and
+  may be not accurate.
+
+  The input \code{X} must be a gbd format in row major blocks
+  (i.e. \code{X.gbd}) if \code{pairid.gbd} is \code{NULL}. A internal
+  pair id will be built implicitly for evaluation. The returning
+  gbd matrix is ordered and indexed by \code{X.gbd}.
 }
 \value{
   This function returns a common matrix with 3 columns
@@ -45,6 +56,7 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
+  \code{\link{comm.pairwise}()}, and
   \code{\link{comm.dist}()}.
 }
 \examples{
@@ -57,8 +69,29 @@ library(pbdMPI, quietly = TRUE)
 init()
 
 ### Examples.
-id.matrix <- comm.allpairs(comm.size() + 1)
-comm.print(id.matrix, all.rank = TRUE)
+comm.set.seed(123456, diff = FALSE)
+X <- matrix(rnorm(10), ncol = 2)
+id.matrix <- comm.allpairs(nrow(X))
+
+### Method original.
+dist.org <- dist(X)
+
+### Method 1.
+dist.common <- comm.pairwise(X, pairid.gbd = id.matrix)
+
+### Method 2.
+# if(comm.rank() != 0){
+#   X <- matrix(0, nrow = 0, ncol = 4)
+# }
+X.gbd <- comm.as.gbd(X)    ### The other way.
+dist.gbd <- comm.pairwise(X.gbd)
+
+### Verify.
+d.org <- as.vector(dist.org)
+d.1 <- do.call("c", allgather(dist.common[, 3]))
+d.2 <- do.call("c", allgather(dist.gbd[, 3]))
+comm.print(all(d.org == d.1))
+comm.print(all(d.org == d.2))
 
 ### Finish.
 finalize()

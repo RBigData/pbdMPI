@@ -4,7 +4,7 @@
 comm.allpairs <- function(N, diag = FALSE, symmetric = TRUE,
     comm = .SPMD.CT$comm){
   ### Check.
-  if(!all(comm.allcommon(N, comm = comm))){
+  if(!comm.allcommon.integer(N, comm = comm)){
     comm.stop("N should be all the same.")
   }
 
