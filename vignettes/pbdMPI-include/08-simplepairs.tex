@@ -3,28 +3,28 @@
 \label{sec:simple_pairs}
 \addcontentsline{toc}{section}{\thesection. Simple Pairwise Evaluation}
 
-We build some pairwise evaluation utilities for pairwise evaluation to
+We build some utilities for pairwise evaluation to
 \pkg{pbdMPI} since version 0.2-3.
 
 Evaluating a function on any two data points is a common problems, such as
 distance, pairwise comparison, and multiple testing problems.
-Useful functions to those problems are
+Useful functions to solve those problems are
 \begin{itemize}
 \item
 \code{comm.as.gbd()}:
 This function is to turn a common matrix (in all ranks)
 to a gbd matrix in row major blocks. For example, one may read in data
-from one rank, then utilizes this function to redistribute data. This is
-an alternative way to Section~\ref{sec:simple_io}, but only efficient for
-small size of data.
+from one rank, then utilizes this function to redistribute data with load
+balance of all ranks. This is an alternative way to
+Section~\ref{sec:simple_io}, but more efficient for small size of data.
 
 \item
 \code{comm.allpairs()}:
-This function is mainly to provide ids for all pairs of any $N$ data points.
+This function is mainly to provide indices for all pairs of $N$ data points.
 It returns a two columns (i, j)  gbd matrix in row major blocks.
 For example, one may want to evaluate all $N^2$ pairs of the $N$ data points.
 However, in distance context, it provides only indices as in lower-triangular
-matrix.
+matrix (ordered by row major).
 
 \item
 \code{comm.dist()}:
@@ -36,7 +36,8 @@ i, j, and the value of pair (i, j).
 
 \item
 \code{comm.pairwise()}:
-This functions is a general extension of above three functions that allows
+This functions is a general extension composed of three functions above
+that allows
 users to provide a function \code{FUN} to evaluate on pairs of data.
 For example, a distance between two data points \code{x} and \code{y}
 can be computed via original \code{dist()} function. So, it can be wrapped as
@@ -46,13 +47,15 @@ dist.pair <- function(x, y, ...){
 }
 \end{Code}
 for the \code{FUN} option of \code{comm.pairwise()}.
-This function is useful for cases that distance of pair (i, j)
-differs to that of pair (j, i). If order is matter, then the \code{FUN}
-can is evaluated via the options either \code{pairid.gbd}
+
+This function is also useful for cases that measure of pair (i, j)
+differs to that of pair (j, i), i.e. non-symmetric measure.
+If order is matter, then the \code{FUN}
+can be evaluated via the options either \code{pairid.gbd}
 which can be user defined or simply \code{symmetric = FALSE}.
 \end{itemize}
 
-Also, we provide some toy examples in man page. A demo verifies these
+Also, we provide some examples in man page. A demo verifies these
 functions in different ways.
 \begin{Command}
 ### Run the demo with 4 processors by

@@ -24,7 +24,7 @@
   \code{FUN(X[i,], X[j, ])} (usually distance of two elements)
   on any given pair \code{(i, j)} of a matrix \code{X}.
 
-  The input \code{X} must be in common across all ranks if \code{pairid.gbd}
+  The input \code{X} should be in common across all ranks if \code{pairid.gbd}
   is provided, e.g. from \code{comm.pairwise()}.
   i.e. \code{X} is exactly the same in every ranks, but
   \code{pairid.gbd} is different and in gbd format indicating the row pair
@@ -35,9 +35,9 @@
   implemented within this function since that drops performance and
   may be not accurate.
 
-  The input \code{X} must be a gbd format in row major blocks
+  The input \code{X} should be a gbd format in row major blocks
   (i.e. \code{X.gbd}) if \code{pairid.gbd} is \code{NULL}. A internal
-  pair id will be built implicitly for evaluation. The returning
+  pair indices will be built implicitly for evaluation. The returning
   gbd matrix is ordered and indexed by \code{X.gbd}.
 }
 \value{
