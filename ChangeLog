@@ -1,3 +1,6 @@
+2014-05-15: Ver. 0.2-3
+  * Start official migration to MS-MPI.
+
 2014-05-10: Ver. 0.2-3
   * Add logical and bit-wise AND, OR, XOR to allreduce() and reduce().
   * Improve comm.allcommon().
