@@ -43,26 +43,56 @@ R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 ### Check again.
 ifeq ($(WIN_MPI_TYPE), "MS-MPI")
   ### For MS-MPI
-  ### set MPI_ROOT, MPI_ROOT_32, and MPI_ROOT_64
-  ifeq "$(WIN)" "64"
-    ifeq "$(MPI_ROOT_64)" ""
-      ifeq "$(MPI_ROOT)" ""
-        MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
+  ifeq "$(MPI_HOME)" ""
+    ### set MPI_ROOT, MPI_ROOT_32, and MPI_ROOT_64
+    ifeq "$(WIN)" "64"
+      ifeq "$(MPI_ROOT_64)" ""
+        ifeq "$(MPI_ROOT)" ""
+          ifeq ($(wildcard C:/Program Files/Microsoft MPI),)
+            ### The second best guest
+            ifeq ($(wildcard C:/Program Files/Microsoft HPC Pack 2012),)
+              $(error MPI_ROOT is not found ...)
+            else
+              MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
+            endif
+          else
+            ### The first best guest
+            MPI_ROOT = C:/Program Files/Microsoft MPI
+          endif
+        endif
+        MPI_ROOT_32 = $(MPI_ROOT)
+      else
+        MPI_ROOT = $(MPI_ROOT_32)
       endif
-      MPI_ROOT_64 = $(MPI_ROOT)
     else
-      MPI_ROOT = $(MPI_ROOT_64)
+      ifeq "$(MPI_ROOT_32)" ""
+        ifeq "$(MPI_ROOT)" ""
+          ifeq ($(wildcard C:/Program Files/Microsoft MPI),)
+            ### The second best guest
+            ifeq ($(wildcard C:/Program Files/Microsoft HPC Pack 2012),)
+              $(error MPI_ROOT is not found ...)
+            else
+              MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
+            endif
+          else
+            ### The first best guest
+            MPI_ROOT = C:/Program Files/Microsoft MPI
+          endif
+        endif
+        MPI_ROOT_32 = $(MPI_ROOT)
+      else
+        MPI_ROOT = $(MPI_ROOT_32)
+      endif
     endif
+    ### For Winbuilder
+    MPI_HOME = $(MPI_ROOT)
   else
-    ifeq "$(MPI_ROOT_32)" ""
-      ifeq "$(MPI_ROOT)" ""
-        MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
-      endif
-      MPI_ROOT_32 = $(MPI_ROOT)
-    else
-      MPI_ROOT = $(MPI_ROOT_32)
-    endif
+    ### Use Winbuilder default
+    MPI_ROOT = ${MPI_HOME}
+    MPI_ROOT_64 = ${MPI_HOME}
+    MPI_ROOT_32 = ${MPI_HOME}
   endif
+
 
   ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
   # mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
@@ -135,11 +165,16 @@ USER_CONF = Makeconf
 ### Start making here.
 all: $(SHLIB)
 	@$(CP) ../R/windows/zzz.r ../R/
-	@$(ECHO) 'MPI_ROOT = $(MPI_ROOT)' > $(USER_CONF)
-	@$(ECHO) 'MPI_INCLUDE = $(MPI_INCLUDE)' >> $(USER_CONF)
-	@$(ECHO) 'MPI_LIB = $(MPI_LIB)' >> $(USER_CONF)
-	@$(ECHO) 'WIN_FLAGS = $(WIN_FLAGS)' >> $(USER_CONF)
-	@$(ECHO) 'WIN_MPI_TYPE = $(WIN_MPI_TYPE)' >> $(USER_CONF)
+
+Makeconf:
+	$(ECHO) 'MPI_HOME = $(MPI_HOME)' > $(USER_CONF)
+	$(ECHO) 'MPI_ROOT = $(MPI_ROOT)' >> $(USER_CONF)
+	$(ECHO) 'MPI_ROOT_32 = $(MPI_ROOT_32)' >> $(USER_CONF)
+	$(ECHO) 'MPI_ROOT_64 = $(MPI_ROOT_64)' >> $(USER_CONF)
+	$(ECHO) 'MPI_INCLUDE = $(MPI_INCLUDE)' >> $(USER_CONF)
+	$(ECHO) 'MPI_LIB = $(MPI_LIB)' >> $(USER_CONF)
+	$(ECHO) 'WIN_FLAGS = $(WIN_FLAGS)' >> $(USER_CONF)
+	$(ECHO) 'WIN_MPI_TYPE = $(WIN_MPI_TYPE)' >> $(USER_CONF)
 
 
 ### Shared library here.
@@ -148,11 +183,11 @@ ifeq ($(WIN_MPI_TYPE), "MS-MPI")
     MPI_LIB = $(R_PACKAGE_DIR)/libs$(R_ARCH)/libmsmpi64.a
     PKG_LIBS = libmsmpi64.a
 
-$(SHLIB): $(OBJECTS) libmsmpi64.a
+$(SHLIB): Makeconf $(OBJECTS) libmsmpi64.a
 
   else
 
-$(SHLIB): $(OBJECTS)
+$(SHLIB): Makeconf $(OBJECTS)
 
   endif
 
