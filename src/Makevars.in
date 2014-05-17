@@ -7,7 +7,7 @@ PKG_LIBS     = @PKG_LIBS@
 USER_CONF = Makeconf
 
 ### Start making here.
-all: $(SHLIB)
+all: Makeconf $(SHLIB)
 
 Makeconf:
 	echo "MPIRUN = @MPIRUN@" > $(USER_CONF)

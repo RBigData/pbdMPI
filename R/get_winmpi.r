@@ -2,8 +2,7 @@
 ### possible MPI dynamic/static library from the environment variable
 ### "MPI_ROOT" preset by users.
 get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
-  mpi.root <- paste("MPI_ROOT_", arch[1], sep = "") 
-  mpi.root <- Sys.getenv(mpi.root)
+  mpi.root <- Sys.getenv(paste("MPI_ROOT_", arch[1], sep = "") )
 
   if(type[1] == "MS-MPI"){
     ### MS-MPI
@@ -62,7 +61,7 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
 } # End of get.winlib().
 
 get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
-  mpi.root <- paste("MPI_ROOT_", arch[1], sep = "") 
+  mpi.root <- Sys.getenv(paste("MPI_ROOT_", arch[1], sep = "") )
 
   if(type[1] == "MS-MPI"){
     ### MS-MPI

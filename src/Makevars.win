@@ -1,6 +1,12 @@
-# This Makevars.win supports for MPICH2 and MS-MPI in Windows 7 (32/64bits).
-# MPI_ROOT_64, MPI_ROOT_32, or MPI_ROOT need to be defined in the batch file
-# outside of packages.
+# This Makevars.win supports for MS-MPI in Windows 7 (32/64bits) and MPICH2.
+# - MPI_HOME needs to be defined for MS-MPI in the batch file outside of
+#   packages.
+# - MPI_ROOT_64, MPI_ROOT_32, or MPI_ROOT need to be defined for MPICH2
+#   in the batch file outside of packages.
+# Note that these variables will be exported to Makeconf and carried to other
+# pbdR packages, while flags used to compile are provided by R script such as
+# get.wininc() and get.winlib() that convert to 8+3 file path rule.
+# Don't use those variables for compiling that may fail without proper quote.
 #
 # Note for MS-MPI 64 bits:
 #   It needs to export symbols from C:\Windows\System32\msmpi.dll
@@ -15,13 +21,13 @@
 #
 # In order to make down stream pbdR packages working:
 #   "MPI_LIB" needs to be redirect to path where "libmsmpi64.a" installed and
-#   "libmpi64.a" needs to be copied to there via "install.libs.R". While
+#   "libmsmpi64.a" needs to be copied to there via "install.libs.R". While
 #   "PKG_LIB" is for building "pbdMPI" only, no need to change it.
 
 
 ### Define MPI_TYPE in the outside batch file or specify it at the next.
-# WIN_MPI_TYPE = "MS-MPI"
- WIN_MPI_TYPE = "MPICH2"
+ WIN_MPI_TYPE = "MS-MPI"
+# WIN_MPI_TYPE = "MPICH2"
 
 
 ### Check.
@@ -163,7 +169,7 @@ USER_CONF = Makeconf
 
 
 ### Start making here.
-all: $(SHLIB)
+all: Makeconf $(SHLIB)
 	@$(CP) ../R/windows/zzz.r ../R/
 
 Makeconf:
@@ -193,7 +199,7 @@ $(SHLIB): Makeconf $(OBJECTS)
 
 else
 
-$(SHLIB): $(OBJECTS)
+$(SHLIB): Makeconf $(OBJECTS)
 
 endif
 

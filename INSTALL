@@ -89,52 +89,37 @@
      'C:\Rtools'
 
 
---- 'MPICH2' Installation:
-   Download 'MPICH2' from 'http://www.mcs.anl.gov/research/projects/mpich2/'.
-   'mpich2-1.4.1p1-win-ia32.msi' for 32 bits and
-   'mpich2-1.4.1p1-win-x86-64.msi' for 64 bits.
-   Click it and install them to the default directory
-
-   - 64-bits: 'C:\Program Files\MPICH2'.
-   - 32-bits: 'C:\Program Files (x86)\MPICH2'.
+--- 'MS-MPI' Installation:
+   Download 'HPC Pack 2012 R2 MS-MPI Redistributable Package' from
+   'http://http://www.microsoft.com/en-us/download/'.
+   File 'MSMPISetup.exe' is for both 32 and 64 bits system.
+   Click on it and install them to the default directory
+   'C:\Program Files\Microsoft MPI'.
 
 
 --- Set environment variables:
-   Suppose 'R', 'Rtools', and 'MPICH2' are all installed by default. I have
+   Suppose 'R', 'Rtools', and 'MS-MPI' are all installed by default. I have
    a batch file 'set_mpisrc.bat' as the following to set the environment
-   variables. In short, 'MPI_ROOT' should be set to 'mpiexec.exe', and added
-   to 'PATH'.
+   variables. In short, 'MPI_HOME' should be set to 'MS-MPI' root directory,
+   and added '%MPI_HOME%/bin' to 'PATH'.
 
 @ECHO OFF
 SET R_HOME=C:\Program Files\R\R-2.15.1
 SET RTOOLS=C:\Rtools\bin\
 SET MINGW=C:\Rtools\gcc-4.6.3\bin
-SET MPI_ROOT_64=C:\Program Files\MPICH2
-SET MPI_ROOT_32=C:\Program Files (x86)\MPICH2
-rem SET MPI_ROOT_64=C:\Program Files\Miscrosoft HPC Pack 2012
-rem SET MPI_ROOT_32=C:\Program Files\Miscrosoft HPC Pack 2012
-:X64
-set MPI_ROOT=%MPI_ROOT_64%
-IF "%1"=="64" GOTO END 
-:WIN32
-set MPI_ROOT=%MPI_ROOT_32%
-:END
+SET MPI_HOME=C:\Program Files\Microsoft MPI
 IF NOT DEFINED PATH_ORG SET PATH_ORG=%PATH%
-SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%\BIN\;%PATH_ORG%
+SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
 
 
---- Test 'MPICH2':
-   In order to test if 'MPICH2' works correctly, I run
+--- Test 'MS-MPI':
+   In order to test if 'MS-MPI' works correctly, I run
 
-   -- 64-bits
-     C:/> set_mpisrc 64
-     C:/> mpiexec -np 2 hostname.exe
-   -- 32-bits
-     C:/> set_mpisrc 32
+     C:/> set_mpisrc
      C:/> mpiexec -np 2 hostname.exe
 
    and this should list two host names twice if environment variables are
-   correct. User's id and password may be required to launch MPICH2.
+   correct. User's id and password may be required to launch MS-MPI.
 
 
 --- 'pbdMPI' Installation:
@@ -161,36 +146,35 @@ SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%\BIN\;%PATH_ORG%
 
 ### `INSTALL.win.bin'
 
---- 'MPICH2' Installation:
-   Download 'MPICH2' from 'http://www.mcs.anl.gov/research/projects/mpich2/'.
-   'mpich2-1.4.1p1-win-ia32.msi' for 32 bits and
-   'mpich2-1.4.1p1-win-x86-64.msi' for 64 bits.
-   Click it and install them to the default directory
-
-   - 64-bits: 'C:\Program Files\MPICH2'.
-   - 32-bits: 'C:\Program Files (x86)\MPICH2'.
+--- 'MS-MPI' Installation:
+   Download 'HPC Pack 2012 R2 MS-MPI Redistributable Package' from
+   'http://http://www.microsoft.com/en-us/download/'.
+   File 'MSMPISetup.exe' is for both 32 and 64 bits system.
+   Click on it and install them to the default directory
+   'C:\Program Files\Microsoft MPI'.
 
 
 --- Set environment variables:
-   Suppose 'R' and 'MPICH2' are all installed by default. I have a batch
-   file 'set_mpi.bat' as the following to set the environment variables.
-   In short, 'MPI_ROOT' should be set to 'mpiexec.exe', and added to 'PATH'.
+   Suppose 'R', 'Rtools', and 'MS-MPI' are all installed by default. I have
+   a batch file 'set_mpi.bat' as the following to set the environment
+   variables. In short, 'MPI_HOME' should be set to 'MS-MPI' root directory,
+   and added '%MPI_HOME%/bin' to 'PATH'.
 
 @ECHO OFF
 SET R_HOME=C:\Program Files\R\R-2.15.1
-SET MPI_ROOT=C:\Program Files\MPICH2
+SET MPI_HOME=C:\Program Files\Microsoft MPI
 IF NOT DEFINED PATH_ORG SET PATH_ORG=%PATH%
-SET PATH=%R_HOME%;%R_HOME%\BIN\;%MPI_ROOT%\BIN\;%PATH_ORG%
+SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
 
 
---- Test 'MPICH2':
-   In order to test if 'MPICH2' works correctly, I run
+--- Test 'MS-MPI':
+   In order to test if 'MS-MPI' works correctly, I run
 
      C:/> set_mpi
      C:/> mpiexec -np 2 hostname.exe
 
-   and this should list two host names if environment variables are
-   correct. User id and password may be required to launch 'MPICH2'.
+   and this should list two host names twice if environment variables are
+   correct. User's id and password may be required to launch MS-MPI.
 
 
 --- 'pbdMPI' Installation:
