@@ -25,14 +25,31 @@
 #   "PKG_LIB" is for building "pbdMPI" only, no need to change it.
 
 
-MPI_INCLUDE = ${MPI_HOME}/Inc
 
 # mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
 # and MS-MPI_NO_DEPRECATE_20 to turn off warning
+WIN_MPI_TYPE = "MS-MPI"
+
 ifeq "$(WIN)" "64"
+  ifeq "${MPI_HOME}" ""
+    MPI_HOME = ${MPI_ROOT_64}
+  else
+    MPI_ROOT_64 = ${MPI_HOME}
+  endif
+
+  MPI_ROOT = ${MPI_HOME}
+  MPI_INCLUDE = ${MPI_HOME}/Inc
   MPI_LIB = "${MPI_HOME}/Lib/amd64/msmpi.lib"
   WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
 else
+  ifeq "${MPI_HOME}" ""
+    MPI_HOME = ${MPI_ROOT_32}
+  else
+    MPI_ROOT_64 = ${MPI_HOME}
+  endif
+
+  MPI_ROOT = ${MPI_HOME}
+  MPI_INCLUDE = ${MPI_HOME}/Inc
   MPI_LIB = "${MPI_HOME}/Lib/i386/msmpi.lib"
   WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
 endif

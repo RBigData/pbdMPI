@@ -78,7 +78,7 @@ get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
         mpi.inc <- gsub("\\\\", "/", Sys.getenv("MPI_INC"))
         inc.file <- try(paste(mpi.inc, "/mpi.h", sep = ""))
 
-        if(!file.exists(lib.file)){
+        if(!file.exists(inc.file)){
           cat("mpi.h is not found.\n")
         }
       }
