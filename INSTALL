@@ -1,4 +1,10 @@
-### This file is a quick installation for Solaris, Linux, and Mac OS X.
+### Read pbdMPI vignettes first at
+### http://cran.r-project.org/web/packages/pbdMPI/vignettes/pbdMPI-guide.pdf
+###
+### Also, pbdDEMO vignettes at
+### http://cran.r-project.org/web/packages/pbdDEMO/vignettes/pbdDEMO-guide.pdf
+###
+### This file is only a quick installation for Solaris, Linux, and Mac OS X.
 ### See `INSTALL.win.src' for a source installation for Windows system.
 ### See `INSTALL.win.bin' for a binary installation for Windows system.
 

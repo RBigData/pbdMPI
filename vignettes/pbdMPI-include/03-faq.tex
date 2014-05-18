@@ -25,7 +25,10 @@
 \item {\bf\color{blue} Q:}
       Does \pkg{pbdMPI} support Windows clusters? \\
       {\bf\color{blue} A:}
-      Yes, the released binary currently supports OpenMPI and MPICH2.
+      Yes, the released binary currently supports MS-MPI.
+      Currently, \pkg{pbdMPI} is built with
+      'HPC Pack 2012 R2 MS-MPI Redistributable Package' which is available
+      at \url{http://http://www.microsoft.com/en-us/download/}.
       For other MPI systems, users have to compile from source.
 
 \item {\bf\color{blue} Q:}
@@ -135,6 +138,20 @@ lapply(1:total.tasks, function(i){
 
 finalize()
 \end{Code}
+
+
+\item {\bf\color{blue} Q:}
+      Can I use unblocked send functions, such as
+      \code{isend()}? Or, does \code{isend()} truly unblocked? \\
+      {\bf\color{blue} A:}
+      The answer is no for \pkg{pbdMPI} earlier than version 0.2-2, but
+      it is changed since version 0.2-3. A temporary buffer list
+      \code{nb.buffer} is used to store all objects being sent by
+      \code{isend()}. The buffer is created
+      and cumulated in \code{.pbdMPIEnv}, but released as
+      \code{wait()} is called. Although this may take some performance
+      and space, this can avoid \code{gc()} and memory overwrite before
+      actual sending is done.
 
 
 \item {\bf\color{blue} Q:}
