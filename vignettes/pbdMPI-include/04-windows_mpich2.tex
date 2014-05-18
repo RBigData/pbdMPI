@@ -1,13 +1,12 @@
 
 
-\section[Windows Systems (MPICH2)]{Windows Systems (MPICH2)}
-\label{sec:windows_systems_mpich2}
-\addcontentsline{toc}{section}{\thesection. Windows Systems (MPICH2)}
+\subsection[MPICH2 (Aside)]{MPICH2 (Aside)}
+\label{sec:mpich2}
+\addcontentsline{toc}{subsection}{\thesubsection. MPICH2 (Aside)}
 
 {\color{red} \bf Warning:}
-MPICH2 is no longer maintained. Please consider use MS-MPI instead
-for windows system, Section~\ref{sec:windows_systems_msmpi}.
-This section is only for reference and other extension purposes.
+MPICH2 is no longer maintained.
+This section is only for reference or other extension purposes.
 
 
 \pkg{pbdMPI} (earlier than version 0.2-2) supports Windows with
@@ -34,39 +33,9 @@ SET MPI_ROOT=C:\Program Files (x86)\MPICH2
 for the 32-bit MPICH2.
 
 
-\subsection[Install from Binary]{Install from Binary}
-\label{sec:install_from_binary}
-\addcontentsline{toc}{subsection}{\thesubsection. Install from Binary}
-
-The binary packages of \pkg{pbdMPI} are available on the website:
-``Programming with Big Data in R'' at
-\url{http://r-pbd.org/}.
-Note that different MPI systems require different binaries.
-The binary can be installed by
-\begin{Command}
-R CMD INSTALL pbdMPI_0.1-0.zip
-\end{Command}
-
-As on Unix systems,
-one can start quickly with \pkg{pbdMPI} by learning from the
-following demos. There are six basic examples.
-\begin{Command}
-### Run the demo with 2 processors by
-mpiexec -np 2 Rscript.exe -e "demo(allgather,'pbdMPI',ask=F,echo=F)"
-mpiexec -np 2 Rscript.exe -e "demo(allreduce,'pbdMPI',ask=F,echo=F)"
-mpiexec -np 2 Rscript.exe -e "demo(bcast,'pbdMPI',ask=F,echo=F)"
-mpiexec -np 2 Rscript.exe -e "demo(gather,'pbdMPI',ask=F,echo=F)"
-mpiexec -np 2 Rscript.exe -e "demo(reduce,'pbdMPI',ask=F,echo=F)"
-mpiexec -np 2 Rscript.exe -e "demo(scatter,'pbdMPI',ask=F,echo=F)"
-\end{Command}
-{\color{red}Warning:}
-Note that spacing inside \code{demo} is not working for Windows systems
-and \code{Rscript.exe} should be evoked rather than \code{Rscript}.
-
-
-\subsection[Build from Source]{Build from Source}
-\label{sec:building_from_source}
-\addcontentsline{toc}{subsection}{\thesubsection. Build from Source}
+\subsection[Build from Source (MPICH2)]{Build from Source (MPICH2)}
+\label{sec:building_from_source_mpich2}
+\addcontentsline{toc}{subsection}{\thesubsection. Build from Source (MPICH2)}
 
 {\color{red} \bf Warning:} This section is only for building binary in
 32- and 64-bit Windows system. A more general way can be found in the file
@@ -82,7 +51,7 @@ need to be set for building binaries.
 For example, the minimum requirement may be
 \begin{Command}
 ### Under command mode, or save in a batch file.
-SET R_HOME=C:\Program Files\R\R-2.15.1
+SET R_HOME=C:\Program Files\R\R-3.0.1
 SET RTOOLS=C:\Rtools\bin\
 SET MINGW=C:\Rtools\gcc-4.6.3\bin
 SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%PATH%

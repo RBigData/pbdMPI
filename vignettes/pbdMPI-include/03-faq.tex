@@ -472,7 +472,7 @@ Error : .onLoad failed in loadNamespace() for 'pbdMPI', details:
   pbdMPI/libs/pbdMPI.so: undefined symbol: _Ux86_64_getcontext
 \end{Error}
       {\bf\color{blue} A:}
-      Some prerequisite packages by \pkg{mpiP} is installed correctly.
+      Some prerequisite packages by \pkg{mpiP} is installed incorrectly.
       Reinstall \pkg{mpiP} by
 \begin{Code}
 ./configure --disable-libunwind CPPFLAGS="-fPIC -I/usr/lib/openmpi/include" LDFLAGS="-L/usr/lib/openmpi/lib -lmpi"
