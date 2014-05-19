@@ -59,7 +59,7 @@ ifeq ($(WIN_MPI_TYPE), "MS-MPI")
           ifeq ($(wildcard C:/Program Files/Microsoft MPI),)
             ### The second best guest
             ifeq ($(wildcard C:/Program Files/Microsoft HPC Pack 2012),)
-              $(error MPI_ROOT_64 is not found ...)
+              MPI_ROOT = $(shell  ${R_SCMD} "cat(gsub('Inc','',Sys.getenv('MSMPI_INC')))")
             else
               MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
             endif
@@ -68,9 +68,10 @@ ifeq ($(WIN_MPI_TYPE), "MS-MPI")
             MPI_ROOT = C:/Program Files/Microsoft MPI
           endif
         endif
-        MPI_ROOT_32 = $(MPI_ROOT)
+        ### Reset MPI_ROOT_64
+        MPI_ROOT_64 = $(MPI_ROOT)
       else
-        MPI_ROOT = $(MPI_ROOT_32)
+        MPI_ROOT = $(MPI_ROOT_64)
       endif
     else
       ifeq "$(MPI_ROOT_32)" ""
@@ -78,7 +79,7 @@ ifeq ($(WIN_MPI_TYPE), "MS-MPI")
           ifeq ($(wildcard C:/Program Files/Microsoft MPI),)
             ### The second best guest
             ifeq ($(wildcard C:/Program Files/Microsoft HPC Pack 2012),)
-              $(error MPI_ROOT_32 is not found ...)
+              MPI_ROOT = $(shell  ${R_SCMD} "cat(gsub('Inc','',Sys.getenv('MSMPI_INC')))")
             else
               MPI_ROOT = C:/Program Files/Microsoft HPC Pack 2012
             endif
@@ -87,6 +88,7 @@ ifeq ($(WIN_MPI_TYPE), "MS-MPI")
             MPI_ROOT = C:/Program Files/Microsoft MPI
           endif
         endif
+        ### Reset MPI_ROOT_32
         MPI_ROOT_32 = $(MPI_ROOT)
       else
         MPI_ROOT = $(MPI_ROOT_32)
@@ -169,14 +171,14 @@ all: Makeconf $(SHLIB)
 	@$(CP) ../R/windows/zzz.r ../R/
 
 Makeconf:
-	$(ECHO) 'MPI_HOME = $(MPI_HOME)' > $(USER_CONF)
-	$(ECHO) 'MPI_ROOT = $(MPI_ROOT)' >> $(USER_CONF)
-	$(ECHO) 'MPI_ROOT_32 = $(MPI_ROOT_32)' >> $(USER_CONF)
-	$(ECHO) 'MPI_ROOT_64 = $(MPI_ROOT_64)' >> $(USER_CONF)
-	$(ECHO) 'MPI_INCLUDE = $(MPI_INCLUDE)' >> $(USER_CONF)
-	$(ECHO) 'MPI_LIB = $(MPI_LIB)' >> $(USER_CONF)
-	$(ECHO) 'WIN_FLAGS = $(WIN_FLAGS)' >> $(USER_CONF)
-	$(ECHO) 'WIN_MPI_TYPE = $(WIN_MPI_TYPE)' >> $(USER_CONF)
+	$(ECHO) 'MPI_HOME = ${MPI_HOME}' > $(USER_CONF)
+	$(ECHO) 'MPI_ROOT = ${MPI_ROOT}' >> $(USER_CONF)
+	$(ECHO) 'MPI_ROOT_32 = ${MPI_ROOT_32}' >> $(USER_CONF)
+	$(ECHO) 'MPI_ROOT_64 = ${MPI_ROOT_64}' >> $(USER_CONF)
+	$(ECHO) 'MPI_INCLUDE = ${MPI_INCLUDE}' >> $(USER_CONF)
+	$(ECHO) 'MPI_LIB = ${MPI_LIB}' >> $(USER_CONF)
+	$(ECHO) 'WIN_FLAGS = ${WIN_FLAGS}' >> $(USER_CONF)
+	$(ECHO) 'WIN_MPI_TYPE = ${WIN_MPI_TYPE}' >> $(USER_CONF)
 	$(ECHO) 'MSMPI_BIN = ${MSMPI_BIN}' >> $(USER_CONF)
 	$(ECHO) 'MSMPI_INC = ${MSMPI_INC}' >> $(USER_CONF)
 	$(ECHO) 'MSMPI_LIB32 = ${MSMPI_LIB32}' >> $(USER_CONF)
@@ -189,17 +191,17 @@ ifeq ($(WIN_MPI_TYPE), "MS-MPI")
     MPI_LIB = $(R_PACKAGE_DIR)/libs$(R_ARCH)/libmsmpi64.a
     PKG_LIBS = libmsmpi64.a
 
-$(SHLIB): Makeconf $(OBJECTS) libmsmpi64.a
+$(SHLIB): $(OBJECTS) libmsmpi64.a
 
   else
 
-$(SHLIB): Makeconf $(OBJECTS)
+$(SHLIB): $(OBJECTS)
 
   endif
 
 else
 
-$(SHLIB): Makeconf $(OBJECTS)
+$(SHLIB): $(OBJECTS)
 
 endif
 
