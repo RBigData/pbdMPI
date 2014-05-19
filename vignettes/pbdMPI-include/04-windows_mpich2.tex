@@ -22,7 +22,7 @@ For running MPI and \proglang{R}, users need to set \code{PATH} to the
 \code{mpiexec.exe} and \code{Rscript.exe}. By default,
 \begin{Command}
 ### Under command mode, or save in a batch file.
-SET R_HOME=C:\Program Files\R\R-2.15.1
+SET R_HOME=C:\Program Files\R\R-3.0.1
 SET MPI_ROOT=C:\Program Files\MPICH2
 SET PATH=%MPI_ROOT%\bin\;%R_HOME%\bin\;%PATH%
 \end{Command}
@@ -54,11 +54,12 @@ For example, the minimum requirement may be
 SET R_HOME=C:\Program Files\R\R-3.0.1
 SET RTOOLS=C:\Rtools\bin\
 SET MINGW=C:\Rtools\gcc-4.6.3\bin
-SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%PATH%
 SET MPI_ROOT_64=C:\Program Files\MPICH2
 SET MPI_ROOT_32=C:\Program Files (x86)\MPICH2
+SET MPI_ROOT=%MPI_ROOT_64%
+SET PATH=%MPI_ROOT%\bin;%R_HOME%;%R_HOME%\bin;%RTOOLS%;%MINGW%;%PATH%
 \end{Command}
-Accordingly, the \code{pbdMPI/src/Makevars.win.org} should be used.
+% Accordingly, the \code{pbdMPI/src/Makevars.win.org} should be used.
 
 With a correct \code{PATH}, one can use the \proglang{R} commands
 to install/build the \pkg{pbdMPI}:
