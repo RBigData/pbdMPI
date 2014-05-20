@@ -1,8 +1,10 @@
-### This function is only called by "pbdMPI/src/Makevars.win" to obtain
+### These functions are only called by "pbdMPI/src/Makevars.win" to obtain
 ### possible MPI dynamic/static library from the environment variable
 ### "MPI_ROOT" preset by users.
+
+### Get library flags.
 get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
-  mpi.root <- Sys.getenv(paste("MPI_ROOT_", arch[1], sep = "") )
+  mpi.root <- Sys.getenv(paste("MPI_ROOT_", arch[1], sep = ""))
 
   if(type[1] == "MS-MPI"){
     ### MS-MPI
@@ -16,19 +18,21 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
     mpi.home <- Sys.getenv("MPI_HOME")
     if(mpi.home != ""){
       ### Try Winbuilder
-      lib.file <- try(paste(mpi.home, "/Lib/", arch.c, "/msmpi.lib", sep = ""))
+      lib.file <- try(paste(mpi.home, "Lib/", arch.c, "/msmpi.lib", sep = ""))
       if(file.exists(lib.file)){
-        mpi.lib <- shortPathName(lib.file)
-        mpi.lib <- gsub("\\\\", "/", mpi.lib)
+        # mpi.lib <- shortPathName(lib.file)
+        mpi.lib <- gsub("\\\\", "/", lib.file)
+        mpi.lib <- paste("\"", mpi.lib, "\"", sep = "")
         cat(mpi.lib)
         flag.found <- TRUE
       }
     } else{
       ### Try WCC's way
-      lib.file <- try(paste(mpi.root, "/Lib/", arch.c, "/msmpi.lib", sep = ""))
+      lib.file <- try(paste(mpi.root, "Lib/", arch.c, "/msmpi.lib", sep = ""))
       if(file.exists(lib.file)){
-        mpi.lib <- shortPathName(lib.file)
-        mpi.lib <- gsub("\\\\", "/", mpi.lib)
+        # mpi.lib <- shortPathName(lib.file)
+        mpi.lib <- gsub("\\\\", "/", lib.file)
+        mpi.lib <- paste("\"", mpi.lib, "\"", sep = "")
         cat(mpi.lib)
         flag.found <- TRUE
       }
@@ -37,10 +41,11 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
     if(!flag.found){
       ### Try MS-MPI default
       mpi.lib <- Sys.getenv(paste("MSMPI_LIB", arch[1], sep = ""))
-      lib.file <- try(paste(mpi.lib, "/msmpi.lib", sep = ""))
+      lib.file <- try(paste(mpi.lib, "msmpi.lib", sep = ""))
       if(file.exists(lib.file)){
-        mpi.lib <- shortPathName(lib.file)
-        mpi.lib <- gsub("\\\\", "/", mpi.lib)
+        # mpi.lib <- shortPathName(lib.file)
+        mpi.lib <- gsub("\\\\", "/", lib.file)
+        mpi.lib <- paste("\"", mpi.lib, "\"", sep = "")
         cat(mpi.lib)
       } else{
         cat("msmpi.lib is not found.\n")
@@ -49,7 +54,7 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
   } else{
     ### MPICH2
     lib.file <- try(paste(mpi.root,
-                          c("/bin/libmpi.dll", "/lib/libmpi.a"), sep = ""))
+                          c("bin/libmpi.dll", "lib/libmpi.a"), sep = ""))
     for(i.file in lib.file){
       if(file.exists(i.file)){
         mpi.lib <- gsub("(.*)(/libmpi.*)", "\\1", i.file)
@@ -63,6 +68,8 @@ get.winlib <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
   invisible()
 } # End of get.winlib().
 
+
+### Get include flags.
 get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
   mpi.root <- Sys.getenv(paste("MPI_ROOT_", arch[1], sep = "") )
 
@@ -73,22 +80,22 @@ get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
     mpi.home <- Sys.getenv("MPI_HOME")
     if(mpi.home != ""){
       ### Try Winbuilder
-      inc.file <- try(paste(mpi.home, "/Inc/mpi.h", sep = ""))
+      inc.file <- try(paste(mpi.home, "Inc/mpi.h", sep = ""))
       if(file.exists(inc.file)){
         flag.found <- TRUE
-        inc.dir <- paste(mpi.home, "/Inc/", sep = "")
-        mpi.inc <- shortPathName(inc.dir)
-        mpi.inc <- gsub("\\\\", "/", mpi.inc)
+        inc.dir <- paste(mpi.home, "Inc/", sep = "")
+        # mpi.inc <- shortPathName(inc.dir)
+        mpi.inc <- gsub("\\\\", "/", inc.dir)
         cat(mpi.inc)
       }
     } else{
       ### Try WCC's setup
-      inc.file <- try(paste(mpi.root, "/Inc/mpi.h", sep = ""))
+      inc.file <- try(paste(mpi.root, "Inc/mpi.h", sep = ""))
       if(file.exists(inc.file)){
         flag.found <- TRUE
-        inc.dir <- try(paste(mpi.root, "/Inc/", sep = ""))
-        mpi.inc <- shortPathName(inc.dir)
-        mpi.inc <- gsub("\\\\", "/", mpi.inc)
+        inc.dir <- try(paste(mpi.root, "Inc/", sep = ""))
+        # mpi.inc <- shortPathName(inc.dir)
+        mpi.inc <- gsub("\\\\", "/", inc.dir)
         cat(mpi.inc)
       }
     }
@@ -96,11 +103,11 @@ get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
     if(!flag.found){
       ### Try MS-MPI default
       mpi.inc <- Sys.getenv("MSMPI_INC")
-      inc.file <- try(paste(mpi.inc, "/mpi.h", sep = ""))
+      inc.file <- try(paste(mpi.inc, "mpi.h", sep = ""))
       if(file.exists(inc.file)){
         inc.dir <- try(paste(mpi.inc, sep = ""))
-        mpi.inc <- shortPathName(inc.dir)
-        mpi.inc <- gsub("\\\\", "/", mpi.inc)
+        # mpi.inc <- shortPathName(inc.dir)
+        mpi.inc <- gsub("\\\\", "/", inc.dir)
         cat(mpi.inc)
       } else{
         cat("mpi.h is not found.\n")
@@ -108,7 +115,7 @@ get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
     }
   } else{
     ## MPICH2
-    inc.file <- try(paste(mpi.root, "/include/mpi.h", sep = ""))
+    inc.file <- try(paste(mpi.root, "include/mpi.h", sep = ""))
     inc.file <- gsub("\\\\", "/", inc.file)
 
     if(!file.exists(inc.file)){
@@ -121,3 +128,18 @@ get.wininc <- function(arch = c("32", "64"), type = c("MS-MPI", "MPICH2")){
 
   invisible()
 } # End of get.wininc().
+
+
+### Get conversion.
+get.sysenv <- function(flag){
+  sysenv <- Sys.getenv(flag)
+  # sysenv <- shortPathName(sysenv)
+  sysenv <- gsub("\\\\", "/", sysenv)
+  # if(length(grep("/$", sysenv)) == 0){
+  #   sysenv <- paste(sysenv, "/", sep = "")
+  # }
+  cat(sysenv)
+
+  invisible()
+} # End of get.sysenv().
+
