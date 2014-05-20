@@ -43,7 +43,6 @@ endif
 ### Get Rscript.
 R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
-
 ### Check again.
 ifeq ($(WIN_MPI_TYPE), "MS-MPI")
   ### For MS-MPI
