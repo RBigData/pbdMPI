@@ -139,12 +139,7 @@ SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
 --- Test 'pbdMPI':
    Suppose all environments are set correctly, I can run test examples by
 
-   -- 64-bits
-     C:/> set_mpisrc 64
-     C:/> cd pbdMPI\examples\test_spmd\
-     C:/> sh 00_test_all.win
-   -- 32-bits
-     C:/> set_mpisrc 32
+     C:/> set_mpisrc
      C:/> cd pbdMPI\examples\test_spmd\
      C:/> sh 00_test_all.win
 

@@ -29,7 +29,7 @@ Makeconf:
 	echo "PKG_LIBS = @PKG_LIBS@" >> $(USER_CONF)
 	echo "PROF_LDFLAGS = @PROF_LDFLAGS@" >> $(USER_CONF)
 
-$(SHLIB): Makeconf $(OBJECTS)
+$(SHLIB): $(OBJECTS)
 
 clean:
 	@rm -rf *.o *.d *.rc *.so* *.dll *.dylib *.a *.lib \
