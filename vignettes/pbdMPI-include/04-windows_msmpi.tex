@@ -18,9 +18,9 @@ For running MPI and \proglang{R}, users need to set \code{PATH} to the
 \code{mpiexec.exe} and \code{Rscript.exe}. By default,
 \begin{Command}
 ### Under command mode, or save in a batch file.
-SET R_HOME=C:\Program Files\R\R-3.0.1
-SET MPI_ROOT=C:\Program Files\Microsoft MPI
-SET PATH=%MPI_ROOT%\bin\;%R_HOME%\bin\;%PATH%
+SET R_HOME=C:\Program Files\R\R-3.0.1\
+SET MPI_HOME=C:\Program Files\Microsoft MPI\
+SET PATH=%MPI_HOmE%bin\;%R_HOME%bin\;%PATH%
 \end{Command}
 
 Note that the installation (MSMPISetup.exe) may set
@@ -85,13 +85,11 @@ needs to be set for building binaries.
 For example, the minimum requirement may be
 \begin{Command}
 ### Under command mode, or save in a batch file.
-SET R_HOME=C:\Program Files\R\R-3.0.1
+SET R_HOME=C:\Program Files\R\R-3.0.1\
 SET RTOOLS=C:\Rtools\bin\
-SET MINGW=C:\Rtools\gcc-4.6.3\bin
-SET MPI_ROOT_64=C:\Program Files\Miscrosoft MPI
-SET MPI_ROOT_32=C:\Program Files\Miscrosoft MPI
-SET MPI_ROOT=%MPI_ROOT_64%
-SET PATH=%MPI_ROOT%\bin;%R_HOME%;%R_HOME%\bin;%RTOOLS%;%MINGW%;%PATH%
+SET MINGW=C:\Rtools\gcc-4.6.3\bin\
+SET MPI_HOME=C:\Program Files\Miscrosoft MPI\
+SET PATH=%MPI_HOME%bin;%R_HOME%;%R_HOME%bin;%RTOOLS%;%MINGW%;%PATH%
 \end{Command}
 
 With a correct \code{PATH}, one can use the \proglang{R} commands

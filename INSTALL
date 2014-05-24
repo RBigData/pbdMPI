@@ -50,7 +50,7 @@
 --- 'pbdMPI' Installation:
 0. Download and extract 'pbdMPI'
 
-     > tar zxvf pbdMPI_0.1-0.tar.gz
+     > tar zxvf pbdMPI_0.2-3.tar.gz
 
 1. Default Installation:
    This should work with most platforms with 'OpenMPI' installed. The
@@ -106,16 +106,15 @@
 --- Set environment variables:
    Suppose 'R', 'Rtools', and 'MS-MPI' are all installed by default. I have
    a batch file 'set_mpisrc.bat' as the following to set the environment
-   variables. In short, 'MPI_HOME' should be set to 'MS-MPI' root directory,
-   and added '%MPI_HOME%/bin' to 'PATH'.
+   variables. In short, 'MPI_ROOT' should be set to 'MS-MPI' root directory,
+   and added '%MPI_ROOT%/bin' to 'PATH'.
 
 @ECHO OFF
-SET R_HOME=C:\Program Files\R\R-2.15.1
+SET R_HOME=C:\Program Files\R\R-3.0.1\
 SET RTOOLS=C:\Rtools\bin\
-SET MINGW=C:\Rtools\gcc-4.6.3\bin
-SET MPI_HOME=C:\Program Files\Microsoft MPI
-IF NOT DEFINED PATH_ORG SET PATH_ORG=%PATH%
-SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
+SET MINGW=C:\Rtools\gcc-4.6.3\bin\
+SET MPI_ROOT=C:\Program Files\Microsoft MPI\
+SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
 
 
 --- Test 'MS-MPI':
@@ -132,9 +131,9 @@ SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
    Default Installation:
 
      C:/> set_mpisrc
-     C:/> tar zxvf pbdMPI_0.1-0.tar.gz
+     C:/> tar zxvf pbdMPI_0.2-3.tar.gz
      C:/> R CMD INSTALL --build --no-test-load pbdMPI
-     C:/> R CMD INSTALL pbdMPI_0.1-0.zip
+     C:/> R CMD INSTALL pbdMPI_0.2-3.zip
 
 
 --- Test 'pbdMPI':
@@ -163,14 +162,13 @@ SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
 --- Set environment variables:
    Suppose 'R', 'Rtools', and 'MS-MPI' are all installed by default. I have
    a batch file 'set_mpi.bat' as the following to set the environment
-   variables. In short, 'MPI_HOME' should be set to 'MS-MPI' root directory,
-   and added '%MPI_HOME%/bin' to 'PATH'.
+   variables. In short, 'MPI_ROOT' should be set to 'MS-MPI' root directory,
+   and added '%MPI_ROOT%/bin' to 'PATH'.
 
 @ECHO OFF
-SET R_HOME=C:\Program Files\R\R-2.15.1
-SET MPI_HOME=C:\Program Files\Microsoft MPI
-IF NOT DEFINED PATH_ORG SET PATH_ORG=%PATH%
-SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
+SET R_HOME=C:\Program Files\R\R-3.0.1\
+SET MPI_ROOT=C:\Program Files\Microsoft MPI\
+SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
 
 
 --- Test 'MS-MPI':
@@ -187,7 +185,7 @@ SET PATH=%R_HOME%;%R_HOME%\BIN\;%RTOOLS%;%MINGW%;%MPI_HOME%\BIN\;%PATH_ORG%
    Default Installation:
 
      C:/> set_mpi
-     C:/> R CMD INSTALL pbdMPI_0.1-0.zip
+     C:/> R CMD INSTALL pbdMPI_0.2-3.zip
 
 
 --- Test 'pbdMPI':
