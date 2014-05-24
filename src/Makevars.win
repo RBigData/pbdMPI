@@ -43,10 +43,10 @@ MPI_ROOT = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_ROOT')
 # and MS-MPI_NO_DEPRECATE_20 to turn off warning
 MPI_INCLUDE = ${MPI_ROOT}Inc/
 ifeq "$(WIN)" "64"
-  MPI_LIB = "${MPI_ROOT}Lib/amd64/msmpi.lib"
+  MPI_LIB = ${MPI_ROOT}Lib/amd64/msmpi.lib
   WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
 else
-  MPI_LIB = "${MPI_ROOT}Lib/i386/msmpi.lib"
+  MPI_LIB = ${MPI_ROOT}Lib/i386/msmpi.lib
   WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
 endif
 
@@ -63,7 +63,7 @@ endif
 PKG_CPPFLAGS = -I"$(MPI_INCLUDE)" -DMPI2 $(WIN_FLAGS)
 ### Order is matter.
 # PKG_LIBS = "$(FPMPI_LDFLAGS)" -L"$(MPI_LIB)" -lmpi
-PKG_LIBS = $(MPI_LIB)
+PKG_LIBS = "$(MPI_LIB)"
 
 ### For user configuration.
 USER_CONF = Makeconf
