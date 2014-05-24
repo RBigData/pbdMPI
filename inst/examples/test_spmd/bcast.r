@@ -17,4 +17,3 @@ y <- bcast(as.double(x))
 comm.print(y, rank.print = 1)
 
 finalize()
-

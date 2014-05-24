@@ -56,19 +56,18 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 
-### Example
+### Example.
 comm.print(comm.rank(), rank.print = 1)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

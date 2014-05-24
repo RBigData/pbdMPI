@@ -17,4 +17,3 @@ do
   mpiexec -np $NP Rscript.exe --vanilla $ft
   echo "=============================="
 done
-

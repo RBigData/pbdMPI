@@ -25,4 +25,3 @@ These examples are based on
      > mpiexec --report-uri urifile -np 1 Rscript named.server.r &
      > mpiexec --ompi-server file:urifile -np 1 Rscript named.client.r
      > rm -f urifile
-

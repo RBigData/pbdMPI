@@ -1,10 +1,12 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
+### Examples.
 N <- 5
 x <- 1:(.comm.rank + 1)
 x.total <- (.comm.size + 1) * .comm.size / 2
@@ -24,5 +26,5 @@ y <- allgather(as.double(x), double(x.total), as.integer(x.count))
 comm.cat("\nAllgather double:\n", quiet = TRUE)
 comm.print(y)
 
+### Finish.
 finalize()
-

@@ -1,4 +1,4 @@
-# For computing global which ...
+### For computing global which.*().
 
 comm.which <- function(x, arr.ind = FALSE, useNames = TRUE,
                        comm = .SPMD.CT$comm){

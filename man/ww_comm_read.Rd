@@ -1,4 +1,4 @@
-\name{global reading functions}
+\name{global reading}
 \alias{comm.read.table}
 \alias{comm.read.csv}
 \alias{comm.read.csv2}
@@ -96,13 +96,13 @@
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 4 processors by
-# > mpiexec -np 4 Rscript demo.r
+### Save code in a file "demo.r" and run with 4 processors by
+### SHELL> mpiexec -np 4 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
-### Check
+### Check.
 if(comm.size() != 4){
   comm.stop("4 processors are requried.")
 }
@@ -124,9 +124,8 @@ da.common <- comm.read.table("iris.txt", header = TRUE, sep = "\t",
                              quote = "", read.method = "common")
 comm.print(c(nrow(da.common), sum(da.common != iris)))
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

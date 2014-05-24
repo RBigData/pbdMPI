@@ -1,9 +1,7 @@
-\name{Internal Functions}
-\alias{comm.sort.integer}
-\alias{comm.sort.double}
-\alias{comm.sort.default}
-\title{ All Internal Functions }
-\description{ All internal functions }
+\name{General Internal Functions}
+\alias{.pbdMPIEnv}
+\title{ All General Internal Functions }
+\description{ All general internal functions }
 \references{
   Programming with Big Data in R Website:
   \url{http://r-pbd.org/}
@@ -13,4 +11,3 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \keyword{internal}
-

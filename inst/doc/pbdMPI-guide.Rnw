@@ -2,7 +2,7 @@
 
 \documentclass[article,shortnames,nojss]{pbdMPI-include/jss}
 
-\newcommand{\mpiversion}{0.2-2}
+\newcommand{\mpiversion}{0.2-3}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,11 +99,12 @@ London, Ontario, Canada \\
 
 \input{./pbdMPI-include/01-introduction}
 \input{./pbdMPI-include/02-performance}
-\input{./pbdMPI-include/03-faq}
-\input{./pbdMPI-include/04-windows}
 \input{./pbdMPI-include/05-analog}
 \input{./pbdMPI-include/06-longvector}
 \input{./pbdMPI-include/07-simpleio}
+\input{./pbdMPI-include/08-simplepairs}
+\input{./pbdMPI-include/04-windows_msmpi}
+\input{./pbdMPI-include/03-faq}
 
 \newpage
 \phantomsection

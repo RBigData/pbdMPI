@@ -25,7 +25,10 @@
 \item {\bf\color{blue} Q:}
       Does \pkg{pbdMPI} support Windows clusters? \\
       {\bf\color{blue} A:}
-      Yes, the released binary currently supports OpenMPI and MPICH2.
+      Yes, the released binary currently supports MS-MPI.
+      Currently, \pkg{pbdMPI} is built with
+      'HPC Pack 2012 R2 MS-MPI Redistributable Package' which is available
+      at \url{http://http://www.microsoft.com/en-us/download/}.
       For other MPI systems, users have to compile from source.
 
 \item {\bf\color{blue} Q:}
@@ -96,14 +99,14 @@ Example 1:
 
   id <- get.jid(total.tasks)
 
-  ### Using a loop
+  ### Using a loop.
   for(i in id){
-    # put independent task i script here
+    ### Put independent task i script here.
   }
 
-  ### or using apply-like functions.
+  ### Or using apply-like functions.
   lapply(id, function(i){
-    # put independent task i script here.
+    ### Put independent task i script here.
   })
 
   finalize()
@@ -119,22 +122,36 @@ Example 2:
   library(pbdMPI, quietly = TRUE)
   init()
 
-  ### Directly using a loop
+  ### Directly using a loop.
   for(i in 1:total.tasks){
     if(i %% comm.size() == comm.rank()){
-    # put independent task i script here
+    ### Put independent task i script here.
   }
 }
 
-### or using apply-like function.
+### Or using apply-like function.
 lapply(1:total.tasks, function(i){
   if(i %% comm.size() == comm.rank()){
-  # put independent task i script here.
+  ### Put independent task i script here.
 }
 })
 
 finalize()
 \end{Code}
+
+
+\item {\bf\color{blue} Q:}
+      Can I use unblocked send functions, such as
+      \code{isend()}? Or, does \code{isend()} truly unblocked? \\
+      {\bf\color{blue} A:}
+      The answer is no for \pkg{pbdMPI} earlier than version 0.2-2, but
+      it is changed since version 0.2-3. A temporary buffer list
+      \code{nb.buffer} is used to store all objects being sent by
+      \code{isend()}. The buffer is created
+      and cumulated in \code{.pbdMPIEnv}, but released as
+      \code{wait()} is called. Although this may take some performance
+      and space, this can avoid \code{gc()} and memory overwrite before
+      actual sending is done.
 
 
 \item {\bf\color{blue} Q:}
@@ -150,10 +167,10 @@ finalize()
 mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
 \end{Command}
 \begin{Code}[title=SPMD R Script (task\_pull)]
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
-### Examples
+### Examples.
 FUN <- function(jid){
   Sys.sleep(1)
   jid * 10
@@ -168,7 +185,7 @@ if(comm.rank() == 0){
   print(ret.jobs)
 }
 
-### Finish
+### Finish.
 finalize()
 \end{Code}
 
@@ -455,7 +472,7 @@ Error : .onLoad failed in loadNamespace() for 'pbdMPI', details:
   pbdMPI/libs/pbdMPI.so: undefined symbol: _Ux86_64_getcontext
 \end{Error}
       {\bf\color{blue} A:}
-      Some prerequisite packages by \pkg{mpiP} is installed correctly.
+      Some prerequisite packages by \pkg{mpiP} is installed incorrectly.
       Reinstall \pkg{mpiP} by
 \begin{Code}
 ./configure --disable-libunwind CPPFLAGS="-fPIC -I/usr/lib/openmpi/include" LDFLAGS="-L/usr/lib/openmpi/lib -lmpi"

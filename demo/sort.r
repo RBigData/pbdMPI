@@ -1,13 +1,13 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
-### Examples
-comm.set.seed(diff = TRUE)
+### Examples.
+comm.set.seed(123456, diff = TRUE)
  x <- c(rnorm(5 + .comm.rank * 2), NA)
 # x <- sample(1:5, 5 + .comm.rank * 2, replace = TRUE)
 comm.end.seed()
@@ -24,5 +24,5 @@ y <- comm.sort(x)
 y <- allgather(y)
 comm.print(y)
 
-### Finish
+### Finish.
 finalize()

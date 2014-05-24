@@ -1,0 +1,107 @@
+
+
+\section[Windows Systems (MS-MPI)]{Windows Systems (MS-MPI)}
+\label{sec:windows_systems_msmpi}
+\addcontentsline{toc}{section}{\thesection. Windows Systems (MS-MPI)}
+
+\pkg{pbdMPI} (later than version 0.2-3) supports Windows with
+Microsoft MPI or MS-MPI
+(\url{http://msdn.microsoft.com/en-us/library/bb524831(v=vs.85).aspx}).
+Currently, \pkg{pbdMPI} is built with
+'HPC Pack 2012 R2 MS-MPI Redistributable Package' which is available
+at \url{http://http://www.microsoft.com/en-us/download/}.
+The installation (MSMPISetup.exe) is easily done with a few clicks
+provided some service packs and Visual C++ runtime are installed correctly.
+The default environment and path are recommended.
+
+For running MPI and \proglang{R}, users need to set \code{PATH} to the
+\code{mpiexec.exe} and \code{Rscript.exe}. By default,
+\begin{Command}
+### Under command mode, or save in a batch file.
+SET R_HOME=C:\Program Files\R\R-3.0.1\
+SET MPI_HOME=C:\Program Files\Microsoft MPI\
+SET PATH=%MPI_HOmE%bin\;%R_HOME%bin\;%PATH%
+\end{Command}
+
+Note that the installation (MSMPISetup.exe) may set
+several environmental variables including
+\begin{itemize}
+\item \code{MSMPI_BIN} for \code{mpiexec.exe} and other executable files,
+\item \code{MSMPI_INC} for header files such as \code{mpi.h},
+\item \code{MSMPI_LIB32} for 32 bits static libraries such as \code{msmpi.lib},
+      and
+\item \code{MSMPI_LIB64} for 64 bits static libraries.
+\end{itemize}
+These should be useful to verify via \proglang{R} command \code{Sys.getenv()}.
+
+
+\subsection[Install from Binary]{Install from Binary}
+\label{sec:install_from_binary}
+\addcontentsline{toc}{subsection}{\thesubsection. Install from Binary}
+
+The binary packages of \pkg{pbdMPI} are available on the website:
+``Programming with Big Data in R'' at
+\url{http://r-pbd.org/} or
+``CRAN'' at
+\url{http://cran.r-project.org/package=pbdMPI}.
+Note that different MPI systems require different binaries.
+The binary can be installed by
+\begin{Command}
+R CMD INSTALL pbdMPI_0.2-3.zip
+\end{Command}
+
+As on Unix systems,
+one can start quickly with \pkg{pbdMPI} by learning from the
+following demos. There are six basic examples.
+\begin{Command}
+### Run the demo with 2 processors by
+mpiexec -np 2 Rscript.exe -e "demo(allgather,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript.exe -e "demo(allreduce,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript.exe -e "demo(bcast,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript.exe -e "demo(gather,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript.exe -e "demo(reduce,'pbdMPI',ask=F,echo=F)"
+mpiexec -np 2 Rscript.exe -e "demo(scatter,'pbdMPI',ask=F,echo=F)"
+\end{Command}
+{\color{red}Warning:}
+Note that spacing inside \code{demo} is not working for Windows systems
+and \code{Rscript.exe} should be evoked rather than \code{Rscript}.
+
+
+\subsection[Build from Source]{Build from Source}
+\label{sec:building_from_source}
+\addcontentsline{toc}{subsection}{\thesubsection. Build from Source}
+
+{\color{red} \bf Warning:} This section is only for building binary in
+32- and 64-bit Windows system. A more general way can be found in the file
+\code{pbdMPI/INSTALL}.
+
+Make sure that \proglang{R}, \pkg{Rtools}, and \pkg{MINGW} are in
+the \code{PATH}.
+See details on the website "Building R for Windows" at
+\url{http://cran.r-project.org/bin/windows/Rtools/}.
+The environment variable \code{MPI_HOME}
+needs to be set for building binaries.
+
+For example, the minimum requirement may be
+\begin{Command}
+### Under command mode, or save in a batch file.
+SET R_HOME=C:\Program Files\R\R-3.0.1\
+SET RTOOLS=C:\Rtools\bin\
+SET MINGW=C:\Rtools\gcc-4.6.3\bin\
+SET MPI_HOME=C:\Program Files\Miscrosoft MPI\
+SET PATH=%MPI_HOME%bin;%R_HOME%;%R_HOME%bin;%RTOOLS%;%MINGW%;%PATH%
+\end{Command}
+
+With a correct \code{PATH}, one can use the \proglang{R} commands
+to install/build the \pkg{pbdMPI}:
+\begin{Command}
+### Under command mode, build and install the binary.
+tar zxvf pbdMPI_0.2-3.tar.gz
+R CMD INSTALL --build pbdMPI
+R CMD INSTALL pbdMPI_0.2-3.zip
+\end{Command}
+
+{\color{red} \bf Warning:} For other \proglang{pbdR} packages, it is possible
+to compile without further changes of configurations. However, only
+\pkg{pbdMPI} is tested regularly before any release.
+

@@ -1,4 +1,4 @@
-### Similar to stop(), warning(), warnings().
+### Similar to stop(), warning(), and warnings().
 
 comm.stop <- function(..., call. = TRUE, domain = NULL,
     all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,

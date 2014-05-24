@@ -20,16 +20,16 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
     try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent){
   ### FUN <- function(jid, ...) is a user defined function.
 
-  # Note the use of the tag for sent messages:
-  #     1 = ready_for_job, 2 = done_job, 3 = exiting.
-  # Note the use of the tag for received messages:
-  #     1 = job, 2 = done_jobs.
+  ### Note the use of the tag for sent messages:
+  ###     1 = ready_for_job, 2 = done_job, and 3 = exiting.
+  ### Note the use of the tag for received messages:
+  ###     1 = job, and 2 = done_jobs.
   done <- 0L
   while(done != 1L){
-    # Signal being ready to receive a new job .
+    ### Signal being ready to receive a new job.
     spmd.send.default(0L, rank.dest = rank.master, tag = 1L, comm = comm)
 
-    # Receive a job id.
+    ### Receive a job id.
     jid <- spmd.recv.default(rank.source = rank.master,
                              tag = spmd.anytag(), comm = comm)
     sourcetag <- spmd.get.sourcetag()
@@ -43,12 +43,12 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
       }
       ret <- list(jid = jid, ret = tmp)
 
-      # Send a results message back to the master
+      ### Send a results message back to the master.
       spmd.send.default(ret, rank.dest = rank.master, tag = 2L, comm = comm)
     } else if(tag == 2){
       done <- 1L
     }
-    # We'll just ignore any unknown messages
+    ### We'll just ignore any unknown messages.
   }
 
   spmd.send.default(0L, rank.dest = rank.master, tag = 3L, comm = comm)
@@ -58,7 +58,7 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
 
 task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
   comm = .SPMD.CT$comm){
-  # Check.
+  ### Check.
   if(spmd.comm.rank(comm) != rank.master){
     comm.stop("Wrong master id.")
   }
@@ -66,10 +66,10 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
     comm.stop("Comm size >= 2 is required.")
   }
 
-  # Note the use of the tag for received messages:
-  #     1 = ready_for_job, 2 = done_job, 3 = exiting.
-  # Note the use of the tag for sent messages:
-  #     1 = job, 2 = done_jobs.
+  ### Note the use of the tag for received messages:
+  ###     1 = ready_for_job, 2 = done_job, and 3 = exiting.
+  ### Note the use of the tag for sent messages:
+  ###     1 = job, and 2 = done_jobs.
 
   closed.workers <- 0L
   n.workers <- spmd.comm.size(comm) - 1
@@ -83,7 +83,7 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
   ret <- vector("list", max(jids))
 
   while(closed.workers < n.workers){
-    # Receive a message from a worker.
+    ### Receive a message from a worker.
     ret.worker <- spmd.recv.default(rank.source = spmd.anysource(),
                                     tag = spmd.anytag(), comm = comm)
     sourcetag <- spmd.get.sourcetag()
@@ -91,23 +91,23 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
     tag <- sourcetag[2]
 
     if(tag == 1L){
-      # The worker is ready for a job.
-      # Give the next job to the worker if there is any available.
-      # Or, tell the worker that it's works are all done if there is none.
+      ### The worker is ready for a job.
+      ### Give the next job to the worker if there is any available.
+      ### Or, tell the worker that it's works are all done if there is none.
       if(length(jids) > 0){
-        # Send a job, and then remove it from the job list.
+        ### Send a job, and then remove it from the job list.
         spmd.send.default(jids[1], rank.dest = worker.id, tag = 1L, comm = comm)
         jids <- jids[-1]
       } else{
         spmd.send.default(0L, rank.dest = worker.id, tag = 2L, comm = comm)
       }
     } else if (tag == 2L){
-      # The message contains results. Do something with the results.
-      # Store them in the data structure.
+      ### The message contains results. Do something with the results.
+      ### Store them in the data structure.
       # ret[[worker.id]][[length(ret[[worker.id]]) + 1]] <- ret.worker
       ret[[ret.worker$jid]] <- ret.worker$ret
     } else if(tag == 3L){
-      # A worker has closed down.
+      ### A worker has closed down.
       closed.workers <- closed.workers + 1
     }
   }

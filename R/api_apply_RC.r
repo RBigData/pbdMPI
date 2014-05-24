@@ -1,4 +1,4 @@
-### These functions are supposed to run in SPMD, even when pbd.model = "mw"
+### These functions are supposed to run in SPMD, even when pbd.model = "mw".
 
 array.to.list.RC <- function(jid, X, dim.X, MARGIN){
   tl <- length(dim.X)

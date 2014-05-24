@@ -1,6 +1,6 @@
 library(pbdMPI, quietly = TRUE)
 
-### Define method
+### Define method.
 allgather.simple <- function(x, x.buffer = NULL, x.count = NULL,
     displs = NULL, comm = .SPMD.CT$comm, unlist = .SPMD.CT$unlist){
   ret <- allgather(as.integer(x@a[1]), x.buffer = integer(comm.size(comm)),
@@ -14,10 +14,9 @@ allgather.simple <- function(x, x.buffer = NULL, x.count = NULL,
                                       x.count = "missing"),
                 definition = allgather.simple)
 
-### Run
+### Run.
 init()
 x <- new("simple", a = comm.rank())
 y <- allgather(x)
 comm.print(y, all.rank = TRUE)
 finalize()
-

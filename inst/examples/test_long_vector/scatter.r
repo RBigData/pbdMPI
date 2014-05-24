@@ -14,4 +14,3 @@ y <- scatter(as.double(x), double(N))
 comm.print(y[N - (1:5)], rank.print = 1)
 
 finalize()
-

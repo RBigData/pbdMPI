@@ -10,7 +10,7 @@ comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
     read.method = .SPMD.IO$read.method[1],
     balance.method = .SPMD.IO$balance.method[1],
     comm = .SPMD.CT$comm){
-  # Read by method.
+  ### Read by method.
   ret <- NULL
   if(read.method[1] == "gbd"){
     ret <- read.table.gbd(
@@ -67,7 +67,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
               comm = comm)
   }
 
-  # Find file size first.
+  ### Find file size first.
   file.size <- 0.0
   if(COMM.RANK == 0){
     file.size <- as.double(file.info(file)$size)
@@ -78,7 +78,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
              comm = comm, quiet = TRUE)
   }
 
-  # Read start.
+  ### Read start.
   if(comm.all(nrows == -1) && comm.all(skip == 0)){
     if(file.size < .SPMD.IO$max.read.size){
       if(COMM.RANK == 0){
@@ -95,10 +95,10 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
                           fileEncoding = fileEncoding, encoding = encoding,
                           text)
 
-        # Get divided indices.
+        ### Get divided indices.
         alljid <- get.jid(nrow(tmp), all = TRUE)
 
-        # Divide data into chunks in list format.
+        ### Divide data into chunks in list format.
         ret <- rep(list(tmp[0,]), COMM.SIZE)
         for(i in 1:COMM.SIZE){
           if(! is.null(alljid[[i]])){
@@ -107,10 +107,10 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
         }
       }
 
-      # Scatter chunks to other ranks.
+      ### Scatter chunks to other ranks.
       ret <- spmd.scatter.object(ret, comm = comm)
     } else{
-      # Predict total lines.
+      ### Predict total lines.
       tl.pred <- 0L
       if(COMM.RANK == 0){
         tmp <- nchar(readLines(con = file, n = .SPMD.IO$max.test.lines))
@@ -118,16 +118,16 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
       }
       tl.pred <- spmd.bcast.integer(as.integer(tl.pred), comm = comm)
 
-      # Set the read start and how much to read.
+      ### Set the read start and how much to read.
       jid <- get.jid(tl.pred)
       nrows <- length(jid)
       skip <- jid[1] - 1
       if(COMM.RANK == (COMM.SIZE - 1)){
-        # The last rank needs to read all of rest no matter what.
+        ### The last rank needs to read all of rest no matter what.
         nrows <- -1
       }
 
-      # Read sequentially.
+      ### Read sequentially.
       for(i.rank in 0:(COMM.SIZE - 1)){
         if(COMM.RANK == i.rank){
           ret <- read.table(file, header = header, sep = sep, quote = quote,
@@ -150,11 +150,11 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
                                comm = comm)
     }
   } else{
-    # Suppose nrows and skip are provided.
+    ### Suppose nrows and skip are provided.
     comm.cat("Caution: nrows and skip are provided and rows may overlap.",
              comm = comm, quiet = TRUE)
 
-    # Read sequentially.
+    ### Read sequentially.
     for(i.rank in 0:(COMM.SIZE - 1)){
       if(i.rank == COMM.RANK){
         ret <- read.table(file, header = header, sep = sep, quote = quote,
@@ -174,9 +174,8 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
     }
   }
 
-  # Sychronize colnames.
+  ### Sychronize colnames.
   colnames(ret) <- spmd.bcast.object(colnames(ret), comm = comm)
-
   ret
 } # End of read.table.gbd().
 
@@ -199,7 +198,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
               comm = comm)
   }
 
-  # Find file size first.
+  ### Find file size first.
   file.size <- 0.0
   if(COMM.RANK == 0){
     file.size <- as.double(file.info(file)$size)
@@ -210,23 +209,23 @@ read.table.common <- function(file, header = FALSE, sep = "",
              comm = comm, quiet = TRUE)
   }
 
-  # Check nrows.
+  ### Check nrows.
   nrows.source <- spmd.bcast.integer(as.integer(nrows), comm = comm)
   if(comm.any(nrows != nrows.source)){
     comm.stop("All nrows should be the same for read.method = common.",
               comm = comm)
   }
 
-  # Check skip.
+  ### Check skip.
   skip.source <- spmd.bcast.integer(as.integer(skip), comm = comm)
   if(comm.any(skip != skip.source)){
     comm.stop("All skip should be the same for read.method = common.",
               comm = comm)
   }
 
-  # Read start.
+  ### Read start.
   if(file.size < .SPMD.IO$max.read.size){
-    # Ths file is small, so we read from rank 0 and bcast to all.
+    ### Ths file is small, so we read from rank 0 and bcast to all.
     if(COMM.RANK == 0){
       ret <- read.table(file, header = header, sep = sep, quote = quote,
                         dec = dec, col.names, as.is = TRUE,
@@ -243,8 +242,8 @@ read.table.common <- function(file, header = FALSE, sep = "",
     }
     ret <- spmd.bcast.object(ret, comm = comm)
   } else{
-    # The file is too large to communicate across processors, so read
-    # sequentially. This takes very long to finish.
+    ### The file is too large to communicate across processors, so read
+    ### sequentially. This takes very long to finish.
     for(i.rank in 0:(COMM.SIZE - 1)){
       if(i.rank == COMM.RANK){
         ret <- read.table(file, header = header, sep = sep, quote = quote,
@@ -264,6 +263,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
     }
   }
 
+  ### Return.
   ret
 } # End of read.table.common().
 
@@ -290,4 +290,3 @@ comm.read.csv2 <- function(file, header = TRUE, sep = ";", quote = "\"",
                 read.method = read.method, balance.method = balance.method,
                 comm = comm)
 } # End comm.read.csv().
-

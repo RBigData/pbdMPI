@@ -30,4 +30,3 @@ if(.comm.rank == 0){
 comm.print(y, rank.print = 1)
 
 finalize()
-

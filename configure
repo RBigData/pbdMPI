@@ -2099,6 +2099,13 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+chmod +x ./inst/examples/test_parallel/00_*
+chmod +x ./inst/examples/test_performance/00_*
+chmod +x ./inst/examples/test_rmpi/00_*
+chmod +x ./inst/examples/test_s4/00_*
+chmod +x ./inst/examples/test_spmd/00_*
+chmod +x ./inst/examples/test_long_vector/00_*
+
 : ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
   echo "could not determine R_HOME"

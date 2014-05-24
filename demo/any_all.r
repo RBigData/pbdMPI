@@ -1,6 +1,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
@@ -11,7 +11,7 @@ if(.comm.size != 2){
   finalize()
 }
 
-### Examples
+### Examples.
 if(.comm.rank == 0){
   a <- c(T, F, NA)
 } else{
@@ -27,5 +27,5 @@ comm.print(tmp)
 tmp <- comm.all(a, na.rm = TRUE)
 comm.print(tmp)
 
-### Finish
+### Finish.
 finalize()

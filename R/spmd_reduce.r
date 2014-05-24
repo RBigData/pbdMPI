@@ -5,6 +5,13 @@ spmd.reduce.default <- function(x, x.buffer = NULL, op = .SPMD.CT$op,
     rank.dest = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
   op <- match.arg(tolower(op[1]), .SPMD.OP)
 
+  if(op %in% c("land", "band", "lor", "bor", "lxor", "bxor")){
+    x <- as.integer(x)
+    if(!is.null(x.buffer)){
+      x.buffer <- as.integer(x.buffer)
+    }
+  }
+
   all.array <- spmd.allreduce.integer(
                    as.integer(is.array(x) && length(x) > 0),
                    integer(1), op = "sum",

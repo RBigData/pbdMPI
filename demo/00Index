@@ -1,15 +1,16 @@
-allgather	pbdMPI		An example of allgather.
-allreduce	pbdMPI		An example of allreduce.
-bcast		pbdMPI		An example of bcast.
-gather		pbdMPI		An example of gather.
-reduce		pbdMPI		An example of reduce.
-scatter		pbdMPI		An example of scatter.
-divide		pbdMPI		An example of dividing jobs.
-pbdApply	pbdMPI		An example of parallel apply.
-pbdLapply	pbdMPI		An example of parallel lapply.
-seed		pbdMPI		An example of random number generation.
-sort		pbdMPI		An example of sorting.
-any_all		pbdMPI		An example of any and all.
-task_pull	pbdMPI		An example of task pull parallelism.
-simple_io	pbdMPI		An example of simple input and output.
-simple_balance	pbdMPI		An example of simple balance.
+allgather	pbdMPI	An example of allgather.
+allreduce	pbdMPI	An example of allreduce.
+bcast		pbdMPI	An example of bcast.
+gather		pbdMPI	An example of gather.
+reduce		pbdMPI	An example of reduce.
+scatter		pbdMPI	An example of scatter.
+divide		pbdMPI	An example of dividing jobs.
+pbdApply	pbdMPI	An example of parallel apply.
+pbdLapply	pbdMPI	An example of parallel lapply.
+seed		pbdMPI	An example of random number generation.
+sort		pbdMPI	An example of sorting.
+any_all		pbdMPI	An example of any and all.
+task_pull	pbdMPI	An example of task pull parallelism.
+simple_io	pbdMPI	An example of simple input and output.
+simple_balance	pbdMPI	An example of simple balance.
+simple_pairs	pbdMPI	An example of distance and pairling.

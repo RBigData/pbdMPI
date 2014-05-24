@@ -20,7 +20,7 @@ x <- (1:N) + N * .comm.rank
 x <- sendrecv.replace(list(x))
 comm.print(x, rank.print = 1)
 
-x <- (1:N) + N * .comm.rank              # since x has been replace by a list.
+x <- (1:N) + N * .comm.rank            ### since x has been replace by a list.
 x <- sendrecv.replace(as.integer(x))
 comm.print(x, rank.print = 1)
 
@@ -28,4 +28,3 @@ x <- sendrecv.replace(as.double(x))
 comm.print(x, rank.print = 1)
 
 finalize()
-

@@ -1,9 +1,9 @@
 ### SHELL> mpiexec -np 4 Rscript --vanilla [...].r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
-### Check
+### Check.
 if(comm.size() != 4){
   comm.stop("4 processors are requried.")
 }
@@ -31,5 +31,5 @@ da.common <- comm.read.table(fn, header = TRUE, sep = "\t",
 # da.common <- comm.read.csv(fn, read.method = "common")
 comm.print(c(nrow(da.common), sum(da.common != iris)))
 
-### Finish
+### Finish.
 finalize()

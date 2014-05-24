@@ -1,4 +1,4 @@
-\name{global Rprof function}
+\name{global Rprof}
 \alias{comm.Rprof}
 \title{ A Rprof Function for SPMD Routines }
 \description{
@@ -37,4 +37,3 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \keyword{utility}
-

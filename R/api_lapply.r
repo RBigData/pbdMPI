@@ -1,4 +1,4 @@
-### These functions are supposed to run in SPMD, even when pbd.mode = "mw"
+### These functions are supposed to run in SPMD, even when pbd.mode = "mw".
 
 list.to.list <- function(i, X){
   X[i]

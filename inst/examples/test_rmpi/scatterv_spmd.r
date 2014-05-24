@@ -28,4 +28,3 @@ time.proc$double <- system.time({
 comm.print(time.proc, quiet = TRUE)
 
 finalize()
-

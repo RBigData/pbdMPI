@@ -22,4 +22,3 @@ y <- allgather(as.double(x), double(x.total), as.integer(x.count))
 comm.print(y[N - (1:5)])
 
 finalize()
-

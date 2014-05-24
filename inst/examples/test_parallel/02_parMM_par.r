@@ -1,6 +1,6 @@
 ### This is a famous example from snow package.
 ### One can source this file into R interactive model or run it by the command
-### > Rscript --vanilla 02_spmd.M_spmd.r
+### SHELL> Rscript --vanilla 02_spmd.M_spmd.r
 
 library(parallel)
 cl <- makeCluster(2)

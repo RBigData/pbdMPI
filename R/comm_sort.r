@@ -67,4 +67,3 @@ comm.sort.double <- function(x, decreasing = FALSE, na.last = NA,
   }
   ret
 } # End of comm.sort.double().
-

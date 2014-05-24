@@ -77,11 +77,11 @@ comm.seed.state <- function(comm = .SPMD.CT$comm){
     comm.stop("seed.table is incorrect.", comm = comm)
   }
 
-  # End stream first to get current state.
+  ### Terminate the stream first to get the current state.
   invisible(.lec.CurrentStreamEnd())
   ret <- .lec.GetState(name)
 
-  # Set the state back to stream (pretend as nothing happens).
+  ### Set the state back to stream (pretend as nothing happens).
   invisible(.lec.SetSeed(name, ret))
   invisible(.lec.CurrentStream(name))
   ret

@@ -34,4 +34,3 @@ y <- allreduce(as.double(x), op = "min")
 comm.print(y[N - (1:5)])
 
 finalize()
-

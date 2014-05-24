@@ -14,4 +14,3 @@ y <- gather(as.double(x), double(x.total))
 comm.print(y[N - (1:5)])
 
 finalize()
-

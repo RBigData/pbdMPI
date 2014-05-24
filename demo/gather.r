@@ -1,10 +1,12 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
+### Examples.
 N <- 5
 x <- 1:(.comm.rank + 1)
 x.total <- (.comm.size + 1) * .comm.size / 2
@@ -27,5 +29,5 @@ comm.print(y)
 comm.cat("\n-- Print from rank 1:\n", rank.print = 1, quiet = TRUE)
 comm.print(y, rank.print = 1)
 
+### Finish.
 finalize()
-

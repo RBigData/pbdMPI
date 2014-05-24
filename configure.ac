@@ -7,6 +7,14 @@ dnl functionalities combining with Makevars.in.
 dnl Process this file with autoconf to produce a configure script
 AC_INIT(DESCRIPTION)
 
+dnl Check chmod
+chmod +x ./inst/examples/test_parallel/00_*
+chmod +x ./inst/examples/test_performance/00_*
+chmod +x ./inst/examples/test_rmpi/00_*
+chmod +x ./inst/examples/test_s4/00_*
+chmod +x ./inst/examples/test_spmd/00_*
+chmod +x ./inst/examples/test_long_vector/00_*
+
 dnl Determine R_HOME.
 : ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then

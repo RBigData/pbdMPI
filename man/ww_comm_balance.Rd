@@ -1,4 +1,4 @@
-\name{global balance functions}
+\name{global balanc}
 \alias{comm.balance.info}
 \alias{comm.load.balance}
 \alias{comm.unload.balance}
@@ -57,15 +57,16 @@
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{comm.read.table}()} and
-  \code{\link{comm.write.table}()}
+  \code{\link{comm.read.table}()},
+  \code{\link{comm.write.table}()}, and
+  \code{\link{comm.as.gbd}()}.
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 4 processors by
-# > mpiexec -np 4 Rscript demo.r
+### Save code in a file "demo.r" and run with 4 processors by
+### SHELL> mpiexec -np 4 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 
 ### Get two gbd row-block data.frame.
@@ -81,9 +82,8 @@ da.org <- comm.unload.balance(da.new, bal.info)
 comm.print(c(sum(da.new != da.block), sum(da.org != da.block0)),
            all.rank = TRUE)
 
-### Finish
+### Finish.
 finalize()
 }
 }
 \keyword{utility}
-

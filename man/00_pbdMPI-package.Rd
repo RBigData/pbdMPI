@@ -99,4 +99,3 @@ mpiexec -np 2 Rscript -e "demo(scatter,'pbdMPI',ask=F,echo=F)"
 }
 }
 \keyword{package}
-

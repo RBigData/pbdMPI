@@ -6,7 +6,7 @@ pbdMPI requires
   - SUN HPC 8.2.1 (OpenMPI) for Solaris.
   - OpenMPI for Linux.
   - OpenMPI for Mac OS X.
-  - MS-MPI or MPICH2 for Windows.
+  - MS-MPI for Windows.
 
 For installing pbdMPI, 
   - see "INSTALL" for Solaris, Linux and Mac OS.

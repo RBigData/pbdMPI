@@ -1,6 +1,6 @@
 ### This is an example modified from the help page of parLapply()
 ### One can source this file into R interactive model or run it by the command
-### > Rscript --vanilla 03_boot_spmd.r
+### SHELL> Rscript --vanilla 03_boot_spmd.r
 
 library(parallel)
 cl <- makeCluster(mc <- getOption("cl.cores", 2))
@@ -21,4 +21,3 @@ boot.ci(cd4.boot,  type = c("norm", "basic", "perc"),
         conf = 0.9, h = atanh, hinv = tanh)
 
 stopCluster(cl)
-

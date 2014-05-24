@@ -3,8 +3,12 @@
 
 comm.balance.info <- function(X.gbd,
     balance.method = .SPMD.IO$balance.method[1], comm = .SPMD.CT$comm){
-  if(length(dim(X.gbd)) != 2){
-    comm.stop("Dimension of X.gbd should be 2.", comm = comm)
+  ### Check gbd.
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
+    comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
+  }
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
+    comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 
   COMM.SIZE <- spmd.comm.size(comm)
@@ -15,7 +19,7 @@ comm.balance.info <- function(X.gbd,
                                      comm = comm)
   N <- sum(N.allgbd)
 
-  #### Build table by method.
+  ### Build table by method.
   if(balance.method[1] == "block"){
     n <- floor(N / COMM.SIZE)
     n.residual <- N %% COMM.SIZE
@@ -54,15 +58,20 @@ comm.balance.info <- function(X.gbd,
 
   list(send = send.info, recv = recv.info, N.allgbd = N.allgbd,
        new.N.allgbd = new.N.allgbd, balance.method = balance.method[1])
-} # End of comm.balance.info()
+} # End of comm.balance.info().
 
 
 comm.load.balance <- function(X.gbd, bal.info = NULL,
     balance.method = .SPMD.IO$balance.method, comm = .SPMD.CT$comm){
-  if(length(dim(X.gbd)) != 2){
-    comm.stop("Dimension of X.gbd should be 2.", comm = comm)
+  ### Check.
+  if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
+    comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
+  }
+  if(!comm.allcommon.integer(ncol(X.gbd), comm = comm)){
+    comm.stop("X.gbd should have the same # of columns.", comm = comm)
   }
 
+  ### Get bal.info if NULL.
   COMM.RANK <- spmd.comm.rank(comm)
   if(is.null(bal.info)){
     bal.info <- comm.balance.info(X.gbd, balance.method, comm = comm)
@@ -70,6 +79,7 @@ comm.load.balance <- function(X.gbd, bal.info = NULL,
 
   p <- ncol(X.gbd)
 
+  ### Redistributing.
   send.to <- as.integer(unique(bal.info$send$belong))
   if(length(send.to) > 0){
     for(i in send.to){
@@ -102,6 +112,7 @@ comm.load.balance <- function(X.gbd, bal.info = NULL,
 
   spmd.wait()
 
+  ### Return.
   ret
 } # End of comm.load.balance().
 

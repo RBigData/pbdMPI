@@ -50,19 +50,19 @@ For calling \code{spmd.bcast.*}:
 }
 \examples{
 \dontrun{
-# Save code in a file "demo.r" and run with 2 processors by
-# > mpiexec -np 2 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
-### Initial
+### Initial.
 library(pbdMPI, quietly = TRUE)
 init()
 
-### Examples
+### Examples.
 x <- matrix(1:5, nrow = 1)
 y <- bcast(x)
 comm.print(y)
 
-### Finish
+### Finish.
 finalize()
 }
 }
