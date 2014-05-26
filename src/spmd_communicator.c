@@ -43,7 +43,7 @@ SEXP spmd_comm_free(SEXP R_comm){
 
 SEXP spmd_comm_set_errhandler(SEXP R_comm){
 	return(AsInt(
-		MPI_Errhandler_set(comm[INTEGER(R_comm)[0]],
+		MPI_Comm_set_errhandler(comm[INTEGER(R_comm)[0]],
 		MPI_ERRORS_RETURN)));
 } /* End of spmd_comm_set_errhandler(). */
 

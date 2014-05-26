@@ -33,6 +33,8 @@ ifeq "${MPI_HOME}" ""
   ifeq "${MPI_ROOT}" ""
     MPI_ROOT = C:/Program Files/Microsoft MPI/
   endif
+else
+  MPI_ROOT = ${MPI_HOME}
 endif
 MPI_HOME = ${MPI_ROOT}
 
