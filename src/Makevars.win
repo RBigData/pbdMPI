@@ -27,16 +27,16 @@ WIN_MPI_TYPE = "MS-MPI"
 R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
 ### Conversion if found any.
-ifneq "${MPI_HOME}" ""
-  MPI_HOME = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_HOME')")
-else
-  ifeq "${MPI_ROOT}" ""
-    $(error Either MPI_ROOT or MPI_HOME should be set)
-  else
-    MPI_HOME = ${MPI_ROOT}
-  endif
-endif
+MPI_HOME = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_HOME')")
 MPI_ROOT = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_ROOT')")
+ifeq "${MPI_HOME}" ""
+  ifeq "${MPI_ROOT}" ""
+    MPI_ROOT = C:/Program Files/Microsoft MPI/
+  endif
+else
+  MPI_ROOT = ${MPI_HOME}
+endif
+MPI_HOME = ${MPI_ROOT}
 
 ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
 # mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h

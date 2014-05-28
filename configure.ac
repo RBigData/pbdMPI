@@ -95,7 +95,6 @@ if test "X$CC" = "X" ; then
     CC="gcc -std=gnu99"
   fi
 fi
-AC_PROG_CC
 
 
 dnl Check MPI in path.

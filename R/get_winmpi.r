@@ -7,8 +7,10 @@ get.sysenv <- function(flag){
   sysenv <- Sys.getenv(flag)
   # sysenv <- shortPathName(sysenv)
   sysenv <- gsub("\\\\", "/", sysenv)
-  if(length(grep("/$", sysenv)) == 0){
-    sysenv <- paste(sysenv, "/", sep = "")
+  if(sysenv != ""){
+    if(length(grep("/$", sysenv)) == 0){
+      sysenv <- paste(sysenv, "/", sep = "")
+    }
   }
   cat(sysenv)
 
