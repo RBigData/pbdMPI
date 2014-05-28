@@ -642,9 +642,6 @@ MPIRUN
 EGREP
 GREP
 CPP
-OMPI_INFO
-MPICC
-SED
 OBJEXT
 EXEEXT
 ac_ct_CC
@@ -652,6 +649,9 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
+OMPI_INFO
+MPICC
+SED
 target_alias
 host_alias
 build_alias
@@ -2191,7 +2191,450 @@ if test "X$CC" = "X" ; then
     CC="gcc -std=gnu99"
   fi
 fi
-ac_ext=c
+
+
+# Extract the first word of "sed", so it can be a program name with args.
+set dummy sed; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_SED+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$SED"; then
+  ac_cv_prog_SED="$SED" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_SED="sed"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_SED" && ac_cv_prog_SED=""F""
+fi
+fi
+SED=$ac_cv_prog_SED
+if test -n "$SED"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SED" >&5
+$as_echo "$SED" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+# Extract the first word of "mpicc", so it can be a program name with args.
+set dummy mpicc; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_MPICC+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$MPICC"; then
+  ac_cv_prog_MPICC="$MPICC" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_MPICC="mpicc"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_MPICC" && ac_cv_prog_MPICC=""F""
+fi
+fi
+MPICC=$ac_cv_prog_MPICC
+if test -n "$MPICC"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MPICC" >&5
+$as_echo "$MPICC" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+# Extract the first word of "ompi_info", so it can be a program name with args.
+set dummy ompi_info; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_OMPI_INFO+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$OMPI_INFO"; then
+  ac_cv_prog_OMPI_INFO="$OMPI_INFO" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_OMPI_INFO="ompi_info"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_OMPI_INFO" && ac_cv_prog_OMPI_INFO=""F""
+fi
+fi
+OMPI_INFO=$ac_cv_prog_OMPI_INFO
+if test -n "$OMPI_INFO"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $OMPI_INFO" >&5
+$as_echo "$OMPI_INFO" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+
+
+if test -z "${MPI_INCLUDE_PATH}" ; then
+  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "OPENMPI" ; then
+    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
+      echo "found sed, mpicc, and ompi_info ..."
+      TMP_INC="F"
+      TMP_LIB="F"
+
+      TMP_INC_DIRS=`mpicc --showme:incdirs`
+      echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
+
+      TMP_IFS="${IFS}"; IFS=" "
+      for dir in ${TMP_INC_DIRS}; do
+        echo "checking ${dir} ..."
+        if test -f "${dir}/mpi.h" ; then
+          echo "found ${dir}/mpi.h ..."
+          TMP_INC=${dir}
+          break
+        fi
+      done
+      IFS="${TMP_IFS}"
+
+      TMP_LIB_DIRS=`mpicc --showme:libdirs`
+      echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
+
+      TMP_IFS="${IFS}"; IFS=" "
+      for dir in ${TMP_LIB_DIRS}; do
+        echo "checking ${dir} ..."
+        if test -f "${dir}/libmpi.so" ; then
+          echo "found ${dir}/libmpi.so ..."
+          TMP_LIB=${dir}
+          TMP_LIBNAME="libmpi.so"
+          break
+        fi
+                if test -f "${dir}/libmpi.dylib" ; then
+          echo "found ${dir}/libmpi.dylib ..."
+          TMP_LIB=${dir}
+          TMP_LIBNAME="libmpi.dylib"
+          break
+        fi
+      done
+      IFS="${TMP_IFS}"
+
+      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+        echo "found mpi.h and libmpi.so ..."
+        echo ">> TMP_INC = ${TMP_INC}"
+        echo ">> TMP_LIB = ${TMP_LIB}"
+        MPITYPE="OPENMPI"
+        MPI_INCLUDE_PATH="${TMP_INC}"
+        MPI_LIBPATH="${TMP_LIB}"
+        MPI_LIBNAME="${TMP_LIBNAME}"
+      fi
+    fi
+  fi
+fi
+
+
+if test -z "${MPI_INCLUDE_PATH}" ; then
+### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
+  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3" ; then
+    if test "$SED" != "F" -a "$MPICC" != "F" ; then
+      echo "found sed and mpicc ..."
+      TMP_INC="F"
+      TMP_LIB="F"
+
+      TMP_CMD=`mpicc -show`
+      echo ">> TMP_CMD = ${TMP_CMD}"
+
+            TMP_IFS="${IFS}"; IFS=" "
+      for dir in ${TMP_CMD}; do
+        dir_inc=`echo ${dir} | sed -e "s/^-I\(.*\)$/\1/"`
+
+                if test "X${dir_inc}" = "X" ; then
+          dir_inc=`echo ${dir} | sed -e "s/-I\(.*\)/\1/"`
+        fi
+
+        echo "checking ${dir_inc} ..."
+        if test -f "${dir_inc}/mpi.h" ; then
+          echo "found ${dir_inc}/mpi.h ..."
+          TMP_INC=${dir_inc}
+          break
+        fi
+      done
+      IFS="${TMP_IFS}"
+
+            TMP_IFS="${IFS}"; IFS=" "
+      for dir in ${TMP_CMD}; do
+        dir_lib=`echo ${dir} | sed -e "s/^-L\(.*\)$/\1/"`
+
+                if test "X${dir_lib}" = "X" ; then
+          dir_lib=`echo ${dir} | sed -e "s/-L\(.*\)/\1/"`
+        fi
+
+        echo "checking ${dir_lib} ..."
+        if test -f "${dir_lib}/libmpich.so" ; then
+          echo "found ${dir_lib}/libmpich.so ..."
+          TMP_LIB=${dir_lib}
+          TMP_LIBNAME="libmpich.so"
+          break
+        fi
+                if test -f "${dir_lib}/libmpich.dylib" ; then
+          echo "found ${dir_lib}/libmpich.dylib ..."
+          TMP_LIB=${dir_lib}
+          TMP_LIBNAME="libmpich.dylib"
+          break
+        fi
+      done
+      IFS="${TMP_IFS}"
+
+      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+        echo "found mpi.h and libmpich.so ..."
+        echo ">> TMP_INC = ${TMP_INC}"
+        echo ">> TMP_LIB = ${TMP_LIB}"
+        MPITYPE="${MPITYPE}"
+        MPI_INCLUDE_PATH="${TMP_INC}"
+        MPI_LIBPATH="${TMP_LIB}"
+        MPI_LIBNAME="${TMP_LIBNAME}"
+      fi
+    fi
+  fi
+fi
+
+
+if test -z "${MPI_INCLUDE_PATH}" ; then
+
+# Check whether --with-mpi was given.
+if test "${with_mpi+set}" = set; then :
+  withval=$with_mpi;  if test "${withval}" != "no"; then
+                      MPI_ROOT=${withval}
+                      MPI_INCLUDE_PATH="${MPI_ROOT}/include"
+                      LDFLAGS="$LDFLAGS -L${withval}/lib"
+                      CPPFLAGS="$CPPFLAGS -I${withval}/include"
+                fi
+
+fi
+
+
+    if test -z "$MPI_ROOT" ; then
+    for d in /opt/SUNWhpc /opt/SUNWhpc/HPC \
+             /opt/SUNWhpc/HPC/sun /opt/SUNWhpc/HPC8.2.1c/sun \
+             /opt/SUNWhpc/HPC/gnu /opt/SUNWhpc/HPC8.2.1c/gnu \
+             /opt/lib /usr/lib /usr /usr/local/lib /usr/local \
+             /opt/lib64 /usr/lib64 /usr/local/lib64 \
+             /usr/lib/mpi/gcc/openmpi \
+             /usr/lib64/mpi/gcc/openmpi \
+             /usr/lib/mpi/gcc/ompi \
+             /usr/lib64/mpi/gcc/ompi \
+             /usr/local/mpi/openmpi ; do
+      if test -f $d/include/openmpi-i386/mpi.h && test -d $d/lib/openmpi/lib; then
+              echo "I am here $d and it is openmpi"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib/openmpi/lib; then
+              echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib64/openmpi/lib; then
+              echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/mpi.h && test -d $d/lib/openmpi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/mpi.h && test -d $d/lib64/openmpi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/openmpi/mpi.h && test -d $d/lib/openmpi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/openmpi/mpi.h && test -d $d/lib64/openmpi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/mpi.h && test -d $d/lib/ompi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/mpi.h && test -d $d/lib64/ompi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/ompi/mpi.h && test -d $d/lib/ompi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/include/ompi/mpi.h && test -d $d/lib64/ompi; then
+        echo "I am here $d and it is OpenMPI"
+        MPI_ROOT=$d
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/openmpi/include/mpi.h && test -d $d/openmpi/lib; then
+        echo "I am here $d/openmpi and it is OpenMPI"
+        MPI_ROOT=$d/openmpi
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/ompi/include/mpi.h && test -d $d/ompi/lib; then
+        echo "I am here $d/ompi and it is OpenMPI"
+        MPI_ROOT=$d/ompi
+        MPITYPE="OPENMPI"
+        break
+      elif test -f $d/lam/include/mpi.h && test -d $d/lam/lib; then
+        echo "I am here $d/lam and it is LAM"
+        MPI_ROOT=$d/lam
+        MPITYPE="LAM"
+        break
+      elif test -f $d/include/lam/mpi.h && test -d $d/lib/lam; then
+        echo "I am here $d and it is LAM"
+        MPI_ROOT=$d
+        MPITYPE="LAM"
+        break
+      elif test -f $d/include/lam/mpi.h && test -d $d/lib64/lam; then
+        echo "I am here $d and it is LAM"
+        MPI_ROOT=$d
+        MPITYPE="LAM"
+        break
+      elif test -f $d/mpich3/include/mpi.h; then
+        echo "I am here $d/mpich3 and it is MPICH3"
+        MPI_ROOT=$d/mpich3
+        MPITYPE="MPICH3"
+        break
+      elif test -f $d/mpich2/include/mpi.h; then
+        echo "I am here $d/mpich2 and it is MPICH2"
+        MPI_ROOT=$d/mpich2
+        MPITYPE="MPICH2"
+        break
+      elif test -f $d/mpich/include/mpi.h; then
+        echo "I am here $d/mpich and it is MPICH"
+        MPI_ROOT=$d/mpich
+        MPITYPE="MPICH"
+        break
+      elif test -f $d/mpi/include/mpi.h; then
+        echo "I am here $d/mpi"
+        MPI_ROOT=$d/mpi
+        break
+      elif test -f $d/include/mpi.h; then
+        echo "I am here $d"
+        MPI_ROOT=$d
+        break
+      fi
+    done
+  fi
+
+
+  if test -n "$MPI_ROOT"; then
+        if test $MPITYPE = "UNKNOWN" ; then
+      if test -d ${MPI_ROOT}/openmpi; then
+        MPITYPE="OPENMPI"
+      elif test -d ${MPI_ROOT}/ompi; then
+        MPITYPE="OPENMPI"
+      elif test -d ${MPI_ROOT}/lib/openmpi; then
+        MPITYPE="OPENMPI"
+      elif test -d ${MPI_ROOT}/lib64/openmpi; then
+        MPITYPE="OPENMPI"
+      elif test -d ${MPI_ROOT}/lib/ompi; then
+        MPITYPE="OPENMPI"
+      elif test -d ${MPI_ROOT}/lib64/ompi; then
+        MPITYPE="OPENMPI"
+      elif test -f ${MPI_ROOT}/lib/liblam.so; then
+        MPITYPE="LAM"
+      elif test -f ${MPI_ROOT}/lib64/liblam.so; then
+        MPITYPE="LAM"
+      elif test -d ${MPI_ROOT}/lib/lam; then
+        MPITYPE="LAM"
+      elif test -d ${MPI_ROOT}/lib64/lam; then
+        MPITYPE="LAM"
+      elif test -f ${MPI_ROOT}/lib/libmpich.a; then
+        MPITYPE="MPICH2"
+      elif test -f ${MPI_ROOT}/lib64/libmpich.a; then
+        MPITYPE="MPICH2"
+      elif test -f ${MPI_ROOT}/lib/libmpich.so; then
+        MPITYPE="MPICH2"
+      elif test -f ${MPI_ROOT}/lib64/libmpich.so; then
+        MPITYPE="MPICH2"
+      elif test -f ${MPI_ROOT}/lib/libmpi.so; then
+                MPITYPE="MPT"
+      fi
+    fi
+
+
+    echo "Trying to find mpi.h ..."
+    if test -f ${MPI_ROOT}/include/openmpi-i386/mpi.h; then
+            echo "Found in ${MPI_ROOT}/include/openmpi-i386"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi-i386"
+    elif test -f ${MPI_ROOT}/include/openmpi-x86_64/mpi.h; then
+            echo "Found in ${MPI_ROOT}/include/openmpi-x86_64"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi-x86_64"
+    elif test -f ${MPI_ROOT}/include/openmpi/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/openmpi"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi"
+    elif test -f ${MPI_ROOT}/include/ompi/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/ompi"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/ompi"
+    elif test -f ${MPI_ROOT}/include/lam/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/lam"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/lam"
+    elif test -f ${MPI_ROOT}/include/mpich2/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/mpich2"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich2"
+    elif test -f ${MPI_ROOT}/include/mpich3/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/mpich3"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich3"
+    elif test -f ${MPI_ROOT}/include/mpich/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include/mpich"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich"
+    elif test -f ${MPI_ROOT}/include/mpi.h; then
+      echo "Found in ${MPI_ROOT}/include"
+      MPI_INCLUDE_PATH="${MPI_ROOT}/include"
+    else
+      echo "Cannot find mpi.h header file"
+      echo "Please use --with-mpi=/path/to/mpi or specify the environment variable MPI_ROOT"
+      exit 1
+    fi
+  else
+    ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
 ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -2980,449 +3423,6 @@ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
-
-
-# Extract the first word of "sed", so it can be a program name with args.
-set dummy sed; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_SED+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$SED"; then
-  ac_cv_prog_SED="$SED" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_SED="sed"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_SED" && ac_cv_prog_SED=""F""
-fi
-fi
-SED=$ac_cv_prog_SED
-if test -n "$SED"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $SED" >&5
-$as_echo "$SED" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-# Extract the first word of "mpicc", so it can be a program name with args.
-set dummy mpicc; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_MPICC+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$MPICC"; then
-  ac_cv_prog_MPICC="$MPICC" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_MPICC="mpicc"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_MPICC" && ac_cv_prog_MPICC=""F""
-fi
-fi
-MPICC=$ac_cv_prog_MPICC
-if test -n "$MPICC"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $MPICC" >&5
-$as_echo "$MPICC" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-# Extract the first word of "ompi_info", so it can be a program name with args.
-set dummy ompi_info; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_prog_OMPI_INFO+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -n "$OMPI_INFO"; then
-  ac_cv_prog_OMPI_INFO="$OMPI_INFO" # Let the user override the test.
-else
-as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
-    ac_cv_prog_OMPI_INFO="ompi_info"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  test -z "$ac_cv_prog_OMPI_INFO" && ac_cv_prog_OMPI_INFO=""F""
-fi
-fi
-OMPI_INFO=$ac_cv_prog_OMPI_INFO
-if test -n "$OMPI_INFO"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $OMPI_INFO" >&5
-$as_echo "$OMPI_INFO" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-
-
-if test -z "${MPI_INCLUDE_PATH}" ; then
-  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "OPENMPI" ; then
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
-      echo "found sed, mpicc, and ompi_info ..."
-      TMP_INC="F"
-      TMP_LIB="F"
-
-      TMP_INC_DIRS=`mpicc --showme:incdirs`
-      echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
-
-      TMP_IFS="${IFS}"; IFS=" "
-      for dir in ${TMP_INC_DIRS}; do
-        echo "checking ${dir} ..."
-        if test -f "${dir}/mpi.h" ; then
-          echo "found ${dir}/mpi.h ..."
-          TMP_INC=${dir}
-          break
-        fi
-      done
-      IFS="${TMP_IFS}"
-
-      TMP_LIB_DIRS=`mpicc --showme:libdirs`
-      echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
-
-      TMP_IFS="${IFS}"; IFS=" "
-      for dir in ${TMP_LIB_DIRS}; do
-        echo "checking ${dir} ..."
-        if test -f "${dir}/libmpi.so" ; then
-          echo "found ${dir}/libmpi.so ..."
-          TMP_LIB=${dir}
-          TMP_LIBNAME="libmpi.so"
-          break
-        fi
-                if test -f "${dir}/libmpi.dylib" ; then
-          echo "found ${dir}/libmpi.dylib ..."
-          TMP_LIB=${dir}
-          TMP_LIBNAME="libmpi.dylib"
-          break
-        fi
-      done
-      IFS="${TMP_IFS}"
-
-      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-        echo "found mpi.h and libmpi.so ..."
-        echo ">> TMP_INC = ${TMP_INC}"
-        echo ">> TMP_LIB = ${TMP_LIB}"
-        MPITYPE="OPENMPI"
-        MPI_INCLUDE_PATH="${TMP_INC}"
-        MPI_LIBPATH="${TMP_LIB}"
-        MPI_LIBNAME="${TMP_LIBNAME}"
-      fi
-    fi
-  fi
-fi
-
-
-if test -z "${MPI_INCLUDE_PATH}" ; then
-### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
-  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3" ; then
-    if test "$SED" != "F" -a "$MPICC" != "F" ; then
-      echo "found sed and mpicc ..."
-      TMP_INC="F"
-      TMP_LIB="F"
-
-      TMP_CMD=`mpicc -show`
-      echo ">> TMP_CMD = ${TMP_CMD}"
-
-            TMP_IFS="${IFS}"; IFS=" "
-      for dir in ${TMP_CMD}; do
-        dir_inc=`echo ${dir} | sed -e "s/^-I\(.*\)$/\1/"`
-
-                if test "X${dir_inc}" = "X" ; then
-          dir_inc=`echo ${dir} | sed -e "s/-I\(.*\)/\1/"`
-        fi
-
-        echo "checking ${dir_inc} ..."
-        if test -f "${dir_inc}/mpi.h" ; then
-          echo "found ${dir_inc}/mpi.h ..."
-          TMP_INC=${dir_inc}
-          break
-        fi
-      done
-      IFS="${TMP_IFS}"
-
-            TMP_IFS="${IFS}"; IFS=" "
-      for dir in ${TMP_CMD}; do
-        dir_lib=`echo ${dir} | sed -e "s/^-L\(.*\)$/\1/"`
-
-                if test "X${dir_lib}" = "X" ; then
-          dir_lib=`echo ${dir} | sed -e "s/-L\(.*\)/\1/"`
-        fi
-
-        echo "checking ${dir_lib} ..."
-        if test -f "${dir_lib}/libmpich.so" ; then
-          echo "found ${dir_lib}/libmpich.so ..."
-          TMP_LIB=${dir_lib}
-          TMP_LIBNAME="libmpich.so"
-          break
-        fi
-                if test -f "${dir_lib}/libmpich.dylib" ; then
-          echo "found ${dir_lib}/libmpich.dylib ..."
-          TMP_LIB=${dir_lib}
-          TMP_LIBNAME="libmpich.dylib"
-          break
-        fi
-      done
-      IFS="${TMP_IFS}"
-
-      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-        echo "found mpi.h and libmpich.so ..."
-        echo ">> TMP_INC = ${TMP_INC}"
-        echo ">> TMP_LIB = ${TMP_LIB}"
-        MPITYPE="${MPITYPE}"
-        MPI_INCLUDE_PATH="${TMP_INC}"
-        MPI_LIBPATH="${TMP_LIB}"
-        MPI_LIBNAME="${TMP_LIBNAME}"
-      fi
-    fi
-  fi
-fi
-
-
-if test -z "${MPI_INCLUDE_PATH}" ; then
-
-# Check whether --with-mpi was given.
-if test "${with_mpi+set}" = set; then :
-  withval=$with_mpi;  if test "${withval}" != "no"; then
-                      MPI_ROOT=${withval}
-                      MPI_INCLUDE_PATH="${MPI_ROOT}/include"
-                      LDFLAGS="$LDFLAGS -L${withval}/lib"
-                      CPPFLAGS="$CPPFLAGS -I${withval}/include"
-                fi
-
-fi
-
-
-    if test -z "$MPI_ROOT" ; then
-    for d in /opt/SUNWhpc /opt/SUNWhpc/HPC \
-             /opt/SUNWhpc/HPC/sun /opt/SUNWhpc/HPC8.2.1c/sun \
-             /opt/SUNWhpc/HPC/gnu /opt/SUNWhpc/HPC8.2.1c/gnu \
-             /opt/lib /usr/lib /usr /usr/local/lib /usr/local \
-             /opt/lib64 /usr/lib64 /usr/local/lib64 \
-             /usr/lib/mpi/gcc/openmpi \
-             /usr/lib64/mpi/gcc/openmpi \
-             /usr/lib/mpi/gcc/ompi \
-             /usr/lib64/mpi/gcc/ompi \
-             /usr/local/mpi/openmpi ; do
-      if test -f $d/include/openmpi-i386/mpi.h && test -d $d/lib/openmpi/lib; then
-              echo "I am here $d and it is openmpi"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib/openmpi/lib; then
-              echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib64/openmpi/lib; then
-              echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/mpi.h && test -d $d/lib/openmpi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/mpi.h && test -d $d/lib64/openmpi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/openmpi/mpi.h && test -d $d/lib/openmpi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/openmpi/mpi.h && test -d $d/lib64/openmpi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/mpi.h && test -d $d/lib/ompi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/mpi.h && test -d $d/lib64/ompi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/ompi/mpi.h && test -d $d/lib/ompi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/include/ompi/mpi.h && test -d $d/lib64/ompi; then
-        echo "I am here $d and it is OpenMPI"
-        MPI_ROOT=$d
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/openmpi/include/mpi.h && test -d $d/openmpi/lib; then
-        echo "I am here $d/openmpi and it is OpenMPI"
-        MPI_ROOT=$d/openmpi
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/ompi/include/mpi.h && test -d $d/ompi/lib; then
-        echo "I am here $d/ompi and it is OpenMPI"
-        MPI_ROOT=$d/ompi
-        MPITYPE="OPENMPI"
-        break
-      elif test -f $d/lam/include/mpi.h && test -d $d/lam/lib; then
-        echo "I am here $d/lam and it is LAM"
-        MPI_ROOT=$d/lam
-        MPITYPE="LAM"
-        break
-      elif test -f $d/include/lam/mpi.h && test -d $d/lib/lam; then
-        echo "I am here $d and it is LAM"
-        MPI_ROOT=$d
-        MPITYPE="LAM"
-        break
-      elif test -f $d/include/lam/mpi.h && test -d $d/lib64/lam; then
-        echo "I am here $d and it is LAM"
-        MPI_ROOT=$d
-        MPITYPE="LAM"
-        break
-      elif test -f $d/mpich3/include/mpi.h; then
-        echo "I am here $d/mpich3 and it is MPICH3"
-        MPI_ROOT=$d/mpich3
-        MPITYPE="MPICH3"
-        break
-      elif test -f $d/mpich2/include/mpi.h; then
-        echo "I am here $d/mpich2 and it is MPICH2"
-        MPI_ROOT=$d/mpich2
-        MPITYPE="MPICH2"
-        break
-      elif test -f $d/mpich/include/mpi.h; then
-        echo "I am here $d/mpich and it is MPICH"
-        MPI_ROOT=$d/mpich
-        MPITYPE="MPICH"
-        break
-      elif test -f $d/mpi/include/mpi.h; then
-        echo "I am here $d/mpi"
-        MPI_ROOT=$d/mpi
-        break
-      elif test -f $d/include/mpi.h; then
-        echo "I am here $d"
-        MPI_ROOT=$d
-        break
-      fi
-    done
-  fi
-
-
-  if test -n "$MPI_ROOT"; then
-        if test $MPITYPE = "UNKNOWN" ; then
-      if test -d ${MPI_ROOT}/openmpi; then
-        MPITYPE="OPENMPI"
-      elif test -d ${MPI_ROOT}/ompi; then
-        MPITYPE="OPENMPI"
-      elif test -d ${MPI_ROOT}/lib/openmpi; then
-        MPITYPE="OPENMPI"
-      elif test -d ${MPI_ROOT}/lib64/openmpi; then
-        MPITYPE="OPENMPI"
-      elif test -d ${MPI_ROOT}/lib/ompi; then
-        MPITYPE="OPENMPI"
-      elif test -d ${MPI_ROOT}/lib64/ompi; then
-        MPITYPE="OPENMPI"
-      elif test -f ${MPI_ROOT}/lib/liblam.so; then
-        MPITYPE="LAM"
-      elif test -f ${MPI_ROOT}/lib64/liblam.so; then
-        MPITYPE="LAM"
-      elif test -d ${MPI_ROOT}/lib/lam; then
-        MPITYPE="LAM"
-      elif test -d ${MPI_ROOT}/lib64/lam; then
-        MPITYPE="LAM"
-      elif test -f ${MPI_ROOT}/lib/libmpich.a; then
-        MPITYPE="MPICH2"
-      elif test -f ${MPI_ROOT}/lib64/libmpich.a; then
-        MPITYPE="MPICH2"
-      elif test -f ${MPI_ROOT}/lib/libmpich.so; then
-        MPITYPE="MPICH2"
-      elif test -f ${MPI_ROOT}/lib64/libmpich.so; then
-        MPITYPE="MPICH2"
-      elif test -f ${MPI_ROOT}/lib/libmpi.so; then
-                MPITYPE="MPT"
-      fi
-    fi
-
-
-    echo "Trying to find mpi.h ..."
-    if test -f ${MPI_ROOT}/include/openmpi-i386/mpi.h; then
-            echo "Found in ${MPI_ROOT}/include/openmpi-i386"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi-i386"
-    elif test -f ${MPI_ROOT}/include/openmpi-x86_64/mpi.h; then
-            echo "Found in ${MPI_ROOT}/include/openmpi-x86_64"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi-x86_64"
-    elif test -f ${MPI_ROOT}/include/openmpi/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include/openmpi"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi"
-    elif test -f ${MPI_ROOT}/include/ompi/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include/ompi"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/ompi"
-    elif test -f ${MPI_ROOT}/include/lam/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include/lam"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/lam"
-    elif test -f ${MPI_ROOT}/include/mpich2/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include/mpich2"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich2"
-    elif test -f ${MPI_ROOT}/include/mpich3/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include/mpich3"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich3"
-    elif test -f ${MPI_ROOT}/include/mpich/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include/mpich"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include/mpich"
-    elif test -f ${MPI_ROOT}/include/mpi.h; then
-      echo "Found in ${MPI_ROOT}/include"
-      MPI_INCLUDE_PATH="${MPI_ROOT}/include"
-    else
-      echo "Cannot find mpi.h header file"
-      echo "Please use --with-mpi=/path/to/mpi or specify the environment variable MPI_ROOT"
-      exit 1
-    fi
-  else
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
