@@ -33,10 +33,11 @@ ifeq "${MPI_HOME}" ""
   ifeq "${MPI_ROOT}" ""
     MPI_ROOT = C:/Program Files/Microsoft MPI/
   endif
+  MPI_HOME = ${MPI_ROOT}
 else
+  ### Winbuilder used MPI_HOME as default.
   MPI_ROOT = ${MPI_HOME}
 endif
-MPI_HOME = ${MPI_ROOT}
 
 ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
 # mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
