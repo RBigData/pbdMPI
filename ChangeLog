@@ -1,3 +1,6 @@
+2014-06-21: Ver. 0.2-5
+  * Drop jss.cls and jss.bst.
+
 2014-05-27: Ver. 0.2-4
   * Change to MPI_Comm_set_errhandler().
   * Fix Makevars.win logic.
