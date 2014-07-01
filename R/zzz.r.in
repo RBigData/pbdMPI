@@ -9,38 +9,59 @@
 # } # End of .Last.lib().
 
 .onLoad <- function(libname, pkgname){
-  ### Shared library needs to be loaded before "pbdMPI.so"
-  mpi.type <- "@MPITYPE@"
-  mpi.libpath <- "@MPI_LIBPATH@"
-  mpi.libname <- "@MPI_LIBNAME@"
-  libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
+  ### Enforce to search LD_LIBRARY_PATH if "yes". Only for advanced users.
+  enable.ld.library.path <- "@ENABLE_LD_LIBRARY_PATH@"
 
-  ### Nautilus needs MPT.
-  i.lib <- NULL
-  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
-      mpi.type == "MPT"){
-    if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
-      mpi.libname <- "libmpi"
-    } else{
-      mpi.libname <- "libmpich"
+  if(enable.ld.library.path != "yes"){
+    ### Shared library needs to be loaded before "pbdMPI.so"
+    mpi.type <- "@MPITYPE@"
+    mpi.libpath <- "@MPI_LIBPATH@"
+    mpi.libname <- "@MPI_LIBNAME@"
+    libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
+
+    ### Nautilus needs MPT.
+    i.lib <- NULL
+    if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
+        mpi.type == "MPT"){
+      if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
+        mpi.libname <- "libmpi"
+      } else{
+        mpi.libname <- "libmpich"
+      }
+
+      libs <- c(libs,
+                list.files(path = mpi.libpath,
+                           pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+                           full.names = TRUE),
+                list.files(path = mpi.libpath,
+                           pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
+                           full.names = TRUE))
+      for(i in 1:length(libs)){
+        ret <- try(dyn.load(libs[i]), silent = TRUE)
+        if(class(ret) != "try-error"){
+          i.lib <- libs[i]
+          ### CRAN doesn't allow this anymore. Use "pkg_initialize" instead.
+          # assign(".__MPI_LIB__", i.libs, envir = .GlobalEnv)
+          break
+        }
+      }
     }
+  } else{
+    mpilibname <- "libmpi.so"
 
-    libs <- c(libs,
-              list.files(path = mpi.libpath,
-                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-                         full.names = TRUE))
-              ### For Mac OS X, but let system takes care of loading problem.
-              # list.files(path = mpi.libpath,
-              #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
-              #            full.names = TRUE))
-    for(i in 1:length(libs)){
-      ret <- try(dyn.load(libs[i]), silent = TRUE)
-      if(class(ret) != "try-error"){
-        i.lib <- libs[i]
-        ### CRAN doesn't allow this anymore. Use "pkg_initialize" instead.
-        # assign(".__MPI_LIB__", i.libs, envir = .GlobalEnv)
+    paths <- unlist(strsplit(system("echo $LD_LIBRARY_PATH", intern = TRUE),
+                    split=":"))
+    success <- FALSE
+    for(path in paths){
+      test <- try(dyn.load(paste(path, mpilibname, sep = "")), silent = TRUE)
+      if(class(test) != "try-error"){
+        success <- TRUE
         break
       }
+    }
+    
+    if(!success){
+      stop(paste("Could not find", mpi.libname, "in LD_LIBRARY_PATH"))
     }
   }
 

@@ -621,6 +621,7 @@ ac_includes_default="\
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+ENABLE_LD_LIBRARY_PATH
 PROF_LDFLAGS
 PKG_LIBS
 PKG_CPPFLAGS
@@ -697,6 +698,7 @@ with_mpi_include
 with_mpi_libpath
 with_mpi_type
 enable_opa
+enable_ld_library_path
 with_mpi
 enable_pbdPROF
 '
@@ -1317,6 +1319,8 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-opa            Enable opa for MPICH*, default yes.
+  --enable-ld-library-path
+                          Enable LD_LIBRARY_PATH, default no.
   --enable-pbdPROF        Enable pbdPROF, default no.
 
 Optional Packages:
@@ -2140,6 +2144,12 @@ else
   ENABLE_OPA="yes"
 fi
 
+# Check whether --enable-ld-library-path was given.
+if test "${enable_ld_library_path+set}" = set; then :
+  enableval=$enable_ld_library_path; ENABLE_LD_LIBRARY_PATH="yes"
+else
+  ENABLE_LD_LIBRARY_PATH="no"
+fi
 
 
 if test -n "${mpi_include_path}" ; then
@@ -4312,9 +4322,11 @@ echo ">> MPI_LDFLAGS = ${MPI_LDFLAGS}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${PKG_LIBS}"
 echo ">> PROF_LDFLAGS = ${PROF_LDFLAGS}"
+echo ">> ENABLE_LD_LIBRARY_PATH = ${ENABLE_LD_LIBRARY_PATH}"
 echo " "
 echo "*************************************************************************"
 echo " "
+
 
 
 
@@ -5490,6 +5502,7 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
+
 
 
 
