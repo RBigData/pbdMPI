@@ -6,13 +6,14 @@
 }
 \usage{
   get.jid(n, method = .SPMD.CT$divide.method[1], all = FALSE,
-          comm = .SPMD.CT$comm)
+          comm = .SPMD.CT$comm, reduced = FALSE)
 }
 \arguments{
   \item{n}{total number of jobs.}
   \item{method}{a way to divide jobs.}
   \item{all}{indicate if return all id for each processor.}
   \item{comm}{a communicator number.}
+  \item{reduced}{indicate if return should be a reduced representation.}
 }
 \details{
   \code{n} is total number of jobs needed to be divided into all processors

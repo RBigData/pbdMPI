@@ -41,8 +41,11 @@ AC_ARG_WITH([mpi-type],
 dnl All AC_ARG_ENABLE
 AC_ARG_ENABLE(opa,
   AC_HELP_STRING([--enable-opa], [Enable opa for MPICH*, default yes.]),
-  [ENABLE_OPA="no"], [ENABLE_OPA="yes"])
-
+                 [ENABLE_OPA="no"], [ENABLE_OPA="yes"])
+AC_ARG_ENABLE([ld-library-path],
+  AC_HELP_STRING([--enable-ld-library-path],
+                 [Enable LD_LIBRARY_PATH, default no.]),
+                 [ENABLE_LD_LIBRARY_PATH="yes"], [ENABLE_LD_LIBRARY_PATH="no"])
 
 dnl One way is to specify both include and lib paths
 if test -n "${mpi_include_path}" ; then
@@ -694,6 +697,7 @@ echo ">> MPI_LDFLAGS = ${MPI_LDFLAGS}"
 echo ">> PKG_CPPFLAGS = ${PKG_CPPFLAGS}"
 echo ">> PKG_LIBS = ${PKG_LIBS}"
 echo ">> PROF_LDFLAGS = ${PROF_LDFLAGS}"
+echo ">> ENABLE_LD_LIBRARY_PATH = ${ENABLE_LD_LIBRARY_PATH}"
 echo " "
 echo "*************************************************************************"
 echo " "
@@ -717,10 +721,12 @@ AC_SUBST(MPI_LDFLAGS)
 AC_SUBST(PKG_CPPFLAGS)
 AC_SUBST(PKG_LIBS)
 AC_SUBST(PROF_LDFLAGS)
+AC_SUBST(ENABLE_LD_LIBRARY_PATH)
 AC_OUTPUT(src/Makevars)
 
 AC_SUBST(MPI_LIBPATH)
 AC_SUBST(MPI_LIBNAME)
 AC_SUBST(MPITYPE)
+AC_SUBST(ENABLE_LD_LIBRARY_PATH)
 AC_OUTPUT(R/zzz.r)
 
