@@ -14,3 +14,6 @@ task_pull	pbdMPI	An example of task pull parallelism.
 simple_io	pbdMPI	An example of simple input and output.
 simple_balance	pbdMPI	An example of simple balance.
 simple_pairs	pbdMPI	An example of distance and pairling.
+
+new_allgather	pbdMPI	A new allgather test.
+new_allreduce	pbdMPI	A new allreduce test.

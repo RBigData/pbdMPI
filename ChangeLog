@@ -1,3 +1,7 @@
+2014-07-28: Ver. 0.2-5
+  * Add comm.split.by.node().
+  * Add comm.within and comm.between.
+
 2014-06-30: Ver. 0.2-5
   * Add divide.job.vector() and divide.job.list().
   * Add LD_LIB_PATH to configure.ac and zzz.r.in.

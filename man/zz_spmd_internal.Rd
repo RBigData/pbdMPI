@@ -109,6 +109,7 @@
 \alias{spmd.anytag}
 \alias{spmd.get.sourcetag}
 \alias{spmd.get.count}
+\alias{spmd.is.comm.null}
 \alias{spmd.wait}
 \alias{spmd.waitany}
 \alias{spmd.waitsome}

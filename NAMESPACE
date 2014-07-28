@@ -54,6 +54,7 @@ export(
   "anytag",
   "get.sourcetag",
 #  "get.count",
+  "is.comm.null",
 
   ### "R/spmd_wait.r"
   "wait",

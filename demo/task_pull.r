@@ -1,7 +1,7 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 ### Initial.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Examples.
 FUN <- function(jid){

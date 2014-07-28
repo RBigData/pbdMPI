@@ -60,7 +60,7 @@
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 ### Initial.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 
 ### Example.
