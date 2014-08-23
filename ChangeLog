@@ -1,3 +1,6 @@
+2014-08-23: Ver. 0.2-5
+  * Add vignites FAQ solution for MacOS 10.9.4, OpenMPI 1.8.1 and R 3.1.1.
+
 2014-07-28: Ver. 0.2-5
   * Add comm.split.by.node().
   * Add comm.within and comm.between.
