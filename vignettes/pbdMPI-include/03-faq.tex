@@ -473,8 +473,13 @@ Symbol not found: _ompi_free_list_item_t_class
  in /.../open-mpi/1.8.1/lib/openmpi/mca_allocator_basic.so (ignored)
 \end{Error}
       {\bf\color{blue} A:}
+      The potential problem here is that \code{mpicc --showme} provides
+      extra information, such as multiple include and library paths, and
+      \code{configure} is not able to parse correctly. Therefore, it is
+      easier to manually specify correct paths via \code{--configure-args}
+      to \proglang{R}.
       (Thanks for Eilidh Troup in University of Edinburgh, Scotland
-       providing errors and solutions)
+       providing errors and solutions.)
 \begin{Code}
 $  mpicc --showme:compile
 -I/usr/local/Cellar/open-mpi/1.8.1/include
@@ -486,6 +491,10 @@ $ R CMD INSTALL pbdMPI_0.2-4.tar.gz \
     --with-mpi-include=/usr/local/Cellar/open-mpi/1.8.1/include \
     --with-mpi-libpath=/usr/local/Cellar/open-mpi/1.8.1/lib"
 \end{Code}
+      Note that \code{ACX_MPI} is also a good solution to fix
+      \code{configure.ac}, however, it may screw up other platforms,
+      such as Solaris, and upset CRAN. Anyone is welcome to submit a
+      thoughful solution.
 
 \end{enumerate}
 
