@@ -31,6 +31,7 @@ export(
   "barrier",
   "init",
   "finalize",
+  "is.finalized",
 #  "is.master",
 #  "get.processor.name",
   "port.open",

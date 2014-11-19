@@ -30,6 +30,7 @@
 \alias{spmd.comm.free}
 \alias{spmd.init}
 \alias{spmd.finalize}
+\alias{spmd.is.finalized}
 \alias{spmd.is.master}
 \alias{spmd.get.processor.name}
 \alias{spmd.comm.abort}

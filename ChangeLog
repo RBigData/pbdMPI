@@ -1,3 +1,6 @@
+2014-10-19: Ver. 0.2-6
+  * Add is.finalized() for the CS problem.
+
 2014-10-02: Ver. 0.2-5
   * Fix no visible binding for global variable problem.
 

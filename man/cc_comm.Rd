@@ -7,6 +7,7 @@
 \alias{comm.free}
 \alias{init}
 \alias{finalize}
+\alias{is.finalized}
 \alias{comm.abort}
 \alias{comm.split}
 \alias{comm.disconnect}
@@ -35,6 +36,7 @@
   comm.free(comm = .SPMD.CT$comm)
   init(set.seed = TRUE)
   finalize(mpi.finalize = .SPMD.CT$mpi.finalize)
+  is.finalize()
 
   comm.abort(errorcode = 1, comm = .SPMD.CT$comm)
   comm.split(comm = .SPMD.CT$comm, color = 0L, key = 0L,
@@ -111,6 +113,7 @@
 
   \code{finalize()} frees memory and finishes a MPI world if
   \code{mpi.finalize = TRUE}.
+  \code{is.finalize()} checks if MPI is already finalized.
 
   \code{comm.abort()} aborts MPI.
 
