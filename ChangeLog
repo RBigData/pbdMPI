@@ -1,3 +1,23 @@
+2014-10-19: Ver. 0.2-6
+  * Add is.finalized() for the CS problem.
+
+2014-10-02: Ver. 0.2-5
+  * Fix no visible binding for global variable problem.
+
+2014-09-xx: Ver. 0.2-5
+  * Implement two stages allreduce and allgather.
+
+2014-08-23: Ver. 0.2-5
+  * Add vignettes FAQ solution for MacOS 10.9.4, OpenMPI 1.8.1 and R 3.1.1.
+
+2014-07-28: Ver. 0.2-5
+  * Add comm.split.by.node().
+  * Add comm.within and comm.between.
+
+2014-06-30: Ver. 0.2-5
+  * Add divide.job.vector() and divide.job.list().
+  * Add LD_LIB_PATH to configure.ac and zzz.r.in.
+
 2014-06-21: Ver. 0.2-5
   * Drop jss.cls and jss.bst.
 
@@ -17,7 +37,7 @@
   * The isend() non-blocking problems solved via buffering.
 
 2014-04-01: Ver. 0.2-3
-  * Fix a bcast() bug of unblance call stack by switching to spmd.bcast.default
+  * Fix a bcast() bug of unbalance call stack by switching to spmd.bcast.default
     for vectors of integer and double.
 
 2014-03-22: Ver. 0.2-3
@@ -115,7 +135,7 @@
 2013-03-24: Ver. 0.1-6
   * License changed.
   * Add "block0" to get.jid and fix its bug.
-  * Add FPMPI for profilling.
+  * Add FPMPI for profiling.
 
 2013-03-11: Ver. 0.1-5
   * Add and fix comm.stop and comm.warning.
@@ -152,7 +172,7 @@
 2012-08-11:
   * Convert configure.ac back to Rmpi's version.
   * Add "mpicc --showme" for OpenMPI and "mpicc -show" for MPICH2 in
-    configure.ac to automaticly detect header files and shared library.
+    configure.ac to automatically detect header files and shared library.
   * Rewrite HPSC website.
 
 2012-07-28:

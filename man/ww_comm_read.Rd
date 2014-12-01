@@ -100,7 +100,7 @@
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
 ### Initial.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Check.
 if(comm.size() != 4){

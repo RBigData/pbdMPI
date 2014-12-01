@@ -100,6 +100,13 @@ spmd.finalize <- function(mpi.finalize = .SPMD.CT$mpi.finalize){
 
 finalize <- spmd.finalize
 
+spmd.is.finalized <- function(){
+  ret <- .Call("spmd_is_finalized", PACKAGE = "pbdMPI")
+  invisible(as.logical(ret))
+} # End of spmd.finalized().
+
+is.finalized <- spmd.is.finalized
+
 spmd.is.master <- function(){
   tmp <- is.loaded("spmd_comm_get_parent", PACKAGE = "pbdMPI")
   if(tmp){
