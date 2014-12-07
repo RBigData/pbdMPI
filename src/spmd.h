@@ -32,7 +32,7 @@
 
 /* In file "spmd.c". */
 SEXP spmd_initialize();
-SEXP spmd_finalize();
+SEXP spmd_finalize(SEXP R_mpi_finalize);
 SEXP spmd_get_processor_name();
 
 /* In file "spmd_communicator.c". */
