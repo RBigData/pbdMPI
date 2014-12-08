@@ -30,6 +30,7 @@
 \alias{spmd.comm.free}
 \alias{spmd.init}
 \alias{spmd.finalize}
+\alias{spmd.is.finalized}
 \alias{spmd.is.master}
 \alias{spmd.get.processor.name}
 \alias{spmd.comm.abort}
@@ -109,6 +110,7 @@
 \alias{spmd.anytag}
 \alias{spmd.get.sourcetag}
 \alias{spmd.get.count}
+\alias{spmd.is.comm.null}
 \alias{spmd.wait}
 \alias{spmd.waitany}
 \alias{spmd.waitsome}

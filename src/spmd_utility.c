@@ -52,3 +52,20 @@ SEXP spmd_get_count(SEXP R_data_type, SEXP R_status){
 	return(R_count);
 } /* End of spmd_get_count(). */
 
+
+/* ----- check MPI_COMM_NULL ----- */
+SEXP spmd_is_comm_null(SEXP R_comm){
+	int C_comm = INTEGER(R_comm)[0];
+	SEXP R_check;
+
+	PROTECT(R_check = allocVector(LGLSXP, 1));
+
+	if(comm[C_comm] == MPI_COMM_NULL){
+		LOGICAL(R_check)[0] = TRUE;
+	} else{
+		LOGICAL(R_check)[0] = FALSE;
+	}
+
+	UNPROTECT(1);
+	return(R_check);
+} /* End of spmd_is_mpi_comm_null(). */

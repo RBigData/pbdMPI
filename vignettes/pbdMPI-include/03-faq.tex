@@ -68,9 +68,15 @@
       Quick examples can be found in \code{pbdMPI/inst/examples/test_s4/}.
 
 \item {\bf\color{blue} Q:}
-      Does \pkg{pbdMPI} support long vector or 64-bit integer?
+      Does \pkg{pbdMPI} support long vector or 64-bit integer? \\
       {\bf\color{blue} A:}
       See Section~\ref{sec:long_vector}.
+
+\item {\bf\color{blue} Q:}
+      Does \pkg{pbdMPI} support Amazon Web Services (AWS EC2)? \\
+      {\bf\color{blue} A:}
+      See \url{http://thirteen-01.stat.iastate.edu/snoweye/pbdr/?item=aws_ec2}
+      for setting a cluster on AWS EC2.
 
 \end{enumerate}
 
@@ -449,6 +455,46 @@ ERROR: compilation failed for package 'pbdMPI'
       systems may not have it and can be disable with a configuration flag
       when install \pkg{pbdMPI}, such as
       \code{R CMD INSTALL pbdMPI*.tar.gz --configure-args="--disable-opa"}.
+
+
+\item {\bf\color{blue} Q:} 
+      (MacOS 10.9.4 + OpenMPI 1.1.8) If compilation successful, but test load
+      fails with MCA errors such as ``Symol not found''
+\begin{Error}
+** installing vignettes
+   `pbdMPI-guide.Rnw'
+** testing if installed package can be loaded
+[??.??.??.??.??:??] mca: base: component_find: unable to open
+/.../open-mpi/1.8.1/lib/openmpi/mca_allocator_basic:
+dlopen(/.../open-mpi/1.8.1/lib/openmpi/mca_allocator_basic.so, 9):
+Symbol not found: _ompi_free_list_item_t_class
+  Referenced from: /.../open-mpi/1.8.1/lib/openmpi/mca_allocator_basic.so
+  Expected in: flat namespace
+ in /.../open-mpi/1.8.1/lib/openmpi/mca_allocator_basic.so (ignored)
+\end{Error}
+      {\bf\color{blue} A:}
+      The potential problem here is that \code{mpicc --showme} provides
+      extra information, such as multiple include and library paths, and
+      \code{configure} is not able to parse correctly. Therefore, it is
+      easier to manually specify correct paths via \code{--configure-args}
+      to \proglang{R}.
+      (Thanks for Eilidh Troup in University of Edinburgh, Scotland
+       providing errors and solutions.)
+\begin{Code}
+$  mpicc --showme:compile
+-I/usr/local/Cellar/open-mpi/1.8.1/include
+$ mpicc --showme:link
+-L/usr/local/opt/libevent/lib -L/usr/local/Cellar/open-mpi/1.8.1/lib -lmpi
+
+$ R CMD INSTALL pbdMPI_0.2-4.tar.gz \
+  --configure-args="--with-mpi-type=OPENMPI \
+    --with-mpi-include=/usr/local/Cellar/open-mpi/1.8.1/include \
+    --with-mpi-libpath=/usr/local/Cellar/open-mpi/1.8.1/lib"
+\end{Code}
+      Note that \code{ACX_MPI} is also a good solution to fix
+      \code{configure.ac}, however, it may screw up other platforms,
+      such as Solaris, and upset CRAN. Anyone is welcome to submit a
+      thoughful solution.
 
 \end{enumerate}
 

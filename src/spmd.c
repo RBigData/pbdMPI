@@ -88,6 +88,14 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	return(AsInt(1));
 } /* End of spmd_finalize(). */
 
+SEXP spmd_is_finalized(){
+	int flag;
+
+	MPI_Finalized(&flag);
+
+	return(AsInt(flag));
+} /* End of spmd_is_finalized(). */
+
 SEXP spmd_get_processor_name(){
 	int result_length;
 	char *processor_name;

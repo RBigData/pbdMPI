@@ -32,7 +32,8 @@
 
 /* In file "spmd.c". */
 SEXP spmd_initialize();
-SEXP spmd_finalize();
+SEXP spmd_finalize(SEXP R_mpi_finalize);
+SEXP spmd_is_finalized();
 SEXP spmd_get_processor_name();
 
 /* In file "spmd_communicator.c". */
@@ -41,6 +42,7 @@ SEXP spmd_comm_is_null(SEXP R_comm);
 SEXP spmd_comm_size(SEXP R_comm);
 SEXP spmd_comm_rank(SEXP R_comm);
 SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm);
+SEXP spmd_comm_free(SEXP R_comm);
 SEXP spmd_comm_set_errhandler(SEXP R_comm);
 SEXP spmd_comm_get_parent(SEXP R_comm);
 SEXP spmd_is_master();
@@ -175,6 +177,25 @@ SEXP spmd_bcast_integer(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 SEXP spmd_bcast_double(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 SEXP spmd_bcast_raw(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 
+/* In file "spmd_scatter.c". */
+SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_rank_source, SEXP R_comm);
+SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_rank_source, SEXP R_comm);
+SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_rank_source, SEXP R_comm);
+
+/* In file "spmd_scatterv.c". */
+SEXP spmd_scatterv_integer(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_send_counts, SEXP R_displs, SEXP R_rank_source,
+		SEXP R_comm);
+SEXP spmd_scatterv_double(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_send_counts, SEXP R_displs, SEXP R_rank_source,
+		SEXP R_comm);
+SEXP spmd_scatterv_raw(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_send_counts, SEXP R_displs, SEXP R_rank_source,
+		SEXP R_comm);
+
 /* In file "spmd_utility.c". */
 SEXP spmd_probe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
 SEXP spmd_iprobe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
@@ -187,6 +208,12 @@ SEXP spmd_get_count(SEXP R_data_type, SEXP R_status);
 SEXP spmd_info_create(SEXP R_info);
 SEXP spmd_info_set(SEXP R_info, SEXP R_key, SEXP R_value);
 SEXP spmd_info_free(SEXP R_info);
+
+/* In file "spmd_wait.c". */
+SEXP spmd_wait(SEXP R_request, SEXP R_status);
+SEXP spmd_waitany(SEXP R_count, SEXP R_status);
+SEXP spmd_waitsome(SEXP R_count);
+SEXP spmd_waitall(SEXP R_count);
 
 /* In file "spmd_tool.c". */
 SEXP AsInt(int x);

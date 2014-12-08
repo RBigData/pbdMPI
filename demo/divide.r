@@ -1,7 +1,7 @@
 ### SHELL> mpiexec -np 4 Rscript divide.r
 
 ### Initial.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()

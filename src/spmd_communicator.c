@@ -72,10 +72,16 @@ SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode){
 } /* End of spmd_comm_abort(). */
 
 SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key, SEXP R_newcomm){
+	int color = INTEGER(R_color)[0];
+
+	if(color == NA_INTEGER || color < 0){
+		color = MPI_UNDEFINED;
+	}
+
 	return(AsInt(
 		spmd_errhandler(MPI_Comm_split(
 			comm[INTEGER(R_comm)[0]],
-			INTEGER(R_color)[0], INTEGER(R_key)[0],
+			color, INTEGER(R_key)[0],
 			&comm[INTEGER(R_newcomm)[0]]))));
 } /* End of spmd_comm_split(). */
 

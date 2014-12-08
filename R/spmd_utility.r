@@ -43,3 +43,9 @@ spmd.get.count <- function(data.type, status = .SPMD.CT$status){
 
 get.count <- spmd.get.count
 
+spmd.is.comm.null <- function(comm = .SPMD.CT$comm){
+  .Call("spmd_is_comm_null", as.integer(comm),
+        PACKAGE = "pbdMPI")
+} # End of spmd.is.comm.null().
+
+is.comm.null <- spmd.is.comm.null
