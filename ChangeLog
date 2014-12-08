@@ -1,3 +1,6 @@
+2014-12-07: Ver. 0.2-6
+  * Merge R_CallMethodDef for speeding up dynload problems.
+
 2014-10-19: Ver. 0.2-6
   * Add is.finalized() for the CS problem.
 
