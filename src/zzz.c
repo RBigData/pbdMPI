@@ -102,8 +102,8 @@ static const R_CallMethodDef callMethods[] = {
 	{"spmd_allreduce_double", (DL_FUNC) &spmd_allreduce_double, 4},
 
 	/* In file "spmd_reduce.c". */
-	{"spmd_reduce_integer", (DL_FUNC) &spmd_reduce_integer, 4},
-	{"spmd_reduce_double", (DL_FUNC) &spmd_reduce_double, 4},
+	{"spmd_reduce_integer", (DL_FUNC) &spmd_reduce_integer, 5},
+	{"spmd_reduce_double", (DL_FUNC) &spmd_reduce_double, 5},
 
 	/* In file "spmd_bcast.c". */
 	{"spmd_bcast_integer", (DL_FUNC) &spmd_bcast_integer, 3},
