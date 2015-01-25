@@ -78,6 +78,23 @@
       See \url{http://thirteen-01.stat.iastate.edu/snoweye/pbdr/?item=aws_ec2}
       for setting a cluster on AWS EC2.
 
+\item {\bf\color{blue} Q:}
+      Does \pkg{pbdMPI} support multiple nodes in VirtualBox? \\
+      {\bf\color{blue} A:}
+      See \url{http://thirteen-01.stat.iastate.edu/snoweye/pbdr/?item=multiple_nodes}
+      for setting a cluster with two nodes in VirtualBox. It is extensible to
+      multiple nodes by linked or full cloning with a few network modifications.
+
+      If your VirtualBox has multiple adapters (for example, \code{eth0} for
+      NAT/host, \code{eth1} using internal \code{192.168.*.*} for MPI
+      communication), then you may consider to bring down \code{eth0} next.
+\begin{Command}
+sudo ip link set eth0 down
+\end{Command}
+      Further, you may also consider
+      to consult network experts for IP and routing table configurations
+      when multiple adapters are required.
+
 \end{enumerate}
 
 
