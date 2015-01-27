@@ -84,7 +84,13 @@
       See \url{http://thirteen-01.stat.iastate.edu/snoweye/pbdr/?item=multiple_nodes}
       for setting a cluster with two nodes in VirtualBox. It is extensible to
       multiple nodes by linked or full cloning with a few network modifications.
+      A pure text file \code{multiple_nodes.txt} contains detail steps for the
+      setting.
 
+\item {\bf\color{blue} Q:}
+      A simple \pkg{pbdMPI} testing code hangs but simple MPI pure C code is
+      working? \\
+      {\bf\color{blue} A:}
       If your VirtualBox has multiple adapters (for example, \code{eth0} for
       NAT/host, \code{eth1} using internal \code{192.168.*.*} for MPI
       communication), then you may consider to bring down \code{eth0} next.
@@ -94,6 +100,14 @@ sudo ip link set eth0 down
       Further, you may also consider
       to consult network experts for IP and routing table configurations
       when multiple adapters are required.
+      \proglang{R}/\proglang{Rscript} may not know multiple adapters nor
+      how networking or routing table is setting up. It is just easier for
+      MPI to use a single adapter, open all INPUT/OUTPUT/FORWARD ports,
+      stop all firewall, etc. MPI is designed for high performance computing,
+      so don't put too much extra stuffs to decline the performance.
+      (Thanks for Alba Mart\'{i}nez-Ruiz and Cristina Monta\~{n}ola in
+       Universidad Cat\'{o}lica de la Ssma. Concepci\'{o}n, chil
+       providing errors and issues.)
 
 \end{enumerate}
 
