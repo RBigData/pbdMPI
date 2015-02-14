@@ -1,6 +1,6 @@
 ### These functions are supposed to run in SPMD, even when pbd.model = "mw".
 
-pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
+pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
     rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm){
   if(is.character(MARGIN)){
     MARGIN <- match(MARGIN, dimnames(X))

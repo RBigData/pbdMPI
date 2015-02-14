@@ -1,7 +1,7 @@
 ### These functions are supposed to run in SPMD, even when pbd.mode = "mw".
 
 pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
-    pbd.mode = c("mw", "spmd"), rank.source = .SPMD.CT$rank.root,
+    pbd.mode = c("mw", "spmd", "dist"), rank.source = .SPMD.CT$rank.root,
     comm = .SPMD.CT$comm, bcast = FALSE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
@@ -23,9 +23,13 @@ pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
     }
 
     new.X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
+  } else if(pbd.mode[1] == "spmd"){
+    alljid <- get.jid(length(X), comm = comm)
+    new.X <- sapply(alljid, list.to.list, X) 
+  } else if(pbd.mode[1] == "dist"){
+    nex.X <- X
   } else{
-     alljid <- get.jid(length(X), comm = comm)
-     new.X <- sapply(alljid, list.to.list, X) 
+    comm.stop("pbd.mode is not found.")
   }
 
   ### Run as SPMD.

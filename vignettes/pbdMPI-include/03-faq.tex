@@ -119,6 +119,16 @@ sudo ip link set eth0 down
 
 \begin{enumerate}
 \item {\bf\color{blue} Q:}
+      What are \pkg{pbdMPI}'s high level back-ends for embarrassingly parallel
+      calculations? \\
+      {\bf\color{blue} A:}
+      See man pages and examples of \code{pbdLapply()}, \code{pbdSapply()},
+      \code{pbdApply()}, and \code{task.pull()} for more details.
+      Some options of those functions, such as \code{pbd.mode}, may be also
+      useful for different data distribution in embarrassingly parallel
+      calculations.
+
+\item {\bf\color{blue} Q:}
       Can I run task jobs by using \pkg{pbdMPI}? \\
       {\bf\color{blue} A:}
       Yes, it is relatively straightforward for parallel
