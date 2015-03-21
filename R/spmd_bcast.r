@@ -37,6 +37,12 @@ spmd.bcast.raw <- function(x,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.bcast.raw().
 
+spmd.bcast.string <- function(x,
+    rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
+  .Call("spmd_bcast_string", x[1],
+        as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
+} # End of spmd.bcast.string().
+
 
 ### S4 methods.
 setGeneric(

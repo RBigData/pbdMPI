@@ -21,6 +21,8 @@
 \alias{spmd.bcast.integer}
 \alias{spmd.bcast.double}
 \alias{spmd.bcast.raw}
+\alias{spmd.bcast.string}
+\alias{spmd.bcast.message}
 \alias{spmd.barrier}
 \alias{spmd.comm.set.errhandler}
 \alias{spmd.comm.is.null}

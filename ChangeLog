@@ -1,3 +1,6 @@
+2014-03-20: Ver. 0.2-6
+  * Add bcast character.
+
 2014-12-07: Ver. 0.2-6
   * Merge R_CallMethodDef for speeding up dynload problems.
 

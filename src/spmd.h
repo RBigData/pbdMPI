@@ -176,6 +176,7 @@ SEXP spmd_reduce_double(SEXP R_send_data, SEXP R_recv_data,
 SEXP spmd_bcast_integer(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 SEXP spmd_bcast_double(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 SEXP spmd_bcast_raw(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
+SEXP spmd_bcast_string(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 
 /* In file "spmd_scatter.c". */
 SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,

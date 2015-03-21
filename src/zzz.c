@@ -109,6 +109,7 @@ static const R_CallMethodDef callMethods[] = {
 	{"spmd_bcast_integer", (DL_FUNC) &spmd_bcast_integer, 3},
 	{"spmd_bcast_double", (DL_FUNC) &spmd_bcast_double, 3},
 	{"spmd_bcast_raw", (DL_FUNC) &spmd_bcast_raw, 3},
+	{"spmd_bcast_string", (DL_FUNC) &spmd_bcast_string, 3},
 
 	/* In file "spmd_scatter.c". */
 	{"spmd_scatter_integer", (DL_FUNC) &spmd_scatter_integer, 4},
