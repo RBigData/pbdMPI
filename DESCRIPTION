@@ -29,3 +29,13 @@ URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
+Packaged: 2015-03-24 01:48:12 UTC; snoweye
+Author: Wei-Chen Chen [aut, cre],
+  George Ostrouchov [aut],
+  Drew Schmidt [aut],
+  Pragneshkumar Patel [aut],
+  Hao Yu [aut],
+  Christian Heckendorf [ctb] (FreeBSD),
+  Brian Ripley [ctb] (Windows HPC Pack 2012),
+  R Core team [ctb] (some functions are modified from the base packages)
+Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
