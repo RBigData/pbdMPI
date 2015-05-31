@@ -1,3 +1,7 @@
+2015-05-30: Ver. 0.2-6
+  * Register comm.sort in S3method.
+  * Modify Description.
+
 2014-03-20: Ver. 0.2-6
   * Add bcast message.
 

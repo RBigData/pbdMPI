@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.2-6
-Date: 2015-03-21
+Date: 2015-05-30
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
@@ -17,7 +17,7 @@ Depends: R (>= 3.0.0), methods, rlecuyer
 Enhances: pbdPROF
 LazyLoad: yes
 LazyData: yes
-Description: pbdMPI provides an efficient interface to MPI by utilizing S4
+Description: An efficient interface to MPI by utilizing S4
         classes and methods with a focus on Single Program/Multiple Data (SPMD)
         parallel programming style, which is intended for batch parallel
         execution.
@@ -29,7 +29,8 @@ URL: http://r-pbd.org/
 BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
-Packaged: 2015-03-24 01:48:12 UTC; snoweye
+NeedsCompilation: yes
+Packaged: 2015-05-31 03:28:40 UTC; snoweye
 Author: Wei-Chen Chen [aut, cre],
   George Ostrouchov [aut],
   Drew Schmidt [aut],

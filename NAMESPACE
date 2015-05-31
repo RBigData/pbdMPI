@@ -72,3 +72,7 @@ export(
   "task.pull.master",
   "task.pull"
 )
+
+S3method(comm.sort, default)
+S3method(comm.sort, integer)
+S3method(comm.sort, double)
