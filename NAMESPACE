@@ -2,7 +2,10 @@
 ### Since "libmpi.so" should be load before "pbdMPI.so".
 # useDynLib(pbdMPI)
 
-import(methods, rlecuyer)
+importFrom("stats", "runif", "dist", "as.dist")
+importFrom("utils", "write.table", "read.table", "Rprof")
+
+import("methods", "rlecuyer")
 
 exportPattern("^spmd\\.[[:alpha:]]+")
 # exportPattern("^[\\.]")
