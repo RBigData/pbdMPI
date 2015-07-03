@@ -19,30 +19,35 @@
     mpi.libname <- "@MPI_LIBNAME@"
     libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
 
-    ### Nautilus needs MPT.
-    i.lib <- NULL
-    if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
-        mpi.type == "MPT"){
-      if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
-        mpi.libname <- "libmpi"
-      } else{
-        mpi.libname <- "libmpich"
-      }
+    ### Check if "libmpi.*" is loaded by system automatically, some mac did.
+    if(is.loaded("MPI_Init")){
+      i.lib <- "system_auto_loaded"
+    } else{
+      ### Nautilus needs MPT.
+      i.lib <- NULL
+      if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
+          mpi.type == "MPT"){
+        if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
+          mpi.libname <- "libmpi"
+        } else{
+          mpi.libname <- "libmpich"
+        }
 
-      libs <- c(libs,
-                list.files(path = mpi.libpath,
-                           pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-                           full.names = TRUE),
-                list.files(path = mpi.libpath,
-                           pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
-                           full.names = TRUE))
-      for(i in 1:length(libs)){
-        ret <- try(dyn.load(libs[i]), silent = TRUE)
-        if(class(ret) != "try-error"){
-          i.lib <- libs[i]
-          ### CRAN doesn't allow this anymore. Use "pkg_initialize" instead.
-          # assign(".__MPI_LIB__", i.libs, envir = .GlobalEnv)
-          break
+        libs <- c(libs,
+                  list.files(path = mpi.libpath,
+                             pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+                             full.names = TRUE),
+                  list.files(path = mpi.libpath,
+                             pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
+                             full.names = TRUE))
+        for(i in 1:length(libs)){
+          ret <- try(dyn.load(libs[i]), silent = TRUE)
+          if(class(ret) != "try-error"){
+            i.lib <- libs[i]
+            ### CRAN doesn't allow this anymore. Use "pkg_initialize" instead.
+            # assign(".__MPI_LIB__", i.libs, envir = .GlobalEnv)
+            break
+          }
         }
       }
     }
