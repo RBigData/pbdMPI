@@ -20,7 +20,7 @@
     libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
 
     ### Check if "libmpi.*" is loaded by system automatically, some mac did.
-    if(is.loaded("MPI_Init")){
+    if(is.loaded("MPI_Initialized")){
       i.lib <- "system_auto_loaded"
     } else{
       ### Nautilus needs MPT.
