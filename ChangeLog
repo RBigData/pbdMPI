@@ -1,6 +1,7 @@
 2015-07-03: Ver. 0.2-6
   * Check autoloaded MPI symbol for  mac.
   * Change NAMESPACE for --as-cran.
+  * Change zzz.r.in for dyn.load() using local=FALSE.
 
 2015-05-30: Ver. 0.2-6
   * Register comm.sort in S3method.
