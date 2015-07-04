@@ -37,7 +37,7 @@
                            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
                            full.names = TRUE))
       for(i in 1:length(libs)){
-        ret <- try(dyn.load(libs[i]), silent = TRUE)
+        ret <- try(dyn.load(libs[i], local=FALSE), silent = TRUE)
         if(class(ret) != "try-error"){
           i.lib <- libs[i]
           ### CRAN doesn't allow this anymore. Use "pkg_initialize" instead.
@@ -59,7 +59,7 @@
         break
       }
     }
-    
+
     if(!success){
       stop(paste("Could not find", mpi.libname, "in LD_LIBRARY_PATH"))
     }
