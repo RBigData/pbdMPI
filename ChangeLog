@@ -1,3 +1,7 @@
+2015-07-21: Ver. 0.2-6
+  * Modify Description.
+  * Hide spmd_comm_spawn if MPI2 is not defined (needed for impi).
+
 2015-07-03: Ver. 0.2-6
   * Check autoloaded MPI symbol for  mac.
   * Change NAMESPACE for --as-cran.
