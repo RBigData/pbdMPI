@@ -13,36 +13,35 @@
   \code{MPI_Alltoallv()}.
 }
 \usage{
-  spmd.alltoall.integer(x, x.buffer, comm = .SPMD.CT$comm)
-  spmd.alltoall.double(x, x.buffer, comm = .SPMD.CT$comm)
-  spmd.alltoall.raw(x, x.buffer, comm = .SPMD.CT$comm)
+  spmd.alltoall.integer(x.send, x.recv, send.count, recv.count,
+                        comm = .SPMD.CT$comm)
+  spmd.alltoall.double(x.send, x.recv, send.count, recv.count,
+                      comm = .SPMD.CT$comm)
+  spmd.alltoall.raw(x.send, x.recv, send.count, recv.count,
+                    comm = .SPMD.CT$comm)
 
-  spmd.alltoallv.integer(x, x.buffer, x.count,
-    sdispls = c(0L, cumsum(x)), rdispls = c(0L, cumsum(x.count)),
-    comm = .SPMD.CT$comm)
-  spmd.alltoallv.double(x, x.buffer, x.count,
-    sdispls = c(0L, cumsum(x)), rdispls = c(0L, cumsum(x.count)),
-    comm = .SPMD.CT$comm)
-  spmd.alltoallv.raw(x, x.buffer, x.count,
-    sdispls = c(0L, cumsum(x)), rdispls = c(0L, cumsum(x.count)),
-    comm = .SPMD.CT$comm)
+  spmd.alltoallv.integer(x.send, x.recv, send.count, recv.count,
+                         sdispls, rdispls, comm = .SPMD.CT$comm)
+  spmd.alltoallv.double(x.send, x.recv, send.count, recv.count,
+                        sdispls, rdispls, comm = .SPMD.CT$comm)
+  spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
+                     sdispls, rdispls, comm = .SPMD.CT$comm)
 }
 \arguments{
-  \item{x}{an object to be toalled from all ranks.}
-  \item{x.buffer}{a buffer to hold the return object which probably has
-                  `size of \code{x}' times `\code{comm.size(comm)}'
-                  with the same type of \code{x}.}
-  \item{x.count}{a vector of length `comm size' containing all object lengths.}
-  \item{sdispls}{\code{c(0L, cumsum(x))} by default.}
-  \item{rdispls}{\code{c(0L, cumsum(x.count))} by default.}
+  \item{x.send}{an object to send.}
+  \item{x.recv}{an object to receive}
+  \item{send.count}{send counter}
+  \item{recv.count}{recv counter}
+  \item{sdispls}{send dis pls}
+  \item{rdispls}{recv dis pls}
   \item{comm}{a communicator number.}
 }
 \details{
-  These are very raw functions. Use with cautions. Neigher S4 method nor
+  These are very low level functions. Use with cautions. Neigher S4 method nor
   long vector is supported.
 }
 \value{
-  These are very raw functions. Use with cautions. Neigher S4 method nor
+  These are very low level functions. Use with cautions. Neigher S4 method nor
   long vector is supported.
 }
 \seealso{
@@ -59,6 +58,27 @@
 \examples{
 \dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
+
+### Initial.
+suppressMessages(library(pbdMPI, quietly = TRUE))
+init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
+
+### Examples.
+n <- as.integer(2)
+x <- 1:(.comm.size * n)
+comm.cat("Original x:\n", quiet = TRUE)
+comm.print(x, all.rank = TRUE)
+
+x <- as.integer(x)
+y <- spmd.alltoall.integer(x, integer(length(x)), n, n)
+comm.cat("\nAlltoall y:\n", quiet = TRUE)
+comm.print(y, all.rank = TRUE)
+
+### Finish.
+finalize()
 }
 }
 \keyword{methods}

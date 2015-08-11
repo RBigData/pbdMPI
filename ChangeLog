@@ -1,5 +1,5 @@
 201508-10: Ver. 0.2-6
-  * Add alltoall and alltoallv, but seg. fault.
+  * Add alltoall and alltoallv, example, manual.
 
 2015-07-21: Ver. 0.2-6
   * Modify Description.
