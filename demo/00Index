@@ -1,4 +1,5 @@
 allgather	pbdMPI	An example of allgather.
+alltoall	pbdMPI	An example of alltoall.
 allreduce	pbdMPI	An example of allreduce.
 bcast		pbdMPI	An example of bcast.
 gather		pbdMPI	An example of gather.

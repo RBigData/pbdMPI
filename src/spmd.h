@@ -197,6 +197,25 @@ SEXP spmd_scatterv_raw(SEXP R_send_data, SEXP R_recv_data,
 		SEXP R_send_counts, SEXP R_displs, SEXP R_rank_source,
 		SEXP R_comm);
 
+/* In file "spmd_alltoall.c". */
+SEXP spmd_alltoall_integer(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_comm);
+SEXP spmd_alltoall_double(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_comm);
+SEXP spmd_alltoall_raw(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_comm);
+
+/* In file "spmd_alltoallv.c". */
+SEXP spmd_alltoallv_integer(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_recv_counts, SEXP R_sdispls, SEXP R_rdispls,
+		SEXP R_comm);
+SEXP spmd_alltoallv_double(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_recv_counts, SEXP R_sdispls, SEXP R_rdispls,
+		SEXP R_comm);
+SEXP spmd_alltoallv_raw(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_recv_counts, SEXP R_sdispls, SEXP R_rdispls,
+		SEXP R_comm);
+
 /* In file "spmd_utility.c". */
 SEXP spmd_probe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
 SEXP spmd_iprobe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);

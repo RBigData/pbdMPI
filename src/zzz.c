@@ -123,6 +123,16 @@ static const R_CallMethodDef callMethods[] = {
 	{"spmd_scatterv_double", (DL_FUNC) &spmd_scatterv_double, 6},
 	{"spmd_scatterv_raw", (DL_FUNC) &spmd_scatterv_raw, 6},
 
+	/* In file "spmd_alltoall.c". */
+	{"spmd_alltoall_integer", (DL_FUNC) &spmd_alltoall_integer, 3},
+	{"spmd_alltoall_double", (DL_FUNC) &spmd_alltoall_double, 3},
+	{"spmd_alltoall_raw", (DL_FUNC) &spmd_alltoall_raw, 3},
+
+	/* In file "spmd_alltoallv.c". */
+	{"spmd_alltoallv_integer", (DL_FUNC) &spmd_alltoallv_integer, 6},
+	{"spmd_alltoallv_double", (DL_FUNC) &spmd_alltoallv_double, 6},
+	{"spmd_alltoallv_raw", (DL_FUNC) &spmd_alltoallv_raw, 6},
+
 	/* In file "spmd_utility.c". */
 	{"spmd_probe", (DL_FUNC) &spmd_probe, 4},
 	{"spmd_iprobe", (DL_FUNC) &spmd_iprobe, 4},
