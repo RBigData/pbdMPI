@@ -1,3 +1,6 @@
+2015-08-16: Ver. 0.2-6
+  * Add barrier to task.pull, pbdLapply, pbdSapply, and pbdApply.
+
 2015-08-10: Ver. 0.2-6
   * Add alltoall and alltoallv, example, manual.
 

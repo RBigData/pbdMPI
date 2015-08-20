@@ -117,7 +117,7 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
 
 
 task.pull <- function(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
-    comm = .SPMD.CT$comm, bcast = .SPMD.TP$bcast,
+    comm = .SPMD.CT$comm, bcast = .SPMD.TP$bcast, barrier = .SPMD.TP$barrier,
     try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent){
 
   if(spmd.comm.rank(comm) != rank.master){
@@ -129,6 +129,10 @@ task.pull <- function(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
 
   if(bcast){
     ret <- spmd.bcast.object(ret, rank.source = rank.master, comm = comm)
+  }
+
+  if(barrier){
+    spmd.barrier(comm = comm)
   }
 
   ret

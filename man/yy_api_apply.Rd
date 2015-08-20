@@ -8,14 +8,15 @@
 }
 \usage{
   pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-           rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm)
+           rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
+           barrier = TRUE)
   pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
             rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-            bcast = FALSE)
+            bcast = FALSE, barrier = TRUE)
   pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
             pbd.mode = c("mw", "spmd", "dist"),
             rank.source = .SPMD.CT$rank.root,
-            comm = .SPMD.CT$comm, bcast = FALSE)
+            comm = .SPMD.CT$comm, bcast = FALSE, barrier = TRUE)
 }
 \arguments{
   \item{X}{a matrix or array in \code{pbdApply()} or a list in
@@ -29,6 +30,7 @@
   \item{rank.source}{a rank of source where \code{X} broadcast from.}
   \item{comm}{a communicator number.}
   \item{bcast}{if bcast to all ranks.}
+  \item{barrier}{if barrier for all ranks.}
 }
 \details{
   All functions are majorly called in manager/workers mode

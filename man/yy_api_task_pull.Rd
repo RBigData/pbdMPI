@@ -10,6 +10,7 @@
 \usage{
   task.pull(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
             comm = .SPMD.CT$comm, bcast = .SPMD.TP$bcast,
+            barrier = .SPMD.TP$barrier,
             try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent)
 
   task.pull.workers(FUN = function(jid, ...){ return(jid) }, ...,
@@ -25,6 +26,7 @@
   \item{rank.master}{a rank of master where \code{jid} sent from.}
   \item{comm}{a communicator number.}
   \item{bcast}{if bcast to all ranks.}
+  \item{barrier}{if barrier for all ranks.}
   \item{try}{if use \code{try()} to avoid breaks. CAUTION: \code{try = FALSE}
              is not safe and can stop all MPI/R jobs.}
   \item{try.silent}{if turn off the error message from \code{try()}.}

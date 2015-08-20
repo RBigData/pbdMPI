@@ -62,7 +62,8 @@
 \tabular{lcl}{
   Elements          \tab Default \tab Usage \cr
   \code{bcast}      \tab FALSE   \tab if \code{bcase()} objects to all ranks \cr
-  \code{try}        \tab TRUEE   \tab if use \code{try()} in works \cr
+  \code{barrier}    \tab TRUE    \tab if call \code{barrier()} for all ranks \cr
+  \code{try}        \tab TRUE    \tab if use \code{try()} in works \cr
   \code{try.silent} \tab FALSE   \tab if silent the \code{try()} message \cr
   See \code{\link{task.pull}()} for details.
 }

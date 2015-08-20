@@ -2,7 +2,7 @@
 
 pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
     pbd.mode = c("mw", "spmd", "dist"), rank.source = .SPMD.CT$rank.root,
-    comm = .SPMD.CT$comm, bcast = FALSE){
+    comm = .SPMD.CT$comm, bcast = FALSE, barrier = TRUE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -54,6 +54,10 @@ pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
       }
       ret <- tmp
     }
+  }
+
+  if(barrier){
+    spmd.barrier(comm = comm)
   }
 
   ret

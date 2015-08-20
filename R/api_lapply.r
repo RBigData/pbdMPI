@@ -6,7 +6,7 @@ list.to.list <- function(i, X){
 
 pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
     rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-    bcast = FALSE){
+    bcast = FALSE, barrier = TRUE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -64,6 +64,10 @@ pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
       }
       ret <- tmp
     }
+  }
+
+  if(barrier){
+    spmd.barrier(comm = comm)
   }
 
   ret
