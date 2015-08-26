@@ -15,6 +15,7 @@
 \alias{allgather,raw,raw,integer-method}
 
 \alias{allgather}
+\alias{allgatherv}
 
 \title{ All Ranks Gather Objects from Every Rank }
 \description{
