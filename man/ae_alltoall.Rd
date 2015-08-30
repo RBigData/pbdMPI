@@ -13,19 +13,19 @@
   \code{MPI_Alltoallv()}.
 }
 \usage{
-  spmd.alltoall.integer(x.send, x.recv, send.count, recv.count,
-                        comm = .SPMD.CT$comm)
-  spmd.alltoall.double(x.send, x.recv, send.count, recv.count,
-                      comm = .SPMD.CT$comm)
-  spmd.alltoall.raw(x.send, x.recv, send.count, recv.count,
-                    comm = .SPMD.CT$comm)
+spmd.alltoall.integer(x.send, x.recv, send.count, recv.count,
+                      comm = .pbdMPIEnv$SPMD.CT$comm)
+spmd.alltoall.double(x.send, x.recv, send.count, recv.count,
+                    comm = .pbdMPIEnv$SPMD.CT$comm)
+spmd.alltoall.raw(x.send, x.recv, send.count, recv.count,
+                  comm = .pbdMPIEnv$SPMD.CT$comm)
 
-  spmd.alltoallv.integer(x.send, x.recv, send.count, recv.count,
-                         sdispls, rdispls, comm = .SPMD.CT$comm)
-  spmd.alltoallv.double(x.send, x.recv, send.count, recv.count,
-                        sdispls, rdispls, comm = .SPMD.CT$comm)
-  spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
-                     sdispls, rdispls, comm = .SPMD.CT$comm)
+spmd.alltoallv.integer(x.send, x.recv, send.count, recv.count,
+                       sdispls, rdispls, comm = .pbdMPIEnv$SPMD.CT$comm)
+spmd.alltoallv.double(x.send, x.recv, send.count, recv.count,
+                      sdispls, rdispls, comm = .pbdMPIEnv$SPMD.CT$comm)
+spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
+                   sdispls, rdispls, comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{x.send}{an object to send.}

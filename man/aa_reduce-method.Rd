@@ -16,8 +16,9 @@
   is an object as the input.
 }
 \usage{
-  reduce(x, x.buffer = NULL, op = .SPMD.CT$op,
-         rank.dest = .SPMD.CT$rank.source, comm = .SPMD.CT$comm)
+reduce(x, x.buffer = NULL, op = .pbdMPIEnv$SPMD.CT$op,
+       rank.dest = .pbdMPIEnv$SPMD.CT$rank.source,
+       comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be gathered from all ranks.}
@@ -28,7 +29,7 @@
   \item{comm}{a communicator number.}
 }
 \details{
-  By default, the object is reduced to \code{.SPMD.CT$rank.source},
+  By default, the object is reduced to \code{.pbdMPIEnv$SPMD.CT$rank.source},
   i.e. \emph{rank 0L}.
 
   All \code{x} on all ranks are likely presumed to have the same size and type.

@@ -16,8 +16,9 @@
   in the same communicator. The default return is \code{NULL}.
 }
 \usage{
-  send(x, rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
-       comm = .SPMD.CT$comm)
+send(x, rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest,
+     tag = .pbdMPIEnv$SPMD.CT$tag,
+     comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}

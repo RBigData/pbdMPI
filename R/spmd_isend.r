@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.isend.default <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
-    comm = .SPMD.CT$comm, request = .SPMD.CT$request){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm, request = .pbdMPIEnv$SPMD.CT$request){
   ### WCC: This isend() should go with wait(), otherwise the new R object,
   ###      "serialize(x, NULL)", is NOT sent correctly since it is not
   ###      protected by R when the call "spmd.isend.default()" is returned.
@@ -30,24 +30,24 @@ spmd.isend.default <- function(x,
 
 ### For isend.
 spmd.isend.integer <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
-    comm = .SPMD.CT$comm, request = .SPMD.CT$request){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm, request = .pbdMPIEnv$SPMD.CT$request){
   .Call("spmd_isend_integer", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), as.integer(request), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.isend.integer().
 
 spmd.isend.double <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
-    comm = .SPMD.CT$comm, request = .SPMD.CT$request){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm, request = .pbdMPIEnv$SPMD.CT$request){
   .Call("spmd_isend_double", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), as.integer(request), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.isend.double().
 
 spmd.isend.raw <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
-    comm = .SPMD.CT$comm, request = .SPMD.CT$request){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm, request = .pbdMPIEnv$SPMD.CT$request){
   .Call("spmd_isend_raw", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), as.integer(request), PACKAGE = "pbdMPI")
   invisible()

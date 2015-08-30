@@ -6,10 +6,12 @@
   SPMD style.
 }
 \usage{
-  comm.Rprof(filename = "Rprof.out", append = FALSE, interval = 0.02,
-    memory.profiling = FALSE, gc.profiling = FALSE, line.profiling = FALSE,
-    numfiles = 100L, bufsize = 10000L, all.rank = .SPMD.CT$Rprof.all.rank,
-    rank.Rprof = .SPMD.CT$rank.source, comm = .SPMD.CT$comm)
+comm.Rprof(filename = "Rprof.out", append = FALSE, interval = 0.02,
+           memory.profiling = FALSE, gc.profiling = FALSE,
+           line.profiling = FALSE, numfiles = 100L, bufsize = 10000L,
+           all.rank = .pbdMPIEnv$SPMD.CT$Rprof.all.rank,
+           rank.Rprof = .pbdMPIEnv$SPMD.CT$rank.source,
+           comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{filename}{as in \code{\link[utils]{Rprof}()}.}

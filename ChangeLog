@@ -1,3 +1,7 @@
+2015-08-30: Ver. 0.3-0
+  * Reversion to 0.3.
+  * Change option controlling method. Move from data to new.env.
+
 2015-08-16: Ver. 0.2-6
   * Add barrier to task.pull, pbdLapply, pbdSapply, and pbdApply.
 

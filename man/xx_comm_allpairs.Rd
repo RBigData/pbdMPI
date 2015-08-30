@@ -5,7 +5,8 @@
   This function provide global all pairs.
 }
 \usage{
-  comm.allpairs(N, diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm)
+comm.allpairs(N, diag = FALSE, symmetric = TRUE,
+              comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{N}{number of elements for matching, \code{(i, j)} for all

@@ -11,10 +11,11 @@
   developed by L'Ecuyer et al (2002).
 }
 \usage{
-  comm.set.seed(seed, diff = FALSE, state = NULL, comm = .SPMD.CT$comm)
-  comm.seed.state(comm = .SPMD.CT$comm)
-  comm.end.seed(comm = .SPMD.CT$comm)
-  comm.reset.seed(comm = .SPMD.CT$comm)
+comm.set.seed(seed, diff = FALSE, state = NULL,
+              comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.seed.state(comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.end.seed(comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.reset.seed(comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{seed}{one integer or six integers as in \pkg{rlecuyer}.}

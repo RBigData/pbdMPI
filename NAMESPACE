@@ -7,9 +7,10 @@ importFrom("utils", "write.table", "read.table", "Rprof")
 
 import("methods", "rlecuyer")
 
-exportPattern("^spmd\\.[[:alpha:]]+")
 # exportPattern("^[\\.]")
+exportPattern("^spmd\\.[[:alpha:]]+")
 exportPattern("^comm\\.[[:alpha:]]+")
+exportPattern("^SPMD\\.[[:alpha:]]+")
 
 exportMethods(
   "allgather",

@@ -8,10 +8,10 @@
   The functions call MPI info functions.
 }
 \usage{
-  info.create(info = .SPMD.CT$info)
-  info.set(info = .SPMD.CT$info, key, value)
-  info.free(info = .SPMD.CT$info)
-  info.c2f(info = .SPMD.CT$info)
+info.create(info = .pbdMPIEnv$SPMD.CT$info)
+info.set(info = .pbdMPIEnv$SPMD.CT$info, key, value)
+info.free(info = .pbdMPIEnv$SPMD.CT$info)
+info.c2f(info = .pbdMPIEnv$SPMD.CT$info)
 }
 \arguments{
   \item{info}{a info number.}

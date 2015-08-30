@@ -16,8 +16,8 @@
   return is an object like the input.
 }
 \usage{
-  allreduce(x, x.buffer = NULL, op = .SPMD.CT$op,
-            comm = .SPMD.CT$comm)
+allreduce(x, x.buffer = NULL, op = .pbdMPIEnv$SPMD.CT$op,
+          comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be gathered from all ranks.}

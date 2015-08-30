@@ -2,7 +2,8 @@
 
 ### Default method.
 spmd.send.default <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag, comm = .SPMD.CT$comm){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
                 tag = tag, comm = comm)
   invisible()
@@ -11,21 +12,24 @@ spmd.send.default <- function(x,
 
 ### For send.
 spmd.send.integer <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag, comm = .SPMD.CT$comm){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   .Call("spmd_send_integer", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.send.integer().
 
 spmd.send.double <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag, comm = .SPMD.CT$comm){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   .Call("spmd_send_double", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.send.double().
 
 spmd.send.raw <- function(x,
-    rank.dest = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag, comm = .SPMD.CT$comm){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   .Call("spmd_send_raw", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()

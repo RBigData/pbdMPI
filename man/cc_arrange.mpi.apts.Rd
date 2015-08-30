@@ -6,7 +6,7 @@
   a structure containing MPI arrays.
 }
 \usage{
-  arrange.mpi.apts()
+arrange.mpi.apts()
 }
 \details{
   Since Rmpi/pbdMPI use pre-allocate memory to store comm, status,

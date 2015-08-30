@@ -15,6 +15,7 @@
 \alias{allgather,raw,raw,integer-method}
 
 \alias{allgather}
+\alias{allgatherv}
 
 \title{ All Ranks Gather Objects from Every Rank }
 \description{
@@ -23,8 +24,8 @@
   \code{comm.size(comm)}.
 }
 \usage{
-  allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
-            comm = .SPMD.CT$comm, unlist = .SPMD.CT$unlist)
+allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
+          comm = .pbdMPIEnv$SPMD.CT$comm, unlist = .pbdMPIEnv$SPMD.CT$unlist)
 }
 \arguments{
   \item{x}{an object to be gathered from all ranks.}

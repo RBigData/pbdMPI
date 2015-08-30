@@ -2,7 +2,8 @@
 
 ### For general types.
 spmd.bcast.object <- function(x,
-    rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.source){
     x.raw <- serialize(x, NULL)
     spmd.bcast.integer(length(x.raw), rank.source = rank.source, comm = comm)
@@ -18,7 +19,8 @@ spmd.bcast.object <- function(x,
 
 ### For array only.
 spmd.bcast.array <- function(x,
-    rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.source){
     spmd.bcast.integer(length(dim(x)), rank.source = rank.source, comm = comm)
     spmd.bcast.integer(dim(x), rank.source = rank.source, comm = comm)
@@ -66,7 +68,8 @@ spmd.bcast.array <- function(x,
 
 ### For message.
 spmd.bcast.message <- function(x,
-    rank.source = .SPMD.CT$rank.source, comm = .SPMD.CT$comm){
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.source){
     spmd.bcast.integer(nchar(x[1]), rank.source = rank.source, comm = comm)
     spmd.bcast.string(x[1], rank.source = rank.source, comm = comm)

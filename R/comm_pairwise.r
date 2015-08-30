@@ -3,7 +3,7 @@
 
 comm.pairwise <- function(X, pairid.gbd = NULL,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
-    ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
+    ..., diag = FALSE, symmetric = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm){
   ### Check if all non-NULL.
   check <- spmd.allreduce.integer(!is.null(pairid.gbd), integer(1),
                                   comm = comm) == spmd.comm.size(comm)
@@ -23,7 +23,7 @@ comm.pairwise <- function(X, pairid.gbd = NULL,
 ### Input a common matrix and a gbd pairid.
 comm.pairwise.common <- function(X, pairid.gbd,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
-    ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
+    ..., diag = FALSE, symmetric = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm){
   ### FUN <- function(x, y, ...) is a user defined function.
 
   ### Check pairid.gbd.
@@ -54,7 +54,7 @@ comm.pairwise.common <- function(X, pairid.gbd,
 ### Input a gbd matrix.
 comm.pairwise.gbd <- function(X.gbd,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
-    ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm){
+    ..., diag = FALSE, symmetric = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm){
   ### FUN <- function(x, y, ...) is a user defined function.
 
   ### Check X.gbd.

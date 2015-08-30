@@ -5,9 +5,9 @@
   This function provides global pairwise evaluations.
 }
 \usage{
-  comm.pairwise(X, pairid.gbd = NULL,
+comm.pairwise(X, pairid.gbd = NULL,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
-    ..., diag = FALSE, symmetric = TRUE, comm = .SPMD.CT$comm)
+    ..., diag = FALSE, symmetric = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{X}{a common matrix across ranks, or a gbd matrix. (See details.)}

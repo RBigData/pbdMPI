@@ -2,12 +2,13 @@
 
 ### Default method.
 spmd.sendrecv.default <- function(x, x.buffer = NULL,
-    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
-                comm.size(.SPMD.CT$comm),
-    send.tag = .SPMD.CT$tag,
-    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
-                  comm.size(.SPMD.CT$comm),
-    recv.tag = .SPMD.CT$tag, comm = .SPMD.CT$comm, status = .SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    send.tag = .pbdMPIEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    recv.tag = .pbdMPIEnv$SPMD.CT$tag, comm = .pbdMPIEnv$SPMD.CT$comm,
+    status = .pbdMPIEnv$SPMD.CT$status){
   x.raw <- serialize(x, NULL)
   total.new <- spmd.sendrecv.integer(length(x.raw), integer(1),
                  rank.dest = rank.source,
@@ -26,12 +27,13 @@ spmd.sendrecv.default <- function(x, x.buffer = NULL,
 
 ### For sendrecv.
 spmd.sendrecv.integer <- function(x, x.buffer,
-    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
-                comm.size(.SPMD.CT$comm),
-    send.tag = .SPMD.CT$tag,
-    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
-                  comm.size(.SPMD.CT$comm),
-    recv.tag = .SPMD.CT$tag, comm = .SPMD.CT$comm, status = .SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    send.tag = .pbdMPIEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    recv.tag = .pbdMPIEnv$SPMD.CT$tag, comm = .pbdMPIEnv$SPMD.CT$comm,
+    status = .pbdMPIEnv$SPMD.CT$status){
   .Call("spmd_sendrecv_integer", x, x.buffer,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),
@@ -39,12 +41,13 @@ spmd.sendrecv.integer <- function(x, x.buffer,
 } # End of spmd.sendrecv.integer().
 
 spmd.sendrecv.double <- function(x, x.buffer,
-    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
-                comm.size(.SPMD.CT$comm),
-    send.tag = .SPMD.CT$tag,
-    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
-                  comm.size(.SPMD.CT$comm),
-    recv.tag = .SPMD.CT$tag, comm = .SPMD.CT$comm, status = .SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    send.tag = .pbdMPIEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    recv.tag = .pbdMPIEnv$SPMD.CT$tag, comm = .pbdMPIEnv$SPMD.CT$comm,
+    status = .pbdMPIEnv$SPMD.CT$status){
   .Call("spmd_sendrecv_double", x, x.buffer,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),
@@ -52,12 +55,13 @@ spmd.sendrecv.double <- function(x, x.buffer,
 } # End of spmd.sendrecv.double().
 
 spmd.sendrecv.raw <- function(x, x.buffer,
-    rank.dest = (comm.rank(.SPMD.CT$comm) + 1) %%
-                comm.size(.SPMD.CT$comm),
-    send.tag = .SPMD.CT$tag,
-    rank.source = (comm.rank(.SPMD.CT$comm) - 1) %%
-                  comm.size(.SPMD.CT$comm),
-    recv.tag = .SPMD.CT$tag, comm = .SPMD.CT$comm, status = .SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    send.tag = .pbdMPIEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
+    recv.tag = .pbdMPIEnv$SPMD.CT$tag, comm = .pbdMPIEnv$SPMD.CT$comm,
+    status = .pbdMPIEnv$SPMD.CT$status){
   .Call("spmd_sendrecv_raw", x, x.buffer,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),

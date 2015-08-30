@@ -1,6 +1,7 @@
 spmd.comm.spawn <- function(worker, worker.arg, n.workers,
-    info = .SPMD.CT$info, rank.source = .SPMD.CT$rank.source,
-    intercomm = .SPMD.CT$intercomm){
+    info = .pbdMPIEnv$SPMD.CT$info,
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
+    intercomm = .pbdMPIEnv$SPMD.CT$intercomm){
   if(! is.loaded("spmd_comm_spawn", PACKAGE = "pbdMPI")){
     stop("spmd_comm_spawn is not supported.")
   }

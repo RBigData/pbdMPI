@@ -7,16 +7,17 @@
   The functions are parallel versions of apply and lapply functions.
 }
 \usage{
-  pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-           rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-           barrier = TRUE)
-  pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-            rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-            bcast = FALSE, barrier = TRUE)
-  pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
-            pbd.mode = c("mw", "spmd", "dist"),
-            rank.source = .SPMD.CT$rank.root,
-            comm = .SPMD.CT$comm, bcast = FALSE, barrier = TRUE)
+pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
+         rank.source = .pbdMPIEnv$SPMD.CT$rank.root,
+         comm = .pbdMPIEnv$SPMD.CT$comm,
+         barrier = TRUE)
+pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
+          rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm,
+          bcast = FALSE, barrier = TRUE)
+pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
+          pbd.mode = c("mw", "spmd", "dist"),
+          rank.source = .pbdMPIEnv$SPMD.CT$rank.root,
+          comm = .pbdMPIEnv$SPMD.CT$comm, bcast = FALSE, barrier = TRUE)
 }
 \arguments{
   \item{X}{a matrix or array in \code{pbdApply()} or a list in

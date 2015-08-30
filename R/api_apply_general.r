@@ -50,7 +50,7 @@ array.to.list <- function(jid, X, dim.X, MARGIN){
 
 pbdApply.general <- function(X, MARGIN, FUN, ...,
     pbd.mode = c("mw", "spmd", "dist"),
-    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm){
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 

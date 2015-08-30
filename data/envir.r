@@ -1,1 +1,0 @@
-.pbdMPIEnv <- new.env()

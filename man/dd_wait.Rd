@@ -8,10 +8,11 @@
   The functions call MPI wait functions.
 }
 \usage{
-  wait(request = .SPMD.CT$request, status = .SPMD.CT$status)
-  waitany(count, status = .SPMD.CT$status)
-  waitsome(count)
-  waitall(count)
+wait(request = .pbdMPIEnv$SPMD.CT$request,
+     status = .pbdMPIEnv$SPMD.CT$status)
+waitany(count, status = .pbdMPIEnv$SPMD.CT$status)
+waitsome(count)
+waitall(count)
 }
 \arguments{
   \item{request}{a request number.}
