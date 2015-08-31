@@ -5,8 +5,9 @@
   These functions globally compute distance for all ranks.
 }
 \usage{
-  comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
-            p = 2, comm = .SPMD.CT$comm, return.type = c("common", "gbd"))
+comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
+          p = 2, comm = .pbdMPIEnv$SPMD.CT$comm,
+          return.type = c("common", "gbd"))
 }
 \arguments{
   \item{X.gbd}{a gbd matrix.}

@@ -1,6 +1,6 @@
 ### Tool functions.
 
-spmd.hostinfo <- function(comm = .SPMD.CT$comm){
+spmd.hostinfo <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.size(comm) == 0){
     stop(paste("It seems no members running on comm", comm))
   }
@@ -12,10 +12,11 @@ spmd.hostinfo <- function(comm = .SPMD.CT$comm){
   invisible()
 } # End of spmd.hostinfo().
 
-spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
-    rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
-    quiet = .SPMD.CT$print.quiet, flush = .SPMD.CT$msg.flush,
-    barrier = .SPMD.CT$msg.barrier, con = stdout(), ...){
+spmd.comm.print <- function(x, all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdMPIEnv$SPMD.CT$rank.source, comm = .pbdMPIEnv$SPMD.CT$comm,
+    quiet = .pbdMPIEnv$SPMD.CT$print.quiet,
+    flush = .pbdMPIEnv$SPMD.CT$msg.flush,
+    barrier = .pbdMPIEnv$SPMD.CT$msg.barrier, con = stdout(), ...){
   COMM.RANK <- spmd.comm.rank(comm)
 
   if(barrier){
@@ -65,11 +66,11 @@ spmd.comm.print <- function(x, all.rank = .SPMD.CT$print.all.rank,
 
 comm.print <- spmd.comm.print
 
-spmd.comm.cat <- function(..., all.rank = .SPMD.CT$print.all.rank,
-    rank.print = .SPMD.CT$rank.source, comm = .SPMD.CT$comm,
-    quiet = .SPMD.CT$print.quiet, sep = " ", fill = FALSE,
-    labels = NULL, append = FALSE, flush = .SPMD.CT$msg.flush,
-    barrier = .SPMD.CT$msg.barrier, con = stdout()){
+spmd.comm.cat <- function(..., all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdMPIEnv$SPMD.CT$rank.source, comm = .pbdMPIEnv$SPMD.CT$comm,
+    quiet = .pbdMPIEnv$SPMD.CT$print.quiet, sep = " ", fill = FALSE,
+    labels = NULL, append = FALSE, flush = .pbdMPIEnv$SPMD.CT$msg.flush,
+    barrier = .pbdMPIEnv$SPMD.CT$msg.barrier, con = stdout()){
   COMM.RANK <- spmd.comm.rank(comm)
 
   if(barrier){

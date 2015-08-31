@@ -4,9 +4,9 @@ list.to.list <- function(i, X){
   X[i]
 } # End of list.to.list().
 
-pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
-    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-    bcast = FALSE){
+pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm,
+    bcast = FALSE, barrier = TRUE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -27,9 +27,13 @@ pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
     }
 
     new.X <- spmd.scatter.object(new.X, rank.source = rank.source, comm = comm)
-  } else{
+  } else if(pbd.mode[1] == "spmd"){
     alljid <- get.jid(length(X), comm = comm)
     new.X <- sapply(alljid, list.to.list, X) 
+  } else if(pbd.mode[1] == "dist"){
+    new.X <- X
+  } else{
+    comm.stop("pbd.mode is not found.")
   }
 
   ### Run as SPMD.
@@ -60,6 +64,10 @@ pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd"),
       }
       ret <- tmp
     }
+  }
+
+  if(barrier){
+    spmd.barrier(comm = comm)
   }
 
   ret

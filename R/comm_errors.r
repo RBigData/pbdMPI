@@ -1,9 +1,11 @@
 ### Similar to stop(), warning(), and warnings().
 
 comm.stop <- function(..., call. = TRUE, domain = NULL,
-    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm, mpi.finalize = .SPMD.CT$mpi.finalize,
-    quit = .SPMD.CT$quit){
+    all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdMPIEnv$SPMD.CT$rank.source,
+    comm = .pbdMPIEnv$SPMD.CT$comm,
+    mpi.finalize = .pbdMPIEnv$SPMD.CT$mpi.finalize,
+    quit = .pbdMPIEnv$SPMD.CT$quit){
   COMM.RANK <- spmd.comm.rank(comm)
   spmd.finalize(mpi.finalize = mpi.finalize)
 
@@ -43,8 +45,9 @@ comm.stop <- function(..., call. = TRUE, domain = NULL,
 } # End of comm.stop().
 
 comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm){
+    all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdMPIEnv$SPMD.CT$rank.source,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.rank(comm) %in% rank.print || all.rank == TRUE){
     args <- list(...)
     if(length(args) == 1L && inherits(args[[1L]], "condition")){
@@ -81,8 +84,9 @@ comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
 } # End of comm.warning().
 
 comm.warnings <- function(...,
-    all.rank = .SPMD.CT$print.all.rank, rank.print = .SPMD.CT$rank.source,
-    comm = .SPMD.CT$comm){
+    all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdMPIEnv$SPMD.CT$rank.source,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.rank(comm) %in% rank.print || all.rank == TRUE){
     if (!exists("last.warning", envir = baseenv())) 
         return()

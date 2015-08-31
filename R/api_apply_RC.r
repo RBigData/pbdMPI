@@ -19,8 +19,9 @@ array.to.list.RC <- function(jid, X, dim.X, MARGIN){
   ret
 } # End of array.to.list.RC().
 
-pbdApply.RC <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
-    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm){
+pbdApply.RC <- function(X, MARGIN, FUN, ...,
+    pbd.mode = c("mw", "spmd", "dist"),
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm){
   MARGIN <- MARGIN[1]
 
   COMM.SIZE <- spmd.comm.size(comm)
@@ -57,9 +58,13 @@ pbdApply.RC <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
         assign(names[i], arg.dots[[i]])
       }
     }
-  } else{
+  } else if(pbd.mode[1] == "spmd"){
     alljid <- get.jid(dim(X)[MARGIN], comm = comm)
     new.X <- sapply(alljid, array.to.list.RC, X, dim(X), MARGIN) 
+  } else if(pbd.mode[1] == "dist"){
+    new.X <- X
+  } else{
+    comm.stop("pbd.mode is not found.")
   }
 
   ### Run as SPMD.

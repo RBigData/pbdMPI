@@ -7,14 +7,17 @@
   The functions are parallel versions of apply and lapply functions.
 }
 \usage{
-  pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
-           rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm)
-  pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd"),
-            rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-            bcast = FALSE)
-  pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
-            pbd.mode = c("mw", "spmd"), rank.source = .SPMD.CT$rank.root,
-            comm = .SPMD.CT$comm, bcast = FALSE)
+pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
+         rank.source = .pbdMPIEnv$SPMD.CT$rank.root,
+         comm = .pbdMPIEnv$SPMD.CT$comm,
+         barrier = TRUE)
+pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
+          rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm,
+          bcast = FALSE, barrier = TRUE)
+pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
+          pbd.mode = c("mw", "spmd", "dist"),
+          rank.source = .pbdMPIEnv$SPMD.CT$rank.root,
+          comm = .pbdMPIEnv$SPMD.CT$comm, bcast = FALSE, barrier = TRUE)
 }
 \arguments{
   \item{X}{a matrix or array in \code{pbdApply()} or a list in
@@ -28,6 +31,7 @@
   \item{rank.source}{a rank of source where \code{X} broadcast from.}
   \item{comm}{a communicator number.}
   \item{bcast}{if bcast to all ranks.}
+  \item{barrier}{if barrier for all ranks.}
 }
 \details{
   All functions are majorly called in manager/workers mode
@@ -41,9 +45,16 @@
   \code{...} is also \code{scatter()} from \code{rank.source}.
 
   If \code{pbd.mode = "spmd"}, the same copy of \code{X} is supposed to
-  exist in all processors, and original \code{apply()} is operated on part of
+  exist in all processors, and original \code{apply()}, \code{lapply()},
+  or \code{sapply()} is operated on part of
   \code{X}. An \code{allgather()} or \code{gather()} call is required to
   aggregate results manually.
+
+  If \code{pbd.mode = "dist"}, the different \code{X} is supposed to
+  exists in all processors, i.e. `distinct or distributed' \code{X},
+  and original \code{apply()}, \code{lapply()}, or \code{sapply()} is operated
+  on the all \code{X}. An \code{allgather()} or \code{gather()} call is
+  required to aggregate results manually.
 
   In SPMD, it is better to split data into pieces, and \code{X} is a local
   matrix in all processors. Originally, \code{apply()} should be sufficient
@@ -80,6 +91,9 @@ comm.print(y)
 y <- pbdApply(x, 1, sum, pbd.mode = "spmd")
 comm.print(y)
 
+y <- pbdApply(x, 1, sum, pbd.mode = "dist")
+comm.print(y)
+
 
 ### Example for pbdApply for 3D array.
 N <- 60
@@ -95,6 +109,9 @@ comm.print(y)
 y <- pbdApply(x, c(1, 2), sum, pbd.mode = "spmd")
 comm.print(y)
 
+y <- pbdApply(x, c(1, 2), sum, pbd.mode = "dist")
+comm.print(y)
+
 
 ### Example for pbdLapply.
 N <- 100
@@ -103,6 +120,9 @@ y <- pbdLapply(x, sum, pbd.mode = "mw")
 comm.print(unlist(y))
 
 y <- pbdLapply(x, sum, pbd.mode = "spmd")
+comm.print(unlist(y))
+
+y <- pbdLapply(x, sum, pbd.mode = "dist")
 comm.print(unlist(y))
 
 ### Finish.

@@ -176,6 +176,7 @@ SEXP spmd_reduce_double(SEXP R_send_data, SEXP R_recv_data,
 SEXP spmd_bcast_integer(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 SEXP spmd_bcast_double(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 SEXP spmd_bcast_raw(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
+SEXP spmd_bcast_string(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm);
 
 /* In file "spmd_scatter.c". */
 SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
@@ -195,6 +196,27 @@ SEXP spmd_scatterv_double(SEXP R_send_data, SEXP R_recv_data,
 SEXP spmd_scatterv_raw(SEXP R_send_data, SEXP R_recv_data,
 		SEXP R_send_counts, SEXP R_displs, SEXP R_rank_source,
 		SEXP R_comm);
+
+/* In file "spmd_alltoall.c". */
+SEXP spmd_alltoall_integer(SEXP R_send_data, SEXP R_recv_data,
+                SEXP R_send_count, SEXP R_recv_count, SEXP R_comm);
+SEXP spmd_alltoall_double(SEXP R_send_data, SEXP R_recv_data,
+                SEXP R_send_count, SEXP R_recv_count, SEXP R_comm);
+SEXP spmd_alltoall_raw(SEXP R_send_data, SEXP R_recv_data,
+                SEXP R_send_count, SEXP R_recv_count, SEXP R_comm);
+
+/* In file "spmd_alltoallv.c". */
+SEXP spmd_alltoallv_integer(SEXP R_send_data, SEXP R_recv_data,
+                SEXP R_send_counts, SEXP R_recv_counts,
+                SEXP R_sdispls, SEXP R_rdispls, SEXP R_comm);
+SEXP spmd_alltoallv_double(SEXP R_send_data, SEXP R_recv_data,
+                SEXP R_send_counts, SEXP R_recv_counts,
+                SEXP R_sdispls, SEXP R_rdispls,
+                SEXP R_comm);
+SEXP spmd_alltoallv_raw(SEXP R_send_data, SEXP R_recv_data,
+                SEXP R_send_counts, SEXP R_recv_counts,
+                SEXP R_sdispls, SEXP R_rdispls,
+                SEXP R_comm);
 
 /* In file "spmd_utility.c". */
 SEXP spmd_probe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);

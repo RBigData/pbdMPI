@@ -37,7 +37,7 @@
                            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
                            full.names = TRUE))
       for(i in 1:length(libs)){
-        ret <- try(dyn.load(libs[i], local=FALSE), silent = TRUE)
+        ret <- try(dyn.load(libs[i], local = FALSE), silent = TRUE)
         if(class(ret) != "try-error"){
           i.lib <- libs[i]
           ### CRAN doesn't allow this anymore. Use "pkg_initialize" instead.
@@ -53,7 +53,8 @@
                     split=":"))
     success <- FALSE
     for(path in paths){
-      test <- try(dyn.load(paste(path, mpilibname, sep = "")), silent = TRUE)
+      test <- try(dyn.load(paste(path, mpilibname, sep = ""), local = FALSE),
+                  silent = TRUE)
       if(class(test) != "try-error"){
         success <- TRUE
         break

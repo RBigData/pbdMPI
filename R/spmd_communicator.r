@@ -1,29 +1,29 @@
-spmd.barrier <- function(comm = .SPMD.CT$comm){
+spmd.barrier <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   ret <- .Call("spmd_barrier", as.integer(comm), PACKAGE = "pbdMPI")
   invisible(ret)
 } # End of spmd.barrier().
 
 barrier <- spmd.barrier
 
-spmd.comm.set.errhandler <- function(comm = .SPMD.CT$comm){
+spmd.comm.set.errhandler <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   ret <- .Call("spmd_comm_set_errhandler", as.integer(comm),
                PACKAGE = "pbdMPI")
   invisible(ret)
 } # End of spmd.comm.set.errhandler().
 
-spmd.comm.is.null <- function(comm = .SPMD.CT$comm){
+spmd.comm.is.null <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   .Call("spmd_comm_is_null", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.is.null().
 
 comm.is.null <- spmd.comm.is.null
 
-spmd.comm.rank <- function(comm = .SPMD.CT$comm){
+spmd.comm.rank <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   .Call("spmd_comm_rank", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.rank().
 
 comm.rank <- spmd.comm.rank
 
-spmd.comm.size <- function(comm = .SPMD.CT$comm){
+spmd.comm.size <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   tmp <- .Call("spmd_comm_is_null", as.integer(comm), PACKAGE = "pbdMPI")
 
   if(tmp == 1){
@@ -43,7 +43,7 @@ spmd.comm.dup <- function(comm, newcomm){
 
 comm.dup <- spmd.comm.dup
 
-spmd.comm.free <- function(comm = .SPMD.CT$comm){
+spmd.comm.free <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.size(comm) == 0){
     stop(paste("It seems no members (workers) associated with comm", comm))
   }
@@ -88,7 +88,7 @@ spmd.init <- function(set.seed = TRUE){
 
 init <- spmd.init
 
-spmd.finalize <- function(mpi.finalize = .SPMD.CT$mpi.finalize){
+spmd.finalize <- function(mpi.finalize = .pbdMPIEnv$SPMD.CT$mpi.finalize){
   ### Do not remove ".__DISABLE_MPI_INIT__", leave it in .GlobalEnv for later
   ### uses.
 
@@ -132,15 +132,15 @@ spmd.get.processor.name <- function(short = TRUE){
 
 get.processor.name <- spmd.get.processor.name
 
-spmd.comm.abort <- function(errorcode = 1, comm = .SPMD.CT$comm){
+spmd.comm.abort <- function(errorcode = 1, comm = .pbdMPIEnv$SPMD.CT$comm){
   ret <- .Call("spmd_comm_abort", as.integer(comm), PACKAGE = "pbdMPI")
   invisible(ret)
 } # End of spmd.comm.abort().
 
 comm.abort <- spmd.comm.abort
 
-spmd.comm.split <- function(comm = .SPMD.CT$comm, color = 0L, key = 0L,
-    newcomm = .SPMD.CT$newcomm){
+spmd.comm.split <- function(comm = .pbdMPIEnv$SPMD.CT$comm, color = 0L,
+    key = 0L, newcomm = .pbdMPIEnv$SPMD.CT$newcomm){
   ret <- .Call("spmd_comm_split", as.integer(comm), as.integer(color),
                as.integer(key), as.integer(newcomm), PACKAGE = "pbdMPI")
   invisible(ret)
@@ -148,7 +148,7 @@ spmd.comm.split <- function(comm = .SPMD.CT$comm, color = 0L, key = 0L,
 
 comm.split <- spmd.comm.split
 
-spmd.comm.disconnect <- function(comm = .SPMD.CT$comm){
+spmd.comm.disconnect <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   if(spmd.comm.size(comm)== 0){
     stop(paste("It seems no members (workers) associated with comm", comm))
   }
@@ -159,8 +159,8 @@ spmd.comm.disconnect <- function(comm = .SPMD.CT$comm){
 comm.disconnect <- spmd.comm.disconnect
 
 spmd.comm.connect <- function(port.name,
-    info = .SPMD.CT$info, rank.root = .SPMD.CT$rank.root,
-    comm = .SPMD.CT$comm, newcomm = .SPMD.CT$newcomm){
+    info = .pbdMPIEnv$SPMD.CT$info, rank.root = .pbdMPIEnv$SPMD.CT$rank.root,
+    comm = .pbdMPIEnv$SPMD.CT$comm, newcomm = .pbdMPIEnv$SPMD.CT$newcomm){
   ret <- .Call("spmd_comm_connect", as.character(port.name),
                as.integer(info), as.integer(rank.root),
                as.integer(comm), as.integer(newcomm), PACKAGE = "pbdMPI")
@@ -170,8 +170,8 @@ spmd.comm.connect <- function(port.name,
 comm.connect <- spmd.comm.connect
 
 spmd.comm.accept <- function(port.name,
-    info = .SPMD.CT$info, rank.root = .SPMD.CT$rank.root,
-    comm = .SPMD.CT$comm, newcomm = .SPMD.CT$newcomm){
+    info = .pbdMPIEnv$SPMD.CT$info, rank.root = .pbdMPIEnv$SPMD.CT$rank.root,
+    comm = .pbdMPIEnv$SPMD.CT$comm, newcomm = .pbdMPIEnv$SPMD.CT$newcomm){
   ret <- .Call("spmd_comm_accept", as.character(port.name),
                as.integer(info), as.integer(rank.root),
                as.integer(comm), as.integer(newcomm), PACKAGE = "pbdMPI")
@@ -180,7 +180,7 @@ spmd.comm.accept <- function(port.name,
 
 comm.accept <- spmd.comm.accept
 
-spmd.port.open <- function(info = .SPMD.CT$info){
+spmd.port.open <- function(info = .pbdMPIEnv$SPMD.CT$info){
   port.name <- .Call("spmd_port_open", as.integer(info), PACKAGE = "pbdMPI")
   port.name
 } # End spmd.port.open().
@@ -194,8 +194,9 @@ spmd.port.close <- function(port.name){
 
 port.close <- spmd.port.close
 
-spmd.serv.publish <- function(port.name, serv.name = .SPMD.CT$serv.name,
-    info = .SPMD.CT$info){
+spmd.serv.publish <- function(port.name,
+    serv.name = .pbdMPIEnv$SPMD.CT$serv.name,
+    info = .pbdMPIEnv$SPMD.CT$info){
   ret <- .Call("spmd_serv_publish", as.character(serv.name),
                as.integer(info), as.character(port.name), PACKAGE = "pbdMPI")
   invisible(ret)
@@ -203,8 +204,9 @@ spmd.serv.publish <- function(port.name, serv.name = .SPMD.CT$serv.name,
 
 serv.publish <- spmd.serv.publish
 
-spmd.serv.unpublish <- function(port.name, serv.name = .SPMD.CT$serv.name,
-    info = .SPMD.CT$info){
+spmd.serv.unpublish <- function(port.name,
+    serv.name = .pbdMPIEnv$SPMD.CT$serv.name,
+    info = .pbdMPIEnv$SPMD.CT$info){
   ret <- .Call("spmd_serv_unpublish", as.character(serv.name),
                as.integer(info), as.character(port.name), PACKAGE = "pbdMPI")
   invisible(ret)
@@ -212,8 +214,8 @@ spmd.serv.unpublish <- function(port.name, serv.name = .SPMD.CT$serv.name,
 
 serv.unpublish <- spmd.serv.unpublish
 
-spmd.serv.lookup <- function(serv.name = .SPMD.CT$serv.name,
-    info = .SPMD.CT$info){
+spmd.serv.lookup <- function(serv.name = .pbdMPIEnv$SPMD.CT$serv.name,
+    info = .pbdMPIEnv$SPMD.CT$info){
   port.name <- .Call("spmd_serv_lookup", as.character(serv.name),
                      as.integer(info), PACKAGE = "pbdMPI")
   port.name
@@ -221,12 +223,12 @@ spmd.serv.lookup <- function(serv.name = .SPMD.CT$serv.name,
 
 serv.lookup <- spmd.serv.lookup
 
-spmd.comm.get.parent <- function(comm = .SPMD.CT$intercomm){
+spmd.comm.get.parent <- function(comm = .pbdMPIEnv$SPMD.CT$intercomm){
   .Call("spmd_comm_get_parent", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.get.parent().
 
-spmd.intercomm.merge <- function(intercomm = .SPMD.CT$intercomm,
-    high = 0L, comm = .SPMD.CT$comm){
+spmd.intercomm.merge <- function(intercomm = .pbdMPIEnv$SPMD.CT$intercomm,
+    high = 0L, comm = .pbdMPIEnv$SPMD.CT$comm){
   ret <- .Call("spmd_intercomm_merge", as.integer(intercomm), as.integer(high),
                as.integer(comm), PACKAGE = "pbdMPI")
   invisible(ret)
@@ -234,10 +236,11 @@ spmd.intercomm.merge <- function(intercomm = .SPMD.CT$intercomm,
 
 intercomm.merge <- spmd.intercomm.merge
 
-spmd.intercomm.create <- function(local.comm = .SPMD.CT$comm,
-    local.leader = .SPMD.CT$rank.source, peer.comm = .SPMD.CT$intercomm,
-    remote.leader = .SPMD.CT$rank.dest, tag = .SPMD.CT$tag,
-    newintercomm = .SPMD.CT$newcomm){
+spmd.intercomm.create <- function(local.comm = .pbdMPIEnv$SPMD.CT$comm,
+    local.leader = .pbdMPIEnv$SPMD.CT$rank.source,
+    peer.comm = .pbdMPIEnv$SPMD.CT$intercomm,
+    remote.leader = .pbdMPIEnv$SPMD.CT$rank.dest, tag = .pbdMPIEnv$SPMD.CT$tag,
+    newintercomm = .pbdMPIEnv$SPMD.CT$newcomm){
   ret <- .Call("spmd_intercomm_create", as.integer(local.comm),
                as.integer(local.leader), as.integer(peer.comm),
                as.integer(remote.leader), as.integer(tag),
@@ -249,7 +252,7 @@ intercomm.create <- spmd.intercomm.create
 
 
 ### Fortran supporting function.
-spmd.comm.c2f <- function(comm = .SPMD.CT$comm){
+spmd.comm.c2f <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   .Call("spmd_comm_c2f", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.c2f().
 

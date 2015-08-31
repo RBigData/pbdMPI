@@ -2,8 +2,8 @@
 
 ### For general types.
 spmd.gather.object <- function(x,
-    rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-    unlist = .SPMD.CT$unlist){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm,
+    unlist = .pbdMPIEnv$SPMD.CT$unlist){
   x.raw <- serialize(x, NULL)
   x.count <- spmd.allgather.integer(length(x.raw),
                                     integer(spmd.comm.size(comm)),
@@ -29,8 +29,8 @@ spmd.gather.object <- function(x,
 
 ### For array only.
 spmd.gather.array <- function(x,
-    rank.dest = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-    unlist = .SPMD.CT$unlist){
+    rank.dest = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm,
+    unlist = .pbdMPIEnv$SPMD.CT$unlist){
   n.dim <- length(dim(x))
   COMM.SIZE <- spmd.comm.size(comm)
 

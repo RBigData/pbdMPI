@@ -1,3 +1,29 @@
+2015-08-30: Ver. 0.3-0
+  * Reversion to 0.3.
+  * Change option controlling method. Move from data to new.env.
+
+2015-08-16: Ver. 0.2-6
+  * Add barrier to task.pull, pbdLapply, pbdSapply, and pbdApply.
+
+2015-08-10: Ver. 0.2-6
+  * Add alltoall and alltoallv, example, manual.
+
+2015-07-21: Ver. 0.2-6
+  * Modify Description.
+  * Hide spmd_comm_spawn if MPI2 is not defined (needed for impi).
+
+2015-07-03: Ver. 0.2-6
+  * Check autoloaded MPI symbol for  mac.
+  * Change NAMESPACE for --as-cran.
+  * Change zzz.r.in for dyn.load() using local=FALSE.
+
+2015-05-30: Ver. 0.2-6
+  * Register comm.sort in S3method.
+  * Modify Description.
+
+2014-03-20: Ver. 0.2-6
+  * Add bcast message.
+
 2014-12-07: Ver. 0.2-6
   * Merge R_CallMethodDef for speeding up dynload problems.
 

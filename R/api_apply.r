@@ -1,7 +1,8 @@
 ### These functions are supposed to run in SPMD, even when pbd.model = "mw".
 
-pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
-    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm){
+pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm,
+    barrier = TRUE){
   if(is.character(MARGIN)){
     MARGIN <- match(MARGIN, dimnames(X))
   }
@@ -13,5 +14,11 @@ pbdApply <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
     ret <- pbdApply.general(X, MARGIN, FUN, ..., pbd.mode = pbd.mode,
                           rank.source = rank.source, comm = comm)
   }
+
+  if(barrier){
+    spmd.barrier(comm = comm)
+  }
+
+  ret
 } # End of pbdApply().
 

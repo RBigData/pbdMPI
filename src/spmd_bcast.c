@@ -139,3 +139,11 @@ SEXP spmd_bcast_raw(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm){
 	return(R_send_data);
 } /* End of spmd_bcast_raw(). */
 
+SEXP spmd_bcast_string(SEXP R_send_data, SEXP R_rank_source, SEXP R_comm){
+	char *C_send_data = CHARPT(R_send_data, 0);
+	spmd_errhandler(MPI_Bcast(C_send_data, strlen(C_send_data),
+		MPI_CHAR, INTEGER(R_rank_source)[0],
+		comm[INTEGER(R_comm)[0]]));
+	return(R_send_data);
+} /* End of spmd_bcast_string(). */
+

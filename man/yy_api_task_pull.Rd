@@ -8,15 +8,19 @@
   rests are workers.
 }
 \usage{
-  task.pull(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
-            comm = .SPMD.CT$comm, bcast = .SPMD.TP$bcast,
-            try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent)
+task.pull(jids, FUN, ..., rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
+          comm = .pbdMPIEnv$SPMD.CT$comm, bcast = .pbdMPIEnv$SPMD.TP$bcast,
+          barrier = .pbdMPIEnv$SPMD.TP$barrier,
+          try = .pbdMPIEnv$SPMD.TP$try,
+          try.silent = .pbdMPIEnv$SPMD.TP$try.silent)
 
-  task.pull.workers(FUN = function(jid, ...){ return(jid) }, ...,
-                    rank.master = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-                    try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent)
-  task.pull.master(jids, rank.master = .SPMD.CT$rank.root,
-                   comm = .SPMD.CT$comm)
+task.pull.workers(FUN = function(jid, ...){ return(jid) }, ...,
+                  rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
+                  comm = .pbdMPIEnv$SPMD.CT$comm,
+                  try = .pbdMPIEnv$SPMD.TP$try,
+                  try.silent = .pbdMPIEnv$SPMD.TP$try.silent)
+task.pull.master(jids, rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
+                 comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{jids}{all job ids.}
@@ -25,6 +29,7 @@
   \item{rank.master}{a rank of master where \code{jid} sent from.}
   \item{comm}{a communicator number.}
   \item{bcast}{if bcast to all ranks.}
+  \item{barrier}{if barrier for all ranks.}
   \item{try}{if use \code{try()} to avoid breaks. CAUTION: \code{try = FALSE}
              is not safe and can stop all MPI/R jobs.}
   \item{try.silent}{if turn off the error message from \code{try()}.}

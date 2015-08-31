@@ -16,8 +16,9 @@
 # where ret is the results in master, and NULL in all workers.
 
 task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
-    ..., rank.master = .SPMD.CT$rank.root, comm = .SPMD.CT$comm,
-    try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent){
+    ..., rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
+    comm = .pbdMPIEnv$SPMD.CT$comm,
+    try = .pbdMPIEnv$SPMD.TP$try, try.silent = .pbdMPIEnv$SPMD.TP$try.silent){
   ### FUN <- function(jid, ...) is a user defined function.
 
   ### Note the use of the tag for sent messages:
@@ -56,8 +57,8 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
 } # End of task.pull.workers().
 
 
-task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
-  comm = .SPMD.CT$comm){
+task.pull.master <- function(jids, rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
+    comm = .pbdMPIEnv$SPMD.CT$comm){
   ### Check.
   if(spmd.comm.rank(comm) != rank.master){
     comm.stop("Wrong master id.")
@@ -116,9 +117,11 @@ task.pull.master <- function(jids, rank.master = .SPMD.CT$rank.root,
 } # End of task.pull.master().
 
 
-task.pull <- function(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
-    comm = .SPMD.CT$comm, bcast = .SPMD.TP$bcast,
-    try = .SPMD.TP$try, try.silent = .SPMD.TP$try.silent){
+task.pull <- function(jids, FUN, ...,
+    rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
+    comm = .pbdMPIEnv$SPMD.CT$comm, bcast = .pbdMPIEnv$SPMD.TP$bcast,
+    barrier = .pbdMPIEnv$SPMD.TP$barrier,
+    try = .pbdMPIEnv$SPMD.TP$try, try.silent = .pbdMPIEnv$SPMD.TP$try.silent){
 
   if(spmd.comm.rank(comm) != rank.master){
     ret <- task.pull.workers(FUN, ..., rank.master = rank.master, comm = comm,
@@ -129,6 +132,10 @@ task.pull <- function(jids, FUN, ..., rank.master = .SPMD.CT$rank.root,
 
   if(bcast){
     ret <- spmd.bcast.object(ret, rank.source = rank.master, comm = comm)
+  }
+
+  if(barrier){
+    spmd.barrier(comm = comm)
   }
 
   ret

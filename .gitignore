@@ -1,0 +1,14 @@
+*.o
+*.mod
+*.so
+*.log
+*.status
+
+*~
+*.swp
+*.orig
+
+src/Makeconf
+src/Makevars
+
+R/zzz.r

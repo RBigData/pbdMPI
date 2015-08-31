@@ -7,6 +7,5 @@
 ### ?globalVariables
 
 if(getRversion() >= "2.15.1"){
-  utils::globalVariables(c(".SPMD.CT", ".SPMD.OP", ".SPMD.TP",
-                           ".SPMD.IO", ".pbdMPIEnv"))
+  utils::globalVariables(c(".pbdMPIEnv"))
 }

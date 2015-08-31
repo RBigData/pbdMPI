@@ -1,8 +1,5 @@
 \name{SPMD Control}
-\alias{.SPMD.CT}
-\alias{.SPMD.OP}
-\alias{.SPMD.IO}
-\alias{.SPMD.TP}
+\alias{.pbdMPIEnv}
 \docType{data}
 \title{Sets of controls in pbdMPI.}
 \description{
@@ -12,7 +9,7 @@
   Objects contain several parameters for communicators and methods.
 }
 \details{
-  The elements of \code{.SPMD.CT} are default values for controls
+  The elements of \code{.pbdMPIEnv$SPMD.CT} are default values for controls
   including
 \tabular{lcl}{
   Elements              \tab Default    \tab Usage \cr
@@ -41,7 +38,7 @@
   \code{lazy.check}     \tab TRUEE      \tab if use lazy check on all ranks \cr
 }
 
-  The elements of \code{.SPMD.OP} list the implemented operations for
+  The elements of \code{.pbdMPIEnv$SPMD.OP} list the implemented operations for
   \code{reduce()} and \code{allreduce()}. Currently, four operations are
   implemented "sum", "prod", "max", and "min".
 
@@ -57,12 +54,13 @@
   where \code{balance.method} is only used for "gbd" reading method when
   \code{nrows = -1} and \code{skip = 0} are set.
 
-  The elements of \code{.SPMD.TP} are default values mainly for task pull
-  including
+  The elements of \code{.pbdMPIEnv$SPMD.TP} are default values mainly for
+  task pull including
 \tabular{lcl}{
   Elements          \tab Default \tab Usage \cr
   \code{bcast}      \tab FALSE   \tab if \code{bcase()} objects to all ranks \cr
-  \code{try}        \tab TRUEE   \tab if use \code{try()} in works \cr
+  \code{barrier}    \tab TRUE    \tab if call \code{barrier()} for all ranks \cr
+  \code{try}        \tab TRUE    \tab if use \code{try()} in works \cr
   \code{try.silent} \tab FALSE   \tab if silent the \code{try()} message \cr
   See \code{\link{task.pull}()} for details.
 }

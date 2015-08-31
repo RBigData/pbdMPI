@@ -7,28 +7,30 @@
   These functions are global reading from specified file.
 }
 \usage{
-  comm.read.table(file, header = FALSE, sep = "", quote = "\"'",
-    dec = ".", col.names,
-    na.strings = "NA", colClasses = NA, nrows = -1, skip = 0,
-    check.names = TRUE, fill = !blank.lines.skip, strip.white = FALSE,
-    blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
-    flush = FALSE,
-    fileEncoding = "", encoding = "unknown", text,
-    read.method = .SPMD.IO$read.method[1],
-    balance.method = .SPMD.IO$balance.method[1],
-    comm = .SPMD.CT$comm)
+comm.read.table(file, header = FALSE, sep = "", quote = "\"'",
+                dec = ".", col.names,
+                na.strings = "NA", colClasses = NA, nrows = -1, skip = 0,
+                check.names = TRUE, fill = !blank.lines.skip,
+                strip.white = FALSE,
+                blank.lines.skip = TRUE, comment.char = "#",
+                allowEscapes = FALSE,
+                flush = FALSE,
+                fileEncoding = "", encoding = "unknown", text,
+                read.method = .pbdMPIEnv$SPMD.IO$read.method[1],
+                balance.method = .pbdMPIEnv$SPMD.IO$balance.method[1],
+                comm = .pbdMPIEnv$SPMD.CT$comm)
 
- comm.read.csv(file, header = TRUE, sep = ",", quote = "\"",
-               dec = ".", fill = TRUE, comment.char = "", ...,
-               read.method = .SPMD.IO$read.method[1],
-               balance.method = .SPMD.IO$balance.method[1],
-               comm = .SPMD.CT$comm)
+comm.read.csv(file, header = TRUE, sep = ",", quote = "\"",
+              dec = ".", fill = TRUE, comment.char = "", ...,
+              read.method = .pbdMPIEnv$SPMD.IO$read.method[1],
+              balance.method = .pbdMPIEnv$SPMD.IO$balance.method[1],
+              comm = .pbdMPIEnv$SPMD.CT$comm)
      
- comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
-                dec = ",", fill = TRUE, comment.char = "", ...,
-                read.method = .SPMD.IO$read.method[1],
-                balance.method = .SPMD.IO$balance.method[1],
-                comm = .SPMD.CT$comm)
+comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
+               dec = ",", fill = TRUE, comment.char = "", ...,
+               read.method = .pbdMPIEnv$SPMD.IO$read.method[1],
+               balance.method = .pbdMPIEnv$SPMD.IO$balance.method[1],
+               comm = .pbdMPIEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{file}{as in \code{read.table()}.}
@@ -62,7 +64,7 @@
   from rank 0, 1, 2, ...
 
   By default, rank 0 reads the file only, then scatter to other ranks for
-  small datasets (\code{.SPMD.IO$max.read.size}) in
+  small datasets (\code{.pbdMPIEnv$SPMD.IO$max.read.size}) in
   \code{read.method = "gbd"}.
   (bcast to others in \code{read.method = "common"}.)
 

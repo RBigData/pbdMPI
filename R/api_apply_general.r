@@ -48,8 +48,9 @@ array.to.list <- function(jid, X, dim.X, MARGIN){
   ret
 } # End of array.to.list().
 
-pbdApply.general <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
-    rank.source = .SPMD.CT$rank.root, comm = .SPMD.CT$comm){
+pbdApply.general <- function(X, MARGIN, FUN, ...,
+    pbd.mode = c("mw", "spmd", "dist"),
+    rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -84,14 +85,22 @@ pbdApply.general <- function(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd"),
         assign(names[i], arg.dots[[i]])
       }
     }
-  } else{
+  } else if(pbd.mode[1] == "spmd"){
     alljid <- get.jid(prod(dim(X)[MARGIN]), comm = comm)
     new.X <- lapply(list(alljid), array.to.list, X, dim(X), MARGIN) 
     new.X <- unlist(new.X, recursive = FALSE)
+  } else if(pbd.mode[1] == "dist"){
+    new.X <- X
+  } else{
+    comm.stop("pbd.mode is not found.")
   }
 
   ### Run as SPMD.
-  ret <- lapply(new.X, FUN, ...)
+  if(pbd.mode[1] != "dist"){
+    ret <- lapply(new.X, FUN, ...)
+  } else{
+    ret <- apply(new.X, MARGIN, FUN, ...)
+  }
 
   ### Gather data for MW.
   if(pbd.mode[1] == "mw"){

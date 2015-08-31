@@ -41,8 +41,9 @@ Basically, the reading steps are described as in the next.
       sequentially read in the designated records.    
 \item Call \code{comm.load.balance()} to balance the data.
 \end{enumerate}
-The file size limit is controlled by \code{.SPMD.IO$max.file.size}, and
-the first few line limit is controlled by \code{.SPMD.IO$max.test.lines}.
+The file size limit is controlled by \code{.pbdMPIEnv$SPMD.IO$max.file.size},
+and the first few line limit is controlled by
+\code{.pbdMPIEnv$SPMD.IO$max.test.lines}.
 Further, users can specify options \code{nrows} and \code{skip} to
 \code{comm.read.*()} to manually read the file and call
 \code{comm.load.balance()} later if needed.
