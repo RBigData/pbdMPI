@@ -1,100 +1,15 @@
-\name{SPMD Control Functions}
-\alias{SPMD.CT}
-\alias{SPMD.OP}
-\alias{SPMD.IO}
-\alias{SPMD.TP}
-
+\name{SPMD Control}
+\alias{.pbdMPIEnv}
+\docType{data}
 \title{Sets of controls in pbdMPI.}
 \description{
   These sets of controls are used to provide default values in this package.
 }
-\usage{
-SPMD.CT(
-  comm = 0L,
-  intercomm = 2L,
-  newcomm = 1L,
-  comm.within = 3L,
-  comm.between = 4L,
-  op = "sum",
-  port.name = "spmdport",
-  serv.name = "spmdserv",
-  print.all.rank = FALSE,
-  print.quiet = FALSE,
-  rank.root = 0L,
-  rank.source = 0L,
-  rank.dest = 1L,
-  request = 0L,
-  info = 0L,
-  status = 0L,
-  tag = 0L,
-  unlist = FALSE,
-  divide.method = c("block",
-                    "block0",
-                    "cycle"),
-  mpi.finalize = TRUE,
-  quit = TRUE,
-  msg.flush = TRUE,
-  msg.barrier = TRUE,
-  Rprof.all.rank = FALSE,
-  lazy.check = FALSE)
-
-SPMD.OP(
-  OP = c("sum", "prod", "max", "min", "land", "band",
-         "lor", "bor", "lxor", "bxor"))
-
-SPMD.IO(
-  max.read.size = 5.2e6,
-  max.test.lines = 500,
-  read.method = c("gbd", "common"),
-  balance.method = c("block", "block0", "block.cyclic"))
-
-SPMD.TP(
-  bcast = FALSE,
-  barrier = TRUE,
-  try = TRUE,
-  try.silent = FALSE)
-}
-\arguments{
-  \item{comm}{see details}
-  \item{intercomm}{see details}
-  \item{newcomm}{see details}
-  \item{comm.within}{see details}
-  \item{comm.between}{see details}
-  \item{op}{see details}
-  \item{port.name}{see details}
-  \item{serv.name}{see details}
-  \item{print.all.rank}{see details}
-  \item{print.quiet}{see details}
-  \item{rank.root}{see details}
-  \item{rank.source}{see details}
-  \item{rank.dest}{see details}
-  \item{request}{see details}
-  \item{info}{see details}
-  \item{status}{see details}
-  \item{tag}{see details}
-  \item{unlist}{see details}
-  \item{divide.method}{see details}
-  \item{mpi.finalize}{see details}
-  \item{quit}{see details}
-  \item{msg.flush}{see details}
-  \item{msg.barrier}{see details}
-  \item{Rprof.all.rank}{see details}
-  \item{lazy.check}{see details}
-
-  \item{OP}{see details}
-
-  \item{max.read.size}{see details}
-  \item{max.test.lines}{see details}
-  \item{read.method}{see details}
-  \item{balance.method}{see details}
-
-  \item{bcast}{see details}
-  \item{barrier}{see details}
-  \item{try}{see details}
-  \item{try.silent}{see details}
+\format{
+  Objects contain several parameters for communicators and methods.
 }
 \details{
-  The elements of \code{SPMD.CT()} are default values for controls
+  The elements of \code{.pbdMPIEnv$SPMD.CT} are default values for controls
   including
 \tabular{lcl}{
   Elements              \tab Default    \tab Usage \cr
@@ -123,11 +38,11 @@ SPMD.TP(
   \code{lazy.check}     \tab TRUEE      \tab if use lazy check on all ranks \cr
 }
 
-  The elements of \code{SPMD.OP()} list the implemented operations for
+  The elements of \code{.pbdMPIEnv$SPMD.OP} list the implemented operations for
   \code{reduce()} and \code{allreduce()}. Currently, four operations are
   implemented "sum", "prod", "max", and "min".
 
-  The elements of \code{SPMD.IO()} are default values for input and output
+  The elements of \code{.SPMD.IO} are default values for input and output
   including
 \tabular{lcl}{
   Elements              \tab Default    \tab Usage \cr
@@ -139,8 +54,8 @@ SPMD.TP(
   where \code{balance.method} is only used for "gbd" reading method when
   \code{nrows = -1} and \code{skip = 0} are set.
 
-  The elements of \code{SPMD.TP()} are default values mainly for task pull
-  including
+  The elements of \code{.pbdMPIEnv$SPMD.TP} are default values mainly for
+  task pull including
 \tabular{lcl}{
   Elements          \tab Default \tab Usage \cr
   \code{bcast}      \tab FALSE   \tab if \code{bcase()} objects to all ranks \cr
@@ -149,9 +64,6 @@ SPMD.TP(
   \code{try.silent} \tab FALSE   \tab if silent the \code{try()} message \cr
   See \code{\link{task.pull}()} for details.
 }
-}
-\value{
-  A list with controlling parameters and values is returns.
 }
 \references{
   Programming with Big Data in R Website:
