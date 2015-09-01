@@ -62,7 +62,7 @@ SPMD.OP <- function(
   OP = c("sum", "prod", "max", "min", "land", "band",
          "lor", "bor", "lxor", "bxor")
 ){
-  OP[1]
+  OP
 } # End of SPMD.OP().
 
 # SPMD.DT <- function(
