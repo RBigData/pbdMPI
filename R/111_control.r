@@ -47,7 +47,7 @@ SPMD.CT <- function(
     status = status,                  # For send() and recv().
     tag = tag,                        # For send() and recv().
     unlist = unlist,                  # For gather() and allgather().
-    divide.method = divide.method[1], # gbd stuffs.
+    divide.method = divide.method,    # gbd stuffs.
     mpi.finalize = mpi.finalize,      # MPI finalization.
     quit = quit,                      # R quit.
     msg.flush = msg.flush,            # For comm.print() and comm.cat().
@@ -62,7 +62,7 @@ SPMD.OP <- function(
   OP = c("sum", "prod", "max", "min", "land", "band",
          "lor", "bor", "lxor", "bxor")
 ){
-  OP[1]
+  OP
 } # End of SPMD.OP().
 
 # SPMD.DT <- function(

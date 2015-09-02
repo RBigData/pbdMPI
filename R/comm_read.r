@@ -1,12 +1,12 @@
 ### S3 tool function for writing.
 
 comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
-    dec = ".", col.names, 
+    dec = ".",
     na.strings = "NA", colClasses = NA, nrows = -1, skip = 0,
     check.names = TRUE, fill = !blank.lines.skip, strip.white = FALSE,
     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
     flush = FALSE,
-    fileEncoding = "", encoding = "unknown", text,
+    fileEncoding = "", encoding = "unknown",
     read.method = .pbdMPIEnv$SPMD.IO$read.method[1],
     balance.method = .pbdMPIEnv$SPMD.IO$balance.method[1],
     comm = .pbdMPIEnv$SPMD.CT$comm){
@@ -15,7 +15,7 @@ comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
   if(read.method[1] == "gbd"){
     ret <- read.table.gbd(
              file, header = header, sep = sep, quote = quote,
-             dec = dec, col.names,
+             dec = dec,
              na.strings = na.strings, colClasses = colClasses,
              nrows = nrows, skip = skip,
              check.names = check.names, fill = fill,
@@ -23,13 +23,13 @@ comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
              blank.lines.skip = blank.lines.skip,
              comment.char = comment.char,
              allowEscapes = allowEscapes, flush = flush,
-             fileEncoding = fileEncoding, encoding = encoding, text,
+             fileEncoding = fileEncoding, encoding = encoding,
              balance.method = balance.method,
              comm = comm)
   } else if(read.method[1] == "common"){
     ret <- read.table.common(
              file, header = header, sep = sep, quote = quote,
-             dec = dec, col.names,
+             dec = dec,
              na.strings = na.strings, colClasses = colClasses,
              nrows = nrows, skip = skip,
              check.names = check.names, fill = fill,
@@ -37,7 +37,7 @@ comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
              blank.lines.skip = blank.lines.skip,
              comment.char = comment.char,
              allowEscapes = allowEscapes, flush = flush,
-             fileEncoding = fileEncoding, encoding = encoding, text,
+             fileEncoding = fileEncoding, encoding = encoding,
              comm = comm)
   } else{
     comm.stop("read.method is undefined.", comm = comm)
@@ -49,12 +49,12 @@ comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
 
 
 read.table.gbd <- function(file, header = FALSE, sep = "",
-    quote = "\"'", dec = ".", col.names,
+    quote = "\"'", dec = ".",
     na.strings = "NA", colClasses = NA, nrows = -1, skip = 0,
     check.names = TRUE, fill = !blank.lines.skip, strip.white = FALSE,
     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
     flush = FALSE,
-    fileEncoding = "", encoding = "unknown", text,
+    fileEncoding = "", encoding = "unknown",
     balance.method = .pbdMPIEnv$SPMD.IO$balance.method[1],
     comm = .pbdMPIEnv$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm = comm)
@@ -83,7 +83,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
     if(file.size < .pbdMPIEnv$SPMD.IO$max.read.size){
       if(COMM.RANK == 0){
         tmp <- read.table(file, header = header, sep = sep, quote = quote,
-                          dec = dec, col.names, as.is = TRUE,
+                          dec = dec, as.is = TRUE,
                           na.strings = na.strings, colClasses = colClasses,
                           nrows = nrows, skip = skip,
                           check.names = check.names, fill = fill,
@@ -92,8 +92,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
                           comment.char = comment.char,
                           allowEscapes = allowEscapes, flush = flush,
                           stringsAsFactors = FALSE,
-                          fileEncoding = fileEncoding, encoding = encoding,
-                          text)
+                          fileEncoding = fileEncoding, encoding = encoding)
 
         ### Get divided indices.
         alljid <- get.jid(nrow(tmp), all = TRUE)
@@ -132,7 +131,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
       for(i.rank in 0:(COMM.SIZE - 1)){
         if(COMM.RANK == i.rank){
           ret <- read.table(file, header = header, sep = sep, quote = quote,
-                            dec = dec, col.names, as.is = TRUE,
+                            dec = dec, as.is = TRUE,
                             na.strings = na.strings, colClasses = colClasses,
                             nrows = nrows, skip = skip,
                             check.names = check.names, fill = fill,
@@ -141,8 +140,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
                             comment.char = comment.char,
                             allowEscapes = allowEscapes, flush = flush,
                             stringsAsFactors = FALSE,
-                            fileEncoding = fileEncoding, encoding = encoding,
-                            text)
+                            fileEncoding = fileEncoding, encoding = encoding)
         }
         spmd.barrier(comm = comm)
       }
@@ -159,7 +157,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
     for(i.rank in 0:(COMM.SIZE - 1)){
       if(i.rank == COMM.RANK){
         ret <- read.table(file, header = header, sep = sep, quote = quote,
-                          dec = dec, col.names, as.is = TRUE,
+                          dec = dec, as.is = TRUE,
                           na.strings = na.strings, colClasses = colClasses,
                           nrows = nrows, skip = skip,
                           check.names = check.names, fill = fill,
@@ -168,8 +166,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
                           comment.char = comment.char,
                           allowEscapes = allowEscapes, flush = flush,
                           stringsAsFactors = FALSE,
-                          fileEncoding = fileEncoding, encoding = encoding,
-                          text)
+                          fileEncoding = fileEncoding, encoding = encoding)
       }
       spmd.barrier(comm = comm)
     }
@@ -182,12 +179,12 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
 
 
 read.table.common <- function(file, header = FALSE, sep = "",
-    quote = "\"'", dec = ".", col.names,
+    quote = "\"'", dec = ".",
     na.strings = "NA", colClasses = NA, nrows = -1, skip = 0,
     check.names = TRUE, fill = !blank.lines.skip, strip.white = FALSE,
     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
     flush = FALSE,
-    fileEncoding = "", encoding = "unknown", text,
+    fileEncoding = "", encoding = "unknown",
     comm = .pbdMPIEnv$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm = comm)
   COMM.RANK <- spmd.comm.rank(comm = comm)
@@ -229,7 +226,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
     ### Ths file is small, so we read from rank 0 and bcast to all.
     if(COMM.RANK == 0){
       ret <- read.table(file, header = header, sep = sep, quote = quote,
-                        dec = dec, col.names, as.is = TRUE,
+                        dec = dec, as.is = TRUE,
                         na.strings = na.strings, colClasses = colClasses,
                         nrows = nrows, skip = skip,
                         check.names = check.names, fill = fill,
@@ -238,8 +235,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
                         comment.char = comment.char,
                         allowEscapes = allowEscapes, flush = flush,
                         stringsAsFactors = FALSE,
-                        fileEncoding = fileEncoding, encoding = encoding,
-                        text)
+                        fileEncoding = fileEncoding, encoding = encoding)
     }
     ret <- spmd.bcast.object(ret, comm = comm)
   } else{
@@ -248,7 +244,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
     for(i.rank in 0:(COMM.SIZE - 1)){
       if(i.rank == COMM.RANK){
         ret <- read.table(file, header = header, sep = sep, quote = quote,
-                          dec = dec, col.names, as.is = TRUE,
+                          dec = dec, as.is = TRUE,
                           na.strings = na.strings, colClasses = colClasses,
                           nrows = nrows, skip = skip,
                           check.names = check.names, fill = fill,
@@ -257,8 +253,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
                           comment.char = comment.char,
                           allowEscapes = allowEscapes, flush = flush,
                           stringsAsFactors = FALSE,
-                          fileEncoding = fileEncoding, encoding = encoding,
-                          text)
+                          fileEncoding = fileEncoding, encoding = encoding)
       }
       spmd.barrier(comm = comm)
     }

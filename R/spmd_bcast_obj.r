@@ -77,7 +77,7 @@ spmd.bcast.message <- function(x,
   } else{
     x.count <- spmd.bcast.integer(integer(1), rank.source = rank.source,
                                   comm = comm)
-    spmd.bcast.string(paste0(x.count, collapse = " "),
+    spmd.bcast.string(paste0(rep(" ", x.count), collapse = ""),
                       rank.source = rank.source, comm = comm)
   }
 } # End of spmd.bcast.message().

@@ -8,14 +8,14 @@
 }
 \usage{
 comm.read.table(file, header = FALSE, sep = "", quote = "\"'",
-                dec = ".", col.names,
+                dec = ".",
                 na.strings = "NA", colClasses = NA, nrows = -1, skip = 0,
                 check.names = TRUE, fill = !blank.lines.skip,
                 strip.white = FALSE,
                 blank.lines.skip = TRUE, comment.char = "#",
                 allowEscapes = FALSE,
                 flush = FALSE,
-                fileEncoding = "", encoding = "unknown", text,
+                fileEncoding = "", encoding = "unknown",
                 read.method = .pbdMPIEnv$SPMD.IO$read.method[1],
                 balance.method = .pbdMPIEnv$SPMD.IO$balance.method[1],
                 comm = .pbdMPIEnv$SPMD.CT$comm)
@@ -38,7 +38,6 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
   \item{sep}{as in \code{read.table()}.}
   \item{quote}{as in \code{read.table()}.}
   \item{dec}{as in \code{read.table()}.}
-  \item{col.names}{as in \code{read.table()}.}
   \item{na.strings}{as in \code{read.table()}.}
   \item{colClasses}{as in \code{read.table()}.}
   \item{nrows}{as in \code{read.table()}.}
@@ -52,7 +51,6 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
   \item{flush}{as in \code{read.table()}.}
   \item{fileEncoding}{as in \code{read.table()}.}
   \item{encoding}{as in \code{read.table()}.}
-  \item{text}{as in \code{read.table()}.}
   \item{...}{as in \code{read.csv*()}.}
   \item{read.method}{either "gbd" or "common".}
   \item{balance.method}{balance method for \code{read.method = "gbd"}
