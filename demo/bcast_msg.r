@@ -10,7 +10,7 @@ init()
 x <- .comm.rank
 msg <- NULL
 if(.comm.rank == 0){
-  msg <- "as.character(x)"
+  msg <- "y <- as.character(x)"
 }
 
 ### Get message.
@@ -19,9 +19,9 @@ msg <- spmd.bcast.message(msg)
 ### Evaluate the message: convert x to a string
 eval(parse(text = msg))
 
-y <- spmd.bcast.string(x)
+z <- spmd.bcast.string(y)
 comm.cat("\nBcast string:\n", quiet = TRUE)
-comm.print(y, rank.print = 1)
+comm.print(z, all.rank = TRUE)
 
 ### Finish.
 finalize()
