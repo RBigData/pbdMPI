@@ -3,7 +3,7 @@
 ### Default method.
 spmd.allreduce.default <- function(x, x.buffer = NULL,
     op = .pbdMPIEnv$SPMD.CT$op, comm = .pbdMPIEnv$SPMD.CT$comm){
-  op <- comm.match.arg(tolower(op[1]), .pbdMPIEnv$SPMD.OP)
+  op <- match.arg(tolower(op[1]), .pbdMPIEnv$SPMD.OP)
 
   if(op %in% c("land", "band", "lor", "bor", "lxor", "bxor")){
     x <- as.integer(x)
