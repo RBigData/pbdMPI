@@ -18,7 +18,7 @@ Pragneshkumar Patel$^3$, Hao Yu$^4$
 \\
 \\
 $^1$Center for Biologics Evaluation and Research, \\
-Food and Drug Adminstration, \\
+Food and Drug Administration, \\
 Silver Spring, MD, USA \\
 \\
 $^2$Computer Science and Mathematics Division, \\
