@@ -2,7 +2,7 @@
 
 \documentclass[article,shortnames,nojss]{jss}
 
-\newcommand{\mpiversion}{0.2-6}
+\newcommand{\mpiversion}{0.3-0}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
