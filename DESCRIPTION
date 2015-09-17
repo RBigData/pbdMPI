@@ -14,7 +14,7 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         person("R Core team", role = "ctb", comment = "some functions are
         modified from the base packages"))
 Depends: R (>= 3.0.0), methods, rlecuyer
-Enhances: pbdPROF
+Enhances: pbdPROF, pbdZMQ, pbdCS
 LazyLoad: yes
 LazyData: yes
 Description: An efficient interface to MPI by utilizing S4
@@ -30,7 +30,7 @@ BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 NeedsCompilation: yes
-Packaged: 2015-09-02 23:44:33 UTC; snoweye
+Packaged: 2015-09-17 14:04:37 UTC; snoweye
 Author: Wei-Chen Chen [aut, cre],
   George Ostrouchov [aut],
   Drew Schmidt [aut],

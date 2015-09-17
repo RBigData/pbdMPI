@@ -1,3 +1,6 @@
+2015-09-05: Ver. 0.3-0
+  * Check with ZMQ and CS.
+
 2015-08-30: Ver. 0.3-0
   * Reversion to 0.3.
   * Change option controlling method. Move from data to new.env.
