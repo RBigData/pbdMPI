@@ -27,7 +27,11 @@ $^3$National Institute for Computational Sciences, \\
 University of Tennessee, \\
 Knoxville, TN, USA \\
 \\
-$^4$University of Western Ontario, \\
+$^4$Business Analytics and Statistics, \\
+University of Tennessee, \\
+Knoxville, TN, USA \\
+\\
+$^5$University of Western Ontario, \\
 London, Ontario, Canada \\
 %\\
 %\\

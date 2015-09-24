@@ -60,7 +60,7 @@
         break
       }
     }
-    
+
     if(!success){
       stop(paste("Could not find", mpi.libname, "in LD_LIBRARY_PATH"))
     }
