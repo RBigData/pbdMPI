@@ -20,8 +20,8 @@ spmd.comm.print <- function(x, all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
   COMM.RANK <- spmd.comm.rank(comm)
 
   # Don't print "COMM.RANK = " even if verbose=TRUE in the case 'x' is invalid
-  if (!exists(deparse(substitute(x))))
-    quiet <- TRUE
+  # if (!exists(deparse(substitute(x))))
+  #   quiet <- TRUE
 
   if(barrier){
     spmd.barrier(comm)
