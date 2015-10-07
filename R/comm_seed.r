@@ -1,7 +1,7 @@
 ### Seed functions for random number generators.
 
 comm.set.seed <- function(seed, diff = FALSE, state = NULL,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    comm = .pbdEnv$SPMD.CT$comm){
   if(exists(".lec.Random.seed.table", envir = .GlobalEnv)){
     comm.end.seed(comm)
   }
@@ -28,7 +28,7 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL,
   invisible()
 } # End of comm.set.seed().
 
-comm.end.seed <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.end.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
   name <- get(".lec.Random.seed.table", envir = .GlobalEnv)$name
 
   if(! is.null(name)){
@@ -41,7 +41,7 @@ comm.end.seed <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   invisible()
 } # End of comm.end.seed().
 
-comm.reset.seed <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.reset.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
 
   if(is.null(seed.table)){
@@ -62,7 +62,7 @@ comm.reset.seed <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   invisible()
 } # End of comm.reset.seed().
 
-comm.seed.state <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.seed.state <- function(comm = .pbdEnv$SPMD.CT$comm){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
 
   if(is.null(seed.table)){

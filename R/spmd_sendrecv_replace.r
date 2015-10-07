@@ -2,13 +2,13 @@
 
 ### Default method.
 spmd.sendrecv.replace.default <- function(x,
-    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
-                comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    send.tag = .pbdMPIEnv$SPMD.CT$tag,
-    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
-                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    recv.tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdEnv$SPMD.CT$comm),
+    send.tag = .pbdEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdEnv$SPMD.CT$comm),
+    recv.tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   x.raw <- serialize(x, NULL)
   total.org <- length(x.raw)
   total.new <- spmd.sendrecv.replace.integer(as.integer(total.org),
@@ -32,13 +32,13 @@ spmd.sendrecv.replace.default <- function(x,
 
 ### For sendrecv.replace.
 spmd.sendrecv.replace.integer <- function(x,
-    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
-                comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    send.tag = .pbdMPIEnv$SPMD.CT$tag,
-    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
-                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    recv.tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdEnv$SPMD.CT$comm),
+    send.tag = .pbdEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdEnv$SPMD.CT$comm),
+    recv.tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   .Call("spmd_sendrecv_replace_integer", x,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),
@@ -46,13 +46,13 @@ spmd.sendrecv.replace.integer <- function(x,
 } # End of spmd.sendrecv.replace.integer().
 
 spmd.sendrecv.replace.double <- function(x,
-    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
-                comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    send.tag = .pbdMPIEnv$SPMD.CT$tag,
-    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
-                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    recv.tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdEnv$SPMD.CT$comm),
+    send.tag = .pbdEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdEnv$SPMD.CT$comm),
+    recv.tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   .Call("spmd_sendrecv_replace_double", x,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),
@@ -60,13 +60,13 @@ spmd.sendrecv.replace.double <- function(x,
 } # End of spmd.sendrecv.replace.double().
 
 spmd.sendrecv.replace.raw <- function(x,
-    rank.dest = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) + 1) %%
-                comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    send.tag = .pbdMPIEnv$SPMD.CT$tag,
-    rank.source = (comm.rank(.pbdMPIEnv$SPMD.CT$comm) - 1) %%
-                  comm.size(.pbdMPIEnv$SPMD.CT$comm),
-    recv.tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.dest = (comm.rank(.pbdEnv$SPMD.CT$comm) + 1) %%
+                comm.size(.pbdEnv$SPMD.CT$comm),
+    send.tag = .pbdEnv$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbdEnv$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbdEnv$SPMD.CT$comm),
+    recv.tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   .Call("spmd_sendrecv_replace_raw", x,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),

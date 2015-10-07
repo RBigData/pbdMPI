@@ -8,9 +8,9 @@
   The functions call MPI wait functions.
 }
 \usage{
-wait(request = .pbdMPIEnv$SPMD.CT$request,
-     status = .pbdMPIEnv$SPMD.CT$status)
-waitany(count, status = .pbdMPIEnv$SPMD.CT$status)
+wait(request = .pbdEnv$SPMD.CT$request,
+     status = .pbdEnv$SPMD.CT$status)
+waitany(count, status = .pbdEnv$SPMD.CT$status)
 waitsome(count)
 waitall(count)
 }

@@ -28,48 +28,48 @@
   The functions provide controls to communicators.
 }
 \usage{
-barrier(comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.is.null(comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.rank(comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.size(comm = .pbdMPIEnv$SPMD.CT$comm)
+barrier(comm = .pbdEnv$SPMD.CT$comm)
+comm.is.null(comm = .pbdEnv$SPMD.CT$comm)
+comm.rank(comm = .pbdEnv$SPMD.CT$comm)
+comm.size(comm = .pbdEnv$SPMD.CT$comm)
 comm.dup(comm, newcomm)
-comm.free(comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.free(comm = .pbdEnv$SPMD.CT$comm)
 init(set.seed = TRUE)
-finalize(mpi.finalize = .pbdMPIEnv$SPMD.CT$mpi.finalize)
+finalize(mpi.finalize = .pbdEnv$SPMD.CT$mpi.finalize)
 is.finalized()
 
-comm.abort(errorcode = 1, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.split(comm = .pbdMPIEnv$SPMD.CT$comm, color = 0L, key = 0L,
-           newcomm = .pbdMPIEnv$SPMD.CT$newcomm)
-comm.disconnect(comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.connect(port.name, info = .pbdMPIEnv$SPMD.CT$info,
-             rank.root = .pbdMPIEnv$SPMD.CT$rank.root,
-             comm = .pbdMPIEnv$SPMD.CT$comm,
-             newcomm = .pbdMPIEnv$SPMD.CT$newcomm)
-comm.accept(port.name, info = .pbdMPIEnv$SPMD.CT$info,
-            rank.root = .pbdMPIEnv$SPMD.CT$rank.root,
-            comm = .pbdMPIEnv$SPMD.CT$comm,
-            newcomm = .pbdMPIEnv$SPMD.CT$newcomm)
+comm.abort(errorcode = 1, comm = .pbdEnv$SPMD.CT$comm)
+comm.split(comm = .pbdEnv$SPMD.CT$comm, color = 0L, key = 0L,
+           newcomm = .pbdEnv$SPMD.CT$newcomm)
+comm.disconnect(comm = .pbdEnv$SPMD.CT$comm)
+comm.connect(port.name, info = .pbdEnv$SPMD.CT$info,
+             rank.root = .pbdEnv$SPMD.CT$rank.root,
+             comm = .pbdEnv$SPMD.CT$comm,
+             newcomm = .pbdEnv$SPMD.CT$newcomm)
+comm.accept(port.name, info = .pbdEnv$SPMD.CT$info,
+            rank.root = .pbdEnv$SPMD.CT$rank.root,
+            comm = .pbdEnv$SPMD.CT$comm,
+            newcomm = .pbdEnv$SPMD.CT$newcomm)
 
-port.open(info = .pbdMPIEnv$SPMD.CT$info)
+port.open(info = .pbdEnv$SPMD.CT$info)
 port.close(port.name)
-serv.publish(port.name, serv.name = .pbdMPIEnv$SPMD.CT$serv.name,
-             info = .pbdMPIEnv$SPMD.CT$info)
-serv.unpublish(port.name, serv.name = .pbdMPIEnv$SPMD.CT$serv.name,
-               info = .pbdMPIEnv$SPMD.CT$info)
-serv.lookup(serv.name = .pbdMPIEnv$SPMD.CT$serv.name,
-            info = .pbdMPIEnv$SPMD.CT$info)
+serv.publish(port.name, serv.name = .pbdEnv$SPMD.CT$serv.name,
+             info = .pbdEnv$SPMD.CT$info)
+serv.unpublish(port.name, serv.name = .pbdEnv$SPMD.CT$serv.name,
+               info = .pbdEnv$SPMD.CT$info)
+serv.lookup(serv.name = .pbdEnv$SPMD.CT$serv.name,
+            info = .pbdEnv$SPMD.CT$info)
 
-intercomm.merge(intercomm = .pbdMPIEnv$SPMD.CT$intercomm,
-                high = 0L, comm = .pbdMPIEnv$SPMD.CT$comm)
-intercomm.create(local.comm = .pbdMPIEnv$SPMD.CT$comm,
-                 local.leader = .pbdMPIEnv$SPMD.CT$rank.source,
-                 peer.comm = .pbdMPIEnv$SPMD.CT$intercomm,
-                 remote.leader = .pbdMPIEnv$SPMD.CT$rank.dest,
-                 tag = .pbdMPIEnv$SPMD.CT$tag, 
-                 newintercomm = .pbdMPIEnv$SPMD.CT$newcomm)
+intercomm.merge(intercomm = .pbdEnv$SPMD.CT$intercomm,
+                high = 0L, comm = .pbdEnv$SPMD.CT$comm)
+intercomm.create(local.comm = .pbdEnv$SPMD.CT$comm,
+                 local.leader = .pbdEnv$SPMD.CT$rank.source,
+                 peer.comm = .pbdEnv$SPMD.CT$intercomm,
+                 remote.leader = .pbdEnv$SPMD.CT$rank.dest,
+                 tag = .pbdEnv$SPMD.CT$tag, 
+                 newintercomm = .pbdEnv$SPMD.CT$newcomm)
 
-comm.c2f(comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.c2f(comm = .pbdEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{comm}{a communicator number.}

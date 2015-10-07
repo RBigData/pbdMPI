@@ -8,11 +8,11 @@
   for all ranks.
 }
 \usage{
-comm.any(x, na.rm = FALSE, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.all(x, na.rm = FALSE, comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.any(x, na.rm = FALSE, comm = .pbdEnv$SPMD.CT$comm)
+comm.all(x, na.rm = FALSE, comm = .pbdEnv$SPMD.CT$comm)
 
-comm.allcommon(x, comm = .pbdMPIEnv$SPMD.CT$comm,
-               lazy.check = .pbdMPIEnv$SPMD.CT$lazy.check)
+comm.allcommon(x, comm = .pbdEnv$SPMD.CT$comm,
+               lazy.check = .pbdEnv$SPMD.CT$lazy.check)
 }
 \arguments{
   \item{x}{a vector.}

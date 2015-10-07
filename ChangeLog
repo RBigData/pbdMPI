@@ -1,5 +1,7 @@
 2015-09-05: Ver. 0.3-0
   * Check with ZMQ and CS.
+  * Rename global Env again.
+  * Drop "data/envir.r".
 
 2015-08-30: Ver. 0.3-0
   * Reversion to 0.3.

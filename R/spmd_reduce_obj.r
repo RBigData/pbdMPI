@@ -1,8 +1,8 @@
 ### Median level functions for R objects. These should not be in S3/S4.
 
 ### For general types.
-spmd.reduce.object <- function(x, op = .pbdMPIEnv$SPMD.CT$op,
-    rank.dest = .pbdMPIEnv$SPMD.CT$rank.source, comm = .pbdMPIEnv$SPMD.CT$comm){
+spmd.reduce.object <- function(x, op = .pbdEnv$SPMD.CT$op,
+    rank.dest = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm){
   x <- try(as.double(x), silent = TRUE)
   if(class(x) == "try-error"){
     stop(x) 
@@ -16,8 +16,8 @@ spmd.reduce.object <- function(x, op = .pbdMPIEnv$SPMD.CT$op,
 } # End of spmd.reduce.object().
 
 ### For array only.
-spmd.reduce.array <- function(x, op = .pbdMPIEnv$SPMD.CT$op,
-    rank.dest = .pbdMPIEnv$SPMD.CT$rank.source, comm = .pbdMPIEnv$SPMD.CT$comm){
+spmd.reduce.array <- function(x, op = .pbdEnv$SPMD.CT$op,
+    rank.dest = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
 
   all.check <- spmd.allreduce.integer(

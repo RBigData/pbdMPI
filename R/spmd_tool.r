@@ -1,6 +1,6 @@
 ### Tool functions.
 
-spmd.hostinfo <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
+spmd.hostinfo <- function(comm = .pbdEnv$SPMD.CT$comm){
   if(spmd.comm.size(comm) == 0){
     stop(paste("It seems no members running on comm", comm))
   }
@@ -12,11 +12,11 @@ spmd.hostinfo <- function(comm = .pbdMPIEnv$SPMD.CT$comm){
   invisible()
 } # End of spmd.hostinfo().
 
-spmd.comm.print <- function(x, all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdMPIEnv$SPMD.CT$rank.source, comm = .pbdMPIEnv$SPMD.CT$comm,
-    quiet = .pbdMPIEnv$SPMD.CT$print.quiet,
-    flush = .pbdMPIEnv$SPMD.CT$msg.flush,
-    barrier = .pbdMPIEnv$SPMD.CT$msg.barrier, con = stdout(), ...){
+spmd.comm.print <- function(x, all.rank = .pbdEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm,
+    quiet = .pbdEnv$SPMD.CT$print.quiet,
+    flush = .pbdEnv$SPMD.CT$msg.flush,
+    barrier = .pbdEnv$SPMD.CT$msg.barrier, con = stdout(), ...){
   COMM.RANK <- spmd.comm.rank(comm)
 
   # Don't print "COMM.RANK = " even if verbose=TRUE in the case 'x' is invalid
@@ -70,11 +70,11 @@ spmd.comm.print <- function(x, all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
 
 comm.print <- spmd.comm.print
 
-spmd.comm.cat <- function(..., all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdMPIEnv$SPMD.CT$rank.source, comm = .pbdMPIEnv$SPMD.CT$comm,
-    quiet = .pbdMPIEnv$SPMD.CT$print.quiet, sep = " ", fill = FALSE,
-    labels = NULL, append = FALSE, flush = .pbdMPIEnv$SPMD.CT$msg.flush,
-    barrier = .pbdMPIEnv$SPMD.CT$msg.barrier, con = stdout()){
+spmd.comm.cat <- function(..., all.rank = .pbdEnv$SPMD.CT$print.all.rank,
+    rank.print = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm,
+    quiet = .pbdEnv$SPMD.CT$print.quiet, sep = " ", fill = FALSE,
+    labels = NULL, append = FALSE, flush = .pbdEnv$SPMD.CT$msg.flush,
+    barrier = .pbdEnv$SPMD.CT$msg.barrier, con = stdout()){
   COMM.RANK <- spmd.comm.rank(comm)
 
   if(barrier){

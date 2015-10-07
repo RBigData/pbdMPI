@@ -8,19 +8,19 @@
   rests are workers.
 }
 \usage{
-task.pull(jids, FUN, ..., rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
-          comm = .pbdMPIEnv$SPMD.CT$comm, bcast = .pbdMPIEnv$SPMD.TP$bcast,
-          barrier = .pbdMPIEnv$SPMD.TP$barrier,
-          try = .pbdMPIEnv$SPMD.TP$try,
-          try.silent = .pbdMPIEnv$SPMD.TP$try.silent)
+task.pull(jids, FUN, ..., rank.master = .pbdEnv$SPMD.CT$rank.root,
+          comm = .pbdEnv$SPMD.CT$comm, bcast = .pbdEnv$SPMD.TP$bcast,
+          barrier = .pbdEnv$SPMD.TP$barrier,
+          try = .pbdEnv$SPMD.TP$try,
+          try.silent = .pbdEnv$SPMD.TP$try.silent)
 
 task.pull.workers(FUN = function(jid, ...){ return(jid) }, ...,
-                  rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
-                  comm = .pbdMPIEnv$SPMD.CT$comm,
-                  try = .pbdMPIEnv$SPMD.TP$try,
-                  try.silent = .pbdMPIEnv$SPMD.TP$try.silent)
-task.pull.master(jids, rank.master = .pbdMPIEnv$SPMD.CT$rank.root,
-                 comm = .pbdMPIEnv$SPMD.CT$comm)
+                  rank.master = .pbdEnv$SPMD.CT$rank.root,
+                  comm = .pbdEnv$SPMD.CT$comm,
+                  try = .pbdEnv$SPMD.TP$try,
+                  try.silent = .pbdEnv$SPMD.TP$try.silent)
+task.pull.master(jids, rank.master = .pbdEnv$SPMD.CT$rank.root,
+                 comm = .pbdEnv$SPMD.CT$comm)
 }
 \arguments{
   \item{jids}{all job ids.}

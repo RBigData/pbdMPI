@@ -9,7 +9,7 @@
   These sets of controls are used to provide default values in this package.
 }
 \seealso{
-  \code{\link{.pbdMPIEnv}}.
+  \code{\link{.pbdEnv}}.
 }
 \references{
   Programming with Big Data in R Website:

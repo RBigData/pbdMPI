@@ -1,7 +1,7 @@
 ### For computing global which.*().
 
 comm.which <- function(x, arr.ind = FALSE, useNames = TRUE,
-                       comm = .pbdMPIEnv$SPMD.CT$comm){
+                       comm = .pbdEnv$SPMD.CT$comm){
   tmp <- which(x, arr.ind = arr.ind, useNames = useNames)
   if(length(tmp) > 0){
     tmp <- cbind(comm.rank(comm), tmp)
@@ -19,7 +19,7 @@ comm.which <- function(x, arr.ind = FALSE, useNames = TRUE,
   ret
 } # End of comm.which().
 
-comm.which.max <- function(x, comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.which.max <- function(x, comm = .pbdEnv$SPMD.CT$comm){
   id.max <- which.max(x)
   x.max <- x[id.max] 
   global.x.max <- max(do.call("c", allgather(x.max, comm = comm)),
@@ -42,7 +42,7 @@ comm.which.max <- function(x, comm = .pbdMPIEnv$SPMD.CT$comm){
   ret
 } # End of comm.which.max().
 
-comm.which.min <- function(x, comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.which.min <- function(x, comm = .pbdEnv$SPMD.CT$comm){
   id.min <- which.min(x)
   x.min <- x[id.min] 
   global.x.min <- min(do.call("c", allgather(x.min, comm = comm)),

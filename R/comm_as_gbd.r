@@ -1,9 +1,9 @@
 ### Redistributing a regular matrix to be a gbd matrix.
 ### Assume gbd.major = 1.
 
-comm.as.gbd <- function(X, balance.method = .pbdMPIEnv$SPMD.IO$balance.method,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.as.gbd <- function(X, balance.method = .pbdEnv$SPMD.IO$balance.method,
+    rank.source = .pbdEnv$SPMD.CT$rank.source,
+    comm = .pbdEnv$SPMD.CT$comm){
   ### Check.
   COMM.RANK <- spmd.comm.rank(comm)
   ncol.X <- integer(1)

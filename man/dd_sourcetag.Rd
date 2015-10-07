@@ -10,7 +10,7 @@
 \usage{
 anysource()
 anytag()
-get.sourcetag(status = .pbdMPIEnv$SPMD.CT$status)
+get.sourcetag(status = .pbdEnv$SPMD.CT$status)
 }
 \arguments{
   \item{status}{a status number.}

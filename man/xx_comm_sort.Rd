@@ -6,7 +6,7 @@
 }
 \usage{
 comm.sort(x, decreasing = FALSE, na.last = NA,
-          comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status)
+          comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status)
 }
 \arguments{
   \item{x}{a vector.}

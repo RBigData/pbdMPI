@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.recv.default <- function(x.buffer = NULL,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source, tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   spmd.probe(rank.source, tag, comm, status)
   source.tag <- spmd.get.sourcetag(status)
   total.length <- spmd.get.count(4L, status)
@@ -17,24 +17,24 @@ spmd.recv.default <- function(x.buffer = NULL,
 
 ### For recv.
 spmd.recv.integer <- function(x.buffer,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source, tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   .Call("spmd_recv_integer", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
         PACKAGE = "pbdMPI")
 } # End of spmd.recv.integer().
 
 spmd.recv.double <- function(x.buffer,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source, tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   .Call("spmd_recv_double", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
         PACKAGE = "pbdMPI")
 } # End of spmd.recv.double().
 
 spmd.recv.raw <- function(x.buffer,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source, tag = .pbdMPIEnv$SPMD.CT$tag,
-    comm = .pbdMPIEnv$SPMD.CT$comm, status = .pbdMPIEnv$SPMD.CT$status){
+    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
+    comm = .pbdEnv$SPMD.CT$comm, status = .pbdEnv$SPMD.CT$status){
   .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
         PACKAGE = "pbdMPI")
