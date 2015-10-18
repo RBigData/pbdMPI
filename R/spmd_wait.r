@@ -5,7 +5,7 @@ spmd.wait <- function(request = .pbdEnv$SPMD.CT$request,
   ret <- .Call("spmd_wait", as.integer(request), as.integer(status),
                PACKAGE = "pbdMPI")
   ### Clear non-blocking buffer.
-  .pbdEnv$nb.buffer <- list()
+  .pbdEnv$SPMD.NB.BUFFER <- list()
   invisible(ret)
 } # End of spmd.wait().
 

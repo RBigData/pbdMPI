@@ -1,4 +1,4 @@
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Define method.
 mean.simple <- function(x, ...){

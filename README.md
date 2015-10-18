@@ -36,7 +36,7 @@ and simple to use.  Below is a basic "hello world" program:
 
 ```r
 # load the package
-library(pbdMPI)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 
 # initialize the MPI communicators
 init()

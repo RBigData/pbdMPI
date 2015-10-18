@@ -1,4 +1,4 @@
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Define method.
 allgather.simple <- function(x, x.buffer = NULL, x.count = NULL,

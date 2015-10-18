@@ -17,11 +17,11 @@ spmd.isend.default <- function(x,
   # spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
   #               tag = tag, comm = comm)
   ### Use non-blocking buffer to avoid dead lock and use non-block send.
-  if(is.null(.pbdEnv$nb.buffer)){
-    .pbdEnv$nb.buffer <- list()
+  if(is.null(.pbdEnv$SPMD.NB.BUFFER)){
+    .pbdEnv$SPMD.NB.BUFFER <- list()
   }
-  .pbdEnv$nb.buffer[[length(.pbdEnv$nb.buffer) + 1]] <- serialize(x, NULL)
-  spmd.isend.raw(.pbdEnv$nb.buffer[[length(.pbdEnv$nb.buffer)]],
+  .pbdEnv$SPMD.NB.BUFFER[[length(.pbdEnv$SPMD.NB.BUFFER) + 1]] <- serialize(x, NULL)
+  spmd.isend.raw(.pbdEnv$SPMD.NB.BUFFER[[length(.pbdEnv$SPMD.NB.BUFFER)]],
                  rank.dest = as.integer(rank.dest),
                  tag = as.integer(tag), comm = as.integer(comm),
                  request = as.integer(request))

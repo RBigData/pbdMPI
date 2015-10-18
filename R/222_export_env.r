@@ -6,4 +6,4 @@
 .pbdEnv$SPMD.TP <- SPMD.TP()
 
 ### For non-blocking calls.
-.pbdEnv$nb.buffer <- list()
+.pbdEnv$SPMD.NB.BUFFER <- list()

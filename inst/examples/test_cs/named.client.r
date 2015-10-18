@@ -1,7 +1,7 @@
 ### See ``http://www.mpi-forum.org/docs/mpi-20-html/node106.htm'' for details.
 
 ### Initial MPI.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 server.comm <- .SPMD.CT$newcomm
 
