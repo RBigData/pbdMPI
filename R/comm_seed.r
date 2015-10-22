@@ -19,6 +19,7 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL,
     name <- "0"
   }
 
+  invisible(eval(.lec.old.kind <- RNGkind(), envir = .GlobalEnv))
   invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
   invisible(eval(.lec.CreateStream(names), envir = .GlobalEnv))
   if(! is.null(state)){
@@ -30,12 +31,16 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL,
 
 comm.end.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
   name <- get(".lec.Random.seed.table", envir = .GlobalEnv)$name
+  old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
+  if(class(old.kind) == "try-error"){
+    old.kind <- RNGkind()
+  }
 
   if(! is.null(name)){
-    invisible(eval(.lec.CurrentStreamEnd(), envir = .GlobalEnv))
+    invisible(eval(.lec.CurrentStreamEnd(old.kind), envir = .GlobalEnv))
     invisible(eval(.lec.DeleteStream(name), envir = .GlobalEnv))
-    rm.list <- c(".lec.Random.seed.table", ".Random.seed")
-    invisible(eval(rm(list = rm.list, envir = .GlobalEnv)))
+    # rm.list <- c(".lec.Random.seed.table", ".Random.seed")
+    # invisible(eval(rm(list = rm.list, envir = .GlobalEnv)))
   }
 
   invisible()
@@ -43,6 +48,7 @@ comm.end.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
 
 comm.reset.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
+  old.kind <- get(".lec.old.kind", envir = .GlobalEnv)
 
   if(is.null(seed.table)){
     comm.stop("seed.table is not found.", comm = comm)
@@ -56,7 +62,7 @@ comm.reset.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
     comm.stop("seed.table is incorrect.", comm = comm)
   }
 
-  invisible(eval(.lec.CurrentStreamEnd(), envir = .GlobalEnv))
+  invisible(eval(.lec.CurrentStreamEnd(old.kind), envir = .GlobalEnv))
   invisible(eval(.lec.ResetStartStream(name), envir = .GlobalEnv))
   invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
   invisible()
@@ -64,6 +70,7 @@ comm.reset.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
 
 comm.seed.state <- function(comm = .pbdEnv$SPMD.CT$comm){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
+  old.kind <- get(".lec.old.kind", envir = .GlobalEnv)
 
   if(is.null(seed.table)){
     comm.stop("seed.table is not found.", comm = comm)
@@ -78,7 +85,7 @@ comm.seed.state <- function(comm = .pbdEnv$SPMD.CT$comm){
   }
 
   ### Terminate the stream first to get the current state.
-  invisible(.lec.CurrentStreamEnd())
+  invisible(.lec.CurrentStreamEnd(old.kind))
   ret <- .lec.GetState(name)
 
   ### Set the state back to stream (pretend as nothing happens).
