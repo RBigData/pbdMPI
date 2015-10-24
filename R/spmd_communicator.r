@@ -78,10 +78,10 @@ spmd.init <- function(set.seed = TRUE){
     names <- as.character(0:(comm.size - 1))
     name <- as.character(comm.rank)
 
-    invisible(eval(.lec.old.kind <- RNGkind(), envir = .GlobalEnv))
-    invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
-    invisible(eval(.lec.CreateStream(names), envir = .GlobalEnv))
-    invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
+    suppressWarnings(eval(.lec.old.kind <- RNGkind(), envir = .GlobalEnv))
+    suppressWarnings(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
+    suppressWarnings(eval(.lec.CreateStream(names), envir = .GlobalEnv))
+    suppressWarnings(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
   }
 
   invisible(ret)
