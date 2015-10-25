@@ -2,7 +2,7 @@
 ### Assume gbd.major = 1.
 
 comm.allpairs <- function(N, diag = FALSE, symmetric = TRUE,
-    comm = .pbdEnv$SPMD.CT$comm){
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   ### Check.
   if(!comm.allcommon.integer(N, comm = comm)){
     comm.stop("N should be all the same.")

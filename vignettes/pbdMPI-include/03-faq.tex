@@ -201,7 +201,7 @@ finalize()
       it is changed since version 0.2-3. A temporary buffer list
       \code{SPMD.NB.BUFFER} is used to store all objects being sent by
       \code{isend()}. The buffer is created
-      and cumulated in \code{.pbdEnv}, but released as
+      and cumulated in \code{.pbd_opts}, but released as
       \code{wait()} is called. Although this may take some performance
       and space, this can avoid \code{gc()} and memory overwrite before
       actual sending is done.

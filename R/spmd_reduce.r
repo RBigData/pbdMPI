@@ -1,9 +1,9 @@
 ### S4 functions.
 
 ### Default method.
-spmd.reduce.default <- function(x, x.buffer = NULL, op = .pbdEnv$SPMD.CT$op,
-    rank.dest = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm){
-  op <- match.arg(tolower(op[1]), .pbdEnv$SPMD.OP)
+spmd.reduce.default <- function(x, x.buffer = NULL, op = .mpiopt_get("SPMD.CT", "op"),
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.source"), comm = .mpiopt_get("SPMD.CT", "comm")){
+  op <- match.arg(tolower(op[1]), .mpiopt_get("SPMD.OP"))
 
   if(op %in% c("land", "band", "lor", "bor", "lxor", "bxor")){
     x <- as.integer(x)
@@ -26,10 +26,10 @@ spmd.reduce.default <- function(x, x.buffer = NULL, op = .pbdEnv$SPMD.CT$op,
 
 
 ### For reduce and basic types.
-spmd.reduce.integer <- function(x, x.buffer, op = .pbdEnv$SPMD.CT$op,
-    rank.dest = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm){
+spmd.reduce.integer <- function(x, x.buffer, op = .mpiopt_get("SPMD.CT", "op"),
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.source"), comm = .mpiopt_get("SPMD.CT", "comm")){
   ret <- .Call("spmd_reduce_integer", x, x.buffer,
-               which(op[1] == .pbdEnv$SPMD.OP),
+               which(op[1] == .mpiopt_get("SPMD.OP")),
                as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())
@@ -37,10 +37,10 @@ spmd.reduce.integer <- function(x, x.buffer, op = .pbdEnv$SPMD.CT$op,
   ret
 } # End of spmd.reduce.integer().
 
-spmd.reduce.double <- function(x, x.buffer, op = .pbdEnv$SPMD.CT$op,
-    rank.dest = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm){
+spmd.reduce.double <- function(x, x.buffer, op = .mpiopt_get("SPMD.CT", "op"),
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.source"), comm = .mpiopt_get("SPMD.CT", "comm")){
   ret <- .Call("spmd_reduce_double", x, x.buffer,
-               which(op[1] == .pbdEnv$SPMD.OP),
+               which(op[1] == .mpiopt_get("SPMD.OP")),
                as.integer(rank.dest), as.integer(comm), PACKAGE = "pbdMPI")
   if(spmd.comm.rank(comm) != rank.dest){
     return(invisible())

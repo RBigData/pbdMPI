@@ -1,3 +1,12 @@
+2015-10-24: Ver. 0.3-0
+  * Change to common environment, but this will create masking, overwritting,
+    and texting problems when other pbdR pacakges are loading.
+  * Change again to .pbd_env, .pbd_set(), .pbd_get(), and .pbd_init() with
+    huge options rewritting.
+
+2015-10-22: Ver. 0.3-0
+  * Fix comm.set.seed problem.
+
 2015-10-17: Ver. 0.3-0
   * Drop "data/envir.r".
 

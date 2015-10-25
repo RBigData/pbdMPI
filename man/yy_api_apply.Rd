@@ -8,16 +8,16 @@
 }
 \usage{
 pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-         rank.source = .pbdEnv$SPMD.CT$rank.root,
-         comm = .pbdEnv$SPMD.CT$comm,
+         rank.source = .pbd_opts$SPMD.CT$rank.root,
+         comm = .pbd_opts$SPMD.CT$comm,
          barrier = TRUE)
 pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-          rank.source = .pbdEnv$SPMD.CT$rank.root, comm = .pbdEnv$SPMD.CT$comm,
+          rank.source = .pbd_opts$SPMD.CT$rank.root, comm = .pbd_opts$SPMD.CT$comm,
           bcast = FALSE, barrier = TRUE)
 pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
           pbd.mode = c("mw", "spmd", "dist"),
-          rank.source = .pbdEnv$SPMD.CT$rank.root,
-          comm = .pbdEnv$SPMD.CT$comm, bcast = FALSE, barrier = TRUE)
+          rank.source = .pbd_opts$SPMD.CT$rank.root,
+          comm = .pbd_opts$SPMD.CT$comm, bcast = FALSE, barrier = TRUE)
 }
 \arguments{
   \item{X}{a matrix or array in \code{pbdApply()} or a list in

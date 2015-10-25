@@ -14,18 +14,18 @@
 }
 \usage{
 spmd.alltoall.integer(x.send, x.recv, send.count, recv.count,
-                      comm = .pbdEnv$SPMD.CT$comm)
+                      comm = .pbd_opts$SPMD.CT$comm)
 spmd.alltoall.double(x.send, x.recv, send.count, recv.count,
-                    comm = .pbdEnv$SPMD.CT$comm)
+                    comm = .pbd_opts$SPMD.CT$comm)
 spmd.alltoall.raw(x.send, x.recv, send.count, recv.count,
-                  comm = .pbdEnv$SPMD.CT$comm)
+                  comm = .pbd_opts$SPMD.CT$comm)
 
 spmd.alltoallv.integer(x.send, x.recv, send.count, recv.count,
-                       sdispls, rdispls, comm = .pbdEnv$SPMD.CT$comm)
+                       sdispls, rdispls, comm = .pbd_opts$SPMD.CT$comm)
 spmd.alltoallv.double(x.send, x.recv, send.count, recv.count,
-                      sdispls, rdispls, comm = .pbdEnv$SPMD.CT$comm)
+                      sdispls, rdispls, comm = .pbd_opts$SPMD.CT$comm)
 spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
-                   sdispls, rdispls, comm = .pbdEnv$SPMD.CT$comm)
+                   sdispls, rdispls, comm = .pbd_opts$SPMD.CT$comm)
 }
 \arguments{
   \item{x.send}{an object to send.}

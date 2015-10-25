@@ -16,21 +16,21 @@ comm.read.table(file, header = FALSE, sep = "", quote = "\"'",
                 allowEscapes = FALSE,
                 flush = FALSE,
                 fileEncoding = "", encoding = "unknown",
-                read.method = .pbdEnv$SPMD.IO$read.method[1],
-                balance.method = .pbdEnv$SPMD.IO$balance.method[1],
-                comm = .pbdEnv$SPMD.CT$comm)
+                read.method = .pbd_opts$SPMD.IO$read.method[1],
+                balance.method = .pbd_opts$SPMD.IO$balance.method[1],
+                comm = .pbd_opts$SPMD.CT$comm)
 
 comm.read.csv(file, header = TRUE, sep = ",", quote = "\"",
               dec = ".", fill = TRUE, comment.char = "", ...,
-              read.method = .pbdEnv$SPMD.IO$read.method[1],
-              balance.method = .pbdEnv$SPMD.IO$balance.method[1],
-              comm = .pbdEnv$SPMD.CT$comm)
+              read.method = .pbd_opts$SPMD.IO$read.method[1],
+              balance.method = .pbd_opts$SPMD.IO$balance.method[1],
+              comm = .pbd_opts$SPMD.CT$comm)
      
 comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
                dec = ",", fill = TRUE, comment.char = "", ...,
-               read.method = .pbdEnv$SPMD.IO$read.method[1],
-               balance.method = .pbdEnv$SPMD.IO$balance.method[1],
-               comm = .pbdEnv$SPMD.CT$comm)
+               read.method = .pbd_opts$SPMD.IO$read.method[1],
+               balance.method = .pbd_opts$SPMD.IO$balance.method[1],
+               comm = .pbd_opts$SPMD.CT$comm)
 }
 \arguments{
   \item{file}{as in \code{read.table()}.}
@@ -62,7 +62,7 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
   from rank 0, 1, 2, ...
 
   By default, rank 0 reads the file only, then scatter to other ranks for
-  small datasets (\code{.pbdEnv$SPMD.IO$max.read.size}) in
+  small datasets (\code{.pbd_opts$SPMD.IO$max.read.size}) in
   \code{read.method = "gbd"}.
   (bcast to others in \code{read.method = "common"}.)
 

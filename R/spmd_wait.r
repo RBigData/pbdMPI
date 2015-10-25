@@ -1,17 +1,17 @@
 ### For non-blocking calls.
 
-spmd.wait <- function(request = .pbdEnv$SPMD.CT$request,
-    status = .pbdEnv$SPMD.CT$status){
+spmd.wait <- function(request = .mpiopt_get("SPMD.CT", "request"),
+    status = .mpiopt_get("SPMD.CT", "status")){
   ret <- .Call("spmd_wait", as.integer(request), as.integer(status),
                PACKAGE = "pbdMPI")
   ### Clear non-blocking buffer.
-  .pbdEnv$SPMD.NB.BUFFER <- list()
+  .mpiopt_get("SPMD.NB.BUFFER") <- list()
   invisible(ret)
 } # End of spmd.wait().
 
 wait <- spmd.wait
 
-spmd.waitany <- function(count, status = .pbdEnv$SPMD.CT$status){
+spmd.waitany <- function(count, status = .mpiopt_get("SPMD.CT", "status")){
   ret <- .Call("spmd_waitany",  as.integer(count), as.integer(status),
                PACKAGE = "pbdMPI")
   invisible(ret)

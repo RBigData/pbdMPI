@@ -16,9 +16,9 @@
   rank in the same communicator. The default return is \code{NULL}.
 }
 \usage{
-isend(x, rank.dest = .pbdEnv$SPMD.CT$rank.dest,
-      tag = .pbdEnv$SPMD.CT$tag,
-      comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request)
+isend(x, rank.dest = .pbd_opts$SPMD.CT$rank.dest,
+      tag = .pbd_opts$SPMD.CT$tag,
+      comm = .pbd_opts$SPMD.CT$comm, request = .pbd_opts$SPMD.CT$request)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}

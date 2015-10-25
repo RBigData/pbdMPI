@@ -2,9 +2,9 @@
 
 ### Default method.
 spmd.irecv.default <- function(x.buffer = NULL,
-    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request,
-    status = .pbdEnv$SPMD.CT$status){
+    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request"),
+    status = .mpiopt_get("SPMD.CT", "status")){
   ### This implementation is the same as spmd.recv.default(), because
   ### a blocking probe should be evoked to get the length of object for
   ### preparing enough x.buffer.
@@ -14,27 +14,27 @@ spmd.irecv.default <- function(x.buffer = NULL,
 
 ### For irecv.
 spmd.irecv.integer <- function(x.buffer,
-    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request,
-    status = .pbdEnv$SPMD.CT$status){
+    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request"),
+    status = .mpiopt_get("SPMD.CT", "status")){
   .Call("spmd_irecv_integer", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(request),
         PACKAGE = "pbdMPI")
 } # End of spmd.irecv.integer().
 
 spmd.irecv.double <- function(x.buffer,
-    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request,
-    status = .pbdEnv$SPMD.CT$status){
+    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request"),
+    status = .mpiopt_get("SPMD.CT", "status")){
   .Call("spmd_irecv_double", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(request),
         PACKAGE = "pbdMPI")
 } # End of spmd.irecv.double().
 
 spmd.irecv.raw <- function(x.buffer,
-    rank.source = .pbdEnv$SPMD.CT$rank.source, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request,
-    status = .pbdEnv$SPMD.CT$status){
+    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request"),
+    status = .mpiopt_get("SPMD.CT", "status")){
   .Call("spmd_irecv_raw", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(request),
         PACKAGE = "pbdMPI")

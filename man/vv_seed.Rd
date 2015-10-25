@@ -12,10 +12,10 @@
 }
 \usage{
 comm.set.seed(seed, diff = FALSE, state = NULL,
-              comm = .pbdEnv$SPMD.CT$comm)
-comm.seed.state(comm = .pbdEnv$SPMD.CT$comm)
-comm.end.seed(comm = .pbdEnv$SPMD.CT$comm)
-comm.reset.seed(comm = .pbdEnv$SPMD.CT$comm)
+              comm = .pbd_opts$SPMD.CT$comm)
+comm.seed.state(comm = .pbd_opts$SPMD.CT$comm)
+comm.end.seed(comm = .pbd_opts$SPMD.CT$comm)
+comm.reset.seed(comm = .pbd_opts$SPMD.CT$comm)
 }
 \arguments{
   \item{seed}{one integer or six integers as in \pkg{rlecuyer}.}

@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.allreduce.default <- function(x, x.buffer = NULL,
-    op = .pbdEnv$SPMD.CT$op, comm = .pbdEnv$SPMD.CT$comm){
-  op <- match.arg(tolower(op[1]), .pbdEnv$SPMD.OP)
+    op = .mpiopt_get("SPMD.CT", "op"), comm = .mpiopt_get("SPMD.CT", "comm")){
+  op <- match.arg(tolower(op[1]), .mpiopt_get("SPMD.OP"))
 
   if(op %in% c("land", "band", "lor", "bor", "lxor", "bxor")){
     x <- as.integer(x)
@@ -27,16 +27,16 @@ spmd.allreduce.default <- function(x, x.buffer = NULL,
 
 ### For allreduce and basic types.
 spmd.allreduce.integer <- function(x, x.buffer,
-    op = .pbdEnv$SPMD.CT$op, comm = .pbdEnv$SPMD.CT$comm){
+    op = .mpiopt_get("SPMD.CT", "op"), comm = .mpiopt_get("SPMD.CT", "comm")){
   .Call("spmd_allreduce_integer", x, x.buffer,
-        which(op[1] == .pbdEnv$SPMD.OP), as.integer(comm),
+        which(op[1] == .mpiopt_get("SPMD.OP")), as.integer(comm),
         PACKAGE = "pbdMPI")
 } # End of spmd.allreduce.integer().
 
 spmd.allreduce.double <- function(x, x.buffer,
-    op = .pbdEnv$SPMD.CT$op, comm = .pbdEnv$SPMD.CT$comm){
+    op = .mpiopt_get("SPMD.CT", "op"), comm = .mpiopt_get("SPMD.CT", "comm")){
   .Call("spmd_allreduce_double", x, x.buffer,
-        which(op[1] == .pbdEnv$SPMD.OP), as.integer(comm),
+        which(op[1] == .mpiopt_get("SPMD.OP")), as.integer(comm),
         PACKAGE = "pbdMPI")
 } # End of spmd.allreduce.double().
 

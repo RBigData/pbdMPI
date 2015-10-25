@@ -1,6 +1,6 @@
 ### Tool functions.
 
-spmd.hostinfo <- function(comm = .pbdEnv$SPMD.CT$comm){
+spmd.hostinfo <- function(comm = .mpiopt_get("SPMD.CT", "comm")){
   if(spmd.comm.size(comm) == 0){
     stop(paste("It seems no members running on comm", comm))
   }
@@ -12,11 +12,11 @@ spmd.hostinfo <- function(comm = .pbdEnv$SPMD.CT$comm){
   invisible()
 } # End of spmd.hostinfo().
 
-spmd.comm.print <- function(x, all.rank = .pbdEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm,
-    quiet = .pbdEnv$SPMD.CT$print.quiet,
-    flush = .pbdEnv$SPMD.CT$msg.flush,
-    barrier = .pbdEnv$SPMD.CT$msg.barrier, con = stdout(), ...){
+spmd.comm.print <- function(x, all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+    rank.print = .mpiopt_get("SPMD.CT", "rank.source"), comm = .mpiopt_get("SPMD.CT", "comm"),
+    quiet = .mpiopt_get("SPMD.CT", "print.quiet"),
+    flush = .mpiopt_get("SPMD.CT", "msg.flush"),
+    barrier = .mpiopt_get("SPMD.CT", "msg.barrier"), con = stdout(), ...){
   COMM.RANK <- spmd.comm.rank(comm)
 
   # Don't print "COMM.RANK = " even if verbose=TRUE in the case 'x' is invalid
@@ -70,11 +70,11 @@ spmd.comm.print <- function(x, all.rank = .pbdEnv$SPMD.CT$print.all.rank,
 
 comm.print <- spmd.comm.print
 
-spmd.comm.cat <- function(..., all.rank = .pbdEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdEnv$SPMD.CT$rank.source, comm = .pbdEnv$SPMD.CT$comm,
-    quiet = .pbdEnv$SPMD.CT$print.quiet, sep = " ", fill = FALSE,
-    labels = NULL, append = FALSE, flush = .pbdEnv$SPMD.CT$msg.flush,
-    barrier = .pbdEnv$SPMD.CT$msg.barrier, con = stdout()){
+spmd.comm.cat <- function(..., all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+    rank.print = .mpiopt_get("SPMD.CT", "rank.source"), comm = .mpiopt_get("SPMD.CT", "comm"),
+    quiet = .mpiopt_get("SPMD.CT", "print.quiet"), sep = " ", fill = FALSE,
+    labels = NULL, append = FALSE, flush = .mpiopt_get("SPMD.CT", "msg.flush"),
+    barrier = .mpiopt_get("SPMD.CT", "msg.barrier"), con = stdout()){
   COMM.RANK <- spmd.comm.rank(comm)
 
   if(barrier){

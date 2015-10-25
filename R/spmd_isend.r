@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.isend.default <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request")){
   ### WCC: This isend() should go with wait(), otherwise the new R object,
   ###      "serialize(x, NULL)", is NOT sent correctly since it is not
   ###      protected by R when the call "spmd.isend.default()" is returned.
@@ -17,11 +17,11 @@ spmd.isend.default <- function(x,
   # spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
   #               tag = tag, comm = comm)
   ### Use non-blocking buffer to avoid dead lock and use non-block send.
-  if(is.null(.pbdEnv$SPMD.NB.BUFFER)){
-    .pbdEnv$SPMD.NB.BUFFER <- list()
+  if(is.null(.mpiopt_get("SPMD.NB.BUFFER"))){
+    .mpiopt_get("SPMD.NB.BUFFER") <- list()
   }
-  .pbdEnv$SPMD.NB.BUFFER[[length(.pbdEnv$SPMD.NB.BUFFER) + 1]] <- serialize(x, NULL)
-  spmd.isend.raw(.pbdEnv$SPMD.NB.BUFFER[[length(.pbdEnv$SPMD.NB.BUFFER)]],
+  .mpiopt_get("SPMD.NB.BUFFER")[[length(.mpiopt_get("SPMD.NB.BUFFER")) + 1]] <- serialize(x, NULL)
+  spmd.isend.raw(.mpiopt_get("SPMD.NB.BUFFER")[[length(.mpiopt_get("SPMD.NB.BUFFER"))]],
                  rank.dest = as.integer(rank.dest),
                  tag = as.integer(tag), comm = as.integer(comm),
                  request = as.integer(request))
@@ -30,24 +30,24 @@ spmd.isend.default <- function(x,
 
 ### For isend.
 spmd.isend.integer <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request")){
   .Call("spmd_isend_integer", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), as.integer(request), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.isend.integer().
 
 spmd.isend.double <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request")){
   .Call("spmd_isend_double", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), as.integer(request), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.isend.double().
 
 spmd.isend.raw <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm, request = .pbdEnv$SPMD.CT$request){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm"), request = .mpiopt_get("SPMD.CT", "request")){
   .Call("spmd_isend_raw", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), as.integer(request), PACKAGE = "pbdMPI")
   invisible()

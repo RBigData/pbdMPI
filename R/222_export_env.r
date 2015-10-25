@@ -1,9 +1,9 @@
 ### Export control to new env.
-.pbdEnv <- new.env()
-.pbdEnv$SPMD.CT <- SPMD.CT()
-.pbdEnv$SPMD.OP <- SPMD.OP()
-.pbdEnv$SPMD.IO <- SPMD.IO()
-.pbdEnv$SPMD.TP <- SPMD.TP()
+# .pbd_env <- new.env()
+# .pbd_env$SPMD.CT <- SPMD.CT()
+# .pbd_env$SPMD.OP <- SPMD.OP()
+# .pbd_env$SPMD.IO <- SPMD.IO()
+# .pbd_env$SPMD.TP <- SPMD.TP()
 
 ### For non-blocking calls.
-.pbdEnv$SPMD.NB.BUFFER <- list()
+# .pbd_env$SPMD.NB.BUFFER <- list()

@@ -43,6 +43,9 @@
     invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
   }
 
+  ### Preload to global environment.
+  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init()")))
+
   invisible()
 } # End of .onLoad().
 

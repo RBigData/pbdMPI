@@ -16,8 +16,8 @@
   return is an object like the input.
 }
 \usage{
-allreduce(x, x.buffer = NULL, op = .pbdEnv$SPMD.CT$op,
-          comm = .pbdEnv$SPMD.CT$comm)
+allreduce(x, x.buffer = NULL, op = .pbd_opts$SPMD.CT$op,
+          comm = .pbd_opts$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be gathered from all ranks.}

@@ -1,11 +1,11 @@
 ### Similar to stop(), warning(), and warnings().
 
 comm.stop <- function(..., call. = TRUE, domain = NULL,
-    all.rank = .pbdEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdEnv$SPMD.CT$rank.source,
-    comm = .pbdEnv$SPMD.CT$comm,
-    mpi.finalize = .pbdEnv$SPMD.CT$mpi.finalize,
-    quit = .pbdEnv$SPMD.CT$quit){
+    all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+    rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+    comm = .mpiopt_get("SPMD.CT", "comm"),
+    mpi.finalize = .mpiopt_get("SPMD.CT", "mpi.finalize"),
+    quit = .mpiopt_get("SPMD.CT", "quit")){
   COMM.RANK <- spmd.comm.rank(comm)
   spmd.finalize(mpi.finalize = mpi.finalize)
 
@@ -45,9 +45,9 @@ comm.stop <- function(..., call. = TRUE, domain = NULL,
 } # End of comm.stop().
 
 comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-    all.rank = .pbdEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdEnv$SPMD.CT$rank.source,
-    comm = .pbdEnv$SPMD.CT$comm){
+    all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+    rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   if(spmd.comm.rank(comm) %in% rank.print || all.rank == TRUE){
     args <- list(...)
     if(length(args) == 1L && inherits(args[[1L]], "condition")){
@@ -84,9 +84,9 @@ comm.warning <- function(..., call. = TRUE, immediate. = FALSE, domain = NULL,
 } # End of comm.warning().
 
 comm.warnings <- function(...,
-    all.rank = .pbdEnv$SPMD.CT$print.all.rank,
-    rank.print = .pbdEnv$SPMD.CT$rank.source,
-    comm = .pbdEnv$SPMD.CT$comm){
+    all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+    rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   if(spmd.comm.rank(comm) %in% rank.print || all.rank == TRUE){
     if (!exists("last.warning", envir = baseenv())) 
         return()

@@ -16,9 +16,9 @@
   in the same communicator. The default return is \code{NULL}.
 }
 \usage{
-send(x, rank.dest = .pbdEnv$SPMD.CT$rank.dest,
-     tag = .pbdEnv$SPMD.CT$tag,
-     comm = .pbdEnv$SPMD.CT$comm)
+send(x, rank.dest = .pbd_opts$SPMD.CT$rank.dest,
+     tag = .pbd_opts$SPMD.CT$tag,
+     comm = .pbd_opts$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}

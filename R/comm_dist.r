@@ -2,7 +2,7 @@
 ### Assume gbd.major = 1.
 
 comm.dist <- function(X.gbd, method = "euclidean", diag = FALSE,
-    upper = FALSE, p = 2, comm = .pbdEnv$SPMD.CT$comm,
+    upper = FALSE, p = 2, comm = .mpiopt_get("SPMD.CT", "comm"),
     return.type = c("common", "gbd")){
   if(return.type[1] == "common"){
     ret <- comm.dist.common(X.gbd, method = method, diag = diag, upper = upper,
@@ -18,7 +18,7 @@ comm.dist <- function(X.gbd, method = "euclidean", diag = FALSE,
 
 ### Return a common distance matrix.
 comm.dist.common <- function(X.gbd, method = "euclidean", diag = FALSE,
-    upper = FALSE, p = 2, comm = .pbdEnv$SPMD.CT$comm){
+    upper = FALSE, p = 2, comm = .mpiopt_get("SPMD.CT", "comm")){
   ### Check.
   if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
@@ -81,7 +81,7 @@ comm.dist.common <- function(X.gbd, method = "euclidean", diag = FALSE,
 
 ### Return a gbd distance matrix.
 comm.dist.gbd <- function(X.gbd, method = "euclidean", diag = FALSE,
-    upper = FALSE, p = 2, comm = .pbdEnv$SPMD.CT$comm){
+    upper = FALSE, p = 2, comm = .mpiopt_get("SPMD.CT", "comm")){
   ### Check.
   if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)

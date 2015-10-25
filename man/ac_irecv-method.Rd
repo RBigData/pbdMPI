@@ -17,10 +17,10 @@
   sent from the other rank.
 }
 \usage{
-irecv(x.buffer = NULL, rank.source = .pbdEnv$SPMD.CT$rank.source,
-      tag = .pbdEnv$SPMD.CT$tag, comm = .pbdEnv$SPMD.CT$comm,
-      request = .pbdEnv$SPMD.CT$request,
-      status = .pbdEnv$SPMD.CT$status)
+irecv(x.buffer = NULL, rank.source = .pbd_opts$SPMD.CT$rank.source,
+      tag = .pbd_opts$SPMD.CT$tag, comm = .pbd_opts$SPMD.CT$comm,
+      request = .pbd_opts$SPMD.CT$request,
+      status = .pbd_opts$SPMD.CT$status)
 }
 \arguments{
   \item{x.buffer}{a buffer to store \code{x} sent from the other rank.}

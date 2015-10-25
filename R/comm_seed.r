@@ -1,7 +1,7 @@
 ### Seed functions for random number generators.
 
 comm.set.seed <- function(seed, diff = FALSE, state = NULL,
-    comm = .pbdEnv$SPMD.CT$comm){
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   if(exists(".lec.Random.seed.table", envir = .GlobalEnv)){
     comm.end.seed(comm)
   }
@@ -29,7 +29,7 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL,
   invisible()
 } # End of comm.set.seed().
 
-comm.end.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
+comm.end.seed <- function(comm = .mpiopt_get("SPMD.CT", "comm")){
   name <- get(".lec.Random.seed.table", envir = .GlobalEnv)$name
   old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
   if(class(old.kind) == "try-error"){
@@ -46,12 +46,15 @@ comm.end.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
   invisible()
 } # End of comm.end.seed().
 
-comm.reset.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
+comm.reset.seed <- function(comm = .mpiopt_get("SPMD.CT", "comm")){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
-  old.kind <- get(".lec.old.kind", envir = .GlobalEnv)
-
   if(is.null(seed.table)){
     comm.stop("seed.table is not found.", comm = comm)
+  }
+
+  old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
+  if(class(old.kind) == "try-error"){
+    old.kind <- RNGkind()
   }
 
   if(length(seed.table$name) == comm.size(comm)){
@@ -68,12 +71,15 @@ comm.reset.seed <- function(comm = .pbdEnv$SPMD.CT$comm){
   invisible()
 } # End of comm.reset.seed().
 
-comm.seed.state <- function(comm = .pbdEnv$SPMD.CT$comm){
+comm.seed.state <- function(comm = .mpiopt_get("SPMD.CT", "comm")){
   seed.table <- get(".lec.Random.seed.table", envir = .GlobalEnv)
-  old.kind <- get(".lec.old.kind", envir = .GlobalEnv)
-
   if(is.null(seed.table)){
     comm.stop("seed.table is not found.", comm = comm)
+  }
+
+  old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
+  if(class(old.kind) == "try-error"){
+    old.kind <- RNGkind()
   }
 
   if(length(seed.table$name) == comm.size(comm)){

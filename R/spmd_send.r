@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.send.default <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
                 tag = tag, comm = comm)
   invisible()
@@ -12,24 +12,24 @@ spmd.send.default <- function(x,
 
 ### For send.
 spmd.send.integer <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   .Call("spmd_send_integer", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.send.integer().
 
 spmd.send.double <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   .Call("spmd_send_double", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.send.double().
 
 spmd.send.raw <- function(x,
-    rank.dest = .pbdEnv$SPMD.CT$rank.dest, tag = .pbdEnv$SPMD.CT$tag,
-    comm = .pbdEnv$SPMD.CT$comm){
+    rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"), tag = .mpiopt_get("SPMD.CT", "tag"),
+    comm = .mpiopt_get("SPMD.CT", "comm")){
   .Call("spmd_send_raw", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()

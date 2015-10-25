@@ -80,5 +80,3 @@ export(
 S3method(comm.sort, default)
 S3method(comm.sort, integer)
 S3method(comm.sort, double)
-
-export(".pbdEnv")
