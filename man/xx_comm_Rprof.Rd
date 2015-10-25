@@ -9,9 +9,9 @@
 comm.Rprof(filename = "Rprof.out", append = FALSE, interval = 0.02,
            memory.profiling = FALSE, gc.profiling = FALSE,
            line.profiling = FALSE, numfiles = 100L, bufsize = 10000L,
-           all.rank = .pbd_opts$SPMD.CT$Rprof.all.rank,
-           rank.Rprof = .pbd_opts$SPMD.CT$rank.source,
-           comm = .pbd_opts$SPMD.CT$comm)
+           all.rank = .mpiopt_get("SPMD.CT", "Rprof.all.rank"),
+           rank.Rprof = .mpiopt_get("SPMD.CT", "rank.source"),
+           comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{filename}{as in \code{\link[utils]{Rprof}()}.}

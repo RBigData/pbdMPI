@@ -16,9 +16,9 @@
   is an object as the input.
 }
 \usage{
-reduce(x, x.buffer = NULL, op = .pbd_opts$SPMD.CT$op,
-       rank.dest = .pbd_opts$SPMD.CT$rank.source,
-       comm = .pbd_opts$SPMD.CT$comm)
+reduce(x, x.buffer = NULL, op = .mpiopt_get("SPMD.CT", "op"),
+       rank.dest = .mpiopt_get("SPMD.CT", "rank.source"),
+       comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{x}{an object to be gathered from all ranks.}
@@ -29,7 +29,7 @@ reduce(x, x.buffer = NULL, op = .pbd_opts$SPMD.CT$op,
   \item{comm}{a communicator number.}
 }
 \details{
-  By default, the object is reduced to \code{.pbd_opts$SPMD.CT$rank.source},
+  By default, the object is reduced to \code{.mpiopt_get("SPMD.CT", "rank.source")},
   i.e. \emph{rank 0L}.
 
   All \code{x} on all ranks are likely presumed to have the same size and type.

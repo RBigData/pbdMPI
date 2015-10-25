@@ -10,21 +10,21 @@
 }
 \usage{
 comm.stop(..., call. = TRUE, domain = NULL,
-          all.rank = .pbd_opts$SPMD.CT$print.all.rank,
-          rank.print = .pbd_opts$SPMD.CT$rank.source,
-          comm = .pbd_opts$SPMD.CT$comm,
-          mpi.finalize = .pbd_opts$SPMD.CT$mpi.finalize,
-          quit = .pbd_opts$SPMD.CT$quit)
+          all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+          rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+          comm = .mpiopt_get("SPMD.CT", "comm"),
+          mpi.finalize = .mpiopt_get("SPMD.CT", "mpi.finalize"),
+          quit = .mpiopt_get("SPMD.CT", "quit"))
 
 comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-             all.rank = .pbd_opts$SPMD.CT$print.all.rank,
-             rank.print = .pbd_opts$SPMD.CT$rank.source,
-             comm = .pbd_opts$SPMD.CT$comm)
+             all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+             rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+             comm = .mpiopt_get("SPMD.CT", "comm"))
 
 comm.warnings(...,
-              all.rank = .pbd_opts$SPMD.CT$print.all.rank,
-              rank.print = .pbd_opts$SPMD.CT$rank.source,
-              comm = .pbd_opts$SPMD.CT$comm)
+              all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+              rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+              comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{...}{variables to be cat.}

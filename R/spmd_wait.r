@@ -5,7 +5,7 @@ spmd.wait <- function(request = .mpiopt_get("SPMD.CT", "request"),
   ret <- .Call("spmd_wait", as.integer(request), as.integer(status),
                PACKAGE = "pbdMPI")
   ### Clear non-blocking buffer.
-  .mpiopt_get("SPMD.NB.BUFFER") <- list()
+  .mpiopt_set(list(), "SPMD.NB.BUFFER")
   invisible(ret)
 } # End of spmd.wait().
 

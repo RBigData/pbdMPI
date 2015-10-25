@@ -4,15 +4,15 @@
 \description{
   A binding for \code{match.arg()} that uses \code{comm.stop()} rather
   so that the error message (if there is one) is managed according
-  to the rules of \code{.pbd_opts$SPMD.CT}.
+  to the rules of \code{.pbd_env$SPMD.CT}.
 }
 \usage{
 comm.match.arg(arg, choices, several.ok=FALSE, ..., 
-               all.rank = .pbd_opts$SPMD.CT$print.all.rank,
-               rank.print = .pbd_opts$SPMD.CT$rank.source,
-               comm = .pbd_opts$SPMD.CT$comm,
-               mpi.finalize = .pbd_opts$SPMD.CT$mpi.finalize,
-               quit = .pbd_opts$SPMD.CT$quit)
+               all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+               rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+               comm = .mpiopt_get("SPMD.CT", "comm"),
+               mpi.finalize = .mpiopt_get("SPMD.CT", "mpi.finalize"),
+               quit = .mpiopt_get("SPMD.CT", "quit"))
 }
 \arguments{
   \item{arg,choices,several.ok}{see match.arg()}

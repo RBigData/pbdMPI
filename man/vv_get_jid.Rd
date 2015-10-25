@@ -5,8 +5,8 @@
   This function obtains job id which can be used to divide jobs.
 }
 \usage{
-get.jid(n, method = .pbd_opts$SPMD.CT$divide.method[1], all = FALSE,
-        comm = .pbd_opts$SPMD.CT$comm, reduced = FALSE)
+get.jid(n, method = .mpiopt_get("SPMD.CT", "divide.method")[1], all = FALSE,
+        comm = .mpiopt_get("SPMD.CT", "comm"), reduced = FALSE)
 }
 \arguments{
   \item{n}{total number of jobs.}

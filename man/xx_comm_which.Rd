@@ -9,9 +9,9 @@
 }
 \usage{
 comm.which(x, arr.ind = FALSE, useNames = TRUE,
-           comm = .pbd_opts$SPMD.CT$comm)
-comm.which.max(x, comm = .pbd_opts$SPMD.CT$comm)
-comm.which.min(x, comm = .pbd_opts$SPMD.CT$comm)
+           comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.which.max(x, comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.which.min(x, comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{x}{a 'logical' vector or array as in \code{which()},

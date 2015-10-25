@@ -12,10 +12,10 @@
 }
 \usage{
 comm.set.seed(seed, diff = FALSE, state = NULL,
-              comm = .pbd_opts$SPMD.CT$comm)
-comm.seed.state(comm = .pbd_opts$SPMD.CT$comm)
-comm.end.seed(comm = .pbd_opts$SPMD.CT$comm)
-comm.reset.seed(comm = .pbd_opts$SPMD.CT$comm)
+              comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.seed.state(comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.end.seed(comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.reset.seed(comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{seed}{one integer or six integers as in \pkg{rlecuyer}.}

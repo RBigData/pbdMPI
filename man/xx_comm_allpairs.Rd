@@ -6,7 +6,7 @@
 }
 \usage{
 comm.allpairs(N, diag = FALSE, symmetric = TRUE,
-              comm = .pbd_opts$SPMD.CT$comm)
+              comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{N}{number of elements for matching, \code{(i, j)} for all

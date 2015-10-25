@@ -18,9 +18,9 @@ spmd.isend.default <- function(x,
   #               tag = tag, comm = comm)
   ### Use non-blocking buffer to avoid dead lock and use non-block send.
   if(is.null(.mpiopt_get("SPMD.NB.BUFFER"))){
-    .mpiopt_get("SPMD.NB.BUFFER") <- list()
+    .mpiopt_set(list(), "SPMD.NB.BUFFER")
   }
-  .mpiopt_get("SPMD.NB.BUFFER")[[length(.mpiopt_get("SPMD.NB.BUFFER")) + 1]] <- serialize(x, NULL)
+  .mpiopt_set(serialize(x, NULL), "SPMD.NB.BUFFER", length(.mpiopt_get("SPMD.NB.BUFFER")) + 1)
   spmd.isend.raw(.mpiopt_get("SPMD.NB.BUFFER")[[length(.mpiopt_get("SPMD.NB.BUFFER"))]],
                  rank.dest = as.integer(rank.dest),
                  tag = as.integer(tag), comm = as.integer(comm),

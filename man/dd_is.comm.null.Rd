@@ -5,7 +5,7 @@
   The functions check MPI_COMM_NULL.
 }
 \usage{
-is.comm.null(comm = .pbd_opts$SPMD.CT$comm)
+is.comm.null(comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{comm}{a comm number.}

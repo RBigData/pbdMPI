@@ -10,7 +10,7 @@
 \usage{
 anysource()
 anytag()
-get.sourcetag(status = .pbd_opts$SPMD.CT$status)
+get.sourcetag(status = .mpiopt_get("SPMD.CT", "status"))
 }
 \arguments{
   \item{status}{a status number.}

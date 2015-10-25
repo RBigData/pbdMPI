@@ -28,48 +28,48 @@
   The functions provide controls to communicators.
 }
 \usage{
-barrier(comm = .pbd_opts$SPMD.CT$comm)
-comm.is.null(comm = .pbd_opts$SPMD.CT$comm)
-comm.rank(comm = .pbd_opts$SPMD.CT$comm)
-comm.size(comm = .pbd_opts$SPMD.CT$comm)
+barrier(comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.is.null(comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.rank(comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.size(comm = .mpiopt_get("SPMD.CT", "comm"))
 comm.dup(comm, newcomm)
-comm.free(comm = .pbd_opts$SPMD.CT$comm)
+comm.free(comm = .mpiopt_get("SPMD.CT", "comm"))
 init(set.seed = TRUE)
-finalize(mpi.finalize = .pbd_opts$SPMD.CT$mpi.finalize)
+finalize(mpi.finalize = .mpiopt_get("SPMD.CT", "mpi.finalize"))
 is.finalized()
 
-comm.abort(errorcode = 1, comm = .pbd_opts$SPMD.CT$comm)
-comm.split(comm = .pbd_opts$SPMD.CT$comm, color = 0L, key = 0L,
-           newcomm = .pbd_opts$SPMD.CT$newcomm)
-comm.disconnect(comm = .pbd_opts$SPMD.CT$comm)
-comm.connect(port.name, info = .pbd_opts$SPMD.CT$info,
-             rank.root = .pbd_opts$SPMD.CT$rank.root,
-             comm = .pbd_opts$SPMD.CT$comm,
-             newcomm = .pbd_opts$SPMD.CT$newcomm)
-comm.accept(port.name, info = .pbd_opts$SPMD.CT$info,
-            rank.root = .pbd_opts$SPMD.CT$rank.root,
-            comm = .pbd_opts$SPMD.CT$comm,
-            newcomm = .pbd_opts$SPMD.CT$newcomm)
+comm.abort(errorcode = 1, comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.split(comm = .mpiopt_get("SPMD.CT", "comm"), color = 0L, key = 0L,
+           newcomm = .mpiopt_get("SPMD.CT", "newcomm"))
+comm.disconnect(comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.connect(port.name, info = .mpiopt_get("SPMD.CT", "info"),
+             rank.root = .mpiopt_get("SPMD.CT", "rank.root"),
+             comm = .mpiopt_get("SPMD.CT", "comm"),
+             newcomm = .mpiopt_get("SPMD.CT", "newcomm"))
+comm.accept(port.name, info = .mpiopt_get("SPMD.CT", "info"),
+            rank.root = .mpiopt_get("SPMD.CT", "rank.root"),
+            comm = .mpiopt_get("SPMD.CT", "comm"),
+            newcomm = .mpiopt_get("SPMD.CT", "newcomm"))
 
-port.open(info = .pbd_opts$SPMD.CT$info)
+port.open(info = .mpiopt_get("SPMD.CT", "info"))
 port.close(port.name)
-serv.publish(port.name, serv.name = .pbd_opts$SPMD.CT$serv.name,
-             info = .pbd_opts$SPMD.CT$info)
-serv.unpublish(port.name, serv.name = .pbd_opts$SPMD.CT$serv.name,
-               info = .pbd_opts$SPMD.CT$info)
-serv.lookup(serv.name = .pbd_opts$SPMD.CT$serv.name,
-            info = .pbd_opts$SPMD.CT$info)
+serv.publish(port.name, serv.name = .mpiopt_get("SPMD.CT", "serv.name"),
+             info = .mpiopt_get("SPMD.CT", "info"))
+serv.unpublish(port.name, serv.name = .mpiopt_get("SPMD.CT", "serv.name"),
+               info = .mpiopt_get("SPMD.CT", "info"))
+serv.lookup(serv.name = .mpiopt_get("SPMD.CT", "serv.name"),
+            info = .mpiopt_get("SPMD.CT", "info"))
 
-intercomm.merge(intercomm = .pbd_opts$SPMD.CT$intercomm,
-                high = 0L, comm = .pbd_opts$SPMD.CT$comm)
-intercomm.create(local.comm = .pbd_opts$SPMD.CT$comm,
-                 local.leader = .pbd_opts$SPMD.CT$rank.source,
-                 peer.comm = .pbd_opts$SPMD.CT$intercomm,
-                 remote.leader = .pbd_opts$SPMD.CT$rank.dest,
-                 tag = .pbd_opts$SPMD.CT$tag, 
-                 newintercomm = .pbd_opts$SPMD.CT$newcomm)
+intercomm.merge(intercomm = .mpiopt_get("SPMD.CT", "intercomm"),
+                high = 0L, comm = .mpiopt_get("SPMD.CT", "comm"))
+intercomm.create(local.comm = .mpiopt_get("SPMD.CT", "comm"),
+                 local.leader = .mpiopt_get("SPMD.CT", "rank.source"),
+                 peer.comm = .mpiopt_get("SPMD.CT", "intercomm"),
+                 remote.leader = .mpiopt_get("SPMD.CT", "rank.dest"),
+                 tag = .mpiopt_get("SPMD.CT", "tag"), 
+                 newintercomm = .mpiopt_get("SPMD.CT", "newcomm"))
 
-comm.c2f(comm = .pbd_opts$SPMD.CT$comm)
+comm.c2f(comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{comm}{a communicator number.}

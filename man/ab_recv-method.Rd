@@ -17,9 +17,9 @@
   the other rank.
 }
 \usage{
-recv(x.buffer = NULL, rank.source = .pbd_opts$SPMD.CT$rank.source,
-     tag = .pbd_opts$SPMD.CT$tag, comm = .pbd_opts$SPMD.CT$comm,
-     status = .pbd_opts$SPMD.CT$status)
+recv(x.buffer = NULL, rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
+     tag = .mpiopt_get("SPMD.CT", "tag"), comm = .mpiopt_get("SPMD.CT", "comm"),
+     status = .mpiopt_get("SPMD.CT", "status"))
 }
 \arguments{
   \item{x.buffer}{a buffer to store \code{x} sent from the other rank.}

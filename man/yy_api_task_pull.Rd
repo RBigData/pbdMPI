@@ -8,19 +8,19 @@
   rests are workers.
 }
 \usage{
-task.pull(jids, FUN, ..., rank.master = .pbd_opts$SPMD.CT$rank.root,
-          comm = .pbd_opts$SPMD.CT$comm, bcast = .pbd_opts$SPMD.TP$bcast,
-          barrier = .pbd_opts$SPMD.TP$barrier,
-          try = .pbd_opts$SPMD.TP$try,
-          try.silent = .pbd_opts$SPMD.TP$try.silent)
+task.pull(jids, FUN, ..., rank.master = .mpiopt_get("SPMD.CT", "rank.root"),
+          comm = .mpiopt_get("SPMD.CT", "comm"), bcast = .mpiopt_get("SPMD.TP", "bcast"),
+          barrier = .mpiopt_get("SPMD.TP", "barrier"),
+          try = .mpiopt_get("SPMD.TP", "try"),
+          try.silent = .mpiopt_get("SPMD.TP", "try.silent"))
 
 task.pull.workers(FUN = function(jid, ...){ return(jid) }, ...,
-                  rank.master = .pbd_opts$SPMD.CT$rank.root,
-                  comm = .pbd_opts$SPMD.CT$comm,
-                  try = .pbd_opts$SPMD.TP$try,
-                  try.silent = .pbd_opts$SPMD.TP$try.silent)
-task.pull.master(jids, rank.master = .pbd_opts$SPMD.CT$rank.root,
-                 comm = .pbd_opts$SPMD.CT$comm)
+                  rank.master = .mpiopt_get("SPMD.CT", "rank.root"),
+                  comm = .mpiopt_get("SPMD.CT", "comm"),
+                  try = .mpiopt_get("SPMD.TP", "try"),
+                  try.silent = .mpiopt_get("SPMD.TP", "try.silent"))
+task.pull.master(jids, rank.master = .mpiopt_get("SPMD.CT", "rank.root"),
+                 comm = .mpiopt_get("SPMD.CT", "comm"))
 }
 \arguments{
   \item{jids}{all job ids.}

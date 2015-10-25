@@ -7,20 +7,20 @@
   by default messages is shown on screen.
 }
 \usage{
-comm.print(x, all.rank = .pbd_opts$SPMD.CT$print.all.rank,
-           rank.print = .pbd_opts$SPMD.CT$rank.source,
-           comm = .pbd_opts$SPMD.CT$comm,
-           quiet = .pbd_opts$SPMD.CT$print.quiet,
-           flush = .pbd_opts$SPMD.CT$msg.flush,
-           barrier = .pbd_opts$SPMD.CT$msg.barrier,
+comm.print(x, all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+           rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+           comm = .mpiopt_get("SPMD.CT", "comm"),
+           quiet = .mpiopt_get("SPMD.CT", "print.quiet"),
+           flush = .mpiopt_get("SPMD.CT", "msg.flush"),
+           barrier = .mpiopt_get("SPMD.CT", "msg.barrier"),
            con = stdout(), ...)
 
-comm.cat(..., all.rank = .pbd_opts$SPMD.CT$print.all.rank,
-         rank.print = .pbd_opts$SPMD.CT$rank.source,
-         comm = .pbd_opts$SPMD.CT$comm,
-         quiet = .pbd_opts$SPMD.CT$print.quiet, sep = " ", fill = FALSE,
-         labels = NULL, append = FALSE, flush = .pbd_opts$SPMD.CT$msg.flush,
-         barrier = .pbd_opts$SPMD.CT$msg.barrier, con = stdout())
+comm.cat(..., all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
+         rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
+         comm = .mpiopt_get("SPMD.CT", "comm"),
+         quiet = .mpiopt_get("SPMD.CT", "print.quiet"), sep = " ", fill = FALSE,
+         labels = NULL, append = FALSE, flush = .mpiopt_get("SPMD.CT", "msg.flush"),
+         barrier = .mpiopt_get("SPMD.CT", "msg.barrier"), con = stdout())
 }
 \arguments{
   \item{x}{a variable to be printed.}

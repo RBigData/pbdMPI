@@ -6,12 +6,12 @@
   The functions call MPI probe functions.
 }
 \usage{
-probe(rank.source = .pbd_opts$SPMD.CT$rank.source,
-      tag = .pbd_opts$SPMD.CT$tag, comm = .pbd_opts$SPMD.CT$comm,
-      status = .pbd_opts$SPMD.CT$status)
-iprobe(rank.source = .pbd_opts$SPMD.CT$rank.source,
-       tag = .pbd_opts$SPMD.CT$tag, comm = .pbd_opts$SPMD.CT$comm,
-       status = .pbd_opts$SPMD.CT$status)
+probe(rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
+      tag = .mpiopt_get("SPMD.CT", "tag"), comm = .mpiopt_get("SPMD.CT", "comm"),
+      status = .mpiopt_get("SPMD.CT", "status"))
+iprobe(rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
+       tag = .mpiopt_get("SPMD.CT", "tag"), comm = .mpiopt_get("SPMD.CT", "comm"),
+       status = .mpiopt_get("SPMD.CT", "status"))
 }
 \arguments{
   \item{rank.source}{a source rank where an object sent from.}

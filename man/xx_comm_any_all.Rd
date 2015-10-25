@@ -8,11 +8,11 @@
   for all ranks.
 }
 \usage{
-comm.any(x, na.rm = FALSE, comm = .pbd_opts$SPMD.CT$comm)
-comm.all(x, na.rm = FALSE, comm = .pbd_opts$SPMD.CT$comm)
+comm.any(x, na.rm = FALSE, comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.all(x, na.rm = FALSE, comm = .mpiopt_get("SPMD.CT", "comm"))
 
-comm.allcommon(x, comm = .pbd_opts$SPMD.CT$comm,
-               lazy.check = .pbd_opts$SPMD.CT$lazy.check)
+comm.allcommon(x, comm = .mpiopt_get("SPMD.CT", "comm"),
+               lazy.check = .mpiopt_get("SPMD.CT", "lazy.check"))
 }
 \arguments{
   \item{x}{a vector.}
