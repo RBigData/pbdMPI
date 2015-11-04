@@ -1,3 +1,6 @@
+2015-11-03: Ver. 0.3-0
+  * Simplify global options.
+
 2015-10-24: Ver. 0.3-0
   * Change to common environment, but this will create masking, overwritting,
     and texting problems when other pbdR pacakges are loading.

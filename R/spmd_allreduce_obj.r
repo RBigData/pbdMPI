@@ -1,20 +1,20 @@
 ### Median level functions for R objects. These should not be in S3/S4.
 
 ### For general types.
-spmd.allreduce.object <- function(x, op = .mpiopt_get("SPMD.CT", "op"),
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+spmd.allreduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
+    comm = .pbd_env$SPMD.CT$comm){
   x <- try(as.double(x), silent = TRUE)
   if(class(x) == "try-error"){
     stop(x)
   }
   .Call("spmd_allreduce_double", x, double(length(x)),
-        which(op[1] == .mpiopt_get("SPMD.OP")), as.integer(comm),
+        which(op[1] == .pbd_env$SPMD.OP), as.integer(comm),
         PACKAGE = "pbdMPI")
 } # End of spmd.allreduce.object().
 
 ### For array only.
-spmd.allreduce.array <- function(x, op = .mpiopt_get("SPMD.CT", "op"),
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+spmd.allreduce.array <- function(x, op = .pbd_env$SPMD.CT$op,
+    comm = .pbd_env$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
 
   all.check <- spmd.allreduce.integer(

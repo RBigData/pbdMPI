@@ -1,8 +1,8 @@
 ### Utilities.
 
-spmd.probe <- function(rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
-    tag = .mpiopt_get("SPMD.CT", "tag"), comm = .mpiopt_get("SPMD.CT", "comm"),
-    status = .mpiopt_get("SPMD.CT", "status")){
+spmd.probe <- function(rank.source = .pbd_env$SPMD.CT$rank.source,
+    tag = .pbd_env$SPMD.CT$tag, comm = .pbd_env$SPMD.CT$comm,
+    status = .pbd_env$SPMD.CT$status){
   ret <- .Call("spmd_probe", as.integer(rank.source), as.integer(tag),
                as.integer(comm), as.integer(status), PACKAGE = "pbdMPI")
   invisible(ret)
@@ -10,9 +10,9 @@ spmd.probe <- function(rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
 
 probe <- spmd.probe
 
-spmd.iprobe <- function(rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
-    tag = .mpiopt_get("SPMD.CT", "tag"), comm = .mpiopt_get("SPMD.CT", "comm"),
-    status = .mpiopt_get("SPMD.CT", "status")){
+spmd.iprobe <- function(rank.source = .pbd_env$SPMD.CT$rank.source,
+    tag = .pbd_env$SPMD.CT$tag, comm = .pbd_env$SPMD.CT$comm,
+    status = .pbd_env$SPMD.CT$status){
   ret <- .Call("spmd_iprobe", as.integer(rank.source), as.integer(tag),
                as.integer(comm), as.integer(status), PACKAGE = "pbdMPI")
   invisible(ret)
@@ -32,20 +32,20 @@ spmd.anytag <- function(){
 
 anytag <- spmd.anytag
 
-spmd.get.sourcetag <- function(status = .mpiopt_get("SPMD.CT", "status")){
+spmd.get.sourcetag <- function(status = .pbd_env$SPMD.CT$status){
   .Call("spmd_get_sourcetag", as.integer(status), PACKAGE = "pbdMPI")
 } # End of spmd.get.sourcetag().
 
 get.sourcetag <- spmd.get.sourcetag
 
-spmd.get.count <- function(data.type, status = .mpiopt_get("SPMD.CT", "status")){
+spmd.get.count <- function(data.type, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_get_count", as.integer(data.type), as.integer(status),
         PACKAGE = "pbdMPI")
 } # End of spmd.get.count().
 
 get.count <- spmd.get.count
 
-spmd.is.comm.null <- function(comm = .mpiopt_get("SPMD.CT", "comm")){
+spmd.is.comm.null <- function(comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_is_comm_null", as.integer(comm),
         PACKAGE = "pbdMPI")
 } # End of spmd.is.comm.null().

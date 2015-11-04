@@ -2,8 +2,8 @@
 
 ### For general types.
 spmd.scatter.object <- function(x,
-    rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   COMM.RANK <- spmd.comm.rank(comm)
 
   if(COMM.RANK == rank.source){
@@ -29,8 +29,8 @@ spmd.scatter.object <- function(x,
 
 ### For array only.
 spmd.scatter.array <- function(x,
-    rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 

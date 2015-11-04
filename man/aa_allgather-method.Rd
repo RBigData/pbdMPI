@@ -25,8 +25,8 @@
 }
 \usage{
 allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
-          comm = .mpiopt_get("SPMD.CT", "comm"),
-          unlist = .mpiopt_get("SPMD.CT", "unlist"))
+          comm = .pbd_env$SPMD.CT$comm,
+          unlist = .pbd_env$SPMD.CT$unlist)
 }
 \arguments{
   \item{x}{an object to be gathered from all ranks.}

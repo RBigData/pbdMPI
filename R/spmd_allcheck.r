@@ -1,7 +1,7 @@
 ### This function make sure all processes call the consistent type, or
 ### do the type casting to double.
 
-spmd.allcheck.type <- function(x, comm = .mpiopt_get("SPMD.CT", "comm")){
+spmd.allcheck.type <- function(x, comm = .pbd_env$SPMD.CT$comm){
   comm <- as.integer(comm)
   COMM.SIZE <- spmd.comm.size(comm)
   check.integer <- is.integer(x)

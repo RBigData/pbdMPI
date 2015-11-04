@@ -16,8 +16,8 @@
   communicator. The default return is the object.
 }
 \usage{
-bcast(x, rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
-      comm = .mpiopt_get("SPMD.CT", "comm"))
+bcast(x, rank.source = .pbd_env$SPMD.CT$rank.source,
+      comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be broadcast from all ranks.}

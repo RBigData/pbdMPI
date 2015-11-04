@@ -6,7 +6,7 @@ init()
 if(comm.size() != 1){
   stop("Server too big.")
 }
-client.comm <- .mpiopt_get("SPMD.CT", "newcomm")
+client.comm <- .pbd_env$SPMD.CT$newcomm
 
 ### Connection start.
 port.name <- port.open()

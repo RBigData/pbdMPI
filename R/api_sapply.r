@@ -2,8 +2,8 @@
 
 pbdSapply <- function(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
     pbd.mode = c("mw", "spmd", "dist"),
-    rank.source = .mpiopt_get("SPMD.CT", "rank.root"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), bcast = FALSE, barrier = TRUE){
+    rank.source = .pbd_env$SPMD.CT$rank.root,
+    comm = .pbd_env$SPMD.CT$comm, bcast = FALSE, barrier = TRUE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 

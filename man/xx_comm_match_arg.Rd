@@ -8,11 +8,11 @@
 }
 \usage{
 comm.match.arg(arg, choices, several.ok=FALSE, ..., 
-               all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
-               rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
-               comm = .mpiopt_get("SPMD.CT", "comm"),
-               mpi.finalize = .mpiopt_get("SPMD.CT", "mpi.finalize"),
-               quit = .mpiopt_get("SPMD.CT", "quit"))
+               all.rank = .pbd_env$SPMD.CT$print.all.rank,
+               rank.print = .pbd_env$SPMD.CT$rank.source,
+               comm = .pbd_env$SPMD.CT$comm,
+               mpi.finalize = .pbd_env$SPMD.CT$mpi.finalize,
+               quit = .pbd_env$SPMD.CT$quit)
 }
 \arguments{
   \item{arg,choices,several.ok}{see match.arg()}

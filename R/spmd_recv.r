@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.recv.default <- function(x.buffer = NULL,
-    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.source = .pbd_env$SPMD.CT$rank.source, tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   spmd.probe(rank.source, tag, comm, status)
   source.tag <- spmd.get.sourcetag(status)
   total.length <- spmd.get.count(4L, status)
@@ -17,24 +17,24 @@ spmd.recv.default <- function(x.buffer = NULL,
 
 ### For recv.
 spmd.recv.integer <- function(x.buffer,
-    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.source = .pbd_env$SPMD.CT$rank.source, tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_recv_integer", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
         PACKAGE = "pbdMPI")
 } # End of spmd.recv.integer().
 
 spmd.recv.double <- function(x.buffer,
-    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.source = .pbd_env$SPMD.CT$rank.source, tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_recv_double", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
         PACKAGE = "pbdMPI")
 } # End of spmd.recv.double().
 
 spmd.recv.raw <- function(x.buffer,
-    rank.source = .mpiopt_get("SPMD.CT", "rank.source"), tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.source = .pbd_env$SPMD.CT$rank.source, tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
         PACKAGE = "pbdMPI")

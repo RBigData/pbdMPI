@@ -2,13 +2,13 @@
 
 ### Default method.
 spmd.sendrecv.replace.default <- function(x,
-    rank.dest = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) + 1) %%
-                comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    send.tag = .mpiopt_get("SPMD.CT", "tag"),
-    rank.source = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) - 1) %%
-                  comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    recv.tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.dest = (comm.rank(.pbd_env$SPMD.CT$comm) + 1) %%
+                comm.size(.pbd_env$SPMD.CT$comm),
+    send.tag = .pbd_env$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbd_env$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbd_env$SPMD.CT$comm),
+    recv.tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   x.raw <- serialize(x, NULL)
   total.org <- length(x.raw)
   total.new <- spmd.sendrecv.replace.integer(as.integer(total.org),
@@ -32,13 +32,13 @@ spmd.sendrecv.replace.default <- function(x,
 
 ### For sendrecv.replace.
 spmd.sendrecv.replace.integer <- function(x,
-    rank.dest = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) + 1) %%
-                comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    send.tag = .mpiopt_get("SPMD.CT", "tag"),
-    rank.source = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) - 1) %%
-                  comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    recv.tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.dest = (comm.rank(.pbd_env$SPMD.CT$comm) + 1) %%
+                comm.size(.pbd_env$SPMD.CT$comm),
+    send.tag = .pbd_env$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbd_env$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbd_env$SPMD.CT$comm),
+    recv.tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_sendrecv_replace_integer", x,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),
@@ -46,13 +46,13 @@ spmd.sendrecv.replace.integer <- function(x,
 } # End of spmd.sendrecv.replace.integer().
 
 spmd.sendrecv.replace.double <- function(x,
-    rank.dest = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) + 1) %%
-                comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    send.tag = .mpiopt_get("SPMD.CT", "tag"),
-    rank.source = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) - 1) %%
-                  comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    recv.tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.dest = (comm.rank(.pbd_env$SPMD.CT$comm) + 1) %%
+                comm.size(.pbd_env$SPMD.CT$comm),
+    send.tag = .pbd_env$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbd_env$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbd_env$SPMD.CT$comm),
+    recv.tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_sendrecv_replace_double", x,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),
@@ -60,13 +60,13 @@ spmd.sendrecv.replace.double <- function(x,
 } # End of spmd.sendrecv.replace.double().
 
 spmd.sendrecv.replace.raw <- function(x,
-    rank.dest = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) + 1) %%
-                comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    send.tag = .mpiopt_get("SPMD.CT", "tag"),
-    rank.source = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) - 1) %%
-                  comm.size(.mpiopt_get("SPMD.CT", "comm")),
-    recv.tag = .mpiopt_get("SPMD.CT", "tag"),
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    rank.dest = (comm.rank(.pbd_env$SPMD.CT$comm) + 1) %%
+                comm.size(.pbd_env$SPMD.CT$comm),
+    send.tag = .pbd_env$SPMD.CT$tag,
+    rank.source = (comm.rank(.pbd_env$SPMD.CT$comm) - 1) %%
+                  comm.size(.pbd_env$SPMD.CT$comm),
+    recv.tag = .pbd_env$SPMD.CT$tag,
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   .Call("spmd_sendrecv_replace_raw", x,
         as.integer(rank.dest), as.integer(send.tag), as.integer(rank.source),
         as.integer(recv.tag),

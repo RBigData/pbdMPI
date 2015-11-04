@@ -8,17 +8,17 @@
 }
 \usage{
 pbdApply(X, MARGIN, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-         rank.source = .mpiopt_get("SPMD.CT", "rank.root"),
-         comm = .mpiopt_get("SPMD.CT", "comm"),
+         rank.source = .pbd_env$SPMD.CT$rank.root,
+         comm = .pbd_env$SPMD.CT$comm,
          barrier = TRUE)
 pbdLapply(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-          rank.source = .mpiopt_get("SPMD.CT", "rank.root"),
-          comm = .mpiopt_get("SPMD.CT", "comm"),
+          rank.source = .pbd_env$SPMD.CT$rank.root,
+          comm = .pbd_env$SPMD.CT$comm,
           bcast = FALSE, barrier = TRUE)
 pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
           pbd.mode = c("mw", "spmd", "dist"),
-          rank.source = .mpiopt_get("SPMD.CT", "rank.root"),
-          comm = .mpiopt_get("SPMD.CT", "comm"),
+          rank.source = .pbd_env$SPMD.CT$rank.root,
+          comm = .pbd_env$SPMD.CT$comm,
           bcast = FALSE, barrier = TRUE)
 }
 \arguments{

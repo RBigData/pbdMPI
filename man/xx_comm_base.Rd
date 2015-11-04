@@ -10,11 +10,11 @@
   distributed data for all ranks.
 }
 \usage{
-comm.length(x, comm = .mpiopt_get("SPMD.CT", "comm"))
-comm.sum(..., na.rm = TRUE, comm = .mpiopt_get("SPMD.CT", "comm"))
-comm.mean(x, na.rm = TRUE, comm = .mpiopt_get("SPMD.CT", "comm"))
-comm.var(x, na.rm = TRUE, comm = .mpiopt_get("SPMD.CT", "comm"))
-comm.sd(x, na.rm = TRUE, comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.length(x, comm = .pbd_env$SPMD.CT$comm)
+comm.sum(..., na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
+comm.mean(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
+comm.var(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
+comm.sd(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{a vector.}

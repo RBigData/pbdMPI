@@ -2,8 +2,8 @@
 ### Assume gbd.major = 1.
 
 comm.balance.info <- function(X.gbd,
-    balance.method = .mpiopt_get("SPMD.IO", "balance.method")[1],
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    balance.method = .pbd_env$SPMD.IO$balance.method[1],
+    comm = .pbd_env$SPMD.CT$comm){
   ### Check gbd.
   if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
@@ -63,8 +63,8 @@ comm.balance.info <- function(X.gbd,
 
 
 comm.load.balance <- function(X.gbd, bal.info = NULL,
-    balance.method = .mpiopt_get("SPMD.IO", "balance.method")[1],
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    balance.method = .pbd_env$SPMD.IO$balance.method[1],
+    comm = .pbd_env$SPMD.CT$comm){
   ### Check.
   if(!comm.allcommon.integer(length(dim(X.gbd)), comm = comm)){
     comm.stop("Dimension of X.gbd should all equal to 2.", comm = comm)
@@ -120,7 +120,7 @@ comm.load.balance <- function(X.gbd, bal.info = NULL,
 
 
 comm.unload.balance <- function(new.X.gbd, bal.info,
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    comm = .pbd_env$SPMD.CT$comm){
   rev.bal.info <- list(send = data.frame(org = bal.info$recv$belong,
                                          belong = bal.info$recv$org),
                        recv = data.frame(org = bal.info$send$belong,

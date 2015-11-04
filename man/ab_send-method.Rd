@@ -16,9 +16,9 @@
   in the same communicator. The default return is \code{NULL}.
 }
 \usage{
-send(x, rank.dest = .mpiopt_get("SPMD.CT", "rank.dest"),
-     tag = .mpiopt_get("SPMD.CT", "tag"),
-     comm = .mpiopt_get("SPMD.CT", "comm"))
+send(x, rank.dest = .pbd_env$SPMD.CT$rank.dest,
+     tag = .pbd_env$SPMD.CT$tag,
+     comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}

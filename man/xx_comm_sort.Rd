@@ -6,8 +6,8 @@
 }
 \usage{
 comm.sort(x, decreasing = FALSE, na.last = NA,
-          comm = .mpiopt_get("SPMD.CT", "comm"),
-          status = .mpiopt_get("SPMD.CT", "status"))
+          comm = .pbd_env$SPMD.CT$comm,
+          status = .pbd_env$SPMD.CT$status)
 }
 \arguments{
   \item{x}{a vector.}

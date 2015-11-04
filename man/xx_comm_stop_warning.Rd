@@ -10,21 +10,21 @@
 }
 \usage{
 comm.stop(..., call. = TRUE, domain = NULL,
-          all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
-          rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
-          comm = .mpiopt_get("SPMD.CT", "comm"),
-          mpi.finalize = .mpiopt_get("SPMD.CT", "mpi.finalize"),
-          quit = .mpiopt_get("SPMD.CT", "quit"))
+          all.rank = .pbd_env$SPMD.CT$print.all.rank,
+          rank.print = .pbd_env$SPMD.CT$rank.source,
+          comm = .pbd_env$SPMD.CT$comm,
+          mpi.finalize = .pbd_env$SPMD.CT$mpi.finalize,
+          quit = .pbd_env$SPMD.CT$quit)
 
 comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-             all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
-             rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
-             comm = .mpiopt_get("SPMD.CT", "comm"))
+             all.rank = .pbd_env$SPMD.CT$print.all.rank,
+             rank.print = .pbd_env$SPMD.CT$rank.source,
+             comm = .pbd_env$SPMD.CT$comm)
 
 comm.warnings(...,
-              all.rank = .mpiopt_get("SPMD.CT", "print.all.rank"),
-              rank.print = .mpiopt_get("SPMD.CT", "rank.source"),
-              comm = .mpiopt_get("SPMD.CT", "comm"))
+              all.rank = .pbd_env$SPMD.CT$print.all.rank,
+              rank.print = .pbd_env$SPMD.CT$rank.source,
+              comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{...}{variables to be cat.}

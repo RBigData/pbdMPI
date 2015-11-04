@@ -7,9 +7,9 @@ comm.read.table <- function(file, header = FALSE, sep = "", quote = "\"'",
     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
     flush = FALSE,
     fileEncoding = "", encoding = "unknown",
-    read.method = .mpiopt_get("SPMD.IO", "read.method")[1],
-    balance.method = .mpiopt_get("SPMD.IO", "balance.method")[1],
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    read.method = .pbd_env$SPMD.IO$read.method[1],
+    balance.method = .pbd_env$SPMD.IO$balance.method[1],
+    comm = .pbd_env$SPMD.CT$comm){
   ### Read by method.
   ret <- NULL
   if(read.method[1] == "gbd"){
@@ -55,8 +55,8 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
     flush = FALSE,
     fileEncoding = "", encoding = "unknown",
-    balance.method = .mpiopt_get("SPMD.IO", "balance.method")[1],
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    balance.method = .pbd_env$SPMD.IO$balance.method[1],
+    comm = .pbd_env$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm = comm)
   COMM.RANK <- spmd.comm.rank(comm = comm)
 
@@ -73,14 +73,14 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
     file.size <- as.double(file.info(file)$size)
   }
   file.size <- spmd.bcast.double(file.size, comm = comm)
-  if(file.size > .mpiopt_get("SPMD.IO", "max.read.size")){
-    comm.cat("Caution: file size exceeds .mpiopt_get(SPMD.IO, max.read.size).\n",
+  if(file.size > .pbd_env$SPMD.IO$max.read.size){
+    comm.cat("Caution: file size exceeds .pbd_env$SPMD.IO$max.read.size.\n",
              comm = comm, quiet = TRUE)
   }
 
   ### Read start.
   if(comm.all(nrows == -1) && comm.all(skip == 0)){
-    if(file.size < .mpiopt_get("SPMD.IO", "max.read.size")){
+    if(file.size < .pbd_env$SPMD.IO$max.read.size){
       if(COMM.RANK == 0){
         tmp <- read.table(file, header = header, sep = sep, quote = quote,
                           dec = dec, as.is = TRUE,
@@ -113,7 +113,7 @@ read.table.gbd <- function(file, header = FALSE, sep = "",
       tl.pred <- 0L
       if(COMM.RANK == 0){
         tmp <- nchar(readLines(con = file,
-                               n = .mpiopt_get("SPMD.IO", "max.test.lines")))
+                               n = .pbd_env$SPMD.IO$max.test.lines))
         tl.pred <- ceiling(file.size / sum(tmp) * length(tmp))
       }
       tl.pred <- spmd.bcast.integer(as.integer(tl.pred), comm = comm)
@@ -185,7 +185,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
     blank.lines.skip = TRUE, comment.char = "#", allowEscapes = FALSE,
     flush = FALSE,
     fileEncoding = "", encoding = "unknown",
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    comm = .pbd_env$SPMD.CT$comm){
   COMM.SIZE <- spmd.comm.size(comm = comm)
   COMM.RANK <- spmd.comm.rank(comm = comm)
 
@@ -202,8 +202,8 @@ read.table.common <- function(file, header = FALSE, sep = "",
     file.size <- as.double(file.info(file)$size)
   }
   file.size <- spmd.bcast.double(file.size, comm = comm)
-  if(file.size > .mpiopt_get("SPMD.IO", "max.read.size")){
-    comm.cat("Caution: file size exceeds .mpiopt_get(SPMD.IO, max.read.size).\n",
+  if(file.size > .pbd_env$SPMD.IO$max.read.size){
+    comm.cat("Caution: file size exceeds .pbd_env$SPMD.IO$max.read.size.\n",
              comm = comm, quiet = TRUE)
   }
 
@@ -222,7 +222,7 @@ read.table.common <- function(file, header = FALSE, sep = "",
   }
 
   ### Read start.
-  if(file.size < .mpiopt_get("SPMD.IO", "max.read.size")){
+  if(file.size < .pbd_env$SPMD.IO$max.read.size){
     ### Ths file is small, so we read from rank 0 and bcast to all.
     if(COMM.RANK == 0){
       ret <- read.table(file, header = header, sep = sep, quote = quote,
@@ -266,9 +266,9 @@ read.table.common <- function(file, header = FALSE, sep = "",
 
 comm.read.csv <- function(file, header = TRUE, sep = ",", quote = "\"",
     dec = ".", fill = TRUE, comment.char = "", ..., 
-    read.method = .mpiopt_get("SPMD.IO", "read.method")[1],
-    balance.method = .mpiopt_get("SPMD.IO", "balance.method")[1],
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    read.method = .pbd_env$SPMD.IO$read.method[1],
+    balance.method = .pbd_env$SPMD.IO$balance.method[1],
+    comm = .pbd_env$SPMD.CT$comm){
   comm.read.table(file = file, header = header, sep = sep, quote = quote, 
                   dec = dec, fill = fill, comment.char = comment.char, ...,
                   read.method = read.method, balance.method = balance.method,
@@ -278,9 +278,9 @@ comm.read.csv <- function(file, header = TRUE, sep = ",", quote = "\"",
 
 comm.read.csv2 <- function(file, header = TRUE, sep = ";", quote = "\"",
     dec = ",", fill = TRUE, comment.char = "", ...,
-    read.method = .mpiopt_get("SPMD.IO", "read.method")[1],
-    balance.method = .mpiopt_get("SPMD.IO", "balance.method")[1],
-    comm = .mpiopt_get("SPMD.CT", "comm")){
+    read.method = .pbd_env$SPMD.IO$read.method[1],
+    balance.method = .pbd_env$SPMD.IO$balance.method[1],
+    comm = .pbd_env$SPMD.CT$comm){
   comm.read.table(file = file, header = header, sep = sep, quote = quote, 
                 dec = dec, fill = fill, comment.char = comment.char, ...,
                 read.method = read.method, balance.method = balance.method,

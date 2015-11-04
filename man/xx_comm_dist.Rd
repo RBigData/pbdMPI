@@ -6,7 +6,7 @@
 }
 \usage{
 comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
-          p = 2, comm = .mpiopt_get("SPMD.CT", "comm"),
+          p = 2, comm = .pbd_env$SPMD.CT$comm,
           return.type = c("common", "gbd"))
 }
 \arguments{

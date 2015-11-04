@@ -18,13 +18,13 @@
 }
 \usage{
 sendrecv.replace(x,
-  rank.dest = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) + 1) \%\%
-              comm.size(.mpiopt_get("SPMD.CT", "comm")),
-  send.tag = .mpiopt_get("SPMD.CT", "tag"),
-  rank.source = (comm.rank(.mpiopt_get("SPMD.CT", "comm")) - 1) \%\%
-                comm.size(.mpiopt_get("SPMD.CT", "comm")),
-  recv.tag = .mpiopt_get("SPMD.CT", "tag"),
-  comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status"))
+  rank.dest = (comm.rank(.pbd_env$SPMD.CT$comm) + 1) \%\%
+              comm.size(.pbd_env$SPMD.CT$comm),
+  send.tag = .pbd_env$SPMD.CT$tag,
+  rank.source = (comm.rank(.pbd_env$SPMD.CT$comm) - 1) \%\%
+                comm.size(.pbd_env$SPMD.CT$comm),
+  recv.tag = .pbd_env$SPMD.CT$tag,
+  comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}

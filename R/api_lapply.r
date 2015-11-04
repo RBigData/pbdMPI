@@ -5,7 +5,7 @@ list.to.list <- function(i, X){
 } # End of list.to.list().
 
 pbdLapply <- function(X, FUN, ..., pbd.mode = c("mw", "spmd", "dist"),
-    rank.source = .mpiopt_get("SPMD.CT", "rank.root"), comm = .mpiopt_get("SPMD.CT", "comm"),
+    rank.source = .pbd_env$SPMD.CT$rank.root, comm = .pbd_env$SPMD.CT$comm,
     bcast = FALSE, barrier = TRUE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)

@@ -7,7 +7,7 @@
 \usage{
 comm.pairwise(X, pairid.gbd = NULL,
     FUN = function(x, y, ...){ return(as.vector(dist(rbind(x, y), ...))) },
-    ..., diag = FALSE, symmetric = TRUE, comm = .mpiopt_get("SPMD.CT", "comm"))
+    ..., diag = FALSE, symmetric = TRUE, comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{X}{a common matrix across ranks, or a gbd matrix. (See details.)}

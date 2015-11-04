@@ -2,7 +2,7 @@
 
 ### S3 functions.
 comm.sort <- function(x, decreasing = FALSE, na.last = NA,
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   if(is.null(x)){
     x <- vector("integer", length = 0)
     ### If other processors are "double", then spmd.allcheck.type() below
@@ -24,12 +24,12 @@ comm.sort <- function(x, decreasing = FALSE, na.last = NA,
 
 ### S3 Methods.
 comm.sort.default <- function(x, decreasing = FALSE, na.last = NA,
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   comm.stop("x should be all in vector.", comm = comm)
 } # End of comm.sort.default().
 
 comm.sort.integer <- function(x, decreasing = FALSE, na.last = NA,
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   if(is.null(x)){
     y <- vector("integer", length = 0)
   } else{
@@ -49,7 +49,7 @@ comm.sort.integer <- function(x, decreasing = FALSE, na.last = NA,
 } # End of comm.sort.integer().
 
 comm.sort.double <- function(x, decreasing = FALSE, na.last = NA,
-    comm = .mpiopt_get("SPMD.CT", "comm"), status = .mpiopt_get("SPMD.CT", "status")){
+    comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   if(is.null(x)){
     y <- vector("numeric", length = 0)
   } else{

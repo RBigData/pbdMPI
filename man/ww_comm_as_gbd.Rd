@@ -6,9 +6,9 @@
   and turns it in a gbd matrix in row blocks.
 }
 \usage{
-comm.as.gbd(X, balance.method = .mpiopt_get("SPMD.IO", "balance.method"),
-            rank.source = .mpiopt_get("SPMD.CT", "rank.source"),
-            comm = .mpiopt_get("SPMD.CT", "comm"))
+comm.as.gbd(X, balance.method = .pbd_env$SPMD.IO$balance.method,
+            rank.source = .pbd_env$SPMD.CT$rank.source,
+            comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{X}{a regular \code{matrix} in \code{rank.source} and to be
