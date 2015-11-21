@@ -8,6 +8,17 @@
 ### For non-blocking calls.
 .pbd_env$SPMD.NB.BUFFER <- list()
 
+
+### The above are fake. These only be here for reference and to fool
+### ``R CMD check''.
+### The real one ``in practicee and runtime'' is initialed by the
+### .mpiopt_init() in next which is always called by .OnLoad() in "zzz.r"
+### to avoid overloaded and can be really accessed by users instead of sealed
+### by R after loaded.
+###
+### WCC: DO ``NOT'' remark ``NOR'' use the above. Only the below are real.
+
+
 ### Get MPI options.
 .mpiopt_get <- function(main, sub = NULL, envir = .GlobalEnv){
   if(!is.null(sub)){
