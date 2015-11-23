@@ -6,7 +6,7 @@
   SPMD style.
 }
 \usage{
-comm.timer(timed, comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.timer(timed, comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{timed}{expression to be timed.}

@@ -21,7 +21,7 @@ array.to.list.RC <- function(jid, X, dim.X, MARGIN){
 
 pbdApply.RC <- function(X, MARGIN, FUN, ...,
     pbd.mode = c("mw", "spmd", "dist"),
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.root, comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.root, comm = .pbd_env$SPMD.CT$comm){
   MARGIN <- MARGIN[1]
 
   COMM.SIZE <- spmd.comm.size(comm)

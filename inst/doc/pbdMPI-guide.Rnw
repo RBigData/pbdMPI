@@ -12,8 +12,8 @@
 \author{
 \begin{minipage}{6in}
 \centering
-Wei-Chen Chen$^1$, George Ostrouchov$^{2,3}$, Drew Schmidt$^3$, \\
-Pragneshkumar Patel$^3$, Hao Yu$^4$
+Wei-Chen Chen$^1$, George Ostrouchov$^{1,2,3}$, Drew Schmidt$^{1,4}$, \\
+Pragneshkumar Patel$^{1,3}$, Hao Yu$^5$
 \end{minipage}
 \\
 \\
@@ -37,7 +37,8 @@ London, Ontario, Canada \\
 %\\
 %\today
 }
-\title{A Quick Guide for the \pkg{pbdMPI} Package {\small (Ver. \mpiversion)}}
+%\title{A Quick Guide for the \pkg{pbdMPI} Package {\small (Ver. \mpiversion)}}
+\title{A Quick Guide for the \pkg{pbdMPI} Package}
 
 
 %% for pretty printing and a nice hypersummary also set:
@@ -66,7 +67,7 @@ London, Ontario, Canada \\
 \Address{
   Wei-Chen Chen\\
   E-mail: \email{wccsnow@gmail.com}\\
-  URL: \url{http://thirteen-01.stat.iastate.edu/snoweye/hpsc/}
+  URL: \url{http://thirteen-01.stat.iastate.edu/snoweye/mypage/}
 }
 %% It is also possible to add a telephone and fax number
 %% before the e-mail in the following format:

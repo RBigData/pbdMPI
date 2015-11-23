@@ -2,8 +2,8 @@
 
 ### Default method.
 spmd.scatter.default <- function(x, x.buffer = NULL, x.count = NULL,
-    displs = NULL, rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    displs = NULL, rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   if(spmd.comm.rank(comm) == rank.source){
     COMM.SIZE <- spmd.comm.size(comm)
     check <- c(is.list(x) && length(x) == spmd.comm.size(comm),
@@ -31,22 +31,22 @@ spmd.scatterv.default <- spmd.scatter.default
 
 ### For scatter and basic types.
 spmd.scatter.integer <- function(x, x.buffer, x.count = NULL, displs = NULL,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_scatter_integer", x, x.buffer,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.scatter.double().
 
 spmd.scatter.double <- function(x, x.buffer, x.count = NULL, displs = NULL,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_scatter_double", x, x.buffer,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.scatter.double().
 
 spmd.scatter.raw <- function(x, x.buffer, x.count = NULL, displs = NULL,
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_scatter_raw", x, x.buffer,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.scatter.raw().
@@ -55,24 +55,24 @@ spmd.scatter.raw <- function(x, x.buffer, x.count = NULL, displs = NULL,
 ### For scatterv and basic types.
 spmd.scatterv.integer <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_scatterv_integer", x, x.buffer, x.count, displs,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.scatterv.integer().
 
 spmd.scatterv.double <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_scatterv_double", x, x.buffer, x.count, displs,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.scatterv.double().
 
 spmd.scatterv.raw <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
-    rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-    comm = .pbdMPIEnv$SPMD.CT$comm){
+    rank.source = .pbd_env$SPMD.CT$rank.source,
+    comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_scatterv_raw", x, x.buffer, x.count, displs,
         as.integer(rank.source), as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.scatterv.raw().

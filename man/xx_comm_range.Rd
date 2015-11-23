@@ -8,9 +8,9 @@
   for all ranks.
 }
 \usage{
-comm.range(..., na.rm = FALSE, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.max(..., na.rm = FALSE, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.min(..., na.rm = FALSE, comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.range(..., na.rm = FALSE, comm = .pbd_env$SPMD.CT$comm)
+comm.max(..., na.rm = FALSE, comm = .pbd_env$SPMD.CT$comm)
+comm.min(..., na.rm = FALSE, comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{...}{an 'numeric' objects.}

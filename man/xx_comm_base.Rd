@@ -10,11 +10,11 @@
   distributed data for all ranks.
 }
 \usage{
-comm.length(x, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.sum(..., na.rm = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.mean(x, na.rm = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.var(x, na.rm = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.sd(x, na.rm = TRUE, comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.length(x, comm = .pbd_env$SPMD.CT$comm)
+comm.sum(..., na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
+comm.mean(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
+comm.var(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
+comm.sd(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{a vector.}

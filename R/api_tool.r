@@ -107,8 +107,8 @@ divide.job.list <- function(n, method, COMM.SIZE, COMM.RANK){
   jid
 } # End of divide.job.list().
 
-divide.job <- function(n, method = .pbdMPIEnv$SPMD.CT$divide.method[1],
-    comm = .pbdMPIEnv$SPMD.CT$comm, reduced = FALSE){
+divide.job <- function(n, method = .pbd_env$SPMD.CT$divide.method[1],
+    comm = .pbd_env$SPMD.CT$comm, reduced = FALSE){
   COMM.SIZE <- spmd.comm.size(comm)
   COMM.RANK <- spmd.comm.rank(comm)
 
@@ -121,8 +121,8 @@ divide.job <- function(n, method = .pbdMPIEnv$SPMD.CT$divide.method[1],
   jid
 } # End of divide.job().
 
-divide.job.all <- function(n, method = .pbdMPIEnv$SPMD.CT$divide.method[1],
-    comm = .pbdMPIEnv$SPMD.CT$comm, reduced = FALSE){
+divide.job.all <- function(n, method = .pbd_env$SPMD.CT$divide.method[1],
+    comm = .pbd_env$SPMD.CT$comm, reduced = FALSE){
   COMM.SIZE <- spmd.comm.size(comm)
 
   alljid <- rep(list(NULL), COMM.SIZE)
@@ -139,10 +139,10 @@ divide.job.all <- function(n, method = .pbdMPIEnv$SPMD.CT$divide.method[1],
   alljid
 } # End of divide.job.all().
 
-get.jid <- function(n, method = .pbdMPIEnv$SPMD.CT$divide.method[1],
+get.jid <- function(n, method = .pbd_env$SPMD.CT$divide.method[1],
     all = FALSE,
-    comm = .pbdMPIEnv$SPMD.CT$comm, reduced = FALSE){
-  if(! method[1] %in% .pbdMPIEnv$SPMD.CT$divide.method){
+    comm = .pbd_env$SPMD.CT$comm, reduced = FALSE){
+  if(! method[1] %in% .pbd_env$SPMD.CT$divide.method){
     stop("The method for dividing jobs is not found.")
   }
 

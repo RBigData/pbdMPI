@@ -41,7 +41,13 @@
 \item {\bf\color{blue} Q:}
       Does \pkg{pbdMPI} support any interactive mode? \\
       {\bf\color{blue} A:}
-      No, but yes. \pkg{pbdMPI} only considers batch execution and
+      No, but yes. Since \pkg{pbdMPI} version 0.3-0, there are two additional
+      packages \pkg{pbdZMQ}~\citep{Chen2015pbdZMQpackage} and
+      \pkg{pbdCS}~\citep{Schmidt2015pbdCSpackage}
+      which provide servers-client interaction building upon
+      \pkg{pbdMPI} for parallel computing.
+
+      Originally, \pkg{pbdMPI} only considers batch execution and
       aims for programming with big data that do not fit on desktop
       platforms. We think that interaction with big data on a big
       machine is better handled with a client/server interface, where
@@ -141,7 +147,7 @@ sudo ip link set eth0 down
 
 Example 1:
 \begin{Code}[title=SPMD R Script]
-  library(pbdMPI, quietly = TRUE)
+  suppressMessages(library(pbdMPI, quietly = TRUE))
   init()
 
   id <- get.jid(total.tasks)
@@ -166,7 +172,7 @@ unless communicated.
 
 Example 2:
 \begin{Code}[title=SPMD R Script]
-  library(pbdMPI, quietly = TRUE)
+  suppressMessages(library(pbdMPI, quietly = TRUE))
   init()
 
   ### Directly using a loop.
@@ -193,9 +199,9 @@ finalize()
       {\bf\color{blue} A:}
       The answer is no for \pkg{pbdMPI} earlier than version 0.2-2, but
       it is changed since version 0.2-3. A temporary buffer list
-      \code{nb.buffer} is used to store all objects being sent by
+      \code{SPMD.NB.BUFFER} is used to store all objects being sent by
       \code{isend()}. The buffer is created
-      and cumulated in \code{.pbdMPIEnv}, but released as
+      and cumulated in \code{.pbd_env}, but released as
       \code{wait()} is called. Although this may take some performance
       and space, this can avoid \code{gc()} and memory overwrite before
       actual sending is done.
@@ -215,7 +221,7 @@ mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
 \end{Command}
 \begin{Code}[title=SPMD R Script (task\_pull)]
 ### Initial.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Examples.
 FUN <- function(jid){

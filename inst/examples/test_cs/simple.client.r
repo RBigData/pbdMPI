@@ -5,9 +5,9 @@ port.name <- args[1]
 print(port.name)
 
 ### Initial MPI.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
-server.comm <- .SPMD.CT$newcomm
+server.comm <- .pbd_env$SPMD.CT$newcomm
 
 ### Connection start.
 comm.connect(port.name, newcomm = server.comm)

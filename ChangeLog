@@ -1,5 +1,21 @@
+2015-11-03: Ver. 0.3-0
+  * Simplify global options.
+
+2015-10-24: Ver. 0.3-0
+  * Change to common environment, but this will create masking, overwritting,
+    and texting problems when other pbdR pacakges are loading.
+  * Change again to .pbd_env, .mpiopt_set(), .mpiopt_get(), and
+    .mpiopt_init() with huge options rewritting.
+
+2015-10-22: Ver. 0.3-0
+  * Fix comm.set.seed problem.
+
+2015-10-17: Ver. 0.3-0
+  * Drop "data/envir.r".
+
 2015-09-05: Ver. 0.3-0
   * Check with ZMQ and CS.
+  * Rename global Env again.
 
 2015-08-30: Ver. 0.3-0
   * Reversion to 0.3.

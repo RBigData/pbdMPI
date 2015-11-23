@@ -2,7 +2,7 @@
 
 ### For general types.
 spmd.allgather.object <- function(x,
-    comm = .pbdMPIEnv$SPMD.CT$comm, unlist = .pbdMPIEnv$SPMD.CT$unlist){
+    comm = .pbd_env$SPMD.CT$comm, unlist = .pbd_env$SPMD.CT$unlist){
   x.raw <- serialize(x, NULL)
   x.count <- spmd.allgather.integer(length(x.raw),
                                     integer(spmd.comm.size(comm = comm)),
@@ -22,7 +22,7 @@ spmd.allgather.object <- function(x,
 
 ### For array only.
 spmd.allgather.array <- function(x,
-    comm = .pbdMPIEnv$SPMD.CT$comm, unlist = .pbdMPIEnv$SPMD.CT$unlist){
+    comm = .pbd_env$SPMD.CT$comm, unlist = .pbd_env$SPMD.CT$unlist){
   n.dim <- length(dim(x))
   COMM.SIZE <- spmd.comm.size(comm)
   
