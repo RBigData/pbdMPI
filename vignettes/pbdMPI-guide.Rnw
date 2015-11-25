@@ -43,8 +43,10 @@ London, Ontario, Canada \\
 
 %% for pretty printing and a nice hypersummary also set:
 \Plainauthor{Wei-Chen Chen, George Ostrouchov, Drew Schmidt, Pragneshkumar Patel, Hao Yu} %% comma-separated
-\Plaintitle{Quick Guide for pbdMPI (Ver. \mpiversion)} %% without formatting
-\Shorttitle{Quick Guide for pbdMPI (Ver. \mpiversion)} %% a short title (if necessary)
+% \Plaintitle{Quick Guide for pbdMPI (Ver. \mpiversion)} %% without formatting
+\Plaintitle{Quick Guide for pbdMPI} %% without formatting
+% \Shorttitle{Quick Guide for pbdMPI (Ver. \mpiversion)} %% a short title (if necessary)
+\Shorttitle{Quick Guide for pbdMPI} %% a short title (if necessary)
 
 %% an abstract and keywords
 %\Abstract{
