@@ -1,4 +1,4 @@
-\name{global as.gb}
+\name{global as.gbd}
 \alias{comm.as.gbd}
 \title{ Global As GBD Function }
 \description{

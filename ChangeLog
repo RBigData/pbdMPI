@@ -1,3 +1,6 @@
+2015-12-19: Ver. 0.3-1
+  * Add pbd_opt().
+
 2015-11-03: Ver. 0.3-0
   * Simplify global options.
 
