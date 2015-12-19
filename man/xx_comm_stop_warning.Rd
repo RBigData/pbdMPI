@@ -10,21 +10,21 @@
 }
 \usage{
 comm.stop(..., call. = TRUE, domain = NULL,
-          all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
-          rank.print = .pbdMPIEnv$SPMD.CT$rank.source,
-          comm = .pbdMPIEnv$SPMD.CT$comm,
-          mpi.finalize = .pbdMPIEnv$SPMD.CT$mpi.finalize,
-          quit = .pbdMPIEnv$SPMD.CT$quit)
+          all.rank = .pbd_env$SPMD.CT$print.all.rank,
+          rank.print = .pbd_env$SPMD.CT$rank.source,
+          comm = .pbd_env$SPMD.CT$comm,
+          mpi.finalize = .pbd_env$SPMD.CT$mpi.finalize,
+          quit = .pbd_env$SPMD.CT$quit)
 
 comm.warning(..., call. = TRUE, immediate. = FALSE, domain = NULL,
-             all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
-             rank.print = .pbdMPIEnv$SPMD.CT$rank.source,
-             comm = .pbdMPIEnv$SPMD.CT$comm)
+             all.rank = .pbd_env$SPMD.CT$print.all.rank,
+             rank.print = .pbd_env$SPMD.CT$rank.source,
+             comm = .pbd_env$SPMD.CT$comm)
 
 comm.warnings(...,
-              all.rank = .pbdMPIEnv$SPMD.CT$print.all.rank,
-              rank.print = .pbdMPIEnv$SPMD.CT$rank.source,
-              comm = .pbdMPIEnv$SPMD.CT$comm)
+              all.rank = .pbd_env$SPMD.CT$print.all.rank,
+              rank.print = .pbd_env$SPMD.CT$rank.source,
+              comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{...}{variables to be cat.}

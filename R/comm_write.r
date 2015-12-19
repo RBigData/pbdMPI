@@ -2,7 +2,7 @@
 
 comm.write <- function(x, file = "data",
     ncolumns = if(is.character(x)) 1 else 5,
-    append = FALSE, sep = " ", comm = .pbdMPIEnv$SPMD.CT$comm){
+    append = FALSE, sep = " ", comm = .pbd_env$SPMD.CT$comm){
   comm.rank <- spmd.comm.rank(comm = comm)
 
   if(comm.rank != 0){
@@ -20,7 +20,7 @@ comm.write <- function(x, file = "data",
 comm.write.table <- function(x, file = "", append = FALSE,
     quote = TRUE, sep = " ", eol = "\n", na = "NA", dec = ".",
     row.names = TRUE, col.names = TRUE, qmethod = c("escape", "double"),
-    fileEncoding = "", comm = .pbdMPIEnv$SPMD.CT$comm){
+    fileEncoding = "", comm = .pbd_env$SPMD.CT$comm){
   comm.rank <- spmd.comm.rank(comm = comm)
 
   if(comm.rank != 0){
@@ -39,7 +39,7 @@ comm.write.table <- function(x, file = "", append = FALSE,
   invisible()
 } # End of comm.write.table().
      
-comm.write.csv <- function(..., comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.write.csv <- function(..., comm = .pbd_env$SPMD.CT$comm){
   Call <- match.call(expand.dots = TRUE)
   Call$sep <- ","
   Call$dec <- "."
@@ -48,7 +48,7 @@ comm.write.csv <- function(..., comm = .pbdMPIEnv$SPMD.CT$comm){
   eval.parent(Call)
 } # End of comm.write.csv().
 
-comm.write.csv2 <- function(..., comm = .pbdMPIEnv$SPMD.CT$comm){
+comm.write.csv2 <- function(..., comm = .pbd_env$SPMD.CT$comm){
   Call <- match.call(expand.dots = TRUE)
   Call$sep <- ";"
   Call$dec <- ","

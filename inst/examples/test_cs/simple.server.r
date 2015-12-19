@@ -1,12 +1,12 @@
 ### See ``http://www.mpi-forum.org/docs/mpi-20-html/node106.htm'' for details.
 
 ### Initial MPI.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 if(comm.size() != 1){
   stop("Server too big.")
 }
-client.comm <- .SPMD.CT$newcomm
+client.comm <- .pbd_env$SPMD.CT$newcomm
 
 ### Connection start.
 port.name <- port.open()

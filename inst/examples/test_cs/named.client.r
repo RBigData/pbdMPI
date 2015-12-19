@@ -1,9 +1,9 @@
 ### See ``http://www.mpi-forum.org/docs/mpi-20-html/node106.htm'' for details.
 
 ### Initial MPI.
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
-server.comm <- .SPMD.CT$newcomm
+server.comm <- .pbd_env$SPMD.CT$newcomm
 
 ### Connection start.
 port.name <- serv.lookup()

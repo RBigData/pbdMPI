@@ -31,7 +31,7 @@ mpirun -np 2 Rscript 01_mclapply_spmd.r
 to see the computing time on your platform.
 \begin{Code}[title=SPMD R Script]
 ### File Name: 01_mclapply_spmd.r
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 
 time.proc <- system.time({
@@ -94,7 +94,7 @@ mpirun -np 2 Rscript 02_parMM_spmd.r
 to see the computing time on your platform.
 \begin{Code}[title=SPMD R Script]
 ### File Name: 02_parMM_spmd.r
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 
 set.seed(123)

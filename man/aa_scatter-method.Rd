@@ -24,8 +24,8 @@
 }
 \usage{
 scatter(x, x.buffer = NULL, x.count = NULL, displs = NULL,
-        rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-        comm = .pbdMPIEnv$SPMD.CT$comm)
+        rank.source = .pbd_env$SPMD.CT$rank.source,
+        comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{an object of length `comm size' to be scattered to all ranks.}

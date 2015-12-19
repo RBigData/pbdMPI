@@ -10,14 +10,14 @@
 }
 \usage{
 comm.write(x, file = "data", ncolumns = if(is.character(x)) 1 else 5,
-           append = FALSE, sep = " ", comm = .pbdMPIEnv$SPMD.CT$comm)
+           append = FALSE, sep = " ", comm = .pbd_env$SPMD.CT$comm)
 comm.write.table(x, file = "", append = FALSE, quote = TRUE, sep = " ",
                  eol = "\n", na = "NA", dec = ".", row.names = TRUE,
                  col.names = TRUE, qmethod = c("escape", "double"),
-                 fileEncoding = "", comm = .pbdMPIEnv$SPMD.CT$comm)
+                 fileEncoding = "", comm = .pbd_env$SPMD.CT$comm)
 
-comm.write.csv(..., comm = .pbdMPIEnv$SPMD.CT$comm)
-comm.write.csv2(..., comm = .pbdMPIEnv$SPMD.CT$comm)
+comm.write.csv(..., comm = .pbd_env$SPMD.CT$comm)
+comm.write.csv2(..., comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
   \item{x}{as in \code{write()} or \code{write.table()}.}

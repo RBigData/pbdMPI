@@ -1,7 +1,7 @@
 ### This example is analog to "boot_par.r", and one can run it by the command
 ### SHELL> mpiexec -np 2 Rscript --vanilla 03_boot_spmd.r
 
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 .comm.rank <- comm.rank()
 set.seed(123 + .comm.rank + 1)

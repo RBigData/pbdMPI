@@ -6,12 +6,12 @@
   The functions call MPI probe functions.
 }
 \usage{
-probe(rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-      tag = .pbdMPIEnv$SPMD.CT$tag, comm = .pbdMPIEnv$SPMD.CT$comm,
-      status = .pbdMPIEnv$SPMD.CT$status)
-iprobe(rank.source = .pbdMPIEnv$SPMD.CT$rank.source,
-       tag = .pbdMPIEnv$SPMD.CT$tag, comm = .pbdMPIEnv$SPMD.CT$comm,
-       status = .pbdMPIEnv$SPMD.CT$status)
+probe(rank.source = .pbd_env$SPMD.CT$rank.source,
+      tag = .pbd_env$SPMD.CT$tag, comm = .pbd_env$SPMD.CT$comm,
+      status = .pbd_env$SPMD.CT$status)
+iprobe(rank.source = .pbd_env$SPMD.CT$rank.source,
+       tag = .pbd_env$SPMD.CT$tag, comm = .pbd_env$SPMD.CT$comm,
+       status = .pbd_env$SPMD.CT$status)
 }
 \arguments{
   \item{rank.source}{a source rank where an object sent from.}

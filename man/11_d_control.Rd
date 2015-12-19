@@ -1,5 +1,5 @@
 \name{SPMD Control}
-\alias{.pbdMPIEnv}
+\alias{.pbd_env}
 \docType{data}
 \title{Sets of controls in pbdMPI.}
 \description{
@@ -9,7 +9,7 @@
   Objects contain several parameters for communicators and methods.
 }
 \details{
-  The elements of \code{.pbdMPIEnv$SPMD.CT} are default values for controls
+  The elements of \code{.pbd_env$SPMD.CT} are default values for controls
   including
 \tabular{lcl}{
   Elements              \tab Default    \tab Usage \cr
@@ -38,7 +38,7 @@
   \code{lazy.check}     \tab TRUEE      \tab if use lazy check on all ranks \cr
 }
 
-  The elements of \code{.pbdMPIEnv$SPMD.OP} list the implemented operations for
+  The elements of \code{.pbd_env$SPMD.OP} list the implemented operations for
   \code{reduce()} and \code{allreduce()}. Currently, four operations are
   implemented "sum", "prod", "max", and "min".
 
@@ -54,7 +54,7 @@
   where \code{balance.method} is only used for "gbd" reading method when
   \code{nrows = -1} and \code{skip = 0} are set.
 
-  The elements of \code{.pbdMPIEnv$SPMD.TP} are default values mainly for
+  The elements of \code{.pbd_env$SPMD.TP} are default values mainly for
   task pull including
 \tabular{lcl}{
   Elements          \tab Default \tab Usage \cr

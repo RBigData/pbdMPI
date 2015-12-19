@@ -1,7 +1,7 @@
 ### This example is analog to "glm_par.r", and one can run it by the command
 ### SHELL> mpiexec -np 2 Rscript --vanilla 01_mclapply_spmd.r
 
-library(pbdMPI, quietly = TRUE)
+suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 
 time.proc <- system.time({

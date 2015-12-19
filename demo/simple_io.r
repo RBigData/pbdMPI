@@ -18,14 +18,14 @@ comm.write.table(da, file = fn, quote = FALSE, sep = "\t",
 # comm.write.csv(da, file = fn)
 
 ### Read back in.
-# .pbdMPIEnv$SPMD.IO$max.read.size <- 50
-# .pbdMPIEnv$SPMD.IO$balance.method <- "block.cyclic"
+# .pbd_env$SPMD.IO$max.read.size <- 50
+# .pbd_env$SPMD.IO$balance.method <- "block.cyclic"
 da.gbd <- comm.read.table(fn, header = TRUE, sep = "\t", quote = "")
 # da.gbd <- comm.read.csv(file = fn)
 comm.print(c(nrow(da), nrow(da.gbd)), all.rank = TRUE)
 
 ### Read in common.
-# .pbdMPIEnv$SPMD.IO$max.read.size <- 50
+# .pbd_env$SPMD.IO$max.read.size <- 50
 da.common <- comm.read.table(fn, header = TRUE, sep = "\t",
                              quote = "", read.method = "common")
 # da.common <- comm.read.csv(fn, read.method = "common")
