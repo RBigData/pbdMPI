@@ -1,3 +1,6 @@
+2015-12-30: Ver. 0.3-1
+  * Drop pbdCS temporarily.
+
 2015-12-19: Ver. 0.3-1
   * Add pbd_opt().
 
