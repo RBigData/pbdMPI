@@ -75,7 +75,10 @@ export(
   "pbdSapply",
   "task.pull.workers",
   "task.pull.master",
-  "task.pull"
+  "task.pull",
+
+  ### "R/000_pbd_opt.r"
+  "pbd_opt"
 )
 
 S3method(comm.sort, default)
