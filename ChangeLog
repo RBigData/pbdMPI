@@ -1,3 +1,6 @@
+2016-01-27: Ver. 0.3-2
+  * Drop initialzation of .pbd_env.
+
 2015-12-30: Ver. 0.3-1
   * Drop pbdCS temporarily.
 
