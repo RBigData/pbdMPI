@@ -2,6 +2,7 @@
 \alias{comm.stop}
 \alias{comm.warning}
 \alias{comm.warnings}
+\alias{comm.stopifnot}
 \title{ Global Stop and Warning Functions }
 \description{
   These functions are global stop and warning applying on distributed data
@@ -25,6 +26,13 @@ comm.warnings(...,
               all.rank = .pbd_env$SPMD.CT$print.all.rank,
               rank.print = .pbd_env$SPMD.CT$rank.source,
               comm = .pbd_env$SPMD.CT$comm)
+
+comm.stopifnot(..., call. = TRUE, domain = NULL,
+               all.rank = .pbd_env$SPMD.CT$print.all.rank,
+               rank.print = .pbd_env$SPMD.CT$rank.source,
+               comm = .pbd_env$SPMD.CT$comm,
+               mpi.finalize = .pbd_env$SPMD.CT$mpi.finalize,
+               quit = .pbd_env$SPMD.CT$quit)
 }
 \arguments{
   \item{...}{variables to be cat.}
@@ -39,11 +47,12 @@ comm.warnings(...,
 }
 \details{
   These functions will respectively apply \code{stop()}, \code{warning()},
-  and \code{warnings()} locally.
+  \code{warnings()}, and \code{stopifnot()} locally.
 }
 \value{
-  \code{comm.stop()} terminates all ranks, \code{comm.warning()} returns
-  messages, and \code{comm.warnings()} print the message.
+  \code{comm.stop()} and \code{comm.stopifnot()} terminate all ranks, 
+  \code{comm.warning()} returns messages, and \code{comm.warnings()}
+  print the message.
 }
 \references{
   Programming with Big Data in R Website:
@@ -70,6 +79,7 @@ if(comm.size() != 2){
 comm.warning("test warning.\n")
 comm.warnings()
 comm.stop("test stop.\n")
+comm.stopifnot(1 == 2)
 
 ### Finish.
 finalize()

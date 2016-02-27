@@ -28,5 +28,17 @@ y <- allreduce(x, op = "min")
 comm.cat("\nAllreduce min:\n", quiet = TRUE)
 comm.print(y)
 
+comm.set.seed(1234, diff = TRUE)
+x <- as.logical(round(runif(N)))
+comm.print(x, all.rank = TRUE)
+
+y <- allreduce(x, op = "land")
+comm.cat("\nAllreduce land:\n", quiet = TRUE)
+comm.print(y)
+
+y <- allreduce(x, op = "lor")
+comm.cat("\nAllreduce lor:\n", quiet = TRUE)
+comm.print(y)
+
 ### Finish.
 finalize()

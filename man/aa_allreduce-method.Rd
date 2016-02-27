@@ -6,6 +6,7 @@
 \alias{allreduce,ANY,missing-method}
 \alias{allreduce,integer,integer-method}
 \alias{allreduce,numeric,numeric-method}
+\alias{allreduce,logical,logical-method}
 
 \alias{allreduce}
 
@@ -42,6 +43,7 @@ For calling \code{spmd.allreduce.*}:
 \item{\code{signature(x = "ANY", x.buffer = "missing")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer")}}{}
 \item{\code{signature(x = "numeric", x.buffer = "numeric")}}{}
+\item{\code{signature(x = "logical", x.buffer = "logical")}}{}
 }}
 \references{
   Programming with Big Data in R Website:
@@ -71,6 +73,10 @@ x <- (1:N) + N * .comm.rank
 y <- allreduce(matrix(x, nrow = 1), op = "sum")
 comm.print(y)
 y <- allreduce(x, double(N), op = "prod")
+comm.print(y)
+comm.set.seed(1234, diff = TRUE)
+x <- as.logical(round(runif(N)))
+y <- allreduce(x, logical(N), op = "land")
 comm.print(y)
 
 ### Finish.
