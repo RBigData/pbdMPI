@@ -4,15 +4,52 @@
 \label{sec:windows_systems_msmpi}
 \addcontentsline{toc}{section}{\thesection. Windows Systems (MS-MPI)}
 
-\pkg{pbdMPI} (later than version 0.2-3) supports Windows with
-Microsoft MPI or MS-MPI
+Originally, \pkg{pbdMPI} (later than version 0.2-3 but only up to version 0.3-1)
+supports Windows with Microsoft MPI or MS-MPI
 (\url{http://msdn.microsoft.com/en-us/library/bb524831(v=vs.85).aspx}).
-Currently, \pkg{pbdMPI} is built with
+\pkg{pbdMPI} was built with
 'HPC Pack 2012 R2 MS-MPI Redistributable Package' which is available
 at \url{http://http://www.microsoft.com/en-us/download/}.
 The installation (MSMPISetup.exe) is easily done with a few clicks
 provided some service packs and Visual C++ runtime are installed correctly.
-The default environment and path are recommended.
+The default environment and path are recommended for installation.
+
+Currently, \pkg{pbdMPI} (later than version 0.3-2) supports Windows with
+Microsoft MPI or MS-MPI version 7.1
+(\url{https://www.microsoft.com/en-us/download/details.aspx?id=52981}).
+Note that this is only a SDK development library which does not contain
+any MPI executable file such as \code{mpiexec.exe}. This is only for
+compiling and linking the \pkg{pbdMPI} with MPI library.
+However, you will still need 'MS-MPI Redistributable Package' to have a
+\code{mpiexec.exe} to run MPI programs or \pkg{pbdMPI} scripts.
+
+The difference of default installation between the SDK library and
+'Redistributable Package' are
+\begin{itemize}
+\item
+the location of MPI header file, and
+\item
+the location of the default installation.
+\end{itemize}
+The include path is changed from (Redistributable)
+\begin{Command}
+MPI_INCLUDE = ${MPI_ROOT}Inc/
+\end{Command}
+to (SDK)
+\begin{Command}
+MPI_INCLUDE = ${MPI_ROOT}Include/
+\end{Command}
+These are used by \code{pbdMPI/src/Makevars.win}.
+The default installation is changed from (Redistributable)
+\begin{Command}
+SET MPI_HOME=C:\Program Files\Microsoft MPI\
+\end{Command}
+to (SDK)
+\begin{Command}
+SET MPI_HOME=C:\Program Files (x86)\Microsoft SDKS\MPI\
+\end{Command}
+These are supposed to be set in a batch file.
+
 
 For running MPI and \proglang{R}, users need to set \code{PATH} to the
 \code{mpiexec.exe} and \code{Rscript.exe}. By default,
@@ -82,7 +119,7 @@ See details on the website "Building R for Windows" at
 The environment variable \code{MPI_HOME}
 needs to be set for building binaries.
 
-For example, the minimum requirement may be
+For example, the minimum requirement (for Rtools32 or earlier) may be
 \begin{Command}
 ### Under command mode, or save in a batch file.
 SET R_HOME=C:\Program Files\R\R-3.0.1\
@@ -91,6 +128,18 @@ SET MINGW=C:\Rtools\gcc-4.6.3\bin\
 SET MPI_HOME=C:\Program Files\Miscrosoft MPI\
 SET PATH=%MPI_HOME%bin;%R_HOME%;%R_HOME%bin;%RTOOLS%;%MINGW%;%PATH%
 \end{Command}
+
+For example, the minimum requirement (for Rtools33 or later) may be
+\begin{Command}
+### Under command mode, or save in a batch file.
+SET R_HOME=C:\Program Files\R\R-3.4.0\
+SET RTOOLS=C:\Rtools\bin\
+SET MPI_HOME=C:\Program Files\Miscrosoft MPI\
+SET PATH=%MPI_HOME%bin;%R_HOME%;%R_HOME%bin;%RTOOLS%;%PATH%
+\end{Command}
+Note that \code{gcc} and others within \pkg{Rtools} will be detected by
+windows \proglang{R}, so the installation path of \pkg{Rtools} should be
+exactly the same as \code{C:/Rtools}.
 
 With a correct \code{PATH}, one can use the \proglang{R} commands
 to install/build the \pkg{pbdMPI}:

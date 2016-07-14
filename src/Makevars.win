@@ -42,12 +42,12 @@ endif
 ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
 # mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
 # and MS-MPI_NO_DEPRECATE_20 to turn off warning
-MPI_INCLUDE = ${MPI_ROOT}Inc/
+MPI_INCLUDE = ${MPI_ROOT}Include/
 ifeq "$(WIN)" "64"
-  MPI_LIB = ${MPI_ROOT}Lib/amd64/msmpi.lib
+  MPI_LIB = ${MPI_ROOT}Lib/x64/msmpi.lib
   WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
 else
-  MPI_LIB = ${MPI_ROOT}Lib/i386/msmpi.lib
+  MPI_LIB = ${MPI_ROOT}Lib/x86/msmpi.lib
   WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
 endif
 
@@ -75,6 +75,7 @@ all: Makeconf $(SHLIB)
 
 Makeconf:
 	$(ECHO) 'MPI_ROOT = ${MPI_ROOT}' > $(USER_CONF)
+	$(ECHO) 'MPI_HOME = ${MPI_HOME}' > $(USER_CONF)
 	$(ECHO) 'MPI_INCLUDE = ${MPI_INCLUDE}' >> $(USER_CONF)
 	$(ECHO) 'MPI_LIB = ${MPI_LIB}' >> $(USER_CONF)
 	$(ECHO) 'WIN_FLAGS = ${WIN_FLAGS}' >> $(USER_CONF)
