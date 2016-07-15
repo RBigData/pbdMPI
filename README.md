@@ -1,7 +1,8 @@
 # pbdMPI
 
-* **Version:** 0.3-0
+* **Version:** 0.3-2
 * **License:** [![License](http://img.shields.io/badge/license-MPL%202-orange.svg?style=flat)](https://www.mozilla.org/MPL/2.0/)
+* **Download:** [![Download](http://cranlogs.r-pkg.org/badges/pbdMPI)](https://cran.r-project.org/package=pbdMPI)
 * **Author:** See section below.
 
 

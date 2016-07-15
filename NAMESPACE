@@ -78,7 +78,10 @@ export(
   "task.pull",
 
   ### "R/000_pbd_opt.r"
-  "pbd_opt"
+  "pbd_opt",
+
+  ### "R/222_export_env.r"
+  ".pbd_env"
 )
 
 S3method(comm.sort, default)

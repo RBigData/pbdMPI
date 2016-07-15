@@ -1,3 +1,9 @@
+2016-01-27: Ver. 0.3-2
+  * Drop initialization of .pbd_env.
+  * Migrate to R-3.3.* and R-3.4.*.
+  * Use Rtools33 and Rtools34.
+  * Use MS-MPI v7.1.12437 published on 06/22/2016.
+
 2015-12-30: Ver. 0.3-1
   * Drop pbdCS temporarily.
 

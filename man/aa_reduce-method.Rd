@@ -6,6 +6,7 @@
 \alias{reduce,ANY,missing-method}
 \alias{reduce,integer,integer-method}
 \alias{reduce,numeric,numeric-method}
+\alias{reduce,logical,logical-method}
 
 \alias{reduce}
 
@@ -47,6 +48,7 @@ For calling \code{spmd.reduce.*()}:
 \item{\code{signature(x = "ANY", x.buffer = "missing")}}{}
 \item{\code{signature(x = "integer", x.buffer = "integer")}}{}
 \item{\code{signature(x = "numeric", x.buffer = "numeric")}}{}
+\item{\code{signature(x = "logical", x.buffer = "logical")}}{}
 }}
 \references{
   Programming with Big Data in R Website:
@@ -76,6 +78,10 @@ x <- (1:N) + N * .comm.rank
 y <- reduce(matrix(x, nrow = 1), op = "sum")
 comm.print(y)
 y <- reduce(x, double(N), op = "prod")
+comm.print(y)
+comm.set.seed(1234, diff = TRUE)
+x <- as.logical(round(runif(N)))
+y <- reduce(x, logical(N), op = "land")
 comm.print(y)
 
 ### Finish.

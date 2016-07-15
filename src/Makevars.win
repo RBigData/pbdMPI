@@ -1,24 +1,24 @@
-# This Makevars.win supports for MS-MPI in Windows 7 (32/64bits) and MPICH2.
-#   - MPI_ROOT needs to be defined in the batch file outside of packages.
-#
-# Note that these variables will be exported to Makeconf and carried to other
-# pbdR packages.
-#
-# For MS-MPI 64 bits:
-#   It needs to export symbols from C:\Windows\System32\msmpi.dll
-#   The original C:\Program Files\Microsoft HPC 2012\Lib\amd64\msmpi.lib does
-#   not work for 64 bits, while 32 bits is fine.
-#   Steps:
-#     1. use "gendef" to dump symbols to "msmpi.def"
-#     2. use "dlltool" to convert "msmpi.dll" and "msmpi.def" to "libmsmpi.a"
-#     3. link with the static library "libmsmpi.a"
-#   "msmpi.def" and the steps are provided by Prof. Brian Ripley.
-#   "gendef" is not available in Rtools currently.
-#
-# In order to make down stream pbdR packages working:
-#   "MPI_LIB" needs to be redirect to path where "libmsmpi64.a" installed and
-#   "libmsmpi64.a" needs to be copied to there via "install.libs.R". While
-#   "PKG_LIB" is for building "pbdMPI" only, no need to change it.
+### This Makevars.win supports for MS-MPI in Windows 7 (32/64bits) and MPICH2.
+###   - MPI_ROOT needs to be defined in the batch file outside of packages.
+###
+### Note that these variables will be exported to Makeconf and carried to other
+### pbdR packages.
+###
+### For MS-MPI 64 bits:
+###   It needs to export symbols from C:\Windows\System32\msmpi.dll
+###   The original C:\Program Files\Microsoft HPC 2012\Lib\amd64\msmpi.lib does
+###   not work for 64 bits, while 32 bits is fine.
+###   Steps:
+###     1. use "gendef" to dump symbols to "msmpi.def"
+###     2. use "dlltool" to convert "msmpi.dll" and "msmpi.def" to "libmsmpi.a"
+###     3. link with the static library "libmsmpi.a"
+###   "msmpi.def" and the steps are provided by Prof. Brian Ripley.
+###   "gendef" is not available in Rtools currently.
+###
+### In order to make down stream pbdR packages working:
+###   "MPI_LIB" needs to be redirect to path where "libmsmpi64.a" installed and
+###   "libmsmpi64.a" needs to be copied to there via "install.libs.R". While
+###   "PKG_LIB" is for building "pbdMPI" only, no need to change it.
 
 ### Define MPI_TYPE in the outside batch file or specify it at the next.
 WIN_MPI_TYPE = "MS-MPI"
@@ -26,12 +26,15 @@ WIN_MPI_TYPE = "MS-MPI"
 ### Get Rscript.
 R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
-### Conversion if found any.
+### CRAN probably uses MPI_HOME (can be just SDK and has no `mpiexec.exe`!)
 MPI_HOME = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_HOME')")
 MPI_ROOT = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_ROOT')")
+
+### Conversion if found any.
 ifeq "${MPI_HOME}" ""
   ifeq "${MPI_ROOT}" ""
-    MPI_ROOT = C:/Program Files/Microsoft MPI/
+    # MPI_ROOT = C:/Program Files/Microsoft MPI/
+    MPI_ROOT = C:/Program Files (x86)/Microsoft SDKs/MPI/
   endif
   MPI_HOME = ${MPI_ROOT}
 else
@@ -40,14 +43,15 @@ else
 endif
 
 ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
-# mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
-# and MS-MPI_NO_DEPRECATE_20 to turn off warning
-MPI_INCLUDE = ${MPI_ROOT}Inc/
+### mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
+### and MS-MPI_NO_DEPRECATE_20 to turn off warning
+# MPI_INCLUDE = ${MPI_ROOT}Inc/
+MPI_INCLUDE = ${MPI_ROOT}Include/
 ifeq "$(WIN)" "64"
-  MPI_LIB = ${MPI_ROOT}Lib/amd64/msmpi.lib
+  MPI_LIB = ${MPI_ROOT}Lib/x64/msmpi.lib
   WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
 else
-  MPI_LIB = ${MPI_ROOT}Lib/i386/msmpi.lib
+  MPI_LIB = ${MPI_ROOT}Lib/x86/msmpi.lib
   WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
 endif
 

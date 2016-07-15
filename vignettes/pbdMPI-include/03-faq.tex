@@ -115,6 +115,34 @@ sudo ip link set eth0 down
        Universidad Cat\'{o}lica de la Ssma. Concepci\'{o}n, chil
        providing errors and issues.)
 
+\item {\bf\color{blue} Q:}
+      (Linux/Unix/Mac) Can I install and run OpenMPI or MPICH locally without
+      \code{root} permission? \\
+      {\bf\color{blue} A:}
+      Yes. You don't need \code{root} permission to install or run MPI
+      applications.
+      For general installation of MPI libraries, please see
+      \code{pbdMPI/INSTALL} first.
+      For example,
+      you may install OpenMPI version 1.8.2 under any private user account by
+\begin{Code}
+tar zxvf openmpi-1.8.2.tar.gz
+cd openmpi-1.8.2
+./configure \
+  --prefix=/home/user.id/work-my/local/ompi \
+  CFLAGS=-fPIC
+make
+make install
+\end{Code}
+      The MPI library and binary will be installed at
+      \code{/home/user.id/work-my/local/ompi/}.
+      Then, you may add this path
+      to system environment \code{PATH} by
+\begin{Code}
+export OMPI=/home/user.id/work-my/local/ompi
+export PATH=$OMPI/bin:$PATH
+\end{Code}
+
 \end{enumerate}
 
 
@@ -543,6 +571,36 @@ $ R CMD INSTALL pbdMPI_0.2-4.tar.gz \
       such as Solaris, and upset CRAN. Anyone is welcome to submit a
       thoughful solution.
 
+
+\item {\bf\color{blue} Q:}
+      (Windows) If OpenMPI \code{mpiexec} fails with
+%{\color{red}
+\begin{Error}
+d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc
+    -I"D:/RCompile/recent/R-3.3.1/include" -DNDEBUG
+    -I"C:/Program Files/Microsoft MPI/Inc/" -DMPI2 -DWIN
+    -DMSMPI_NO_DEPRECATE_20    -I"d:/Compiler/gcc-4.9.3/local330/include"
+    -O3 -Wall  -std=gnu99 -mtune=core2 -c comm_errors.c -o comm_errors.o
+d:/Compiler/gcc-4.9.3/mingw_32/bin/gcc  -I"D:/RCompile/recent/R-3.3.1/include"
+    -DNDEBUG -I"C:/Program Files/Microsoft MPI/Inc/" -DMPI2 -DWIN
+    -DMSMPI_NO_DEPRECATE_20    -I"d:/Compiler/gcc-4.9.3/local330/include"
+    -O3 -Wall  -std=gnu99 -mtune=core2 -c comm_sort_double.c
+    -o comm_sort_double.o
+In file included from spmd.h:7:0,
+                 from comm_api.h:7,
+                 from comm_sort_double.c:1:
+pkg_global.h:16:17: fatal error: mpi.h: No such file or directory
+ #include <mpi.h>
+                 ^
+compilation terminated.
+make: *** [comm_sort_double.o] Error 1
+\end{Error}
+%}
+      {\bf\color{blue} A:}
+      The \code{C:/Program Files/Microsoft MPI/Inc/} may not exist for the
+      MS-MPI v7.1 SDKs. The header file may in a different installation
+      directory at \code{C:/Program Files (x86)/Microsoft SDKS/MPI/}.
+      See Section~\ref{sec:windows_systems_msmpi} for details.
 \end{enumerate}
 
 
