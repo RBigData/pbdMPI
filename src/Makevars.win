@@ -26,9 +26,11 @@ WIN_MPI_TYPE = "MS-MPI"
 ### Get Rscript.
 R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 
-### Conversion if found any.
+### CRAN probably uses MPI_HOME (can be just SDK and has no `mpiexec.exe`!)
 MPI_HOME = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_HOME')")
 MPI_ROOT = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_ROOT')")
+
+### Conversion if found any.
 ifeq "${MPI_HOME}" ""
   ifeq "${MPI_ROOT}" ""
     # MPI_ROOT = C:/Program Files/Microsoft MPI/
@@ -77,7 +79,6 @@ all: Makeconf $(SHLIB)
 
 Makeconf:
 	$(ECHO) 'MPI_ROOT = ${MPI_ROOT}' > $(USER_CONF)
-	$(ECHO) 'MPI_HOME = ${MPI_HOME}' > $(USER_CONF)
 	$(ECHO) 'MPI_INCLUDE = ${MPI_INCLUDE}' >> $(USER_CONF)
 	$(ECHO) 'MPI_LIB = ${MPI_LIB}' >> $(USER_CONF)
 	$(ECHO) 'WIN_FLAGS = ${WIN_FLAGS}' >> $(USER_CONF)
