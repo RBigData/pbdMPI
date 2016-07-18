@@ -30,11 +30,24 @@ R_SCMD = ${R_HOME}/bin${R_ARCH_BIN}/Rscript -e
 MPI_HOME = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_HOME')")
 MPI_ROOT = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_ROOT')")
 
+### In case both MPI_HOME and MPI_ROOT are not set
+HPC = C:/Program Files/Microsoft MPI/
+SDK = C:/Program Files (x86)/Microsoft SDKs/MPI/
+HPC_EXISTS = $(shell [ -e "${HPC}" ] && echo 1 || echo 0)
+SDK_EXISTS = $(shell [ -e "${SDK}" ] && echo 1 || echo 0)
+
 ### Conversion if found any.
 ifeq "${MPI_HOME}" ""
   ifeq "${MPI_ROOT}" ""
-    # MPI_ROOT = C:/Program Files/Microsoft MPI/
-    MPI_ROOT = C:/Program Files (x86)/Microsoft SDKs/MPI/
+    ifeq "$(HPC_EXISTS)" "1"
+      MPI_ROOT = ${HPC}
+    else
+      ifeq "$(SDK_EXISTS)" "1"
+        MPI_ROOT = ${SDK}
+      else
+        MPI_ROOT = ''
+      endif
+    endif
   endif
   MPI_HOME = ${MPI_ROOT}
 else
@@ -45,13 +58,52 @@ endif
 ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
 ### mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
 ### and MS-MPI_NO_DEPRECATE_20 to turn off warning
-# MPI_INCLUDE = ${MPI_ROOT}Inc/
-MPI_INCLUDE = ${MPI_ROOT}Include/
+### - MS-MPI HPC 2012 uses the "${MPI_ROOT}}Inc/" for header files
+### - MS-MPI v7.1 SDK uses the "MPI_ROOT}Incclude/" for header files
+INCLUDE_EXISTS = $(shell [ -e "${MPI_ROOT}Include/" ] && echo 1 || echo 0)
+INC_EXISTS = $(shell [ -e "${MPI_ROOT}Inc/" ] && echo 1 || echo 0)
+ifeq "$(INCLUDE_EXISTS)" "1"
+  MPI_INCLUDE = ${MPI_ROOT}Include/
+else
+  ifeq "$(INC_EXISTS)" "1"
+    MPI_INCLUDE = ${MPI_ROOT}Inc/
+  else
+    MPI_INCLUDE = ''
+  endif
+endif
+
+### Find 64bit msmpi.lib
+X64_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/x64/msmpi.lib" ] && echo 1 || echo 0)
+AMD64_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/amd64/msmpi.lib" ] && echo 1 || echo 0)
+ifeq "$(X64_EXISTS)" "1"
+  MPI_LIB64 = ${MPI_ROOT}Lib/x64/msmpi.lib
+else
+  ifeq "$(AMD64_EXISTS)" "1"
+    MPI_LIB64 = ${MPI_ROOT}Lib/amd64/msmpi.lib
+  else
+    MPI_LIB64 = ''
+  endif
+endif
+
+### Find 32bit msmpi.lib
+X86_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/x86/msmpi.lib" ] && echo 1 || echo 0)
+I386_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/i386/msmpi.lib" ] && echo 1 || echo 0)
+ifeq "$(X86_EXISTS)" "1"
+  MPI_LIB32 = ${MPI_ROOT}Lib/x86/msmpi.lib
+else
+  ifeq "$(I386_EXISTS)" "1"
+    MPI_LIB32 = ${MPI_ROOT}Lib/i386/msmpi.lib
+  else
+    MPI_LIB32 = ''
+  endif
+endif
+
+### Combine all found results.
 ifeq "$(WIN)" "64"
-  MPI_LIB = ${MPI_ROOT}Lib/x64/msmpi.lib
+  MPI_LIB = ${MPI_LIB64}
   WIN_FLAGS = -DWIN -D_WIN64 -DMSMPI_NO_DEPRECATE_20
 else
-  MPI_LIB = ${MPI_ROOT}Lib/x86/msmpi.lib
+  MPI_LIB = ${MPI_LIB32}
   WIN_FLAGS = -DWIN -DMSMPI_NO_DEPRECATE_20
 endif
 
@@ -82,6 +134,16 @@ Makeconf:
 	$(ECHO) 'MPI_INCLUDE = ${MPI_INCLUDE}' >> $(USER_CONF)
 	$(ECHO) 'MPI_LIB = ${MPI_LIB}' >> $(USER_CONF)
 	$(ECHO) 'WIN_FLAGS = ${WIN_FLAGS}' >> $(USER_CONF)
+	$(ECHO) 'HPC_EXISTS = ${HPC_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'SDK_EXISTS = ${SDK_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'INCLUDE_EXISTS = ${INCLUDE_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'INC_EXISTS = ${INC_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'MPI_LIB64 = ${MPI_LIB64}' >> $(USER_CONF)
+	$(ECHO) 'MPI_LIB32 = ${MPI_LIB32}' >> $(USER_CONF)
+	$(ECHO) 'X64_EXISTS = ${X64_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'AMD64_EXISTS = ${AMD64_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'X86_EXISTS = ${X86_EXISTS}' >> $(USER_CONF)
+	$(ECHO) 'I386_EXISTS = ${I386_EXISTS}' >> $(USER_CONF)
 
 ### Shared library here.
 ifeq ($(WIN_MPI_TYPE), "MS-MPI")
