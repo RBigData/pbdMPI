@@ -31,19 +31,19 @@ MPI_HOME = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_HOME')
 MPI_ROOT = $(shell ${R_SCMD} "source('../R/get_winmpi.r');get.sysenv('MPI_ROOT')")
 
 ### In case both MPI_HOME and MPI_ROOT are not set
-HPC = C:/Program Files/Microsoft MPI/
 SDK = C:/Program Files (x86)/Microsoft SDKs/MPI/
-HPC_EXISTS = $(shell [ -e "${HPC}" ] && echo 1 || echo 0)
+HPC = C:/Program Files/Microsoft MPI/
 SDK_EXISTS = $(shell [ -e "${SDK}" ] && echo 1 || echo 0)
+HPC_EXISTS = $(shell [ -e "${HPC}" ] && echo 1 || echo 0)
 
 ### Conversion if found any.
 ifeq "${MPI_HOME}" ""
   ifeq "${MPI_ROOT}" ""
-    ifeq "$(HPC_EXISTS)" "1"
-      MPI_ROOT = ${HPC}
+    ifeq "$(SDK_EXISTS)" "1"
+      MPI_ROOT = ${SDK}
     else
-      ifeq "$(SDK_EXISTS)" "1"
-        MPI_ROOT = ${SDK}
+      ifeq "$(HPC_EXISTS)" "1"
+        MPI_ROOT = ${HPC}
       else
         MPI_ROOT = ''
       endif
@@ -58,8 +58,8 @@ endif
 ### set MPI_INCLUDE, MPI_LIB, and WIN_FLAGS
 ### mpi.h of MS-MPI needs to use _WIN64 to turn on __int64 and include stdint.h
 ### and MS-MPI_NO_DEPRECATE_20 to turn off warning
-### - MS-MPI HPC 2012 uses the "${MPI_ROOT}}Inc/" for header files
 ### - MS-MPI v7.1 SDK uses the "MPI_ROOT}Incclude/" for header files
+### - MS-MPI HPC 2012 uses the "${MPI_ROOT}}Inc/" for header files
 INCLUDE_EXISTS = $(shell [ -e "${MPI_ROOT}Include/" ] && echo 1 || echo 0)
 INC_EXISTS = $(shell [ -e "${MPI_ROOT}Inc/" ] && echo 1 || echo 0)
 ifeq "$(INCLUDE_EXISTS)" "1"
@@ -73,6 +73,8 @@ else
 endif
 
 ### Find 64bit msmpi.lib
+### - MS-MPI v7.1 SDK uses the "MPI_ROOT}Lib/x64/" for header files
+### - MS-MPI HPC 2012 uses the "${MPI_ROOT}}Lib/amd64/" for header files
 X64_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/x64/msmpi.lib" ] && echo 1 || echo 0)
 AMD64_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/amd64/msmpi.lib" ] && echo 1 || echo 0)
 ifeq "$(X64_EXISTS)" "1"
@@ -86,6 +88,8 @@ else
 endif
 
 ### Find 32bit msmpi.lib
+### - MS-MPI v7.1 SDK uses the "MPI_ROOT}Lib/x86/" for header files
+### - MS-MPI HPC 2012 uses the "${MPI_ROOT}}Lib/i386/" for header files
 X86_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/x86/msmpi.lib" ] && echo 1 || echo 0)
 I386_EXISTS = $(shell [ -e "${MPI_ROOT}Lib/i386/msmpi.lib" ] && echo 1 || echo 0)
 ifeq "$(X86_EXISTS)" "1"
