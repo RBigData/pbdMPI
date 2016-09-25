@@ -1,8 +1,8 @@
 ### Read pbdMPI vignettes first at
-### http://cran.r-project.org/web/packages/pbdMPI/vignettes/pbdMPI-guide.pdf
+### https://cran.r-project.org/web/packages/pbdMPI/vignettes/pbdMPI-guide.pdf
 ###
 ### Also, pbdDEMO vignettes at
-### http://cran.r-project.org/web/packages/pbdDEMO/vignettes/pbdDEMO-guide.pdf
+### https://cran.r-project.org/web/packages/pbdDEMO/vignettes/pbdDEMO-guide.pdf
 ###
 ### This file is only a quick installation for Solaris, Linux, and Mac OS X.
 ### See `INSTALL.win.src' for a source installation for Windows system.
@@ -89,7 +89,7 @@
 ### `INSTALL.win.src'
 
 --- 'Rtools' Installation:
-   Download 'Rtools216.exe' from 'http://cran.r-project.org/bin/windows/Rtools/'
+   Download 'Rtools216.exe' from 'https://cran.r-project.org/bin/windows/Rtools/'
    and click it to install to
 
      'C:\Rtools'
@@ -97,7 +97,7 @@
 
 --- 'MS-MPI' Installation:
    Download 'HPC Pack 2012 R2 MS-MPI Redistributable Package' from
-   'http://http://www.microsoft.com/en-us/download/'.
+   'http://www.microsoft.com/en-us/download/'.
    File 'MSMPISetup.exe' is for both 32 and 64 bits system.
    Click on it and install them to the default directory
    'C:\Program Files\Microsoft MPI'.
@@ -148,7 +148,7 @@ SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
 
 --- 'MS-MPI' Installation:
    Download 'HPC Pack 2012 R2 MS-MPI Redistributable Package' from
-   'http://http://www.microsoft.com/en-us/download/'.
+   'http://www.microsoft.com/en-us/download/'.
    File 'MSMPISetup.exe' is for both 32 and 64 bits system.
    Click on it and install them to the default directory
    'C:\Program Files\Microsoft MPI'.

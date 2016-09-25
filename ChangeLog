@@ -1,3 +1,6 @@
+2016-09-25: Ver. 0.3-3
+  * Change to "https://cran.r-project.org/...".
+
 2016-07-17: Ver. 0.3-3
   * Improve Makevars.win for both MS-MPI HPC package and SDK package.
 
