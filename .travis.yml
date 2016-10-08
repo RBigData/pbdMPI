@@ -20,8 +20,8 @@ install:
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
   # - R_BUILD_ARGS="--no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'"
 
-script:
-  - ./travis-tool.sh run_tests
+# script:
+  # - ./travis-tool.sh run_tests
 
 after_failure:
   - ./travis-tool.sh dump_logs
