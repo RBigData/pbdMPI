@@ -17,12 +17,22 @@ addons:
     packages:
       - libopenmpi-dev
 
+env:
+  global:
+    - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
+
+r_binary_packages:
+  - rlecuyer
+  - pbdPROF
+  - pbdZMQ
+
 r_build_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'
 
 r_check_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'
 
-before_install:
-  - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
-
 sudo: required
 
+notifications:
+  email:
+    on_success: never
+    on_failure: never
