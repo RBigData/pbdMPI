@@ -4,31 +4,25 @@
 # see the wiki:
 #   https://github.com/craigcitro/r-travis/wiki
 
-language: c
+language: r
+
+r:
+  - devel
 
 os:
   - linux
 
+addons:
+  apt:
+    packages:
+      - libopenmpi-dev
+
+r_build_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'"
+
+r_check_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'"
+
 before_install:
-  - sudo apt-get install -qq libopenmpi-dev
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-
-install:
-  - ./travis-tool.sh install_deps
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
-  # - R_BUILD_ARGS="--no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'"
-
-# script:
-  # - ./travis-tool.sh run_tests
-
-after_failure:
-  - ./travis-tool.sh dump_logs
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
 
 sudo: required
+
