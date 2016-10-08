@@ -17,9 +17,9 @@ addons:
     packages:
       - libopenmpi-dev
 
-r_build_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'"
+r_build_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'
 
-r_check_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'"
+r_check_args: --no-build-vignettes --no-manual --no-test-load --configure-args='--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib'
 
 before_install:
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
