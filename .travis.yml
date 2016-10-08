@@ -21,7 +21,7 @@ env:
   global:
     - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
 
-r_binary_packages:
+r_packages:
   - rlecuyer
   - pbdPROF
   - pbdZMQ
