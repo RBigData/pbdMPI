@@ -12,7 +12,7 @@ os:
 
 env:
   global:
-    - R_BUILD_ARGS="--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib"
+    - R_BUILD_ARGS="--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib --no-test-load"
     - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
 
 before_install:
