@@ -14,7 +14,7 @@ os:
 
 before_install:
   - sudo apt-get update -q
-  - sudo apt-get install -y -q libopenmpi1.6 libopenmpi-dev openmpi-bin
+  - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
 
 r_packages:
@@ -23,6 +23,7 @@ r_packages:
   - pbdZMQ
 
 sudo: required
+dist: trusty
 
 notifications:
   email:
