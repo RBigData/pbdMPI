@@ -12,10 +12,10 @@ r:
 os:
   - linux
 
-addons:
-  apt:
-    packages:
-      - libopenmpi-dev
+before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain
+  - sudo apt-get -qq update
+  - sudo apt-get install libopenmpi1.6 libopenmpi-dev openmpi-bin openmpi-common -y
 
 env:
   global:
@@ -25,8 +25,6 @@ r_packages:
   - rlecuyer
   - pbdPROF
   - pbdZMQ
-
-r_check_args: --no-build-vignettes --no-manual --no-test-load --configure-args="--with-mpi-type=OPENMPI --with-mpi-include=/usr/lib/openmpi/include --with-mpi-libpath=/usr/lib/openmpi/lib"
 
 sudo: required
 
