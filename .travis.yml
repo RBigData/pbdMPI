@@ -13,13 +13,9 @@ os:
   - linux
 
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain
-  - sudo apt-get -qq update
-  - sudo apt-get install libopenmpi1.6 libopenmpi-dev openmpi-bin openmpi-common -y
-
-env:
-  global:
-    - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
+  - sudo apt-get update -q
+  - sudo apt-get install -y -q libopenmpi1.6 libopenmpi-dev openmpi-bin
+  - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
 
 r_packages:
   - rlecuyer
