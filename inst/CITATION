@@ -9,8 +9,8 @@ citEntry(
                       as.person("Pragneshkumar Patel"),
                       as.person("Hao Yu")),
   year = "2012",
-  note = "{R} Package, URL http://cran.r-project.org/package=pbdMPI",
-  textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2012) pbdMPI: Programming with Big Data -- Interface to MPI. R Package, URL http://cran.r-project.org/package=pbdMPI",
+  note = "{R} Package, URL https://cran.r-project.org/package=pbdMPI",
+  textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2012) pbdMPI: Programming with Big Data -- Interface to MPI. R Package, URL https://cran.r-project.org/package=pbdMPI",
   key = "Chen2012pbdMPIpackage"
 )
 
@@ -23,8 +23,8 @@ citEntry(
                       as.person("Pragneshkumar Patel"),
                       as.person("Hao Yu")),
   year = "2012",
-  note = "{R} Vignette, URL http://cran.r-project.org/package=pbdMPI",
-  textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2012) A Quick Guide for the pbdMPI Package. R Vignette, URL http://cran.r-project.org/package=pbdMPI",
+  note = "{R} Vignette, URL https://cran.r-project.org/package=pbdMPI",
+  textVersion = "Chen, W.-C., Ostrouchov, G., Schmidt, D., Patel, P., and Yu, H. (2012) A Quick Guide for the pbdMPI Package. R Vignette, URL https://cran.r-project.org/package=pbdMPI",
   key = "Chen2012pbdMPIvignette"
 )
 

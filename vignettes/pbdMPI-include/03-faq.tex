@@ -601,6 +601,36 @@ make: *** [comm_sort_double.o] Error 1
       MS-MPI v7.1 SDKs. The header file may in a different installation
       directory at \code{C:/Program Files (x86)/Microsoft SDKS/MPI/}.
       See Section~\ref{sec:windows_systems_msmpi} for details.
+
+
+\item {\bf\color{blue} Q:}
+      (Windows) If pbdMPI fails with
+%{\color{red}
+\begin{Error}
+> library(pbdMPI)
+Loading required package: rlecuyer
+Error : .onLoad failed in loadNamespace() for 'pbdMPI', details:
+  call: inDL(x, as.logical(local), as.logical(now), ...)
+  error: unable to load shared object
+         'C:/Users/.../pbdMPI/libs/x64/pbdMPI.dll':
+  LoadLibrary failure:  The specified module could not be found.
+\end{Error}
+%}
+or with a system error like
+%{\color{red}
+\begin{Error}
+The program can't start because msmpi.dll is missing from your
+computer. Try reinstalling the program to fix this problem.
+\end{Error}
+%}
+      {\bf\color{blue} A:}
+      Make sure MS-MPI is installed correctly and the
+      \code{msmpi.dll} is accessible from \code{PATH}
+      before RGui is launched.
+      Double check with \code{Sys.getenv("PATH")} and make sure
+      something like \code{C:/Program Files/Microsoft MPI/Bin/} is
+      included in it.
+      See Section~\ref{sec:windows_systems_msmpi} for details.
 \end{enumerate}
 
 

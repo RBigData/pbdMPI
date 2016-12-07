@@ -54,7 +54,7 @@ comm.reset.seed(comm = .pbd_env$SPMD.CT$comm)
   \url{http://www.iro.umontreal.ca/~lecuyer/myftp/papers/streams00.pdf}
 
   Sevcikova, H. and Rossini, T. (2012) rlecuyer: R interface to RNG with
-  multiple streams. R Package, URL http://cran.r-project.org/package=rlecuyer
+  multiple streams. R Package, URL https://cran.r-project.org/package=rlecuyer
 
   Programming with Big Data in R Website:
   \url{http://r-pbd.org/}

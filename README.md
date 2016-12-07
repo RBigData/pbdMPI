@@ -3,6 +3,7 @@
 * **Version:** 0.3-2
 * **License:** [![License](http://img.shields.io/badge/license-MPL%202-orange.svg?style=flat)](https://www.mozilla.org/MPL/2.0/)
 * **Download:** [![Download](http://cranlogs.r-pkg.org/badges/pbdMPI)](https://cran.r-project.org/package=pbdMPI)
+* **Status:** [![Build Status](https://travis-ci.org/snoweye/pbdMPI.png)](https://travis-ci.org/snoweye/pbdMPI)
 * **Author:** See section below.
 
 

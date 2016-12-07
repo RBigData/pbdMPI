@@ -1,8 +1,20 @@
+2016-10-08: Ver. 0.3-3
+  * Add .travis.yml
+
+2016-09-25: Ver. 0.3-3
+  * Change to "https://cran.r-project.org/...".
+
+2016-07-17: Ver. 0.3-3
+  * Improve Makevars.win for both MS-MPI HPC package and SDK package.
+
+2016-07-14: Ver. 0.3-2
+  * Use Rtools34.
+  * Use MS-MPI v7.1.12437 published on 06/22/2016.
+
 2016-01-27: Ver. 0.3-2
   * Drop initialization of .pbd_env.
   * Migrate to R-3.3.* and R-3.4.*.
-  * Use Rtools33 and Rtools34.
-  * Use MS-MPI v7.1.12437 published on 06/22/2016.
+  * Use Rtools33.
 
 2015-12-30: Ver. 0.3-1
   * Drop pbdCS temporarily.
