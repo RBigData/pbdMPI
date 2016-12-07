@@ -12,8 +12,8 @@
 \author{
 \begin{minipage}{6in}
 \centering
-Wei-Chen Chen$^1$, George Ostrouchov$^{1,2,3}$, Drew Schmidt$^{1,4}$, \\
-Pragneshkumar Patel$^{1,3}$, Hao Yu$^5$
+Wei-Chen Chen$^1$, George Ostrouchov$^{1,2,3}$, Drew Schmidt$^{1}$, \\
+Pragneshkumar Patel$^{1,3}$, Hao Yu$^4$
 \end{minipage}
 \\
 \\
@@ -27,11 +27,7 @@ $^3$National Institute for Computational Sciences, \\
 University of Tennessee, \\
 Knoxville, TN, USA \\
 \\
-$^4$Business Analytics and Statistics, \\
-University of Tennessee, \\
-Knoxville, TN, USA \\
-\\
-$^5$University of Western Ontario, \\
+$^4$University of Western Ontario, \\
 London, Ontario, Canada \\
 %\\
 %\\
