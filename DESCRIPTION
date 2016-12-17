@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.3-3
-Date: 2016-10-08
+Date: 2016-12-17
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
@@ -31,3 +31,4 @@ BugReports: http://group.r-pbd.org/
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 NeedsCompilation: yes
+Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
