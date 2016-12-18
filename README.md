@@ -63,7 +63,7 @@ specifies that all MPI ranks should print, and the `quiet=TRUE` argument
 tells each rank not to "announce" itself when it does its printing.
 
 Numerous other examples can be found in both the
-[pbdMPI vignette](https://cran.r-project.org/web/packages/pbdMPI/vignettes/pbdMPI-guide.pdf)
+[pbdMPI vignette](https://CRAN.R-project.org/package=pbdMPI)
 as well as the [pbdDEMO package](https://github.com/RBigData/pbdDEMO)
 and its corresponding [vignette](https://github.com/RBigData/pbdDEMO/blob/master/inst/doc/pbdDEMO-guide.pdf).
 

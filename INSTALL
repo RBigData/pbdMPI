@@ -1,8 +1,8 @@
 ### Read pbdMPI vignettes first at
-### https://cran.r-project.org/web/packages/pbdMPI/vignettes/pbdMPI-guide.pdf
+### https://CRAN.R-project.org/package=pbdMPI
 ###
 ### Also, pbdDEMO vignettes at
-### https://cran.r-project.org/web/packages/pbdDEMO/vignettes/pbdDEMO-guide.pdf
+### https://CRAN.R-project.org/package=pbdDEMO
 ###
 ### This file is only a quick installation for Solaris, Linux, and Mac OS X.
 ### See `INSTALL.win.src' for a source installation for Windows system.
