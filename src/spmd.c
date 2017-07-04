@@ -80,7 +80,7 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 #ifndef WIN
 		pkg_dlclose();
 #endif
-		if(! flag){
+		if((!flag) && (flag == 0)){
 			MPI_Finalize();
 		}
 	}
