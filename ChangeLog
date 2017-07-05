@@ -1,5 +1,6 @@
 2017-07-04: Ver. 0.3-4
   * Fix a finalize bug in "spmd.finalize()" C code.
+  * Add "comm.chunk()" obtained from pbdIO.
 
 2016-12-17: Ver. 0.3-3
   * Change web address.
