@@ -60,7 +60,7 @@ pbdApply.RC <- function(X, MARGIN, FUN, ...,
     }
   } else if(pbd.mode[1] == "spmd"){
     alljid <- get.jid(dim(X)[MARGIN], comm = comm)
-    new.X <- sapply(alljid, array.to.list.RC, X, dim(X), MARGIN) 
+    new.X <- array.to.list.RC(alljid, X, dim(X), MARGIN) 
   } else if(pbd.mode[1] == "dist"){
     new.X <- X
   } else{
