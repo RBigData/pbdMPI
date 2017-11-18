@@ -17,6 +17,7 @@
 \alias{spmd.allreduce.double}
 \alias{spmd.allreduce.logical}
 \alias{spmd.allreduce.float}
+\alias{spmd.allreduce.float32}
 \alias{spmd.bcast.object}
 \alias{spmd.bcast.array}
 \alias{spmd.bcast.default}
@@ -86,6 +87,7 @@
 \alias{spmd.scatter.object}
 \alias{spmd.reduce.logical}
 \alias{spmd.reduce.float}
+\alias{spmd.reduce.float32}
 \alias{spmd.scatter.array}
 \alias{spmd.scatter.default}
 \alias{spmd.scatterv.default}

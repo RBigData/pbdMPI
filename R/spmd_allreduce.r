@@ -44,7 +44,16 @@ spmd.allreduce.float <- function(x, x.buffer,
   .Call("spmd_allreduce_float", x, x.buffer,
         which(op[1] == .pbd_env$SPMD.OP), as.integer(comm),
         PACKAGE = "pbdMPI")
-} # End of spmd.allreduce.integer().
+} # End of spmd.allreduce.float().
+
+spmd.allreduce.float32 <- function(x, x.buffer,
+    op = .pbd_env$SPMD.CT$op, comm = .pbd_env$SPMD.CT$comm){
+  ret <- .Call("spmd_allreduce_float", x@Data, x.buffer@Data,
+        which(op[1] == .pbd_env$SPMD.OP), as.integer(comm),
+        PACKAGE = "pbdMPI")
+  float32(ret)
+} # End of spmd.allreduce.float32().
+
 
 ### S4 methods.
 setGeneric(
@@ -72,4 +81,9 @@ setMethod(
   f = "allreduce",
   signature = signature(x = "logical", x.buffer = "logical"),
   definition = spmd.allreduce.logical
+)
+setMethod(
+  f = "allreduce",
+  signature = signature(x = "float32", x.buffer = "float32"),
+  definition = spmd.allreduce.float32
 )

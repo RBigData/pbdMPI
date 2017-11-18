@@ -63,7 +63,19 @@ spmd.reduce.float <- function(x, x.buffer, op = .pbd_env$SPMD.CT$op,
     return(invisible())
   }
   ret
-} # End of spmd.reduce.integer().
+} # End of spmd.reduce.float().
+
+spmd.reduce.float32 <- function(x, x.buffer, op = .pbd_env$SPMD.CT$op,
+    rank.dest = .pbd_env$SPMD.CT$rank.source, comm = .pbd_env$SPMD.CT$comm){
+  ret <- .Call("spmd_reduce_float", x@Data, x.buffer@Data,
+               which(op[1] == .pbd_env$SPMD.OP),
+               as.integer(rank.dest), as.integer(comm),
+               PACKAGE = "pbdMPI")
+  if(spmd.comm.rank(comm) != rank.dest){
+    return(invisible())
+  }
+  float32(ret)
+} # End of spmd.reduce.float32().
 
 
 ### S4 methods.
@@ -92,4 +104,9 @@ setMethod(
   f = "reduce",
   signature = signature(x = "logical", x.buffer = "logical"),
   definition = spmd.reduce.logical
+)
+setMethod(
+  f = "reduce",
+  signature = signature(x = "float32", x.buffer = "float32"),
+  definition = spmd.reduce.float32
 )
