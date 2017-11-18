@@ -53,6 +53,18 @@ spmd.reduce.logical <- function(x, x.buffer, op = .pbd_env$SPMD.CT$op,
   as.logical(ret)
 } # End of spmd.reduce.logical().
 
+spmd.reduce.float <- function(x, x.buffer, op = .pbd_env$SPMD.CT$op,
+    rank.dest = .pbd_env$SPMD.CT$rank.source, comm = .pbd_env$SPMD.CT$comm){
+  ret <- .Call("spmd_reduce_float", x, x.buffer,
+               which(op[1] == .pbd_env$SPMD.OP),
+               as.integer(rank.dest), as.integer(comm),
+               PACKAGE = "pbdMPI")
+  if(spmd.comm.rank(comm) != rank.dest){
+    return(invisible())
+  }
+  ret
+} # End of spmd.reduce.integer().
+
 
 ### S4 methods.
 setGeneric(
@@ -81,4 +93,3 @@ setMethod(
   signature = signature(x = "logical", x.buffer = "logical"),
   definition = spmd.reduce.logical
 )
-
