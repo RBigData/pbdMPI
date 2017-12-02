@@ -7,6 +7,7 @@
 \alias{allreduce,integer,integer-method}
 \alias{allreduce,numeric,numeric-method}
 \alias{allreduce,logical,logical-method}
+\alias{allreduce,float32,float32-method}
 
 \alias{allreduce}
 
@@ -44,6 +45,7 @@ For calling \code{spmd.allreduce.*}:
 \item{\code{signature(x = "integer", x.buffer = "integer")}}{}
 \item{\code{signature(x = "numeric", x.buffer = "numeric")}}{}
 \item{\code{signature(x = "logical", x.buffer = "logical")}}{}
+\item{\code{signature(x = "float32", x.buffer = "float32")}}{}
 }}
 \references{
   Programming with Big Data in R Website:
