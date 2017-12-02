@@ -44,7 +44,8 @@ spmd.gather.array <- function(x,
     x.count <- as.integer(apply(x.dim, 2, prod))
     displs <- c(0L, cumsum(x.count))
     ret <- spmd.gatherv.double(x, double(sum(x.count)), x.count,
-                               displs = displs, comm = comm)
+                               displs = displs,
+                               rank.dest = rank.dest, comm = comm)
     if(spmd.comm.rank(comm) != rank.dest){
       return(invisible())
     }
@@ -69,7 +70,8 @@ spmd.gather.array <- function(x,
     x.count <- as.integer(apply(x.dim, 2, prod))
     displs <- c(0L, cumsum(x.count))
     ret <- spmd.gatherv.integer(x, integer(sum(x.count)), x.count,
-                                displs = displs, comm = comm)
+                                displs = displs,
+                                rank.dest = rank.dest, comm = comm)
     if(spmd.comm.rank(comm) != rank.dest){
       return(invisible())
     }

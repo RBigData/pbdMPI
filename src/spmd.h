@@ -165,11 +165,15 @@ SEXP spmd_allreduce_integer(SEXP R_send_data, SEXP R_recv_data,
 		SEXP R_op, SEXP R_comm);
 SEXP spmd_allreduce_double(SEXP R_send_data, SEXP R_recv_data,
 		SEXP R_op, SEXP R_comm);
+SEXP spmd_allreduce_float(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_op, SEXP R_comm);
 
 /* In file "spmd_reduce.c". */
 SEXP spmd_reduce_integer(SEXP R_send_data, SEXP R_recv_data,
 		SEXP R_op, SEXP R_rank_dest, SEXP R_comm);
 SEXP spmd_reduce_double(SEXP R_send_data, SEXP R_recv_data,
+		SEXP R_op, SEXP R_rank_dest, SEXP R_comm);
+SEXP spmd_reduce_float(SEXP R_send_data, SEXP R_recv_data,
 		SEXP R_op, SEXP R_rank_dest, SEXP R_comm);
 
 /* In file "spmd_bcast.c". */
@@ -242,4 +246,3 @@ SEXP AsInt(int x);
 int spmd_errhandler(int error_code);
 
 #endif
-

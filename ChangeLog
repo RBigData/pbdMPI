@@ -1,3 +1,15 @@
+2017-12-02: Ver. 0.3-4
+  * Fix a "spmd.gatherv_array()" bug.
+
+2017-11-16: Ver. 0.3-4
+  * Added "spmd.allreduce.float()" and "spmd.reduce.float()".
+
+2017-09-24: Ver. 0.3-4
+  * Fix man help regarding "task.pull()".
+
+2017-07-04: Ver. 0.3-4
+  * Fix a finalize bug in "spmd.finalize()" C code.
+
 2016-12-17: Ver. 0.3-3
   * Change web address.
 

@@ -68,19 +68,18 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	MPI_Finalized(&flag);
 	C_mpi_finalize = INTEGER(R_mpi_finalize)[0];
 
-	if(WHO_LOAD_FIRST == PBDMPI){
-		Free(comm);
-		Free(status);
-		Free(request);
-		Free(datatype);
-		Free(info);
-	}
-
 	if(C_mpi_finalize == 1){
-#ifndef WIN
-		pkg_dlclose();
-#endif
 		if(! flag){
+			if(WHO_LOAD_FIRST == PBDMPI){
+				Free(comm);
+				Free(status);
+				Free(request);
+				Free(datatype);
+				Free(info);
+			}
+#ifndef WIN
+			pkg_dlclose();
+#endif
 			MPI_Finalize();
 		}
 	}

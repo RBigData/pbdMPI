@@ -23,7 +23,7 @@ task.pull.master(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
                  comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
-  \item{jids}{all job ids.}
+  \item{jids}{all job ids (a vector of positive integers).}
   \item{FUN}{a function to be evaluated in workers.}
   \item{...}{extra variables for \code{FUN}.}
   \item{rank.master}{a rank of master where \code{jid} sent from.}
@@ -46,7 +46,7 @@ task.pull.master(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
 \value{
   A list with length \code{comm.size() - 1}
   will be returned for mater, but \code{NULL} for workers.
-  Each element of the list contains job id \code{jid} and
+  Each element of the list contains
   returns \code{ret} of the \code{FUN} call.
 }
 \references{

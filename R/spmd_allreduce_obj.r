@@ -20,12 +20,16 @@ spmd.allreduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
   check.integer <- is.integer(x)
   check.double <- is.double(x)
   check.logical <- is.logical(x)
+  check.float32 <- is(x, "float32")
   all.check <- spmd.allreduce.integer(
-                 c(check.integer, check.double, check.logical),
-                 integer(3), op = "sum", comm = comm) == COMM.SIZE
+                 c(check.integer, check.double, check.logical, check.float32),
+                 integer(4), op = "sum", comm = comm) == COMM.SIZE
 
   ### Call allreduce by data type.
-  if(all.check[1] || all.check[3]){
+  if(all.check[4]){
+    ret <- spmd.allreduce.float32(x, float32(integer(length(x))), op = op[1],
+                                  comm = comm)
+  } else if(all.check[1] || all.check[3]){
     ret <- spmd.allreduce.integer(x, integer(length(x)), op = op[1],
                                   comm = comm)
   } else if(all.check[2]){
