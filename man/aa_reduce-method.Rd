@@ -7,6 +7,7 @@
 \alias{reduce,integer,integer-method}
 \alias{reduce,numeric,numeric-method}
 \alias{reduce,logical,logical-method}
+\alias{reduce,float32,float32-method}
 
 \alias{reduce}
 
@@ -49,6 +50,7 @@ For calling \code{spmd.reduce.*()}:
 \item{\code{signature(x = "integer", x.buffer = "integer")}}{}
 \item{\code{signature(x = "numeric", x.buffer = "numeric")}}{}
 \item{\code{signature(x = "logical", x.buffer = "logical")}}{}
+\item{\code{signature(x = "float32", x.buffer = "float32")}}{}
 }}
 \references{
   Programming with Big Data in R Website:
