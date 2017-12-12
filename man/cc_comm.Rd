@@ -2,6 +2,7 @@
 \alias{barrier}
 \alias{comm.is.null}
 \alias{comm.rank}
+\alias{comm.localrank}
 \alias{comm.size}
 \alias{comm.dup}
 \alias{comm.free}
@@ -31,6 +32,7 @@
 barrier(comm = .pbd_env$SPMD.CT$comm)
 comm.is.null(comm = .pbd_env$SPMD.CT$comm)
 comm.rank(comm = .pbd_env$SPMD.CT$comm)
+comm.localrank(comm = .pbd_env$SPMD.CT$comm)
 comm.size(comm = .pbd_env$SPMD.CT$comm)
 comm.dup(comm, newcomm)
 comm.free(comm = .pbd_env$SPMD.CT$comm)

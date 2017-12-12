@@ -23,6 +23,12 @@ spmd.comm.rank <- function(comm = .pbd_env$SPMD.CT$comm){
 
 comm.rank <- spmd.comm.rank
 
+spmd.comm.localrank <- function(comm = .pbd_env$SPMD.CT$comm){
+  .Call("spmd_comm_localrank", as.integer(comm), PACKAGE = "pbdMPI")
+} # End of spmd.comm.localrank().
+
+comm.localrank <- spmd.comm.localrank
+
 spmd.comm.size <- function(comm = .pbd_env$SPMD.CT$comm){
   tmp <- .Call("spmd_comm_is_null", as.integer(comm), PACKAGE = "pbdMPI")
 

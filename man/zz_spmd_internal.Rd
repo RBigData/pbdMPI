@@ -30,6 +30,7 @@
 \alias{spmd.comm.set.errhandler}
 \alias{spmd.comm.is.null}
 \alias{spmd.comm.rank}
+\alias{spmd.comm.localrank}
 \alias{spmd.comm.size}
 \alias{spmd.comm.dup}
 \alias{spmd.comm.free}

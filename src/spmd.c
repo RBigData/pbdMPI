@@ -1,6 +1,7 @@
 #include "spmd.h"
 
 MPI_Comm *comm = NULL;
+MPI_Comm localcomm = MPI_COMM_NULL;
 MPI_Status *status = NULL;
 MPI_Datatype *datatype = NULL;
 MPI_Info *info = NULL;
@@ -41,6 +42,11 @@ SEXP spmd_initialize(){
 			comm[i] = MPI_COMM_NULL;
 		}
 	}
+#if MPI_VERSION >= 3
+	if (localcomm == MPI_COMM_NULL){
+		MPI_Comm_split_type(comm[0], MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, &localcomm);
+	}
+#endif
 	if(status == NULL){
 		status = (MPI_Status *) Calloc(STATUS_MAXSIZE, MPI_Status); 
 	}
@@ -125,4 +131,3 @@ SEXP spmd_universe_size(){
 	}
 } /* End of spmd_universe_size(). */
 #endif
-
