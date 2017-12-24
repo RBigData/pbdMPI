@@ -22,6 +22,7 @@ static const R_CallMethodDef callMethods[] = {
 	{"spmd_comm_is_null", (DL_FUNC) &spmd_comm_is_null, 1},
 	{"spmd_comm_size", (DL_FUNC) &spmd_comm_size, 1},
 	{"spmd_comm_rank", (DL_FUNC) &spmd_comm_rank, 1},
+	{"spmd_comm_localrank", (DL_FUNC) &spmd_comm_localrank, 1},
 	{"spmd_comm_dup", (DL_FUNC) &spmd_comm_dup, 2},
 	{"spmd_comm_free", (DL_FUNC) &spmd_comm_free, 1},
 	{"spmd_comm_set_errhandler", (DL_FUNC) &spmd_comm_set_errhandler, 1},
@@ -42,9 +43,8 @@ static const R_CallMethodDef callMethods[] = {
 	{"spmd_comm_c2f", (DL_FUNC) &spmd_comm_c2f, 1},
 
 	/* In file "spmd_communicator_spawn.c". */
-  #ifdef MPI2
 	{"spmd_comm_spawn", (DL_FUNC) &spmd_comm_spawn, 6},
-  #endif
+	{"spmd_comm_spawn", (DL_FUNC) &spmd_comm_spawn, 6},
 
 	/* In file "spmd_allgather.c". */
 	{"spmd_allgather_integer", (DL_FUNC) &spmd_allgather_integer, 3},
