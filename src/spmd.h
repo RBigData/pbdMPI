@@ -41,6 +41,7 @@ SEXP spmd_barrier(SEXP R_comm);
 SEXP spmd_comm_is_null(SEXP R_comm);
 SEXP spmd_comm_size(SEXP R_comm);
 SEXP spmd_comm_rank(SEXP R_comm);
+SEXP spmd_comm_localrank(SEXP R_comm);
 SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm);
 SEXP spmd_comm_free(SEXP R_comm);
 SEXP spmd_comm_set_errhandler(SEXP R_comm);

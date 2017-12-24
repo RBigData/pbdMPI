@@ -18,6 +18,7 @@
 
 /* Declared in "Rmpi.c", "spmd.c", or similar main c functions. */
 extern MPI_Comm *comm;
+extern MPI_Comm localcomm;
 extern MPI_Status *status;
 extern MPI_Datatype *datatype;
 extern MPI_Info *info;
@@ -55,4 +56,3 @@ SEXP pkg_dlclose();
 #define CHARPT(x,i)	((char*)CHAR(STRING_ELT(x,i)))
 
 #endif
-

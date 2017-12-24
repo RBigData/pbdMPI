@@ -23,6 +23,26 @@ SEXP spmd_comm_rank(SEXP R_comm){
 	return(AsInt(rank));
 } /* End of spmd_comm_rank(). */
 
+SEXP spmd_comm_localrank(SEXP R_comm){
+#if MPI_VERSION >= 3
+	MPI_Comm tmp_comm;
+	int localrank;
+	
+	if (INTEGER(R_comm)[0] == 0){
+		tmp_comm = localcomm;
+	}
+	else {
+		MPI_Comm_split_type(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, &tmp_comm);
+	}
+	
+	spmd_errhandler(MPI_Comm_rank(tmp_comm, &localrank));
+	
+	return AsInt(localrank);
+#else
+	error("only MPI >= 3 supported\n");
+#endif
+} /* End of spmd_comm_localrank(). */
+
 SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm){
 	int commn = INTEGER(R_comm)[0], newcommn = INTEGER(R_newcomm)[0];
 	if(commn == 0){
@@ -202,4 +222,3 @@ SEXP spmd_intercomm_create(SEXP R_local_comm, SEXP R_local_leader,
 SEXP spmd_comm_c2f(SEXP R_comm){
 	return(AsInt((int) MPI_Comm_c2f(comm[INTEGER(R_comm)[0]])));
 } /* End of spmd_comm_c2f(). */
-
