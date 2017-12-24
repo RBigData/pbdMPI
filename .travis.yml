@@ -13,8 +13,6 @@ before_install:
 
 r_packages:
   - rlecuyer
-  - pbdPROF
-  - pbdZMQ
 
 sudo: required
 dist: trusty
