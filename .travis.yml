@@ -1,7 +1,8 @@
 language: r
 
 r:
-  - devel
+  # - devel
+  - release
 
 os:
   - linux
@@ -13,8 +14,6 @@ before_install:
 
 r_packages:
   - rlecuyer
-  - pbdPROF
-  - pbdZMQ
 
 sudo: required
 dist: trusty
