@@ -16,9 +16,14 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
+  - tar zcvf ../pbdMPI.tar.gz .
 
 r_packages:
   - rlecuyer
+
+install:
+  - R CMD INSTALL ../pbdMPI.tar.gz
+  - R CMD check ../pbdMPI.tar.gz
 
 sudo: required
 dist: trusty
