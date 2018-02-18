@@ -60,10 +60,11 @@ comm.pairwise(X, pairid.gbd = NULL,
   \code{\link{comm.dist}()}.
 }
 \examples{
-\dontrun{
-### Save code in a file "demo.r" and run with 2 processors by
+%\dontrun{
+### Save code in a file 'demo.r' and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -88,13 +89,15 @@ dist.gbd <- comm.pairwise(X.gbd)
 
 ### Verify.
 d.org <- as.vector(dist.org)
-d.1 <- do.call("c", allgather(dist.common[, 3]))
-d.2 <- do.call("c", allgather(dist.gbd[, 3]))
+d.1 <- do.call(\"c\", allgather(dist.common[, 3]))
+d.2 <- do.call(\"c\", allgather(dist.gbd[, 3]))
 comm.print(all(d.org == d.1))
 comm.print(all(d.org == d.2))
 
 ### Finish.
 finalize()
-}
+"
+execmpi(spmd.code, nranks = 2L)
+%}
 }
 \keyword{utility}

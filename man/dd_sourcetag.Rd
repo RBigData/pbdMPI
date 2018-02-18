@@ -30,17 +30,18 @@ get.sourcetag(status = .pbd_env$SPMD.CT$status)
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-\dontrun{
-### Save code in a file "demo.r" and run with 2 processors by
+%\dontrun{
+### Save code in a file 'demo.r' and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 if(.comm.size < 2)
-  comm.stop("At least two processors are requried.")
+  comm.stop(\"At least two processors are requried.\")
 
 ### Examples.
 if(.comm.rank != 0){
@@ -58,6 +59,8 @@ if(.comm.rank == 0){
 
 ### Finish.
 finalize()
-}
+"
+execmpi(spmd.code, nranks = 2L)
+%}
 }
 \keyword{programming}

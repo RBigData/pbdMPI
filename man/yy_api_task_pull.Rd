@@ -61,10 +61,11 @@ task.pull.master(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
   \code{\link{get.jid}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Under command mode, run the demo with 4 processors by
 ### (Use Rscript.exe for windows system)
-mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
-}
+# mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
+execmpi("demo(task_pull,'pbdMPI',ask=F,echo=F)", nranks = 4L)
+%}
 }
 \keyword{utility}

@@ -35,10 +35,11 @@ waitall(count)
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-\dontrun{
-### Save code in a file "demo.r" and run with 2 processors by
+%\dontrun{
+### Save code in a file 'demo.r' and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -59,6 +60,8 @@ comm.print(y, rank.print = 1L)
 
 ### Finish.
 finalize()
-}
+"
+execmpi(spmd.code, nranks = 2L)
+%}
 }
 \keyword{programming}

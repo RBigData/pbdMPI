@@ -80,10 +80,14 @@ For calling \code{spmd.allgatherv.*}:
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-\dontrun{
-### Save code in a file "demo.r" and run with 2 processors by
+%\dontrun{
+### Save code in a file 'demo.r' and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+### Note R CMD check can not run this right
+### while no problems via R CMD BATCH and Rscript.
+
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -95,12 +99,15 @@ N <- 5
 x <- (1:N) + N * .comm.rank
 y <- allgather(matrix(x, nrow = 1))
 comm.print(y)
+
 y <- allgather(x, double(N * .comm.size))
 comm.print(y)
 
 ### Finish.
 finalize()
-}
+"
+execmpi(spmd.code, nranks = 2L)
+%}
 }
 \keyword{methods}
 \keyword{collective}
