@@ -21,8 +21,7 @@ before_install:
 r_packages:
   - rlecuyer
 
-install:
-  - R CMD INSTALL ../pbdMPI.tar.gz
+script:
   - R CMD check ../pbdMPI.tar.gz
 
 sudo: required
