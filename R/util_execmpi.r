@@ -25,7 +25,7 @@ execmpi <- function(spmd.code, mpicmd = "mpiexec", nranks = 2L,
   close(conn)
 
   ### Make a cmd.
-  cmd <- paste(mpicmd, "-np", nranks, "Rscript", temp)
+  cmd <- paste(mpicmd, "-np", nranks, "Rscript", temp, sep = " ")
   print(cmd)
   system(cmd, intern = intern, ignore.stdout = ignore.stdout,
          ignore.stderr = ignore.stderr, wait = wait)

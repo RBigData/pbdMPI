@@ -81,11 +81,8 @@ For calling \code{spmd.allgatherv.*}:
 }
 \examples{
 %\dontrun{
-### Save code in a file 'demo.r' and run with 2 processors by
+### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
-
-### Note R CMD check can not run this right
-### while no problems via R CMD BATCH and Rscript.
 
 spmd.code <- "
 ### Initial.

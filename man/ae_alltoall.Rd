@@ -56,8 +56,8 @@ spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-%\dontrun{
-### Save code in a file 'demo.r' and run with 2 processors by
+\dontrun{
+### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 spmd.code <- "
@@ -82,7 +82,7 @@ comm.print(y, all.rank = TRUE)
 finalize()
 "
 execmpi(spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{methods}
 \keyword{collective}

@@ -59,8 +59,8 @@ comm.cat(..., all.rank = .pbd_env$SPMD.CT$print.all.rank,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-%\dontrun{
-### Save code in a file 'demo.r' and run with 2 processors by
+\dontrun{
+### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
@@ -75,6 +75,6 @@ comm.print(comm.rank(), rank.print = 1)
 finalize()
 "
 execmpi(spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{utility}

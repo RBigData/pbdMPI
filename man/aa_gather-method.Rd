@@ -82,7 +82,7 @@ For calling \code{spmd.gatherv.*()}:
 }
 \examples{
 %\dontrun{
-### Save code in a file 'demo.r' and run with 2 processors by
+### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "

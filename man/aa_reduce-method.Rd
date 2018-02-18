@@ -65,16 +65,15 @@ For calling \code{spmd.reduce.*()}:
 }
 \examples{
 %\dontrun{
-### Save code in a file 'demo.r' and run with 2 processors by
+### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
-
-### Note R CMD check can not run this right when all three examples are pooled
-### together while no problems via R CMD BATCH and Rscript.
 
 spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
+.comm.size <- comm.size()
+.comm.rank <- comm.rank()
 
 ### Examples.
 N <- 5

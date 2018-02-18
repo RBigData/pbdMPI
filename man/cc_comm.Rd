@@ -161,8 +161,8 @@ comm.c2f(comm = .pbd_env$SPMD.CT$comm)
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-%\dontrun{
-### Save code in a file 'demo.r' and run with 2 processors by
+\dontrun{
+### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
@@ -182,6 +182,6 @@ comm.print(comm.c2f())
 finalize()
 "
 execmpi(spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{programming}

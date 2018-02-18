@@ -95,8 +95,8 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
   \code{\link{comm.write.table}()}
 }
 \examples{
-%\dontrun{
-### Save code in a file 'demo.r' and run with 4 processors by
+\dontrun{
+### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
 spmd.code <- "
@@ -129,6 +129,6 @@ comm.print(c(nrow(da.common), sum(da.common != iris)))
 finalize()
 "
 execmpi(spmd.code, nranks = 4L)
-%}
+}
 }
 \keyword{utility}
