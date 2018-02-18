@@ -39,11 +39,12 @@ comm.min(..., na.rm = FALSE, comm = .pbd_env$SPMD.CT$comm)
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 if(comm.size() != 2){
-  comm.cat("2 processors are requried.\n", quiet = TRUE)
+  comm.cat(\"2 processors are requried.\\n\", quiet = TRUE)
   finalize()
 }
 
@@ -59,6 +60,8 @@ comm.print(b)
 
 ### Finish.
 finalize()
+"
+execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

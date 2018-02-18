@@ -61,6 +61,7 @@ comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -70,20 +71,22 @@ comm.set.seed(123456, diff = TRUE)
 
 X.gbd <- matrix(runif(6), ncol = 3)
 dist.X.common <- comm.dist(X.gbd)
-dist.X.gbd <- comm.dist(X.gbd, return.type = "gbd")
+dist.X.gbd <- comm.dist(X.gbd, return.type = \"gbd\")
 
 ### Verify.
-dist.X <- dist(do.call("rbind", allgather(X.gbd)))
+dist.X <- dist(do.call(\"rbind\", allgather(X.gbd)))
 comm.print(all(dist.X == dist.X.common))
 
 ### Verify 2.
-dist.X.df <- do.call("rbind", allgather(dist.X.gbd))
+dist.X.df <- do.call(\"rbind\", allgather(dist.X.gbd))
 comm.print(all(dist.X == dist.X.df[, 3]))
 comm.print(dist.X)
 comm.print(dist.X.df)
 
 ### Finish.
 finalize()
+"
+execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

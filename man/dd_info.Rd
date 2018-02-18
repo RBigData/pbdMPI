@@ -38,6 +38,7 @@ info.c2f(info = .pbd_env$SPMD.CT$info)
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -46,10 +47,13 @@ init()
 
 ### Examples.
 info.create(0L)
-info.create(0L, "file", "appschema")
+info.set(0L, \"file\", \"appschema\")
+info.free(0L)
 
 ### Finish.
 finalize()
+"
+execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{programming}

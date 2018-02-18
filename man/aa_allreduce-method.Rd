@@ -63,6 +63,7 @@ For calling \code{spmd.allreduce.*}:
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -72,17 +73,21 @@ init()
 ### Examples.
 N <- 5
 x <- (1:N) + N * .comm.rank
-y <- allreduce(matrix(x, nrow = 1), op = "sum")
+y <- allreduce(matrix(x, nrow = 1), op = \"sum\")
 comm.print(y)
-y <- allreduce(x, double(N), op = "prod")
+
+y <- allreduce(x, double(N), op = \"prod\")
 comm.print(y)
+
 comm.set.seed(1234, diff = TRUE)
 x <- as.logical(round(runif(N)))
-y <- allreduce(x, logical(N), op = "land")
+y <- allreduce(x, logical(N), op = \"land\")
 comm.print(y)
 
 ### Finish.
 finalize()
+"
+execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{methods}

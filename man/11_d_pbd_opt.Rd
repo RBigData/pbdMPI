@@ -46,6 +46,7 @@ pbd_opt(..., bytext = "", envir = .GlobalEnv)
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -53,8 +54,8 @@ init()
 ### Examples.
 ls(.pbd_env)
 pbd_opt(ICTXT = c(2, 2))
-pbd_opt(bytext = "grid.new <- list(); grid.new$ICTXT <- c(4, 4)")
-pbd_opt(BLDIM = c(16, 16), bytext = "grid.new$BLDIM = c(8, 8)")
+pbd_opt(bytext = \"grid.new <- list(); grid.new$ICTXT <- c(4, 4)\")
+pbd_opt(BLDIM = c(16, 16), bytext = \"grid.new$BLDIM = c(8, 8)\")
 ls(.pbd_env)
 .pbd_env$ICTXT
 .pbd_env$BLDIM
@@ -62,6 +63,8 @@ ls(.pbd_env)
 
 ### Finish.
 finalize()
+"
+execmpi(spmd.code, nranks = 4L)
 }
 }
 \keyword{global variables}
