@@ -17,15 +17,18 @@ before_install:
   - sudo apt-get install -y -q libopenmpi-dev openmpi-bin
   - LD_PRELOAD=/usr/lib/openmpi/lib/libmpi.so
   - cd ../
-  - tar zcvf ./pbdMPI.tar.gz ./pbdMPI
+  - R CMD build --no-resave-data --no-manual --no-build-vignettes pbdMPI
 
-r_packages:
-  - rlecuyer
+# r_packages:
+#   - rlecuyer
 
 install:
   - Rscript -e "install.packages('rlecuyer', repos = 'https://cran.r-project.org/')"
-  - R CMD INSTALL ./pbdMPI.tar.gz
-  - R CMD check ./pbdMPI.tar.gz
+
+  # - R CMD INSTALL ./pbdMPI_*.tar.gz
+  - R CMD check ./pbdMPI_*.tar.gz --as-cran
+  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
+  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
 
 sudo: required
 dist: trusty
