@@ -23,6 +23,7 @@ r_packages:
   - rlecuyer
 
 install:
+  - Rscript -e "install.packages('rlecuyer', repos = 'https://cran.r-project.org/')"
   - R CMD INSTALL ./pbdMPI.tar.gz
   - R CMD check ./pbdMPI.tar.gz
 
