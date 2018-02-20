@@ -16,10 +16,10 @@ execmpi(spmd.code = NULL, spmd.file = NULL, mpicmd = "mpiexec",
   \item{spmd.file}{a file contains SPMD code to be run via mpicmd and \code{Rscript}.}
   \item{mpicmd}{MPI executable command.}
   \item{nranks}{number of processes to run the SPMD code envoked by mpicmd.}
-  \item{intern}{as passed to \code{system()}.}
-  \item{ignore.stdout}{as passed to \code{system()}.}
-  \item{ignore.stderr}{as passed to \code{system()}.}
-  \item{wait}{as passed to \code{system()}.}
+  \item{intern}{as in \code{\link[base]{system}()}.}
+  \item{ignore.stdout}{as in \code{\link[base]{system}()}.}
+  \item{ignore.stderr}{as in \code{\link[base]{system}()}.}
+  \item{wait}{as in \code{\link[base]{system}()}.}
 }
 \details{
   When the \code{spmd.code} is \code{NULL}: The code should be already
@@ -58,7 +58,7 @@ init()
 allreduce(1)
 finalize()
 "
-execmpi(spmd.code = spmd.code, nranks = 2L)
+# execmpi(spmd.code = spmd.code, nranks = 2L)
 
 spmd.file <- tempfile()
 cat("
@@ -67,7 +67,7 @@ init()
 allreduce(2)
 finalize()
 ", file = spmd.file)
-execmpi(spmd.file = spmd.file, nranks = 2L)
+# execmpi(spmd.file = spmd.file, nranks = 2L)
 %}
 }
 \keyword{utility}
