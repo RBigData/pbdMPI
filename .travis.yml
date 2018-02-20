@@ -25,10 +25,12 @@ before_install:
 install:
   - Rscript -e "install.packages('rlecuyer', repos = 'https://cran.r-project.org/')"
 
-  # - R CMD INSTALL ./pbdMPI_*.tar.gz
   - R CMD check ./pbdMPI_*.tar.gz --as-cran
   - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
   - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
+
+script:
+  - R CMD INSTALL ./pbdMPI_*.tar.gz
 
 sudo: required
 dist: trusty
