@@ -42,7 +42,7 @@ pbd_opt(..., bytext = "", envir = .GlobalEnv)
   \code{\link{.mpiopt_init}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
@@ -64,7 +64,7 @@ ls(.pbd_env)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 4L)
-}
+# execmpi(spmd.code, nranks = 4L)
+%}
 }
 \keyword{global variables}

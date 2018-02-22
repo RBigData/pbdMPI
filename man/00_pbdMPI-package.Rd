@@ -97,12 +97,12 @@
 # mpiexec -np 2 Rscript -e "demo(reduce,'pbdMPI',ask=F,echo=F)"
 # mpiexec -np 2 Rscript -e "demo(scatter,'pbdMPI',ask=F,echo=F)"
 ### Or
-execmpi("demo(allgather,'pbdMPI',ask=F,echo=F)", nranks = 2L)
-execmpi("demo(allreduce,'pbdMPI',ask=F,echo=F)", nranks = 2L)
-execmpi("demo(bcast,'pbdMPI',ask=F,echo=F)", nranks = 2L)
-execmpi("demo(gather,'pbdMPI',ask=F,echo=F)", nranks = 2L)
-execmpi("demo(reduce,'pbdMPI',ask=F,echo=F)", nranks = 2L)
-execmpi("demo(scatter,'pbdMPI',ask=F,echo=F)", nranks = 2L)
+# execmpi("demo(allgather,'pbdMPI',ask=F,echo=F)", nranks = 2L)
+# execmpi("demo(allreduce,'pbdMPI',ask=F,echo=F)", nranks = 2L)
+# execmpi("demo(bcast,'pbdMPI',ask=F,echo=F)", nranks = 2L)
+# execmpi("demo(gather,'pbdMPI',ask=F,echo=F)", nranks = 2L)
+# execmpi("demo(reduce,'pbdMPI',ask=F,echo=F)", nranks = 2L)
+# execmpi("demo(scatter,'pbdMPI',ask=F,echo=F)", nranks = 2L)
 }
 }
 \keyword{package}

@@ -43,7 +43,7 @@ is.comm.null(1L)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{programming}

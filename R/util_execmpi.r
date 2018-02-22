@@ -1,8 +1,8 @@
 ### Utility
 
 execmpi <- function(spmd.code = NULL, spmd.file = NULL, mpicmd = "mpiexec",
-    nranks = 2L, intern = FALSE, ignore.stdout = FALSE,
-    ignore.stderr = FALSE, wait = TRUE){
+    nranks = 2L, intern = FALSE, ignore.stdout = TRUE,
+    ignore.stderr = TRUE, wait = FALSE){
   ### Check # of ranks.
   nranks <- as.integer(nranks)
   if(nranks <= 0){
@@ -36,8 +36,9 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, mpicmd = "mpiexec",
 
   ### Make a cmd.
   cmd <- paste(mpicmd, "-np", nranks, "Rscript", spmd.file, sep = " ")
-  print(cmd)
-  system(cmd, intern = intern, ignore.stdout = ignore.stdout,
-         ignore.stderr = ignore.stderr, wait = wait)
+  # print(cmd)
+  ret <- system(cmd, intern = intern, ignore.stdout = ignore.stdout,
+                ignore.stderr = ignore.stderr, wait = wait)
+  invisible(ret)
 } # End of execmpi().
 

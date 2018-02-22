@@ -67,7 +67,7 @@ For calling \code{spmd.sendrecv.*()}:
   \code{\link{sendrecv.replace}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -88,7 +88,7 @@ comm.print(y, rank.print = 1)
 finalize()
 "
 execmpi(spmd.code, nranks = 2L)
-}
+%}
 }
 \keyword{methods}
 \keyword{collective}

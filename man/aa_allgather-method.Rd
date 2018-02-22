@@ -81,6 +81,7 @@ For calling \code{spmd.allgatherv.*}:
 }
 \examples{
 %\dontrun{
+Sys.getenv()
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -104,7 +105,7 @@ comm.print(y)
 ### Finish.
 finalize()
 ", file = spmd.file)
-# execmpi(spmd.file = spmd.file, nranks = 2L)
+execmpi(spmd.file = spmd.file, nranks = 2L)
 %}
 }
 \keyword{methods}

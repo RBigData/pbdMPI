@@ -85,7 +85,7 @@ comm.stopifnot(1 == 2)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

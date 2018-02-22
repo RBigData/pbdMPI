@@ -88,7 +88,7 @@ comm.print(y)
 ### Finish.
 finalize()
 ", file = spmd.file)
-# execmpi(spmd.file = spmd.file, nranks = 2L)
+execmpi(spmd.file = spmd.file, nranks = 2L)
 %}
 }
 \keyword{methods}

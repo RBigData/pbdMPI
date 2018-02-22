@@ -60,7 +60,7 @@ if(.comm.rank == 0){
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{programming}

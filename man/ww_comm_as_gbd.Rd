@@ -42,7 +42,7 @@ comm.as.gbd(X, balance.method = .pbd_env$SPMD.IO$balance.method,
   \code{\link{comm.write.table}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
@@ -59,7 +59,7 @@ comm.print(X.gbd, all.rank = TRUE)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 4L)
-}
+# execmpi(spmd.code, nranks = 4L)
+%}
 }
 \keyword{utility}

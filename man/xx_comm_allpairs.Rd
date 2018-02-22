@@ -38,7 +38,7 @@ comm.allpairs(N, diag = FALSE, symmetric = TRUE,
   \code{\link{comm.dist}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -54,7 +54,7 @@ comm.print(id.matrix, all.rank = TRUE)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
-}
+# execmpi(spmd.code, nranks = 2L)
+%}
 }
 \keyword{utility}

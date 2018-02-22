@@ -75,7 +75,7 @@ comm.print(b)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

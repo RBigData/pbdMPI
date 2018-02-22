@@ -62,7 +62,7 @@ comm.unload.balance(new.X.gbd, bal.info, comm = .pbd_env$SPMD.CT$comm)
   \code{\link{comm.as.gbd}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
@@ -86,7 +86,7 @@ comm.print(c(sum(da.new != da.block), sum(da.org != da.block0)),
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 4L)
-}
+# execmpi(spmd.code, nranks = 4L)
+%}
 }
 \keyword{utility}

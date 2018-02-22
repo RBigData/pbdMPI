@@ -128,7 +128,7 @@ comm.print(c(nrow(da.common), sum(da.common != iris)))
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 4L)
+# execmpi(spmd.code, nranks = 4L)
 }
 }
 \keyword{utility}

@@ -77,7 +77,7 @@ comm.write((1:5) + comm.rank(), file = \"test.txt\")
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}
