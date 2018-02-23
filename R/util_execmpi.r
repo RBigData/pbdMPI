@@ -35,10 +35,10 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, mpicmd = "mpiexec",
   }
 
   ### Make a cmd.
+  log.file <- tempfile()
   cmd <- paste(mpicmd, "-np", nranks, "Rscript", spmd.file, sep = " ")
   # print(cmd)
-  ret <- system(cmd, intern = intern, ignore.stdout = ignore.stdout,
-                ignore.stderr = ignore.stderr, wait = wait)
-  invisible(ret)
+  system(cmd, intern = intern, ignore.stdout = ignore.stdout,
+         ignore.stderr = ignore.stderr, wait = wait)
 } # End of execmpi().
 
