@@ -74,7 +74,7 @@ pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -131,7 +131,7 @@ comm.print(unlist(y))
 ### Finish.
 finalize()
 "
-# execmpi(spmd.code, nranks = 2L)
-}
+pbdMPI::execmpi(spmd.code, nranks = 2L)
+%}
 }
 \keyword{utility}

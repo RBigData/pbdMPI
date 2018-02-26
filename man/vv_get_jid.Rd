@@ -84,7 +84,7 @@ comm.print(alljid)
 ### Finish.
 finalize()
 "
-# execmpi(spmd.code, nranks = 4L)
+pbdMPI::execmpi(spmd.code, nranks = 4L)
 %}
 }
 \keyword{utility}

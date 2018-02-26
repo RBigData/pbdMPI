@@ -73,7 +73,7 @@ comm.reset.seed(comm = .pbd_env$SPMD.CT$comm)
   \code{.lec.GetState()}.
 }
 \examples{
-%\dontrun{
+\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -105,6 +105,6 @@ comm.end.seed()
 finalize()
 "
 # execmpi(spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{utility}

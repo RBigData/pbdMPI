@@ -92,6 +92,7 @@ init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
+Sys.sleep(5)
 ### Examples.
 N <- 5
 x <- (1:N) + N * .comm.rank
@@ -104,7 +105,7 @@ comm.print(y)
 ### Finish.
 finalize()
 ", file = spmd.file)
-execmpi(spmd.file = spmd.file, nranks = 2L)
+pbdMPI::execmpi(spmd.file = spmd.file, nranks = 2L)
 %}
 }
 \keyword{methods}

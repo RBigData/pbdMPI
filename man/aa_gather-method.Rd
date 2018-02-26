@@ -103,7 +103,7 @@ comm.print(y)
 ### Finish.
 finalize()
 "
-execmpi(spmd.code, nranks = 2L)
+pbdMPI::execmpi(spmd.code, nranks = 2L)
 %}
 }
 \keyword{methods}
