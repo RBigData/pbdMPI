@@ -1,3 +1,10 @@
+2018-02-25: Ver. 0.3-5
+  * Fix execmpi().
+  * system(wait = FALSE) doesn't work with MPI correctly in Unix-alike systems.
+  * Execute MPI in background and dump the results to the log file.
+  * Read the results back in from the log file when the job is complete.
+  * Windows system can not do the background job, but wait = TRUE is fine.
+
 2018-02-17: Ver. 0.3-5
   * Add execmpi().
 

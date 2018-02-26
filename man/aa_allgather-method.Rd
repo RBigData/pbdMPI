@@ -92,7 +92,6 @@ init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
-Sys.sleep(5)
 ### Examples.
 N <- 5
 x <- (1:N) + N * .comm.rank

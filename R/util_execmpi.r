@@ -37,8 +37,8 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
   ### Find MPI executable.
   if(is.null(mpicmd)){
     if(Sys.info()[['sysname']] == "Windows"){
-      mpicmd <- system("mpiexec", intern = TRUE)
-      if(! is.null(attr(mpicmd, "status"))){
+      mpicmd <- try(system("mpiexec", intern = TRUE), silent = TRUE)
+      if(class(mpicmd) == "try-error"){
         warning("No MPI executable can be found from PATH.")
         return(invisible(NULL))
       } else{
