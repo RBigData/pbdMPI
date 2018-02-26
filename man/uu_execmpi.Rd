@@ -7,16 +7,14 @@
   \code{system("mpiexec -np 2 Rscript spmd.file")}.
 }
 \usage{
-execmpi(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
-    mpicmd = NULL, nranks = 2L, wait = TRUE, verbose = TRUE)
+execmpi(spmd.code = NULL, spmd.file = NULL,
+    mpicmd = NULL, nranks = 2L, verbose = TRUE)
 }
 \arguments{
   \item{spmd.code}{SPMD code to be run via mpicmd and \code{Rscript}.}
   \item{spmd.file}{a file contains SPMD code to be run via mpicmd and \code{Rscript}.}
-  \item{log.file}{a file to save SPMD code outputs.}
   \item{mpicmd}{MPI executable command. If \code{NULL}, system default will be searched.}
   \item{nranks}{number of processes to run the SPMD code envoked by mpicmd.}
-  \item{wait}{if wait for MPI job to finish.}
   \item{verbose}{print SPMD code outputs and MPI messages.}
 }
 \details{
@@ -29,32 +27,27 @@ execmpi(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
   \code{conn <- file(spmd.file, open = "wt")}. The file will be closed after
   the dumping.
 
-  When \code{spmd.file} is ready (either dumpped from \code{spmd.code} or
-  provided by the user), the command
+  When \code{spmd.file} is ready (either dumped from \code{spmd.code} or
+  provided by the user), the steps below will be followed:
+  If \code{spmd.file = NULL}, then a temporary file will be generated and
+  used to dump \code{spmd.code}.
+
+  For Unix-alike systems, the command
   \code{cmd <- paste(mpicmd, "-np", nranks, "Rscript", spmd.file, ">", log.file, " 2>&1 & echo \"PID=$!\" &")}
-  is executed via \code{system(cmd, intern = TRUE, wait = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE, ...)}.
+  is executed via \code{system(cmd, intern = TRUE, wait = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE)}. The \code{log.file} is a temporary file to
+  save the outputs from the \code{spmd.code}. The results saved to the
+  \code{log.file} will be read back in and \code{cat} and \code{return}
+  to R.
 
   For Windows, the \code{cmd} will be
-  \code{paste(mpicmd, "-np", nranks, "Rscript", spmd.file, ">", log.file)}
+  \code{paste(mpicmd, "-np", nranks, "Rscript", spmd.file)}
   and is executed via
-  \code{system(cmd, intern = FALSE, wait = wait, ignore.stdout = TRUE, ignore.stderr = TRUE, ...)}.
+  \code{system(cmd, intern = TRUE, wait = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE)}.
 }
 \value{
   Basically, only the PID of the MPI job (in background) will be returned
-  in Linux-alike systems. For Windows, the MPI job is always wait unitl
-  it is complete regardless \code{wait} is \code{TRUE} or \code{FALSE}.
-
-  All systems will dump the SPMD code (or MPI) resluts to the
-  \code{log.file} regardless \code{wait} is \code{TRUE} or \code{FALSE}.
-
-  If \code{wait = TRUE}, then the outputs will be read from the \code{log.file}
-  and \code{cat} in R.
-
-  If \code{code.file = NULL}, then a temporary file will be generated and
-  used.
-
-  One may get the SPMD code outputs by providing a \code{log.file} and
-  manually read the \code{log.file} file when the MPI job is complete.
+  in Linux-alike systems. For Windows, the MPI job is always wait until
+  it is complete.
 }
 \references{
   Programming with Big Data in R Website:

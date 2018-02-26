@@ -1,7 +1,7 @@
 ### Utility
 
-execmpi <- function(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
-    mpicmd = NULL, nranks = 2L, wait = TRUE, verbose = TRUE){
+execmpi <- function(spmd.code = NULL, spmd.file = NULL,
+    mpicmd = NULL, nranks = 2L, verbose = TRUE){
   ### Check # of ranks.
   nranks <- as.integer(nranks)
   if(nranks <= 0){
@@ -32,10 +32,6 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
   }
   if(! file.exists(spmd.file)){
     stop("spmd.file does not exist.")
-  }
-  if(is.null(log.file)){
-    log.file <- tempfile()
-    on.exit(unlink(log.file), add = TRUE)
   }
 
   ### Find MPI executable.
@@ -82,9 +78,13 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
 
   ### Make a cmd.
   if(Sys.info()[['sysname']] == "Windows"){
-    cmd <- paste(mpicmd, "-np", nranks, rscmd, spmd.file,
-                 ">", log.file, sep = " ")
+    cmd <- paste(mpicmd, "-np", nranks, rscmd, spmd.file, sep = " ")
+    ### Redirect to log.file will get the message below and fail.
+        ### The process cannot access the file because it is being used by
+        ### another process.
   } else{
+    log.file <- tempfile()
+    on.exit(unlink(log.file), add = TRUE)
     cmd <- paste(mpicmd, "-np", nranks, rscmd, spmd.file,
                  ">", log.file, "2>&1 & echo \"PID=$!\" &", sep = " ")
   }
@@ -94,8 +94,8 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
 
   ### Run the cmd.
   if(Sys.info()[['sysname']] == "Windows"){
-    tmp <- system(cmd, intern = FALSE, ignore.stdout = FALSE,
-                  ignore.stderr = FALSE, wait = wait)
+    ret <- system(cmd, intern = TRUE, ignore.stdout = FALSE,
+                  ignore.stderr = FALSE, wait = TRUE)
   } else{
     tmp <- system(cmd, intern = TRUE, ignore.stdout = FALSE,
                   ignore.stderr = FALSE, wait = FALSE)
@@ -106,7 +106,7 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
     ### Check if the job is finished, otherwise wait for it.
     pid <- gsub("^PID=(.*)$", "\\1", tmp)
     cmd.pid <- paste("ps -p", pid, sep = " ")
-    while(wait){
+    while(TRUE){
       tmp.pid <- suppressWarnings(system(cmd.pid, intern = TRUE))
       if(is.null(attr(tmp.pid, "status"))){
         Sys.sleep(1)
@@ -117,13 +117,14 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL, log.file = NULL,
   }
 
   ### Get the output from the log file.
-  ret <- NULL
-  if(wait){
+  if(Sys.info()[['sysname']] != "Windows"){
     ret <- readLines(log.file)
-    if(verbose){
-      cat(">>> MPI results:\n", paste(ret, collapse = "\n"), "\n", sep = "")
-    }
   }
+  if(verbose){
+    cat(">>> MPI results:\n", paste(ret, collapse = "\n"), "\n", sep = "")
+  }
+
+  ### Return
   invisible(ret)
 } # End of execmpi().
 
