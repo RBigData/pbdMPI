@@ -9,17 +9,24 @@ init:
 
 install:
   - ps: Bootstrap
-  # - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/D/7/B/D7BBA00F-71B7-436B-80BC-4D22F2EE9862/MSMpiSetup.exe", "C:\projects\MSMpiSetup.exe")
-  # - C:\projects\MSMpiSetup.exe -unattend -minimal
-  # - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
-  - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
-  - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
-  - type install.log
+  ### Install MS-MPI v9.0
+  # - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisetup.exe'
+  # - MSMpiSetup.exe -unattend
+  ### Install MS-MPI v8.0
+  - ps: Start-FileDownload 'https://download.microsoft.com/download/D/B/B/DBB64BA1-7B51-43DB-8BF1-D1FB45EACF7A/MSMpiSetup.exe'
+  - MSMpiSetup.exe -unattend
+  ### Install MS-MPI v8.0 SDK
+  # - ps: Start-FileDownload 'https://download.microsoft.com/download/D/B/B/DBB64BA1-7B51-43DB-8BF1-D1FB45EACF7A/msmpisdk.msi'
+  # - msmpisdk.msi /passive
+  ### Install HPC Pack 2012 R2 Update 3 SDK
+  # - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
+  # - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
   - dir C:\Program Files\
   - dir C:\Program Files\Microsoft MPI
+  - dir C:\Program Files\Microsoft MPI\Inc
+  - dir C:\Program Files\Microsoft MPI\Lib
   - set MPI_ROOT=C:\Program Files\Microsoft MPI
   - set PATH=%MPI_ROOT%\Bin;%PATH%
-  - dir C:\Program Files\Microsoft MPI\Lib
   - mpiexec -help
   - mpiexec -help2
   - mpiexec -help3
