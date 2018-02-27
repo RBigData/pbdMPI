@@ -1,0 +1,34 @@
+# DO NOT CHANGE the "init" and "install" sections below
+
+# Download script file from GitHub
+init:
+  ps: |
+        $ErrorActionPreference = "Stop"
+        Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
+        Import-Module '..\appveyor-tool.ps1'
+
+install:
+  - ps: Bootstrap
+  - ps: (new-object net.webclient).DownloadFile(
+         "https://download.microsoft.com/download/D/7/B/D7BBA00F-71B7-436B-80BC-4D22F2EE9862/MSMpiSetup.exe",
+	 "C:\projects\MSMpiSetup.exe")
+  - C:\projects\MSMpiSetup.exe -unattend -minimal
+  - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+
+environment:
+  global:
+    WARNINGS_ARE_ERRORS:
+    RTOOLS_VERSION: 34 
+    USE_RTOOLS: true
+
+  matrix:
+  - R_VERSION: release
+    R_ARCH: x64
+
+build_script:
+  - travis-tool.sh install_deps
+  - R CMD build --no-build-vignettes --no-manual --no-resave-data .
+  - R CMD INSTALL pbdMPI*.tar.gz
+  - R CMD check pbdMPI*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
+  - type pbdMPI.Rcheck\00check.log
+  - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
