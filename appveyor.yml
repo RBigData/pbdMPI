@@ -9,21 +9,24 @@ init:
 
 install:
   - ps: Bootstrap
-  ### Install MS-MPI v9.0
-  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisetup.exe'
-  - MSMpiSetup.exe -unattend
-  ### Install MS-MPI v9.0 SDK
-  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisdk.msi'
-  - msmpisdk.msi /passive
   ### Install HPC Pack 2012 R2 Update 3 SDK
   # - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
   # - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
-  - dir "C:\Program Files\"
+  ### Install MS-MPI v9.0
+  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisetup.exe'
+  - MSMpiSetup.exe -unattend
   - dir "C:\Program Files\Microsoft MPI"
-  - dir "C:\Program Files\Microsoft MPI\Inc"
-  - dir "C:\Program Files\Microsoft MPI\Lib"
-  - set MPI_ROOT=C:\Program Files\Microsoft MPI
-  - set PATH=%MPI_ROOT%\Bin;%PATH%
+  - dir "C:\Program Files\Microsoft MPI\Bin"
+  ### Install MS-MPI v9.0 SDK
+  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisdk.msi'
+  - msmpisdk.msi /passive
+  - dir "C:\Program Files (x86)\Microsoft SDKs\MPI"
+  - dir "C:\Program Files (x86)\Microsoft SDKs\MPI\Include"
+  - dir "C:\Program Files (x86)\Microsoft SDKs\MPI\Lib"
+  ### Set PATH
+  - set MPI_EXEC=C:\Program Files\Microsoft MPI
+  - set MPI_ROOT=C:\Program Files (x86)\Microsoft SDKS\MPI
+  - set PATH=%MPI_EXEC%\Bin;%PATH%
   - mpiexec -help
   - mpiexec -help2
   - mpiexec -help3
