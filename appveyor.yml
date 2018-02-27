@@ -9,9 +9,17 @@ init:
 
 install:
   - ps: Bootstrap
-  - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/D/7/B/D7BBA00F-71B7-436B-80BC-4D22F2EE9862/MSMpiSetup.exe", "C:\projects\MSMpiSetup.exe")
-  - C:\projects\MSMpiSetup.exe -unattend -minimal
-  - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+  # - ps: (new-object net.webclient).DownloadFile("https://download.microsoft.com/download/D/7/B/D7BBA00F-71B7-436B-80BC-4D22F2EE9862/MSMpiSetup.exe", "C:\projects\MSMpiSetup.exe")
+  # - C:\projects\MSMpiSetup.exe -unattend -minimal
+  # - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
+  - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
+  - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
+  - set MPI_ROOT=C:\Program Files\Microsoft MPI
+  - set PATH=%MPI_ROOT%\Bin;%PATH%
+  - dir C:\Program Files\Microsoft MPI\Lib
+  - mpiexec -help
+  - mpiexec -help2
+  - mpiexec -help3
 
 environment:
   global:
@@ -30,3 +38,4 @@ build_script:
   - R CMD check pbdMPI*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - type pbdMPI.Rcheck\00check.log
   - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
+
