@@ -21,10 +21,10 @@ install:
   ### Install HPC Pack 2012 R2 Update 3 SDK
   # - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
   # - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
-  - dir C:\Program Files\
-  - dir C:\Program Files\Microsoft MPI
-  - dir C:\Program Files\Microsoft MPI\Inc
-  - dir C:\Program Files\Microsoft MPI\Lib
+  - dir "C:\Program Files\"
+  - dir "C:\Program Files\Microsoft MPI"
+  - dir "C:\Program Files\Microsoft MPI\Inc"
+  - dir "C:\Program Files\Microsoft MPI\Lib"
   - set MPI_ROOT=C:\Program Files\Microsoft MPI
   - set PATH=%MPI_ROOT%\Bin;%PATH%
   - mpiexec -help
