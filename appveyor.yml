@@ -14,6 +14,9 @@ install:
   # - set PATH=C:\Program Files\Microsoft MPI\Bin;%PATH%
   - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
   - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
+  - type install.log
+  - dir C:\Program Files\
+  - dir C:\Program Files\Microsoft MPI
   - set MPI_ROOT=C:\Program Files\Microsoft MPI
   - set PATH=%MPI_ROOT%\Bin;%PATH%
   - dir C:\Program Files\Microsoft MPI\Lib
