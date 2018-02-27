@@ -9,6 +9,7 @@ init:
 
 install:
   - ps: Bootstrap
+  - cd ..
   ### Install HPC Pack 2012 R2 Update 3 SDK
   # - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
   # - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
@@ -27,9 +28,10 @@ install:
   - set MPI_EXEC=C:\Program Files\Microsoft MPI
   - set MPI_ROOT=C:\Program Files (x86)\Microsoft SDKS\MPI
   - set PATH=%MPI_EXEC%\Bin;%PATH%
+  ### Check MS-MPI
   - mpiexec -help
-  - mpiexec -help2
-  - mpiexec -help3
+  # - mpiexec -help2
+  # - mpiexec -help3
 
 environment:
   global:
@@ -42,10 +44,13 @@ environment:
     R_ARCH: x64
 
 build_script:
+  - cd pbdMPI
   - travis-tool.sh install_deps
-  - R CMD build --no-build-vignettes --no-manual --no-resave-data .
+  - cd ..
+  - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
   - R CMD INSTALL pbdMPI*.tar.gz
   - R CMD check pbdMPI*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
+  - dir pbdMPI.Rcheck
   - type pbdMPI.Rcheck\00check.log
   - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
 
