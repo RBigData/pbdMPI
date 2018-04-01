@@ -27,7 +27,7 @@ SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
         Pack 2012 R2 MS-MPI Redistributable Package) on Windows.
 License: Mozilla Public License 2.0
 URL: http://r-pbd.org/
-BugReports: http://group.r-pbd.org/
+BugReports: https://github.com/snoweye/pbdMPI/issues
 MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 NeedsCompilation: yes
