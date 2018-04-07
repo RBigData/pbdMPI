@@ -99,33 +99,36 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Check.
 if(comm.size() != 4){
-  comm.stop("4 processors are requried.")
+  comm.stop(\"4 processors are requried.\")
 }
 
 ### Manually distributed iris.
 da <- iris[get.jid(nrow(iris)),]
 
 ### Dump data.
-comm.write.table(da, file = "iris.txt", quote = FALSE, sep = "\t",
+comm.write.table(da, file = \"iris.txt\", quote = FALSE, sep = \"\\\t\",
                  row.names = FALSE)
 
 ### Read back in.
-da.gbd <- comm.read.table("iris.txt", header = TRUE, sep = "\t",
-                          quote = "")
+da.gbd <- comm.read.table(\"iris.txt\", header = TRUE, sep = \"\\\t\",
+                          quote = \"\")
 comm.print(c(nrow(da), nrow(da.gbd)), all.rank = TRUE)
 
 ### Read in common.
-da.common <- comm.read.table("iris.txt", header = TRUE, sep = "\t",
-                             quote = "", read.method = "common")
+da.common <- comm.read.table(\"iris.txt\", header = TRUE, sep = \"\\\t\",
+                             quote = \"\", read.method = \"common\")
 comm.print(c(nrow(da.common), sum(da.common != iris)))
 
 ### Finish.
 finalize()
+"
+# execmpi(spmd.code, nranks = 4L)
 }
 }
 \keyword{utility}

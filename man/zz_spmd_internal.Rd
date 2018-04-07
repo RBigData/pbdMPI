@@ -134,4 +134,13 @@
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
+\examples{
+cat("
+
+==========================================================================
+All examples are run.
+==========================================================================
+
+")
+}
 \keyword{internal}

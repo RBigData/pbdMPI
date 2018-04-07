@@ -1,0 +1,56 @@
+# DO NOT CHANGE the "init" and "install" sections below
+
+# Download script file from GitHub
+init:
+  ps: |
+        $ErrorActionPreference = "Stop"
+        Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
+        Import-Module '..\appveyor-tool.ps1'
+
+install:
+  - ps: Bootstrap
+  - cd ..
+  ### Install HPC Pack 2012 R2 Update 3 SDK
+  # - ps: (New-Object Net.WebClient).DownloadFile("https://download.microsoft.com/download/7/B/5/7B582B17-AF1E-454A-B86B-E6733010EB47/sdk_x64.msi", "sdk_x64.msi")
+  # - ps: msiexec /i sdk_x64.msi /quiet /qn /norestart /log install.log PROPERTY1=value1 PROPERTY2=value2 
+  ### Install MS-MPI v9.0
+  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisetup.exe'
+  - MSMpiSetup.exe -unattend
+  - dir "C:\Program Files\Microsoft MPI"
+  - dir "C:\Program Files\Microsoft MPI\Bin"
+  ### Install MS-MPI v9.0 SDK
+  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisdk.msi'
+  - msmpisdk.msi /passive
+  - dir "C:\Program Files (x86)\Microsoft SDKs\MPI"
+  - dir "C:\Program Files (x86)\Microsoft SDKs\MPI\Include"
+  - dir "C:\Program Files (x86)\Microsoft SDKs\MPI\Lib"
+  ### Set PATH
+  - set MPI_EXEC=C:\Program Files\Microsoft MPI
+  - set MPI_ROOT=C:\Program Files (x86)\Microsoft SDKS\MPI
+  - set PATH=%MPI_EXEC%\Bin;%PATH%
+  ### Check MS-MPI
+  - mpiexec -help
+  # - mpiexec -help2
+  # - mpiexec -help3
+
+environment:
+  global:
+    WARNINGS_ARE_ERRORS:
+    RTOOLS_VERSION: 34 
+    USE_RTOOLS: true
+
+  matrix:
+  - R_VERSION: release
+    R_ARCH: x64
+
+build_script:
+  - cd pbdMPI
+  - travis-tool.sh install_deps
+  - cd ..
+  - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
+  - R CMD INSTALL pbdMPI*.tar.gz
+  - R CMD check pbdMPI*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
+  - dir pbdMPI.Rcheck
+  # - type pbdMPI.Rcheck\00check.log
+  - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
+

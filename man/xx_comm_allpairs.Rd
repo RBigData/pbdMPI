@@ -42,6 +42,7 @@ comm.allpairs(N, diag = FALSE, symmetric = TRUE,
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -52,6 +53,8 @@ comm.print(id.matrix, all.rank = TRUE)
 
 ### Finish.
 finalize()
+"
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

@@ -75,6 +75,7 @@ For calling \code{spmd.sendrecv.replace.*()}:
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -89,6 +90,8 @@ comm.print(x, rank.print = 1)
 
 ### Finish.
 finalize()
+"
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{methods}

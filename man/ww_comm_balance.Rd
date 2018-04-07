@@ -66,12 +66,13 @@ comm.unload.balance(new.X.gbd, bal.info, comm = .pbd_env$SPMD.CT$comm)
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Get two gbd row-block data.frame.
-da.block <- iris[get.jid(nrow(iris), method = "block"),]
-da.block0 <- iris[get.jid(nrow(iris), method = "block0"),]
+da.block <- iris[get.jid(nrow(iris), method = \"block\"),]
+da.block0 <- iris[get.jid(nrow(iris), method = \"block0\"),]
 
 ### Load balance one and unload it.
 bal.info <- comm.balance.info(da.block0)
@@ -84,6 +85,8 @@ comm.print(c(sum(da.new != da.block), sum(da.org != da.block0)),
 
 ### Finish.
 finalize()
+"
+# execmpi(spmd.code, nranks = 4L)
 }
 }
 \keyword{utility}

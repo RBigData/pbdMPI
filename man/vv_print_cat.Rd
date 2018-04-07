@@ -63,6 +63,7 @@ comm.cat(..., all.rank = .pbd_env$SPMD.CT$print.all.rank,
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
@@ -72,6 +73,8 @@ comm.print(comm.rank(), rank.print = 1)
 
 ### Finish.
 finalize()
+"
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

@@ -623,10 +623,9 @@ esac
 
 
 dnl Echo all flags to see if they are set properly
-if test "$MPIRUN" = "F" -a "$MPIEXEC" = "F" -a "$ORTERUN" = "F" ; then
-  echo ">>>> MPI executable is not in PATH ..."
-  echo ">>>> Please export or setenv PATH ..."
-fi
+MPIRUN=`which mpirun`
+MPIEXEC=`which mpiexec`
+ORTERUN=`which orterun`
 
 
 dnl pbdPROF

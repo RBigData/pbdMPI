@@ -67,22 +67,25 @@ comm.stopifnot(..., call. = TRUE, domain = NULL,
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
+spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 if(comm.size() != 2){
-  comm.cat("2 processors are requried.\n", quiet = TRUE)
+  comm.cat(\"2 processors are requried.\\n\", quiet = TRUE)
   finalize()
 }
 
 ### Examples.
-comm.warning("test warning.\n")
+comm.warning(\"test warning.\\n\")
 comm.warnings()
-comm.stop("test stop.\n")
+comm.stop(\"test stop.\\n\")
 comm.stopifnot(1 == 2)
 
 ### Finish.
 finalize()
+"
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}
