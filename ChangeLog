@@ -1,3 +1,7 @@
+2018-04-30: Ver. 0.3-6
+  * Change some problems related UTF-8, latin1 TeX inputs, especially for
+    TeXLive 2018.
+
 2018-02-25: Ver. 0.3-5
   * Fix execmpi().
   * system(wait = FALSE) doesn't work with MPI correctly in Unix-alike systems.
