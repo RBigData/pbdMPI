@@ -1,3 +1,6 @@
+2018-05-18: Ver. 0.3-6
+  * Move "rlecuyer" to Imports.
+
 2018-04-30: Ver. 0.3-6
   * Change some problems related UTF-8, latin1 TeX inputs, especially for
     TeXLive 2018.
