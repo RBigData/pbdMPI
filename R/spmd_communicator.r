@@ -11,6 +11,8 @@ spmd.comm.set.errhandler <- function(comm = .pbd_env$SPMD.CT$comm){
   invisible(ret)
 } # End of spmd.comm.set.errhandler().
 
+comm.set.errhandler <- spmd.comm.set.errhandler
+
 spmd.comm.is.null <- function(comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_comm_is_null", as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.comm.is.null().
