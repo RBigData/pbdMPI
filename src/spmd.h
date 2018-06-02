@@ -42,18 +42,16 @@ SEXP spmd_comm_is_null(SEXP R_comm);
 SEXP spmd_comm_size(SEXP R_comm);
 SEXP spmd_comm_rank(SEXP R_comm);
 SEXP spmd_comm_localrank(SEXP R_comm);
-SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm);
+SEXP spmd_comm_dup(SEXP R_comm);
 SEXP spmd_comm_free(SEXP R_comm);
 SEXP spmd_comm_set_errhandler(SEXP R_comm);
 SEXP spmd_comm_get_parent(SEXP R_comm);
 SEXP spmd_is_master();
 SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode);
-SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key, SEXP R_newcomm);
+SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key);
 SEXP spmd_comm_disconnect(SEXP R_comm);
-SEXP spmd_comm_connect(SEXP R_port_name, SEXP R_info, SEXP R_root, SEXP R_comm,
-                SEXP R_newcomm);
-SEXP spmd_comm_accept(SEXP R_port_name, SEXP R_info, SEXP R_root, SEXP R_comm,
-                SEXP R_newcomm);
+SEXP spmd_comm_connect(SEXP R_port_name, SEXP R_info, SEXP R_root, SEXP R_comm);
+SEXP spmd_comm_accept(SEXP R_port_name, SEXP R_info, SEXP R_root, SEXP R_comm);
 SEXP spmd_port_open(SEXP R_info);
 SEXP spmd_port_close(SEXP R_port_name);
 SEXP spmd_serv_publish(SEXP R_serv_name, SEXP R_info, SEXP R_port_name);
@@ -61,13 +59,12 @@ SEXP spmd_serv_unpublish(SEXP R_serv_name, SEXP R_info, SEXP R_port_name);
 SEXP spmd_serv_lookup(SEXP R_serv_name, SEXP R_info);
 SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm);
 SEXP spmd_intercomm_create(SEXP R_local_comm, SEXP R_local_leader,
-		SEXP R_peer_comm, SEXP R_remote_leader, SEXP R_tag,
-		SEXP R_newintercomm);
+		SEXP R_peer_comm, SEXP R_remote_leader, SEXP R_tag);
 SEXP spmd_comm_c2f(SEXP R_comm);
 
 /* In file "spmd_communicator_spawn.c". */
 SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_nworker,
-		SEXP R_info, SEXP R_rank_source, SEXP R_intercomm);
+		SEXP R_info, SEXP R_rank_source);
 
 /* In file "spmd_allgather.c". */
 SEXP spmd_allgather_integer(SEXP R_send_data, SEXP R_recv_data,
@@ -245,5 +242,6 @@ SEXP spmd_waitall(SEXP R_count);
 /* In file "spmd_tool.c". */
 SEXP AsInt(int x);
 int spmd_errhandler(int error_code);
+int spmd_comm_slot(void);
 
 #endif

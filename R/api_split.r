@@ -1,8 +1,6 @@
 ### Spliting COMM_WORLD into comm.within and comm.between.
 
-api.comm.split.by.node <- function(comm = .pbd_env$SPMD.CT$comm,
-    comm.within = .pbd_env$SPMD.CT$comm.within,
-    comm.between = .pbd_env$SPMD.CT$comm.between){
+api.comm.split.by.node <- function(comm = .pbd_env$SPMD.CT$comm){
   comm.rank <- spmd.comm.rank(comm)
   comm.size <- spmd.comm.size(comm)
 
@@ -18,17 +16,19 @@ api.comm.split.by.node <- function(comm = .pbd_env$SPMD.CT$comm,
 
   #### Communicator for within.
   color <- id.within[comm.rank + 1]
-  ret.within <- .Call("spmd_comm_split", as.integer(comm), as.integer(color),
+  comm.within <- .Call("spmd_comm_split", as.integer(comm), as.integer(color),
                       as.integer(comm.rank), as.integer(comm.within),
                       PACKAGE = "pbdMPI")
+  .pbd_env$SPMD.CT$comm.within <- comm.within
 
   ### Communicator for between.
   color <- id.between[comm.rank + 1]
-  ret.between <- .Call("spmd_comm_split", as.integer(comm), as.integer(color),
+  comm.between <- .Call("spmd_comm_split", as.integer(comm), as.integer(color),
                        as.integer(comm.rank), as.integer(comm.between),
                        PACKAGE = "pbdMPI")
+  .pbd_env$SPMD.CT$comm.between <- comm.between
 
-  invisible(c(ret.within, ret.between))
+  invisible(c(comm.within, comm.between))
 } # End of api.comm.split.by.node().
 
 

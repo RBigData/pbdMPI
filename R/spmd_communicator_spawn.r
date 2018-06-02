@@ -1,7 +1,6 @@
 spmd.comm.spawn <- function(worker, worker.arg, n.workers,
     info = .pbd_env$SPMD.CT$info,
-    rank.source = .pbd_env$SPMD.CT$rank.source,
-    intercomm = .pbd_env$SPMD.CT$intercomm){
+    rank.source = .pbd_env$SPMD.CT$rank.source){
   if(! is.loaded("spmd_comm_spawn", PACKAGE = "pbdMPI")){
     stop("spmd_comm_spawn is not supported.")
   }
@@ -12,9 +11,9 @@ spmd.comm.spawn <- function(worker, worker.arg, n.workers,
     stop("Choose a positive number of workers.")
   }
 
-  ret <- .Call("spmd_comm_spawn", as.character(worker),
+  .pbd_env$SPMD.CT$intercomm <- .Call("spmd_comm_spawn", as.character(worker),
                as.character(worker.arg), as.integer(n.workers),
                as.integer(info), as.integer(rank.source),
                as.integer(intercomm), PACKAGE = "pbdMPI")
-  invisible(ret)
+  invisible(.pbd_env$SPMD.CT$intercomm)
 } # End of spmd.comm.spawn().
