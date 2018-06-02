@@ -24,3 +24,11 @@ int spmd_errhandler(int error_code){
 	return(error_code);
 } /* End of spmd_errhandler(). */
 
+int spmd_comm_slot(void) {
+    int newcommn;
+    for (newcommn = 1; newcommn < COMM_MAXSIZE && comm[newcommn] != MPI_COMM_NULL; newcommn++);
+    if (newcommn == COMM_MAXSIZE)
+        error("Out of communicators. Increase COMM_MAXSIZE.");
+    else
+        return newcommn;
+}

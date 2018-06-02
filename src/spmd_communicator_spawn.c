@@ -1,11 +1,11 @@
 #include "spmd.h"
 
 SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
-		SEXP R_info, SEXP R_rank_source, SEXP R_intercomm){
+		SEXP R_info, SEXP R_rank_source){
 #ifdef MPI2
 	int i, n_workers = INTEGER(R_n_workers)[0], len = LENGTH(R_workerargv);
 	int infon = INTEGER(R_info)[0], rank_source = INTEGER(R_rank_source)[0];
-	int intercommn = INTEGER(R_intercomm)[0], *worker_errcodes, realns;
+	int intercommn = spmd_comm_slot(), *worker_errcodes, realns;
 
 	worker_errcodes = (int *) Calloc(n_workers, int);
 	if(len == 0){
@@ -31,9 +31,10 @@ SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 
 	Free(worker_errcodes);
 
-	Rprintf("\t%d workers are spawned successfully. %d failed.\n",
-		realns, n_workers - realns);
-	return AsInt(realns);
+	if (n_workers - realns)
+		error("\t%d workers are spawned successfully. %d failed.\n",
+			realns, n_workers - realns);
+	return AsInt(intercommn);
 #else
 	error("only MPI >= 2 supported\n");
 	return R_NilValue;

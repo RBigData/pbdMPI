@@ -43,17 +43,16 @@ SEXP spmd_comm_localrank(SEXP R_comm){
 #endif
 } /* End of spmd_comm_localrank(). */
 
-SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm){
-	int commn = INTEGER(R_comm)[0], newcommn = INTEGER(R_newcomm)[0];
+SEXP spmd_comm_dup(SEXP R_comm){
+	int commn = INTEGER(R_comm)[0], newcommn = spmd_comm_slot();
 	if(commn == 0){
-		return(AsInt(
-			spmd_errhandler(MPI_Comm_dup(MPI_COMM_WORLD,
-				 &comm[newcommn]))));
+		spmd_errhandler(MPI_Comm_dup(MPI_COMM_WORLD,
+			 &comm[newcommn]));
 	} else{
-		return(AsInt(
-			spmd_errhandler(MPI_Comm_dup(comm[commn],
-				&comm[newcommn]))));
+		spmd_errhandler(MPI_Comm_dup(comm[commn],
+			&comm[newcommn]));
 	}
+	return(AsInt(newcommn));
 } /* End of spmd_comm_dup(). */
 
 SEXP spmd_comm_free(SEXP R_comm){
@@ -91,18 +90,18 @@ SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode){
 			INTEGER(R_errorcode)[0]))));
 } /* End of spmd_comm_abort(). */
 
-SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key, SEXP R_newcomm){
-	int color = INTEGER(R_color)[0];
+SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key){
+	int color = INTEGER(R_color)[0], newcommn = spmd_comm_slot();
 
 	if(color == NA_INTEGER || color < 0){
 		color = MPI_UNDEFINED;
 	}
 
-	return(AsInt(
-		spmd_errhandler(MPI_Comm_split(
-			comm[INTEGER(R_comm)[0]],
-			color, INTEGER(R_key)[0],
-			&comm[INTEGER(R_newcomm)[0]]))));
+	spmd_errhandler(MPI_Comm_split(
+		comm[INTEGER(R_comm)[0]],
+		color, INTEGER(R_key)[0],
+		&comm[newcommn]));
+	return(AsInt(newcommn));
 } /* End of spmd_comm_split(). */
 
 SEXP spmd_comm_disconnect(SEXP R_comm){
@@ -112,25 +111,28 @@ SEXP spmd_comm_disconnect(SEXP R_comm){
 } /* End of spmd_comm_disconnect(). */
 
 SEXP spmd_comm_connect(SEXP R_port_name, SEXP R_info, SEXP R_rank_root,
-		SEXP R_comm, SEXP R_newcomm){
+		SEXP R_comm){
+	int newcommn = spmd_comm_slot();
 	return(AsInt(
 		spmd_errhandler(MPI_Comm_connect(
 			CHARPT(R_port_name, 0),
 			info[INTEGER(R_info)[0]],
 			INTEGER(R_rank_root)[0],
 			comm[INTEGER(R_comm)[0]],
-			&comm[INTEGER(R_newcomm)[0]]))));
+			&comm[newcommn]))));
+	return(AsInt(newcommn));
 } /* End of spmd_comm_connect(). */
 
 SEXP spmd_comm_accept(SEXP R_port_name, SEXP R_info, SEXP R_rank_root,
-		SEXP R_comm, SEXP R_newcomm){
-	return(AsInt(
+		SEXP R_comm){
+	int newcommn = spmd_comm_slot();
 		spmd_errhandler(MPI_Comm_accept(
 			CHARPT(R_port_name, 0),
 			info[INTEGER(R_info)[0]],
 			INTEGER(R_rank_root)[0],
 			comm[INTEGER(R_comm)[0]],
-			&comm[INTEGER(R_newcomm)[0]]))));
+			&comm[newcommn]));
+	return(AsInt(newcommn));
 } /* End of spmd_comm_accept(). */
 
 SEXP spmd_port_open(SEXP R_info){
@@ -206,16 +208,16 @@ SEXP spmd_intercomm_merge(SEXP R_intercomm, SEXP R_high, SEXP R_comm){
 } /* End of spmd_intercomm_merge(). */
 
 SEXP spmd_intercomm_create(SEXP R_local_comm, SEXP R_local_leader,
-		SEXP R_peer_comm, SEXP R_remote_leader, SEXP R_tag,
-		SEXP R_newintercomm){
-	return(AsInt(
+		SEXP R_peer_comm, SEXP R_remote_leader, SEXP R_tag){
+	int newintercommn = spmd_comm_slot();
 		spmd_errhandler(MPI_Intercomm_create(
 			comm[INTEGER(R_local_comm)[0]],
 			INTEGER(R_local_leader)[0],
 			comm[INTEGER(R_peer_comm)[0]],
 			INTEGER(R_remote_leader)[0],
 			INTEGER(R_tag)[0],
-			&comm[INTEGER(R_newintercomm)[0]]))));
+			&comm[newintercommn]));
+	return(AsInt(newintercommn));
 } /* End of spmd_intercomm_create(). */
 
 /* Fortran supporting functions. */

@@ -1,10 +1,9 @@
 ### MPI control.
 SPMD.CT <- function(
   comm = 0L,
-  intercomm = 2L,
-  newcomm = 1L,
-  comm.within = 3L,
-  comm.between = 4L,
+  intercomm = NA,
+  comm.within = NA,
+  comm.between = NA,
   op = "sum",
   port.name = "spmdport",
   serv.name = "spmdserv",
@@ -31,7 +30,6 @@ SPMD.CT <- function(
   list(
     comm = comm,                      # As default COMM_WORLD.
     intercomm = intercomm,            # As Rmpi default inter comm.
-    newcomm = newcomm,                # As Rmpi default new comm.
     comm.within = comm.within,        # Within host comm.
     comm.between = comm.between,      # Between host comm.
     op = op,                          # For reduce/allreduce.
