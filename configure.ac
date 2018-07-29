@@ -105,15 +105,50 @@ AC_CHECK_PROG(SED, sed, sed, "F")
 AC_CHECK_PROG(MPICC, mpicc, mpicc, "F")
 AC_CHECK_PROG(OMPI_INFO, ompi_info, ompi_info, "F")
 dnl AC_CHECK_PROG(MPICH2VERSION, mpich2version, mpich2version, "F")
+AC_PATH_PROG(PKG_CONFIG, [pkg-config])
 
 
 dnl For OpenMPI
 if test -z "${MPI_INCLUDE_PATH}" ; then
   if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "OPENMPI" ; then
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
+    TMP_INC="F"
+    TMP_LIB="F"
+
+    if test -n "${PKG_CONFIG}" ; then
+      echo "found pkg-config ..."
+      AC_MSG_CHECKING([if pkg-config knows about OpenMPI]) 
+
+      if "${PKG_CONFIG}" --exists ompi; then
+        AC_MSG_RESULT([yes])
+
+        TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags ompi`
+        echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
+
+        TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs ompi`
+        echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
+
+        if test "${TMP_INC_DIRS}" != "" -a "${TMP_LIB_DIRS}" != "" ; then
+          TMP_INC=${TMP_INC_DIRS}
+          TMP_LIB=${TMP_LIB_DIRS}
+        fi
+
+        if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+          echo "found mpi.h and libmpi.so ..."
+          echo ">> TMP_INC = ${TMP_INC}"
+          echo ">> TMP_LIB = ${TMP_LIB}"
+          MPITYPE="OPENMPI"
+          MPI_INCLUDE_PATH="${TMP_INC}"
+          MPI_LIBPATH="${TMP_LIB}"
+          MPI_LIBNAME=""
+          MPI_ROOT="NONEED"
+        fi
+      else
+        AC_MSG_RESULT([no])
+      fi
+    fi
+
+    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" -a "$TMP_INC" = "F" -a "$TMP_LIB" = "F" ; then
       echo "found sed, mpicc, and ompi_info ..."
-      TMP_INC="F"
-      TMP_LIB="F"
 
       TMP_INC_DIRS=`mpicc --showme:incdirs`
       echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
@@ -169,10 +204,45 @@ dnl For MPICH3/MPICH2/MPICH
 if test -z "${MPI_INCLUDE_PATH}" ; then
 ### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
   if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3" ; then
-    if test "$SED" != "F" -a "$MPICC" != "F" ; then
+    TMP_INC="F"
+    TMP_LIB="F"
+
+    if test -n "${PKG_CONFIG}" ; then
+      echo "found pkg-config ..."
+      AC_MSG_CHECKING([if pkg-config knows about MPICH]) 
+
+      dnl I assume pkg-config only works in MPICH2
+      if "${PKG_CONFIG}" --exists mpich2; then
+        AC_MSG_RESULT([yes])
+
+        TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags mpich`
+        echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
+
+        TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs mpich`
+        echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
+
+        if test "$TMP_INC_DIRS" != "" -a "$TMP_LIB_DIRS" != "" ; then
+          TMP_INC=${TMP_INC_DIRS}
+          TMP_LIB=${TMP_LIB_DIRS}
+        fi
+
+        if test "$TMP_INC" != "" -a "$TMP_LIB" != "" ; then
+          echo "found mpi.h and libmpich.so ..."
+          echo ">> TMP_INC = ${TMP_INC}"
+          echo ">> TMP_LIB = ${TMP_LIB}"
+          MPITYPE="MPICH2"
+          MPI_INCLUDE_PATH="${TMP_INC}"
+          MPI_LIBPATH="${TMP_LIB}"
+          MPI_LIBNAME=""
+          MPI_ROOT="NONEED"
+        fi
+      else
+        AC_MSG_RESULT([no])
+      fi
+    fi
+
+    if test "$SED" != "F" -a "$MPICC" != "F" -a "$TMP_INC" = "F" -a "$TMP_LIB" = "F" ; then
       echo "found sed and mpicc ..."
-      TMP_INC="F"
-      TMP_LIB="F"
 
       TMP_CMD=`mpicc -show`
       echo ">> TMP_CMD = ${TMP_CMD}"
@@ -575,51 +645,58 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" ; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" -o "$MPI_ROOT" = "NONEED"; then
   MPI_DEFS="-DMPI2"
 fi
 
-PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
-case "$MPITYPE" in
-  OPENMPI)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
-    ;;
-  LAM)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
-    ;;
-  MPICH3)
-    if test "X$ENABLE_OPA" = "Xyes" ; then
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-    else
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-    fi
-    ;;
-  MPICH2)
-    if test "X$ENABLE_OPA" = "Xyes" ; then
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-    else
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-    fi
-    ;;
-  MPICH)
-    if test "X$ENABLE_OPA" = "Xyes" ; then
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-    else
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-    fi
-    ;;
-  INTELMPI)
-    PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
-    ;;
-  *)
-    dnl suppose MPI_LDFLAGS is provided
-    if test "X${MPI_LDFLAGS}" != "X" ; then
-      PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
-    else
-      AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
-    fi
-    ;;
-esac
+if test "$MPI_ROOT" = "NONEED"; then
+  dnl This is based on pkg-config which may be an easier way in future.
+  PKG_CPPFLAGS="${MPI_INCLUDE_PATH} ${MPI_DEFS} -D${MPITYPE}"
+  PKG_LIBS="${MPI_LIBPATH} ${MPI_LIBS}"
+else
+  dnl This was from old Rmpi/pbdMPI for backward comparable.
+  PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
+  case "$MPITYPE" in
+    OPENMPI)
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
+      ;;
+    LAM)
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
+      ;;
+    MPICH3)
+      if test "X$ENABLE_OPA" = "Xyes" ; then
+        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+      else
+        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+      fi
+      ;;
+    MPICH2)
+      if test "X$ENABLE_OPA" = "Xyes" ; then
+        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+      else
+        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+      fi
+      ;;
+    MPICH)
+      if test "X$ENABLE_OPA" = "Xyes" ; then
+        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+      else
+        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+      fi
+      ;;
+    INTELMPI)
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
+      ;;
+    *)
+      dnl suppose MPI_LDFLAGS is provided
+      if test "X${MPI_LDFLAGS}" != "X" ; then
+        PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
+      else
+        AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
+      fi
+      ;;
+  esac
+fi
 
 
 dnl Echo all flags to see if they are set properly
