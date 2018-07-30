@@ -212,7 +212,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       AC_MSG_CHECKING([if pkg-config knows about MPICH]) 
 
       dnl I assume pkg-config only works in MPICH2
-      if "${PKG_CONFIG}" --exists mpich2; then
+      if "${PKG_CONFIG}" --exists mpich; then
         AC_MSG_RESULT([yes])
 
         TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags mpich`
@@ -221,9 +221,12 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs mpich`
         echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
 
+        TMP_LIB_PATH=`"${PKG_CONFIG}" --variable=libdir mpich`
+        echo ">> TMP_LIB_PATH = ${TMP_LIB_PATH}"
+
         if test "$TMP_INC_DIRS" != "" -a "$TMP_LIB_DIRS" != "" ; then
           TMP_INC=${TMP_INC_DIRS}
-          TMP_LIB=${TMP_LIB_DIRS}
+          TMP_LIB="-L${TMP_LIB_PATH} ${TMP_LIB_DIRS}"
         fi
 
         if test "$TMP_INC" != "" -a "$TMP_LIB" != "" ; then
