@@ -1,6 +1,6 @@
 Package: pbdMPI
-Version: 0.3-7
-Date: 2018-07-29
+Version: 0.3-8
+Date: 2018-08-03
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
@@ -33,3 +33,14 @@ MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 NeedsCompilation: yes
 Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
+Packaged: 2018-07-30 01:19:36 UTC; snoweye
+Author: Wei-Chen Chen [aut, cre],
+  George Ostrouchov [aut],
+  Drew Schmidt [aut],
+  Pragneshkumar Patel [aut],
+  Hao Yu [aut],
+  Christian Heckendorf [ctb] (FreeBSD),
+  Brian Ripley [ctb] (Windows HPC Pack 2012),
+  R Core team [ctb] (some functions are modified from the base packages)
+Repository: CRAN
+Date/Publication: 2018-08-01 15:20:14 UTC

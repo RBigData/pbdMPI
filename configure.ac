@@ -114,50 +114,17 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     TMP_INC="F"
     TMP_LIB="F"
 
-    if test -n "${PKG_CONFIG}" ; then
-      echo "found pkg-config ..."
-      AC_MSG_CHECKING([if pkg-config knows about OpenMPI]) 
-
-      if "${PKG_CONFIG}" --exists ompi; then
-        AC_MSG_RESULT([yes])
-
-        TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags ompi`
-        echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
-
-        TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs ompi`
-        echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
-
-        if test "${TMP_INC_DIRS}" != "" -a "${TMP_LIB_DIRS}" != "" ; then
-          TMP_INC=${TMP_INC_DIRS}
-          TMP_LIB=${TMP_LIB_DIRS}
-        fi
-
-        if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-          echo "found mpi.h and libmpi.so ..."
-          echo ">> TMP_INC = ${TMP_INC}"
-          echo ">> TMP_LIB = ${TMP_LIB}"
-          MPITYPE="OPENMPI"
-          MPI_INCLUDE_PATH="${TMP_INC}"
-          MPI_LIBPATH="${TMP_LIB}"
-          MPI_LIBNAME=""
-          MPI_ROOT="NONEED"
-        fi
-      else
-        AC_MSG_RESULT([no])
-      fi
-    fi
-
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" -a "$TMP_INC" = "F" -a "$TMP_LIB" = "F" ; then
-      echo "found sed, mpicc, and ompi_info ..."
+    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
+      echo "Try sed, mpicc, and ompi_info ..."
 
       TMP_INC_DIRS=`mpicc --showme:incdirs`
       echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
 
       TMP_IFS="${IFS}"; IFS=" "
       for dir in ${TMP_INC_DIRS}; do
-        echo "checking ${dir} ..."
+        echo "Checking ${dir} ..."
         if test -f "${dir}/mpi.h" ; then
-          echo "found ${dir}/mpi.h ..."
+          echo "Found ${dir}/mpi.h ..."
           TMP_INC=${dir}
           break
         fi
@@ -169,16 +136,16 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 
       TMP_IFS="${IFS}"; IFS=" "
       for dir in ${TMP_LIB_DIRS}; do
-        echo "checking ${dir} ..." 
+        echo "Checking ${dir} ..." 
         if test -f "${dir}/libmpi.so" ; then
-          echo "found ${dir}/libmpi.so ..." 
+          echo "Found ${dir}/libmpi.so ..." 
           TMP_LIB=${dir}
           TMP_LIBNAME="libmpi.so"
           break
         fi
         dnl For Mac OS X
         if test -f "${dir}/libmpi.dylib" ; then
-          echo "found ${dir}/libmpi.dylib ..."
+          echo "Found ${dir}/libmpi.dylib ..."
           TMP_LIB=${dir}
           TMP_LIBNAME="libmpi.dylib"
           break
@@ -187,15 +154,56 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       IFS="${TMP_IFS}"
 
       if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-        echo "found mpi.h and libmpi.so ..."
+        echo "Found mpi.h and libmpi.so ... via mpicc --showme"
         echo ">> TMP_INC = ${TMP_INC}"
         echo ">> TMP_LIB = ${TMP_LIB}"
         MPITYPE="OPENMPI"
         MPI_INCLUDE_PATH="${TMP_INC}"
         MPI_LIBPATH="${TMP_LIB}"
         MPI_LIBNAME="${TMP_LIBNAME}"
+      else
+        echo "Found no mpi.h or libmpi.so ... via mpicc --showme"
       fi
     fi
+
+    if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
+      dnl try "pkg-config"
+      if test -n "${PKG_CONFIG}" ; then
+        echo "Try pkg-config ..."
+        AC_MSG_CHECKING([if pkg-config knows about OpenMPI]) 
+
+        if "${PKG_CONFIG}" --exists ompi; then
+          AC_MSG_RESULT([yes])
+
+          TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags ompi`
+          echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
+
+          TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs ompi`
+          echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
+
+          if test "${TMP_INC_DIRS}" != "" -a "${TMP_LIB_DIRS}" != "" ; then
+            TMP_INC=${TMP_INC_DIRS}
+            TMP_LIB=${TMP_LIB_DIRS}
+          fi
+
+          if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+            echo "Found mpi.h and libmpi.so ... via pkg-config"
+            echo ">> TMP_INC = ${TMP_INC}"
+            echo ">> TMP_LIB = ${TMP_LIB}"
+            MPITYPE="OPENMPI"
+            MPI_INCLUDE_PATH="${TMP_INC}"
+            MPI_LIBPATH="${TMP_LIB}"
+            MPI_LIBNAME=""
+            MPI_ROOT="NONEED"
+          else
+            echo "Found no mpi.h or libmpi.so ... via pkg-config"
+          fi
+        else
+          AC_MSG_RESULT([no])
+        fi
+      fi
+    fi
+
   fi
 fi
 
@@ -207,45 +215,8 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     TMP_INC="F"
     TMP_LIB="F"
 
-    if test -n "${PKG_CONFIG}" ; then
-      echo "found pkg-config ..."
-      AC_MSG_CHECKING([if pkg-config knows about MPICH]) 
-
-      dnl I assume pkg-config only works in MPICH2
-      if "${PKG_CONFIG}" --exists mpich; then
-        AC_MSG_RESULT([yes])
-
-        TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags mpich`
-        echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
-
-        TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs mpich`
-        echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
-
-        TMP_LIB_PATH=`"${PKG_CONFIG}" --variable=libdir mpich`
-        echo ">> TMP_LIB_PATH = ${TMP_LIB_PATH}"
-
-        if test "$TMP_INC_DIRS" != "" -a "$TMP_LIB_DIRS" != "" ; then
-          TMP_INC=${TMP_INC_DIRS}
-          TMP_LIB="-L${TMP_LIB_PATH} ${TMP_LIB_DIRS}"
-        fi
-
-        if test "$TMP_INC" != "" -a "$TMP_LIB" != "" ; then
-          echo "found mpi.h and libmpich.so ..."
-          echo ">> TMP_INC = ${TMP_INC}"
-          echo ">> TMP_LIB = ${TMP_LIB}"
-          MPITYPE="MPICH2"
-          MPI_INCLUDE_PATH="${TMP_INC}"
-          MPI_LIBPATH="${TMP_LIB}"
-          MPI_LIBNAME=""
-          MPI_ROOT="NONEED"
-        fi
-      else
-        AC_MSG_RESULT([no])
-      fi
-    fi
-
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$TMP_INC" = "F" -a "$TMP_LIB" = "F" ; then
-      echo "found sed and mpicc ..."
+    if test "$SED" != "F" -a "$MPICC" != "F" ; then
+      echo "Try sed and mpicc ..."
 
       TMP_CMD=`mpicc -show`
       echo ">> TMP_CMD = ${TMP_CMD}"
@@ -260,9 +231,9 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
           dir_inc=`echo ${dir} | sed -e "s/-I\(.*\)/\1/"`
         fi
 
-        echo "checking ${dir_inc} ..."
+        echo "Checking ${dir_inc} ..."
         if test -f "${dir_inc}/mpi.h" ; then
-          echo "found ${dir_inc}/mpi.h ..."
+          echo "Found ${dir_inc}/mpi.h ..."
           TMP_INC=${dir_inc}
           break
         fi
@@ -279,16 +250,16 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
           dir_lib=`echo ${dir} | sed -e "s/-L\(.*\)/\1/"`
         fi
 
-        echo "checking ${dir_lib} ..." 
+        echo "Checking ${dir_lib} ..." 
         if test -f "${dir_lib}/libmpich.so" ; then
-          echo "found ${dir_lib}/libmpich.so ..." 
+          echo "Found ${dir_lib}/libmpich.so ... via mpicc --show & sed" 
           TMP_LIB=${dir_lib}
           TMP_LIBNAME="libmpich.so"
           break
         fi
         dnl For Mac OS X
         if test -f "${dir_lib}/libmpich.dylib" ; then
-          echo "found ${dir_lib}/libmpich.dylib ..."
+          echo "Found ${dir_lib}/libmpich.dylib ... via mpicc --show & sed"
           TMP_LIB=${dir_lib}
           TMP_LIBNAME="libmpich.dylib"
           break
@@ -297,15 +268,60 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       IFS="${TMP_IFS}"
 
       if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-        echo "found mpi.h and libmpich.so ..."
+        echo "Found mpi.h and libmpich.so ... via mpicc --show & sed"
         echo ">> TMP_INC = ${TMP_INC}"
         echo ">> TMP_LIB = ${TMP_LIB}"
         MPITYPE="${MPITYPE}"
         MPI_INCLUDE_PATH="${TMP_INC}"
         MPI_LIBPATH="${TMP_LIB}"
         MPI_LIBNAME="${TMP_LIBNAME}"
+      else
+        echo "Found no mpi.h or libmpi.so ... via mpicc --show & sed"
       fi
     fi
+
+    if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
+      dnl try "pkg-config"
+      if test -n "${PKG_CONFIG}" ; then
+        echo "Try pkg-config ..."
+        AC_MSG_CHECKING([if pkg-config knows about MPICH]) 
+
+        dnl I assume pkg-config only works in MPICH2
+        if "${PKG_CONFIG}" --exists mpich; then
+          AC_MSG_RESULT([yes])
+
+          TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags mpich`
+          echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
+
+          TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs mpich`
+          echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
+
+          TMP_LIB_PATH=`"${PKG_CONFIG}" --variable=libdir mpich`
+          echo ">> TMP_LIB_PATH = ${TMP_LIB_PATH}"
+
+          if test "$TMP_INC_DIRS" != "" -a "$TMP_LIB_DIRS" != "" ; then
+            TMP_INC=${TMP_INC_DIRS}
+            TMP_LIB="-L${TMP_LIB_PATH} ${TMP_LIB_DIRS}"
+          fi
+
+          if test "$TMP_INC" != "" -a "$TMP_LIB" != "" ; then
+            echo "Found mpi.h and libmpich.so ... via pkg-config"
+            echo ">> TMP_INC = ${TMP_INC}"
+            echo ">> TMP_LIB = ${TMP_LIB}"
+            MPITYPE="MPICH2"
+            MPI_INCLUDE_PATH="${TMP_INC}"
+            MPI_LIBPATH="${TMP_LIB}"
+            MPI_LIBNAME=""
+            MPI_ROOT="NONEED"
+          else
+            echo "Found no mpi.h or libmpi.so ... via pkg-config"
+          fi
+        else
+          AC_MSG_RESULT([no])
+        fi
+      fi
+    fi
+
   fi
 fi
 

@@ -1,6 +1,9 @@
+2018-08-03: Ver. 0.3-8
+  * Fedora28 use "module load mpi/openmpi-x86_64" to obtain mpiexec.
+
 2018-07-29: Ver. 0.3-7
   * Add "pkg-config" to "configure.ac".
-  * Check "OpenMPI" and "MPICH2" with "pkg-config"
+  * Check "OpenMPI" and "MPICH2" with "pkg-config".
 
 2018-05-18: Ver. 0.3-6
   * Move "rlecuyer" to Imports.
