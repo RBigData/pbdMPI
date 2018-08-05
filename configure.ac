@@ -154,6 +154,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       IFS="${TMP_IFS}"
 
       if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+        TMP_FOUND="mpicc --showme"
         echo "Found mpi.h and libmpi.so ... via mpicc --showme"
         echo ">> TMP_INC = ${TMP_INC}"
         echo ">> TMP_LIB = ${TMP_LIB}"
@@ -213,7 +214,8 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
           IFS="${TMP_IFS}"
 
           if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-            echo "Found mpi.h and libmpi.so ... via pkg-config ... ompi"
+            TMP_FOUND="pkg-config ompi"
+            echo "Found mpi.h and libmpi.so ... via pkg-config ompi"
             echo ">> TMP_INC = ${TMP_INC}"
             echo ">> TMP_LIB = ${TMP_LIB}"
             MPITYPE="OPENMPI"
@@ -221,7 +223,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
             MPI_LIBPATH="${TMP_LIB}"
             MPI_LIBNAME="${TMP_LIBNAME}"
           else
-            echo "Found no mpi.h or libmpi.so ... via pkg-config ... ompi"
+            echo "Found no mpi.h or libmpi.so ... via pkg-config ompi"
           fi
         else
           AC_MSG_RESULT([no])
@@ -294,6 +296,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       IFS="${TMP_IFS}"
 
       if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+        TMP_FOUND="mpicc --showme & sed"
         echo "Found mpi.h and libmpich.so ... via mpicc --show & sed"
         echo ">> TMP_INC = ${TMP_INC}"
         echo ">> TMP_LIB = ${TMP_LIB}"
@@ -353,7 +356,8 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
           IFS="${TMP_IFS}"
 
           if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-            echo "Found mpi.h and libmpich.so ... via pkg-config ... mpich"
+            TMP_FOUND="pkg-config mpich"
+            echo "Found mpi.h and libmpich.so ... via pkg-config mpich"
             echo ">> TMP_INC = ${TMP_INC}"
             echo ">> TMP_LIB = ${TMP_LIB}"
             MPITYPE="${MPITYPE}"
@@ -361,7 +365,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
             MPI_LIBPATH="${TMP_LIB}"
             MPI_LIBNAME="${TMP_LIBNAME}"
           else
-            echo "Found no mpi.h or libmpich.so ... via pkg-config ... mpich"
+            echo "Found no mpi.h or libmpich.so ... via pkg-config mpich"
           fi
         else
           AC_MSG_RESULT([no])
@@ -374,7 +378,13 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 fi
 
 
-dnl For nothing found from above
+dnl Nothing found from above
+if test -z "${TMP_FOUND}"; then
+  TMP_FOUND="Nothing found from mpicc --show & sed nor pkg-config ..."
+fi
+echo ">> TMP_FOUND = ${TMP_FOUND}"
+
+
 dnl 'Paths not specified'
 if test -z "${MPI_INCLUDE_PATH}" ; then
   dnl Another way is to specify MPI_ROOT, perhaps via --with-mpi
@@ -822,6 +832,7 @@ echo " "
 echo ">> TMP_INC = ${TMP_INC}"
 echo ">> TMP_LIB = ${TMP_LIB}"
 echo ">> TMP_LIBNAME = ${TMP_LIBNAME}"
+echo ">> TMP_FOUND = ${TMP_FOUND}"
 echo ">> MPI_ROOT = ${MPI_ROOT}"
 echo ">> MPITYPE = ${MPITYPE}"
 echo ">> MPI_INCLUDE_PATH = ${MPI_INCLUDE_PATH}"
@@ -846,6 +857,7 @@ AC_SUBST(ORTERUN)
 AC_SUBST(TMP_INC)
 AC_SUBST(TMP_LIB)
 AC_SUBST(TMP_LIBNAME)
+AC_SUBST(TMP_FOUND)
 AC_SUBST(MPI_ROOT)
 AC_SUBST(MPITYPE)
 AC_SUBST(MPI_INCLUDE_PATH)
