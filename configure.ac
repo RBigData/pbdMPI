@@ -775,6 +775,42 @@ MPIRUN=`which mpirun`
 MPIEXEC=`which mpiexec`
 ORTERUN=`which orterun`
 
+dnl Mainly for Fedora which has "mpi/openmpi-x86_64" and "mpi/mpich-x86_64"
+dnl Others may have "mpi/gcc/openmpi-*" or so which need more works.
+if test "X$MPIRUN" = "X" -o "X$MPIEXEC" = "X" -o "X$ORTERUN" = "X" ; then
+  if test "$MPITYPE" = "OPENMPI" ; then
+    TMP_MODULE=`module avail mpi/o | grep "mpi/o" | sed -e "s/^\(mpi\/o\S*\)\(\s*.*\)$/\1/"`
+  fi
+
+  if test "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "MPICH3" ; then
+    TMP_MODULE=`module avail mpi/m | grep "mpi/m" | sed -e "s/^\(mpi\/m\S*\)\(\s*.*\)$/\1/"`
+  fi
+
+  if test $"X$TMP_MODULE" != "X" ; then
+    if test "X$MPIRUN" = "X" ; then
+      TMP_EXEC=`module load ${TMP_MODULE}; which mpirun`
+      if test "X$TMP_EXEC" != "X" ; then
+        MPIRUN="module load ${TMP_MODULE}; ${TMP_EXEC}"
+      fi
+    fi
+
+    if test "X$MPIEXEC" = "X" ; then
+      TMP_EXEC=`module load ${TMP_MODULE}; which mpiexec`
+      if test "X$TMP_EXEC" != "X" ; then
+        MPIEXEC="module load ${TMP_MODULE}; ${TMP_EXEC}"
+      fi
+    fi
+
+    if test "X$ORTERUN" = "X" ; then
+      TMP_EXEC=`module load ${TMP_MODULE}; which orterun`
+      if test "X$TMP_EXEC" != "X" ; then
+        ORTERUN="module load ${TMP_MODULE}; ${TMP_EXEC}"
+      fi
+    fi
+
+  fi
+fi
+
 
 dnl pbdPROF
 AC_ARG_ENABLE([pbdPROF],
@@ -829,6 +865,9 @@ dnl Report
 echo " "
 echo "******************* Results of pbdMPI package configure *****************"
 echo " "
+echo ">> MPIRUN = ${MPIRUN}"
+echo ">> MPIEXEC = ${MPIEXEC}"
+echo ">> ORTERUN = ${ORTERUN}"
 echo ">> TMP_INC = ${TMP_INC}"
 echo ">> TMP_LIB = ${TMP_LIB}"
 echo ">> TMP_LIBNAME = ${TMP_LIBNAME}"

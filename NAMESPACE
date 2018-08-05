@@ -79,6 +79,7 @@ export(
 
   ### "R/util_*.r"
   "execmpi",
+  "runmpi",
 
   ### "R/000_pbd_opt.r"
   "pbd_opt" #,

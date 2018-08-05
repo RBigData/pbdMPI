@@ -1,5 +1,6 @@
 \name{Utility execmpi}
 \alias{execmpi}
+\alias{runmpi}
 \title{ Execute MPI code in system }
 \description{
   This function basically saves code in a spmd.file and executes
@@ -8,6 +9,8 @@
 }
 \usage{
 execmpi(spmd.code = NULL, spmd.file = NULL,
+    mpicmd = NULL, nranks = 2L, verbose = TRUE)
+runmpi(spmd.code = NULL, spmd.file = NULL,
     mpicmd = NULL, nranks = 2L, verbose = TRUE)
 }
 \arguments{
