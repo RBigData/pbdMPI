@@ -166,6 +166,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       fi
     fi
 
+
     if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
       dnl try "pkg-config"
       if test -n "${PKG_CONFIG}" ; then
@@ -175,34 +176,59 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         if "${PKG_CONFIG}" --exists ompi; then
           AC_MSG_RESULT([yes])
 
-          TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags ompi`
+          TMP_INC_DIRS=`"${PKG_CONFIG}" --variable=includedir ompi`
           echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
 
-          TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs ompi`
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_INC_DIRS}; do
+            echo "Checking ${dir} ..."
+            if test -f "${dir}/mpi.h" ; then
+              echo "Found ${dir}/mpi.h ..."
+              TMP_INC=${dir}
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
+
+          TMP_LIB_DIRS=`"${PKG_CONFIG}" --variable=libdir ompi`
           echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
 
-          if test "${TMP_INC_DIRS}" != "" -a "${TMP_LIB_DIRS}" != "" ; then
-            TMP_INC=${TMP_INC_DIRS}
-            TMP_LIB=${TMP_LIB_DIRS}
-          fi
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_LIB_DIRS}; do
+            echo "Checking ${dir} ..." 
+            if test -f "${dir}/libmpi.so" ; then
+              echo "Found ${dir}/libmpi.so ..." 
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpi.so"
+              break
+            fi
+            dnl For Mac OS X
+            if test -f "${dir}/libmpi.dylib" ; then
+              echo "Found ${dir}/libmpi.dylib ..."
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpi.dylib"
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
 
           if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-            echo "Found mpi.h and libmpi.so ... via pkg-config"
+            echo "Found mpi.h and libmpi.so ... via pkg-config ... ompi"
             echo ">> TMP_INC = ${TMP_INC}"
             echo ">> TMP_LIB = ${TMP_LIB}"
             MPITYPE="OPENMPI"
             MPI_INCLUDE_PATH="${TMP_INC}"
             MPI_LIBPATH="${TMP_LIB}"
-            MPI_LIBNAME=""
-            MPI_ROOT="NONEED"
+            MPI_LIBNAME="${TMP_LIBNAME}"
           else
-            echo "Found no mpi.h or libmpi.so ... via pkg-config"
+            echo "Found no mpi.h or libmpi.so ... via pkg-config ... ompi"
           fi
         else
           AC_MSG_RESULT([no])
         fi
       fi
     fi
+
 
   fi
 fi
@@ -276,9 +302,10 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         MPI_LIBPATH="${TMP_LIB}"
         MPI_LIBNAME="${TMP_LIBNAME}"
       else
-        echo "Found no mpi.h or libmpi.so ... via mpicc --show & sed"
+        echo "Found no mpi.h or libmpich.so ... via mpicc --show & sed"
       fi
     fi
+
 
     if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
       dnl try "pkg-config"
@@ -286,41 +313,62 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         echo "Try pkg-config ..."
         AC_MSG_CHECKING([if pkg-config knows about MPICH]) 
 
-        dnl I assume pkg-config only works in MPICH2
         if "${PKG_CONFIG}" --exists mpich; then
           AC_MSG_RESULT([yes])
 
-          TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags mpich`
+          TMP_INC_DIRS=`"${PKG_CONFIG}" --variable=includedir mpich`
           echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
 
-          TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs mpich`
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_INC_DIRS}; do
+            echo "Checking ${dir} ..."
+            if test -f "${dir}/mpi.h" ; then
+              echo "Found ${dir}/mpi.h ..."
+              TMP_INC=${dir}
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
+
+          TMP_LIB_DIRS=`"${PKG_CONFIG}" --variable=libdir mpich`
           echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
 
-          TMP_LIB_PATH=`"${PKG_CONFIG}" --variable=libdir mpich`
-          echo ">> TMP_LIB_PATH = ${TMP_LIB_PATH}"
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_LIB_DIRS}; do
+            echo "Checking ${dir} ..." 
+            if test -f "${dir}/libmpich.so" ; then
+              echo "Found ${dir}/libmpich.so ..." 
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpi.so"
+              break
+            fi
+            dnl For Mac OS X
+            if test -f "${dir}/libmpich.dylib" ; then
+              echo "Found ${dir}/libmpich.dylib ..."
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpich.dylib"
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
 
-          if test "$TMP_INC_DIRS" != "" -a "$TMP_LIB_DIRS" != "" ; then
-            TMP_INC=${TMP_INC_DIRS}
-            TMP_LIB="-L${TMP_LIB_PATH} ${TMP_LIB_DIRS}"
-          fi
-
-          if test "$TMP_INC" != "" -a "$TMP_LIB" != "" ; then
-            echo "Found mpi.h and libmpich.so ... via pkg-config"
+          if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+            echo "Found mpi.h and libmpich.so ... via pkg-config ... mpich"
             echo ">> TMP_INC = ${TMP_INC}"
             echo ">> TMP_LIB = ${TMP_LIB}"
-            MPITYPE="MPICH2"
+            MPITYPE="${MPITYPE}"
             MPI_INCLUDE_PATH="${TMP_INC}"
             MPI_LIBPATH="${TMP_LIB}"
-            MPI_LIBNAME=""
-            MPI_ROOT="NONEED"
+            MPI_LIBNAME="${TMP_LIBNAME}"
           else
-            echo "Found no mpi.h or libmpi.so ... via pkg-config"
+            echo "Found no mpi.h or libmpich.so ... via pkg-config ... mpich"
           fi
         else
           AC_MSG_RESULT([no])
         fi
       fi
     fi
+
 
   fi
 fi
@@ -354,60 +402,60 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
              /usr/lib64/mpi/gcc/ompi \
              /usr/local/mpi/openmpi ; do
       if test -f $d/include/openmpi-i386/mpi.h && test -d $d/lib/openmpi/lib; then
-      dnl This is what Fedora 17 had
-        echo "I am here $d and it is openmpi"
+      dnl This is what Fedora 17+ had
+        echo "I am here $d and it is OpenMPI (Fedora 17+, openmpi-i386)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib/openmpi/lib; then
-      dnl This is what Fedora 17 had
-        echo "I am here $d and it is OpenMPI"
+      dnl This is what Fedora 17+ had
+        echo "I am here $d and it is OpenMPI (Fedora 17+, openmpi-x86_64)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib64/openmpi/lib; then
-      dnl This is what Fedora 17 had
-        echo "I am here $d and it is OpenMPI"
+      dnl This is what Fedora 17+ had
+        echo "I am here $d and it is OpenMPI (Fedora 17+, lib64)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib64/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib64/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi/mpi.h && test -d $d/lib/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/openmpi, /lib/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi/mpi.h && test -d $d/lib64/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/openmpi, /lib64/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib64/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib64/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/ompi/mpi.h && test -d $d/lib/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/ompi, /lib/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/ompi/mpi.h && test -d $d/lib64/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/ompi, /lib64/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
@@ -504,11 +552,11 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 
     echo "Trying to find mpi.h ..."
     if test -f ${MPI_ROOT}/include/openmpi-i386/mpi.h; then
-      dnl This is what Fedora 17 had
+      dnl This is what Fedora 17+ had
       echo "Found in ${MPI_ROOT}/include/openmpi-i386"
       MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi-i386"
     elif test -f ${MPI_ROOT}/include/openmpi-x86_64/mpi.h; then
-      dnl This is what Fedora 17 had
+      dnl This is what Fedora 17+ had
       echo "Found in ${MPI_ROOT}/include/openmpi-x86_64"
       MPI_INCLUDE_PATH="${MPI_ROOT}/include/openmpi-x86_64"
     elif test -f ${MPI_ROOT}/include/openmpi/mpi.h; then
@@ -549,12 +597,12 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     MPI_LIBPATH="${MPI_ROOT}"
     MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib/openmpi/lib/libmpi.so; then
-    dnl This is what Fedora 17 had
+    dnl This is what Fedora 17+ had
     echo "Found libmpi in ${MPI_ROOT}/lib/openmpi/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib/openmpi/lib"
     MPI_LIBNAME="libmpi.so"
   elif test -f ${MPI_ROOT}/lib64/openmpi/lib/libmpi.so; then
-    dnl This is what Fedora 17 had
+    dnl This is what Fedora 17+ had
     echo "Found libmpi in ${MPI_ROOT}/lib64/openmpi/lib"
     MPI_LIBPATH="${MPI_ROOT}/lib64/openmpi/lib"
     MPI_LIBNAME="libmpi.so"
@@ -654,7 +702,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     fi    
   fi
 
-fi dnl Dnd of 'Paths not specified'
+fi dnl End of 'Paths not specified'
 
 
 
@@ -664,58 +712,52 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" -o "$MPI_ROOT" = "NONEED"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" ; then
   MPI_DEFS="-DMPI2"
 fi
 
-if test "$MPI_ROOT" = "NONEED"; then
-  dnl This is based on pkg-config which may be an easier way in future.
-  PKG_CPPFLAGS="${MPI_INCLUDE_PATH} ${MPI_DEFS} -D${MPITYPE}"
-  PKG_LIBS="${MPI_LIBPATH} ${MPI_LIBS}"
-else
-  dnl This was from old Rmpi/pbdMPI for backward comparable.
-  PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
-  case "$MPITYPE" in
-    OPENMPI)
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
-      ;;
-    LAM)
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
-      ;;
-    MPICH3)
-      if test "X$ENABLE_OPA" = "Xyes" ; then
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-      else
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-      fi
-      ;;
-    MPICH2)
-      if test "X$ENABLE_OPA" = "Xyes" ; then
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-      else
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-      fi
-      ;;
-    MPICH)
-      if test "X$ENABLE_OPA" = "Xyes" ; then
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-      else
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-      fi
-      ;;
-    INTELMPI)
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
-      ;;
-    *)
-      dnl suppose MPI_LDFLAGS is provided
-      if test "X${MPI_LDFLAGS}" != "X" ; then
-        PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
-      else
-        AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
-      fi
-      ;;
-  esac
-fi
+dnl This was from old Rmpi/pbdMPI for backward comparable.
+PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
+case "$MPITYPE" in
+  OPENMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
+    ;;
+  LAM)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
+    ;;
+  MPICH3)
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
+    ;;
+  MPICH2)
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
+    ;;
+  MPICH)
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
+    ;;
+  INTELMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
+    ;;
+  *)
+    dnl suppose MPI_LDFLAGS is provided
+    if test "X${MPI_LDFLAGS}" != "X" ; then
+      PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
+    else
+      AC_MSG_ERROR([Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it])
+    fi
+    ;;
+esac
 
 
 dnl Echo all flags to see if they are set properly

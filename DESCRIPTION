@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.3-8
-Date: 2018-08-03
+Date: 2018-08-04
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),

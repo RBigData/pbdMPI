@@ -2416,6 +2416,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       fi
     fi
 
+
     if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
             if test -n "${PKG_CONFIG}" ; then
         echo "Try pkg-config ..."
@@ -2426,28 +2427,51 @@ $as_echo_n "checking if pkg-config knows about OpenMPI... " >&6; }
           { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
-          TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags ompi`
+          TMP_INC_DIRS=`"${PKG_CONFIG}" --variable=includedir ompi`
           echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
 
-          TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs ompi`
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_INC_DIRS}; do
+            echo "Checking ${dir} ..."
+            if test -f "${dir}/mpi.h" ; then
+              echo "Found ${dir}/mpi.h ..."
+              TMP_INC=${dir}
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
+
+          TMP_LIB_DIRS=`"${PKG_CONFIG}" --variable=libdir ompi`
           echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
 
-          if test "${TMP_INC_DIRS}" != "" -a "${TMP_LIB_DIRS}" != "" ; then
-            TMP_INC=${TMP_INC_DIRS}
-            TMP_LIB=${TMP_LIB_DIRS}
-          fi
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_LIB_DIRS}; do
+            echo "Checking ${dir} ..."
+            if test -f "${dir}/libmpi.so" ; then
+              echo "Found ${dir}/libmpi.so ..."
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpi.so"
+              break
+            fi
+                        if test -f "${dir}/libmpi.dylib" ; then
+              echo "Found ${dir}/libmpi.dylib ..."
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpi.dylib"
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
 
           if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
-            echo "Found mpi.h and libmpi.so ... via pkg-config"
+            echo "Found mpi.h and libmpi.so ... via pkg-config ... ompi"
             echo ">> TMP_INC = ${TMP_INC}"
             echo ">> TMP_LIB = ${TMP_LIB}"
             MPITYPE="OPENMPI"
             MPI_INCLUDE_PATH="${TMP_INC}"
             MPI_LIBPATH="${TMP_LIB}"
-            MPI_LIBNAME=""
-            MPI_ROOT="NONEED"
+            MPI_LIBNAME="${TMP_LIBNAME}"
           else
-            echo "Found no mpi.h or libmpi.so ... via pkg-config"
+            echo "Found no mpi.h or libmpi.so ... via pkg-config ... ompi"
           fi
         else
           { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
@@ -2455,6 +2479,7 @@ $as_echo "no" >&6; }
         fi
       fi
     fi
+
 
   fi
 fi
@@ -2522,9 +2547,10 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         MPI_LIBPATH="${TMP_LIB}"
         MPI_LIBNAME="${TMP_LIBNAME}"
       else
-        echo "Found no mpi.h or libmpi.so ... via mpicc --show & sed"
+        echo "Found no mpi.h or libmpich.so ... via mpicc --show & sed"
       fi
     fi
+
 
     if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
             if test -n "${PKG_CONFIG}" ; then
@@ -2532,35 +2558,55 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
         { $as_echo "$as_me:${as_lineno-$LINENO}: checking if pkg-config knows about MPICH" >&5
 $as_echo_n "checking if pkg-config knows about MPICH... " >&6; }
 
-                if "${PKG_CONFIG}" --exists mpich; then
+        if "${PKG_CONFIG}" --exists mpich; then
           { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
-          TMP_INC_DIRS=`"${PKG_CONFIG}" --cflags mpich`
+          TMP_INC_DIRS=`"${PKG_CONFIG}" --variable=includedir mpich`
           echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
 
-          TMP_LIB_DIRS=`"${PKG_CONFIG}" --libs mpich`
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_INC_DIRS}; do
+            echo "Checking ${dir} ..."
+            if test -f "${dir}/mpi.h" ; then
+              echo "Found ${dir}/mpi.h ..."
+              TMP_INC=${dir}
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
+
+          TMP_LIB_DIRS=`"${PKG_CONFIG}" --variable=libdir mpich`
           echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
 
-          TMP_LIB_PATH=`"${PKG_CONFIG}" --variable=libdir mpich`
-          echo ">> TMP_LIB_PATH = ${TMP_LIB_PATH}"
+          TMP_IFS="${IFS}"; IFS=" "
+          for dir in ${TMP_LIB_DIRS}; do
+            echo "Checking ${dir} ..."
+            if test -f "${dir}/libmpich.so" ; then
+              echo "Found ${dir}/libmpich.so ..."
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpi.so"
+              break
+            fi
+                        if test -f "${dir}/libmpich.dylib" ; then
+              echo "Found ${dir}/libmpich.dylib ..."
+              TMP_LIB=${dir}
+              TMP_LIBNAME="libmpich.dylib"
+              break
+            fi
+          done
+          IFS="${TMP_IFS}"
 
-          if test "$TMP_INC_DIRS" != "" -a "$TMP_LIB_DIRS" != "" ; then
-            TMP_INC=${TMP_INC_DIRS}
-            TMP_LIB="-L${TMP_LIB_PATH} ${TMP_LIB_DIRS}"
-          fi
-
-          if test "$TMP_INC" != "" -a "$TMP_LIB" != "" ; then
-            echo "Found mpi.h and libmpich.so ... via pkg-config"
+          if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+            echo "Found mpi.h and libmpich.so ... via pkg-config ... mpich"
             echo ">> TMP_INC = ${TMP_INC}"
             echo ">> TMP_LIB = ${TMP_LIB}"
-            MPITYPE="MPICH2"
+            MPITYPE="${MPITYPE}"
             MPI_INCLUDE_PATH="${TMP_INC}"
             MPI_LIBPATH="${TMP_LIB}"
-            MPI_LIBNAME=""
-            MPI_ROOT="NONEED"
+            MPI_LIBNAME="${TMP_LIBNAME}"
           else
-            echo "Found no mpi.h or libmpi.so ... via pkg-config"
+            echo "Found no mpi.h or libmpich.so ... via pkg-config ... mpich"
           fi
         else
           { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
@@ -2568,6 +2614,7 @@ $as_echo "no" >&6; }
         fi
       fi
     fi
+
 
   fi
 fi
@@ -2599,57 +2646,57 @@ fi
              /usr/lib64/mpi/gcc/ompi \
              /usr/local/mpi/openmpi ; do
       if test -f $d/include/openmpi-i386/mpi.h && test -d $d/lib/openmpi/lib; then
-              echo "I am here $d and it is openmpi"
+              echo "I am here $d and it is OpenMPI (Fedora 17+, openmpi-i386)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib/openmpi/lib; then
-              echo "I am here $d and it is OpenMPI"
+              echo "I am here $d and it is OpenMPI (Fedora 17+, openmpi-x86_64)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi-x86_64/mpi.h && test -d $d/lib64/openmpi/lib; then
-              echo "I am here $d and it is OpenMPI"
+              echo "I am here $d and it is OpenMPI (Fedora 17+, lib64)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib64/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib64/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi/mpi.h && test -d $d/lib/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/openmpi, /lib/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/openmpi/mpi.h && test -d $d/lib64/openmpi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/openmpi, /lib64/openmpi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/mpi.h && test -d $d/lib64/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include, /lib64/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/ompi/mpi.h && test -d $d/lib/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/ompi, /lib/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
       elif test -f $d/include/ompi/mpi.h && test -d $d/lib64/ompi; then
-        echo "I am here $d and it is OpenMPI"
+        echo "I am here $d and it is OpenMPI (/include/ompi, /lib64/ompi)"
         MPI_ROOT=$d
         MPITYPE="OPENMPI"
         break
@@ -4338,55 +4385,50 @@ if test "x$ac_cv_lib_pthread_main" = xyes; then :
 fi
 
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" -o "$MPI_ROOT" = "NONEED"; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" ; then
   MPI_DEFS="-DMPI2"
 fi
 
-if test "$MPI_ROOT" = "NONEED"; then
-    PKG_CPPFLAGS="${MPI_INCLUDE_PATH} ${MPI_DEFS} -D${MPITYPE}"
-  PKG_LIBS="${MPI_LIBPATH} ${MPI_LIBS}"
-else
-    PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
-  case "$MPITYPE" in
-    OPENMPI)
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
-      ;;
-    LAM)
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
-      ;;
-    MPICH3)
-      if test "X$ENABLE_OPA" = "Xyes" ; then
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-      else
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-      fi
-      ;;
-    MPICH2)
-      if test "X$ENABLE_OPA" = "Xyes" ; then
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-      else
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-      fi
-      ;;
-    MPICH)
-      if test "X$ENABLE_OPA" = "Xyes" ; then
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
-      else
-        PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
-      fi
-      ;;
-    INTELMPI)
-      PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
-      ;;
-    *)
-            if test "X${MPI_LDFLAGS}" != "X" ; then
-        PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
-      else
-        as_fn_error $? "Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it" "$LINENO" 5
-      fi
-      ;;
-  esac
-fi
+PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
+case "$MPITYPE" in
+  OPENMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
+    ;;
+  LAM)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
+    ;;
+  MPICH3)
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
+    ;;
+  MPICH2)
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
+    ;;
+  MPICH)
+    if test "X$ENABLE_OPA" = "Xyes" ; then
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl -lopa ${MPI_LIBS}"
+    else
+      PKG_LIBS="-L${MPI_LIBPATH} -lmpich -lmpl ${MPI_LIBS}"
+    fi
+    ;;
+  INTELMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpigf -lmpi -lmpigi ${MPI_LIBS}"
+    ;;
+  *)
+        if test "X${MPI_LDFLAGS}" != "X" ; then
+      PKG_LIBS="${MPI_LDFLAGS} ${MPI_LIBS}"
+    else
+      as_fn_error $? "Unknown type of mpi: use --with-mpi-type or MPI_TYPE to specify it" "$LINENO" 5
+    fi
+    ;;
+esac
 
 
 MPIRUN=`which mpirun`
