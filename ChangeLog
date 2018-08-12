@@ -1,3 +1,6 @@
+2018-08-12: Ver. 0.3-9
+  * Add "get.mpi.comm.ptr()" and "addr.mpi.comm.ptr()" to get MPI_COMM pointers.
+
 2018-08-03: Ver. 0.3-8
   * Fedora28 use "module load mpi/openmpi-x86_64" to obtain mpiexec.
   * Roll back partially to Ver. 0.3-6 because pkg-config may give linking order

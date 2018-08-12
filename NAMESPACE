@@ -82,10 +82,14 @@ export(
   "runmpi",
 
   ### "R/000_pbd_opt.r"
-  "pbd_opt" #,
+  "pbd_opt",
 
   ### "R/222_export_env.r"
-  #".pbd_env"
+  #".pbd_env",
+
+  ### "R/pkg_tools.r"
+  "get.mpi.comm.ptr",
+  "addr.mpi.comm.ptr"
 )
 
 S3method(comm.sort, default)
