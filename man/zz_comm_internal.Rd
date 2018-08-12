@@ -1,4 +1,5 @@
 \name{Comm Internal Functions}
+\alias{comm.set.errhandler}
 \alias{comm.sort.integer}
 \alias{comm.sort.double}
 \alias{comm.sort.default}

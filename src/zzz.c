@@ -44,7 +44,6 @@ static const R_CallMethodDef callMethods[] = {
 
 	/* In file "spmd_communicator_spawn.c". */
 	{"spmd_comm_spawn", (DL_FUNC) &spmd_comm_spawn, 6},
-	{"spmd_comm_spawn", (DL_FUNC) &spmd_comm_spawn, 6},
 
 	/* In file "spmd_allgather.c". */
 	{"spmd_allgather_integer", (DL_FUNC) &spmd_allgather_integer, 3},

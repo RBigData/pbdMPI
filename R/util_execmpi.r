@@ -45,17 +45,20 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
         mpicmd <- "mpiexec"
       }
     } else{
-      mpicmd <- system("which mpiexec", intern = TRUE)
+      mpicmd <- suppressWarnings(system("which mpiexec",
+                                 ignore.stderr = TRUE, intern = TRUE))
       if(! is.null(attr(mpicmd, "status"))){
-        mpicmd <- system("which mpirun", intern = TRUE)
+        mpicmd <- suppressWarnings(system("which mpirun",
+                                   ignore.stderr = TRUE, intern = TRUE))
         if(! is.null(attr(mpicmd, "status"))){
-          mpicmd <- system("which orterun", intern = TRUE)
+          mpicmd <- suppressWarnings(system("which orterun",
+                                     ignore.stderr = TRUE, intern = TRUE))
           if(! is.null(attr(mpicmd, "status"))){
-            mpicmd <- get.conf("MPIEXEC")
+            mpicmd <- get.conf("MPIEXEC", return = TRUE)
             if(mpicmd == ""){
-              mpicmd <- get.conf("MPIRUN")
+              mpicmd <- get.conf("MPIRUN", return = TRUE)
               if(mpicmd == ""){
-                mpicmd <- get.conf("ORTERUN")
+                mpicmd <- get.conf("ORTERUN", return = TRUE)
                 if(mpicmd == ""){
                   warning("No MPI executable can be found.")
                   return(invisible(NULL))
@@ -128,3 +131,4 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
   invisible(ret)
 } # End of execmpi().
 
+runmpi <- execmpi
