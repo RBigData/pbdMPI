@@ -1,0 +1,13 @@
+rm -f a.out
+gcc \
+  -I/home/snoweye/work-my/local/ompi/include \
+  -DMPI2 -DOPENMPI  -I/usr/local/include   -fpic  -g -O2 \
+  a.c \
+  -L/usr/local/lib \
+  -L/home/snoweye/work-my/local/ompi/lib -lmpi -lutil -lpthread
+
+mpiexec -np 2 a.out
+echo "-------"
+mpiexec -np 2 Rscript a.r
+echo "-------"
+mpiexec -np 2 a.out : -np 2 Rscript a.r

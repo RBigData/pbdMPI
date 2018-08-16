@@ -43,7 +43,7 @@ SEXP spmd_initialize(){
 		}
 	}
 #if MPI_VERSION >= 3
-	if (localcomm == MPI_COMM_NULL){
+	if(localcomm == MPI_COMM_NULL){
 		MPI_Comm_split_type(comm[0], MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, &localcomm);
 	}
 #endif
