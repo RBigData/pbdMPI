@@ -14,6 +14,7 @@ chmod +x ./inst/examples/test_rmpi/00_*
 chmod +x ./inst/examples/test_s4/00_*
 chmod +x ./inst/examples/test_spmd/00_*
 chmod +x ./inst/examples/test_long_vector/00_*
+chmod +x ./inst/examples/test_send_recv/00_*
 
 dnl Determine R_HOME.
 : ${R_HOME=`R RHOME`}

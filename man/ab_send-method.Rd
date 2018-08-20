@@ -18,13 +18,15 @@
 \usage{
 send(x, rank.dest = .pbd_env$SPMD.CT$rank.dest,
      tag = .pbd_env$SPMD.CT$tag,
-     comm = .pbd_env$SPMD.CT$comm)
+     comm = .pbd_env$SPMD.CT$comm,
+     check.type = .pbd_env$SPMD.CT$check.type)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}
   \item{rank.dest}{a rank of destination where \code{x} send to.}
   \item{tag}{a tag number.}
   \item{comm}{a communicator number.}
+  \item{check.type}{if checking data type first for handshaking.}
 }
 \details{
   A corresponding \code{recv()} should be evoked at the corresponding rank

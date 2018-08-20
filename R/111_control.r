@@ -26,7 +26,9 @@ SPMD.CT <- function(
   msg.flush = TRUE,
   msg.barrier = TRUE,
   Rprof.all.rank = FALSE,
-  lazy.check = FALSE
+  lazy.check = FALSE,
+  check.type = TRUE,
+  unserialize.raw = NA
 ){
   list(
     comm = comm,                      # As default COMM_WORLD.
@@ -53,7 +55,9 @@ SPMD.CT <- function(
     msg.flush = msg.flush,            # For comm.print() and comm.cat().
     msg.barrier = msg.barrier,        # For comm.print() and comm.cat().
     Rprof.all.rank = Rprof.all.rank,  # For Rprof().
-    lazy.check = lazy.check           # For comm.allcommon().
+    lazy.check = lazy.check,          # For comm.allcommon().
+    check.type = check.type,          # For send() and recv().
+    unserialize.raw = unserialize.raw # For recv(), if unserialize raw data.
   )
 } # End of SPMD.CT().
 
@@ -65,11 +69,17 @@ SPMD.OP <- function(
   OP
 } # End of SPMD.OP().
 
-# SPMD.DT <- function(
-#   DT = data.frame(
-#          name = c("int", "double", "char", "raw"),
-#          id = as.integer(1:4))
-# ){
-#   DT
-# } # End of SPMD.DT().
+### To be consistent with SPMD_DT in "spmd_constant.h".
+SPMD.DT <- function(
+){
+  list(
+    integer = 1L,
+    double = 2L,
+    raw = 3L,
+    character = 4L,
+    alc.func = c(base::integer, base::double, base::raw, base::character),
+    is.func = c(base::is.integer, base::is.double, base::is.raw,
+                  base::is.character)
+  )
+} # End of SPMD.DT().
 

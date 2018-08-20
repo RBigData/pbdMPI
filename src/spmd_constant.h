@@ -19,7 +19,7 @@ static const MPI_Op SPMD_OP[N_SPMD_OP] =
 
 #define N_SPMD_DT 4
 static const MPI_Datatype SPMD_DT[N_SPMD_DT] =
-	{MPI_INT, MPI_DOUBLE, MPI_CHAR, MPI_BYTE};
+	{MPI_INT, MPI_DOUBLE, MPI_BYTE, MPI_CHAR};
 
 #endif
 

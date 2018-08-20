@@ -47,6 +47,7 @@
   envir$.pbd_env$SPMD.OP <- SPMD.OP()
   envir$.pbd_env$SPMD.IO <- SPMD.IO()
   envir$.pbd_env$SPMD.TP <- SPMD.TP()
+  envir$.pbd_env$SPMD.DT <- SPMD.DT()
   envir$.pbd_env$SPMD.NB.BUFFER <- list()
 
   invisible()
