@@ -34,7 +34,7 @@ comm.print(xx, rank.print = 0)
 if(.comm.rank == 0){
   send(xx)
 } else if(.comm.rank == 1){
-  y <- recv(xx, unserialize.raw = FALSE)
+  y <- recv(xx)
 }
 comm.print(y, rank.print = 1)
 

@@ -73,13 +73,16 @@ SPMD.OP <- function(
 SPMD.DT <- function(
 ){
   list(
+    type = c("integer", "double", "raw", "raw.object", "character"),
     integer = 1L,
     double = 2L,
     raw = 3L,
-    character = 4L,
-    alc.func = c(base::integer, base::double, base::raw, base::character),
+    raw.object = 4L,  ### Force to serialize/unserialize.
+    character = 5L,
+    alc.func = c(base::integer, base::double, base::raw,
+                 base::raw, base::character),
     is.func = c(base::is.integer, base::is.double, base::is.raw,
-                  base::is.character)
+                base::is.raw, base::is.character)
   )
 } # End of SPMD.DT().
 

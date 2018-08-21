@@ -11,9 +11,14 @@ spmd.send.default <- function(x,
     check.type = .pbd_env$SPMD.CT$check.type){
   ### TODO: implement array/matrix as the way done in allreduce.
 
-  ### Use tag = 4L to force unserializing after receiving.
-  spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
-                tag = tag, comm = comm, check.type = check.type)
+  xx <- serialize(x, NULL)    ### Serialize everything who calls default.
+  if(check.type){
+    ct <- c(.pbd_env$SPMD.DT$raw.object, length(xx))
+    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+          as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
+  }
+  .Call("spmd_send_raw", xx, as.integer(rank.dest), as.integer(tag),
+        as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.send.default().
 
