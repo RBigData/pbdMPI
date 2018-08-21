@@ -7,32 +7,44 @@ spmd.recv.default <- function(x.buffer = NULL,
     comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status,
     check.type = .pbd_env$SPMD.CT$check.type){
   ### TODO: implement array/matrix as the way done in allreduce.
+
   if(check.type){
     x.buffer <- spmd.check.type(x.buffer, type = NA,
                                 rank.source = rank.source, tag = tag,
                                 comm = comm, status = status) 
-  }
-  if(attr(x.buffer, "type") == "raw.object"){
-    .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
-          as.integer(tag), as.integer(comm), as.integer(status),
-          PACKAGE = "pbdMPI")
-    x.buffer <- unserialize(x.buffer)
-  } else{
-    if(is.raw(x.buffer)){
+
+    if(attr(x.buffer, "type") == "raw.object"){
       .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
             as.integer(tag), as.integer(comm), as.integer(status),
             PACKAGE = "pbdMPI")
-    } else if(is.integer(x.buffer)){
-      .Call("spmd_recv_integer", x.buffer, as.integer(rank.source),
-            as.integer(tag), as.integer(comm), as.integer(status),
-            PACKAGE = "pbdMPI")
-    } else if(is.double(x.buffer)){
-      .Call("spmd_recv_double", x.buffer, as.integer(rank.source),
-            as.integer(tag), as.integer(comm), as.integer(status),
-            PACKAGE = "pbdMPI")
+      x.buffer <- unserialize(x.buffer)
     } else{
-      stop("recv method is not implemented.")
+      if(is.raw(x.buffer)){
+        .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
+              as.integer(tag), as.integer(comm), as.integer(status),
+              PACKAGE = "pbdMPI")
+      } else if(is.integer(x.buffer)){
+        .Call("spmd_recv_integer", x.buffer, as.integer(rank.source),
+              as.integer(tag), as.integer(comm), as.integer(status),
+              PACKAGE = "pbdMPI")
+      } else if(is.double(x.buffer)){
+        .Call("spmd_recv_double", x.buffer, as.integer(rank.source),
+              as.integer(tag), as.integer(comm), as.integer(status),
+              PACKAGE = "pbdMPI")
+      } else{
+        stop("recv method is not implemented.")
+      }
     }
+  } else{
+    ### Original way to guess buffer size.
+    spmd.probe(rank.source, tag, comm, status)
+    source.tag <- spmd.get.sourcetag(status)
+    total.length <- spmd.get.count(4L, status)
+    x.buffer <- raw(total.length)
+    .Call("spmd_recv_raw", x.buffer, as.integer(source.tag[1]),
+          as.integer(source.tag[2]), as.integer(comm), as.integer(status),
+          PACKAGE = "pbdMPI")
+    x.buffer <- unserialize(x.buffer)
   }
 
   x.buffer
