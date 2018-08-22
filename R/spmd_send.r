@@ -10,7 +10,6 @@ spmd.send.default <- function(x,
     comm = .pbd_env$SPMD.CT$comm,
     check.type = .pbd_env$SPMD.CT$check.type){
   ### TODO: implement array/matrix as the way done in allreduce.
-
   xx <- serialize(x, NULL)    ### Serialize everything who calls default.
   if(check.type){
     ct <- c(.pbd_env$SPMD.DT$raw.object, length(xx))

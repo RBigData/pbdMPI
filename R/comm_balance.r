@@ -97,7 +97,8 @@ comm.load.balance <- function(X.gbd, bal.info = NULL,
     ret <- NULL
     for(i in recv.from){
       if(i != COMM.RANK){
-        tmp <- spmd.recv.default(rank.source = i, tag = i, comm = comm)
+        tmp <- spmd.recv.default(rank.source = i, tag = i, comm = comm,
+                                 check.type = FALSE)
       } else{
         tmp <- X.gbd[bal.info$send$belong == i,]
       }

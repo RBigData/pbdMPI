@@ -7,6 +7,7 @@ print(port.name)
 ### Initial MPI.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
+.pbd_env$SPMD.CT$check.type <- FALSE
 server.comm <- .pbd_env$SPMD.CT$newcomm
 
 ### Connection start.

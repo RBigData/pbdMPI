@@ -1,3 +1,8 @@
+2018-08-21: Ver. 0.3-9
+  * Add more "check.type()" for flexible "send()" and "recv()".
+  * Change examples in "inst/" to force "check.type" as FALSE wherever
+    "send/recv" and "isend/irecv" are involved.
+
 2018-08-12: Ver. 0.3-9
   * Add "get.mpi.comm.ptr()" and "addr.mpi.comm.ptr()" to get MPI_COMM pointers.
   * Add C combine R example in "inst/".
