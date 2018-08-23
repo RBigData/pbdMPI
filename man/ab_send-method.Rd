@@ -31,6 +31,31 @@ send(x, rank.dest = .pbd_env$SPMD.CT$rank.dest,
 \details{
   A corresponding \code{recv()} should be evoked at the corresponding rank
   \code{rank.dest}.
+
+  These are high level S4 methods. By default, \code{check.type} is \code{TRUE}
+  and an additional \code{send()/recv()} will make a handshaking call first,
+  then deliver the data next.
+  i.e. an integer vector of length two (type and length)
+  will be deliver first between \code{send()} and \code{recv()} to ensure
+  a buffer (of right type and right size/length) is properly allocated at
+  the \code{rank.dest} side.
+
+  Currently, four data types are considered: \code{integer}, \code{double},
+  \code{raw/byte}, and \code{default/raw.object}. The default method will
+  make a \code{serialize()} call first to convert the general R object into
+  a \code{raw} vector before sending it away. After the \code{raw} vector
+  is received at the \code{rank.dest} side, the vector will be
+  \code{unserialize()} back to the R object format.
+
+  \code{check.type} set as \code{FALSE} will stop the additional
+  handhsaking call, but the buffer should be prepared carefully
+  by the user self. This is typically for the advanced users and
+  more specifically calls are needed. i.e. calling those
+  \code{spmd.send.integer} with \code{spmd.recv.integer} correspondingly.
+
+  \code{check.type} also needs to be set as \code{FALSE} for more efficient
+  calls such as \code{isend()/recv()} or \code{send()/irecv()}. Currently,
+  no check types are implemented in those mixed calls.
 }
 \value{
   A \code{NULL} is returned by default.

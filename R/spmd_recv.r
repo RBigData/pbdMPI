@@ -12,16 +12,16 @@ spmd.recv.default <- function(x.buffer = NULL,
                                 rank.source = rank.source, tag = tag,
                                 comm = comm, status = status) 
     if(is.raw(x.buffer)){
-      if(attr(x.buffer, "type") == "raw.object"){
-        unserialize.raw <- TRUE
-      } else{
-        unserialize.raw <- FALSE
-      }
-      .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
-            as.integer(tag), as.integer(comm), as.integer(status),
-            PACKAGE = "pbdMPI")
-      if(unserialize.raw){
+      tmp <- attr(x.buffer, "type")
+      if(!is.null() && tmp == "raw.object"){
+        .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
+              as.integer(tag), as.integer(comm), as.integer(status),
+              PACKAGE = "pbdMPI")
         x.buffer <- unserialize(x.buffer)
+      } else{
+        .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
+              as.integer(tag), as.integer(comm), as.integer(status),
+              PACKAGE = "pbdMPI")
       }
     } else if(is.integer(x.buffer)){
       .Call("spmd_recv_integer", x.buffer, as.integer(rank.source),
