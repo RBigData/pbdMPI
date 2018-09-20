@@ -7,6 +7,7 @@ test_performance/  performance testing
 test_s4/           S4 extension
 test_cs/           client/server examples
 test_long_vector/  long vectors examples (#define DMPI_LONG_DEBUG 1)
+test_send_recv/    new send/recv function with check.type
 -------------------------------------
 
 ps. "test_long_vector/" needs to recompile with setting

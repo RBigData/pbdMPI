@@ -28,11 +28,13 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
   done <- 0L
   while(done != 1L){
     ### Signal being ready to receive a new job.
-    spmd.send.default(0L, rank.dest = rank.master, tag = 1L, comm = comm)
+    spmd.send.default(0L, rank.dest = rank.master, tag = 1L, comm = comm,
+                      check.type = FALSE)
 
     ### Receive a job id.
     jid <- spmd.recv.default(rank.source = rank.master,
-                             tag = spmd.anytag(), comm = comm)
+                             tag = spmd.anytag(), comm = comm,
+                             check.type = FALSE)
     sourcetag <- spmd.get.sourcetag()
     tag <- sourcetag[2]
 
@@ -45,14 +47,16 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
       ret <- list(jid = jid, ret = tmp)
 
       ### Send a results message back to the master.
-      spmd.send.default(ret, rank.dest = rank.master, tag = 2L, comm = comm)
+      spmd.send.default(ret, rank.dest = rank.master, tag = 2L, comm = comm,
+                        check.type = FALSE)
     } else if(tag == 2){
       done <- 1L
     }
     ### We'll just ignore any unknown messages.
   }
 
-  spmd.send.default(0L, rank.dest = rank.master, tag = 3L, comm = comm)
+  spmd.send.default(0L, rank.dest = rank.master, tag = 3L, comm = comm,
+                    check.type = FALSE)
   invisible()
 } # End of task.pull.workers().
 
@@ -86,7 +90,8 @@ task.pull.master <- function(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
   while(closed.workers < n.workers){
     ### Receive a message from a worker.
     ret.worker <- spmd.recv.default(rank.source = spmd.anysource(),
-                                    tag = spmd.anytag(), comm = comm)
+                                    tag = spmd.anytag(), comm = comm,
+                                    check.type = FALSE)
     sourcetag <- spmd.get.sourcetag()
     worker.id <- sourcetag[1]
     tag <- sourcetag[2]
@@ -97,10 +102,12 @@ task.pull.master <- function(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
       ### Or, tell the worker that it's works are all done if there is none.
       if(length(jids) > 0){
         ### Send a job, and then remove it from the job list.
-        spmd.send.default(jids[1], rank.dest = worker.id, tag = 1L, comm = comm)
+        spmd.send.default(jids[1], rank.dest = worker.id, tag = 1L, comm = comm,
+                          check.type = FALSE)
         jids <- jids[-1]
       } else{
-        spmd.send.default(0L, rank.dest = worker.id, tag = 2L, comm = comm)
+        spmd.send.default(0L, rank.dest = worker.id, tag = 2L, comm = comm,
+                          check.type = FALSE)
       }
     } else if (tag == 2L){
       ### The message contains results. Do something with the results.

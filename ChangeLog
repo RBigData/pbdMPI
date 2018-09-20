@@ -1,3 +1,16 @@
+2018-08-22: Ver. 0.3-9
+  * Fix examples and add man helps for the new "send()" and "recv()".
+
+2018-08-21: Ver. 0.3-9
+  * Add more "check.type()" for flexible "send()" and "recv()".
+  * Change examples in "inst/" to force "check.type" as FALSE wherever
+    "send/recv" and "isend/irecv" are involved.
+
+2018-08-12: Ver. 0.3-9
+  * Add "get.mpi.comm.ptr()" and "addr.mpi.comm.ptr()" to get MPI_COMM pointers.
+  * Add C combine R example in "inst/".
+  * Add more flexible "send()" and "recv()".
+
 2018-08-03: Ver. 0.3-8
   * Fedora28 use "module load mpi/openmpi-x86_64" to obtain mpiexec.
   * Roll back partially to Ver. 0.3-6 because pkg-config may give linking order

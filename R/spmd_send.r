@@ -1,11 +1,23 @@
 ### S4 functions.
+### - default is for objects which need to be serialized.
+### - raw is for vectors of type raw which are not intended to be serialized.
+### Note: send/recv divides data in segments for data are too long.
+###       probe/count may not get the correct length if data are too long.
 
 ### Default method.
 spmd.send.default <- function(x,
     rank.dest = .pbd_env$SPMD.CT$rank.dest, tag = .pbd_env$SPMD.CT$tag,
-    comm = .pbd_env$SPMD.CT$comm){
-  spmd.send.raw(serialize(x, NULL), rank.dest = rank.dest,
-                tag = tag, comm = comm)
+    comm = .pbd_env$SPMD.CT$comm,
+    check.type = .pbd_env$SPMD.CT$check.type){
+  ### TODO: implement array/matrix as the way done in allreduce.
+  xx <- serialize(x, NULL)    ### Serialize everything who calls default.
+  if(check.type){
+    ct <- c(.pbd_env$SPMD.DT$raw.object, length(xx))
+    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+          as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
+  }
+  .Call("spmd_send_raw", xx, as.integer(rank.dest), as.integer(tag),
+        as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
 } # End of spmd.send.default().
 
@@ -13,7 +25,13 @@ spmd.send.default <- function(x,
 ### For send.
 spmd.send.integer <- function(x,
     rank.dest = .pbd_env$SPMD.CT$rank.dest, tag = .pbd_env$SPMD.CT$tag,
-    comm = .pbd_env$SPMD.CT$comm){
+    comm = .pbd_env$SPMD.CT$comm,
+    check.type = .pbd_env$SPMD.CT$check.type){
+  if(check.type){
+    ct <- c(.pbd_env$SPMD.DT$integer, length(x))
+    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+          as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
+  }
   .Call("spmd_send_integer", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
@@ -21,7 +39,13 @@ spmd.send.integer <- function(x,
 
 spmd.send.double <- function(x,
     rank.dest = .pbd_env$SPMD.CT$rank.dest, tag = .pbd_env$SPMD.CT$tag,
-    comm = .pbd_env$SPMD.CT$comm){
+    comm = .pbd_env$SPMD.CT$comm,
+    check.type = .pbd_env$SPMD.CT$check.type){
+  if(check.type){
+    ct <- c(.pbd_env$SPMD.DT$double, length(x))
+    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+          as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
+  }
   .Call("spmd_send_double", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()
@@ -29,7 +53,13 @@ spmd.send.double <- function(x,
 
 spmd.send.raw <- function(x,
     rank.dest = .pbd_env$SPMD.CT$rank.dest, tag = .pbd_env$SPMD.CT$tag,
-    comm = .pbd_env$SPMD.CT$comm){
+    comm = .pbd_env$SPMD.CT$comm,
+    check.type = .pbd_env$SPMD.CT$check.type){
+  if(check.type){
+    ct <- c(.pbd_env$SPMD.DT$raw, length(x))
+    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+          as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
+  }
   .Call("spmd_send_raw", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
   invisible()

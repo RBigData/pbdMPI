@@ -157,6 +157,10 @@ static const R_CallMethodDef callMethods[] = {
 	{"api_R_isort", (DL_FUNC) &api_R_isort, 5},
 	{"api_R_rsort", (DL_FUNC) &api_R_rsort, 5},
 
+	/* In files "pkg_tools.c". */
+	{"get_mpi_comm_ptr", (DL_FUNC) &get_MPI_COMM_PTR, 1},
+	{"addr_mpi_comm_ptr", (DL_FUNC) &addr_MPI_COMM_PTR, 1},
+
 	/* Finish R_CallMethodDef. */
 	{NULL, NULL, 0}
 };
