@@ -115,7 +115,7 @@ SEXP get_MPI_COMM_PTR(SEXP R_comm){
         SEXP R_ptr;
 
 	C_comm = INTEGER(R_comm)[0];
-	p = (void *) (intptr_t) comm[C_comm];
+	p = (MPI_Comm *) (&comm[C_comm]);
 	PROTECT(R_ptr = R_MakeExternalPtr(p, R_NilValue, R_NilValue));
 
 /*
