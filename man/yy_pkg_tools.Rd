@@ -8,12 +8,13 @@
   other applications.
 }
 \usage{
-get.mpi.comm.ptr(comm = .pbd_env$SPMD.CT$comm)
+get.mpi.comm.ptr(comm = .pbd_env$SPMD.CT$comm, show.msg = FALSE)
 addr.mpi.comm.ptr(comm.ptr)
 }
 \arguments{
   \item{comm}{a communicator number.}
   \item{comm.ptr}{a communicator pointer.}
+  \item{show.msg}{if showing message for debug only.}
 }
 \details{
   \code{get.mpi.comm.ptr()} returns an R external pointer that points
@@ -46,12 +47,12 @@ spmd.code <- "
 suppressMessages(library(pbdMPI, quietly = TRUE))
 init()
 
-ptr1 <- get.mpi.comm.ptr(1)
+ptr1 <- get.mpi.comm.ptr(1, show.msg = TRUE)
 addr.mpi.comm.ptr(ptr1)
 
 comm.split(color = as.integer(comm.rank()/2), key = comm.rank())
 
-ptr1.new <- get.mpi.comm.ptr(1)
+ptr1.new <- get.mpi.comm.ptr(1, show.msg = TRUE)
 addr.mpi.comm.ptr(ptr1.new)
 
 ### Finish.

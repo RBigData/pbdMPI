@@ -20,8 +20,7 @@
 recv(x.buffer = NULL, rank.source = .pbd_env$SPMD.CT$rank.source,
      tag = .pbd_env$SPMD.CT$tag, comm = .pbd_env$SPMD.CT$comm,
      status = .pbd_env$SPMD.CT$status,
-     check.type = .pbd_env$SPMD.CT$check.type,
-     unserialize.raw =  .pbd_env$SPMD.CT$unserialize.raw)
+     check.type = .pbd_env$SPMD.CT$check.type)
 }
 \arguments{
   \item{x.buffer}{a buffer to store \code{x} sent from the other rank.}
@@ -30,7 +29,6 @@ recv(x.buffer = NULL, rank.source = .pbd_env$SPMD.CT$rank.source,
   \item{comm}{a communicator number.}
   \item{status}{a status number.}
   \item{check.type}{if checking data type first for handshaking.}
-  \item{unserialize.raw}{if unserialize raw data when recevied them.}
 }
 \details{
   A corresponding \code{send()} should be evoked at the corresponding rank

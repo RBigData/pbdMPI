@@ -7,10 +7,10 @@ if(cs < 1){
   comm.cat("Need more than one rank.\n")
 } else{
   comm.cat("Original:\n")
-  a.ptr <- pbdMPI:::get.mpi.comm.ptr(show.msg = TRUE)
+  a.ptr <- get.mpi.comm.ptr(show.msg = TRUE)
 
   comm.cat("New rank via R:\n")
-  pbdMPI:::addr.mpi.comm.ptr(a.ptr)
+  addr.mpi.comm.ptr(a.ptr)
 
 ### The above should return something like below:
 #
@@ -22,8 +22,8 @@ if(cs < 1){
 #
 # COMM.RANK = 0
 # After via R:
-# rank: 1, comm: c0a60ba0, MPI_COMM_WORLD: c0a60ba0, rank_new: 1.
 # rank: 0, comm: f6b11ba0, MPI_COMM_WORLD: f6b11ba0, rank_new: 0.
+# rank: 1, comm: c0a60ba0, MPI_COMM_WORLD: c0a60ba0, rank_new: 1.
 # ^^^^^^^        ********                            ^^^^^^^^^^^
 #
 ### Note: rank (within after via R) should be the same indicated by ^^^^^

@@ -27,8 +27,7 @@ SPMD.CT <- function(
   msg.barrier = TRUE,
   Rprof.all.rank = FALSE,
   lazy.check = FALSE,
-  check.type = TRUE,
-  unserialize.raw = NA
+  check.type = TRUE
 ){
   list(
     comm = comm,                      # As default COMM_WORLD.
@@ -56,8 +55,7 @@ SPMD.CT <- function(
     msg.barrier = msg.barrier,        # For comm.print() and comm.cat().
     Rprof.all.rank = Rprof.all.rank,  # For Rprof().
     lazy.check = lazy.check,          # For comm.allcommon().
-    check.type = check.type,          # For send() and recv().
-    unserialize.raw = unserialize.raw # For recv(), if unserialize raw data.
+    check.type = check.type           # For send() and recv().
   )
 } # End of SPMD.CT().
 
