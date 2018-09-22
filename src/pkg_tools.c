@@ -109,21 +109,21 @@ void get_MPI_APTS_from_R(){
 
 
 /* Utilities. */
-SEXP get_MPI_COMM_PTR(SEXP R_comm){
+SEXP get_MPI_COMM_PTR(SEXP R_comm, SEXP R_show_msg){
 	int C_comm;
 	void *p;
         SEXP R_ptr;
+	int myrank;
 
 	C_comm = INTEGER(R_comm)[0];
-	p = (MPI_Comm *) (&comm[C_comm]);
+	p = (void *) (&comm[C_comm]);
 	PROTECT(R_ptr = R_MakeExternalPtr(p, R_NilValue, R_NilValue));
 
-/*
-	int myrank;
-	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
-	Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x.\n",
-		myrank, comm[C_comm], MPI_COMM_WORLD);
-*/
+	if(INTEGER(R_show_msg)[0] == 1){
+		MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+		Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x.\n",
+			myrank, comm[C_comm], MPI_COMM_WORLD);
+	}
 
 	UNPROTECT(1);
 	return(R_ptr);
@@ -131,16 +131,16 @@ SEXP get_MPI_COMM_PTR(SEXP R_comm){
 
 SEXP addr_MPI_COMM_PTR(SEXP R_ptr){
 	int myrank, myrank_new;
-	MPI_Comm comm_foreign;
+	MPI_Comm *comm_foreign;
 
         /* Get pointers. */
-        comm_foreign = (MPI_Comm) (intptr_t) R_ExternalPtrAddr(R_ptr);
+        comm_foreign = (MPI_Comm*) R_ExternalPtrAddr(R_ptr);
 
 	/* Print results. */
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
-	MPI_Comm_rank(comm_foreign, &myrank_new);
+	MPI_Comm_rank(*comm_foreign, &myrank_new);
 	Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x, rank_new: %d.\n",
-		myrank, comm_foreign, MPI_COMM_WORLD, myrank_new);
+		myrank, *comm_foreign, MPI_COMM_WORLD, myrank_new);
 
 	return(R_NilValue);
 } /* End of addr_MPI_COMM_PTR(). */

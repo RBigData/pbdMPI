@@ -1,3 +1,7 @@
+2018-09-21: Ver. 0.3-9
+  * Adjust "get.mpi.comm.ptr()" and "addr.mpi.comm.ptr()" and their C codes.
+  * Add a test example "inst/tests/mpi_comm_ptr.r".
+
 2018-08-22: Ver. 0.3-9
   * Fix examples and add man helps for the new "send()" and "recv()".
 
