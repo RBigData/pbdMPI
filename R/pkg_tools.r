@@ -1,7 +1,7 @@
 ### This contains some tools in "src/pkg_tools.c"
 
-get.mpi.comm.ptr <- function(comm = .pbd_env$SPMD.CT$comm){
-  ret <- .Call("get_MPI_COMM_PTR", as.integer(comm),
+get.mpi.comm.ptr <- function(comm = .pbd_env$SPMD.CT$comm, show.msg = FALSE){
+  ret <- .Call("get_MPI_COMM_PTR", as.integer(comm), as.integer(show.msg),
                PACKAGE = "pbdMPI")
   return(invisible(ret))
 } # get.mpi.comm.ptr().
