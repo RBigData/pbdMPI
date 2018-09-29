@@ -13,7 +13,7 @@ spmd.recv.default <- function(x.buffer = NULL,
                                 comm = comm, status = status) 
     if(is.raw(x.buffer)){
       tmp <- attr(x.buffer, "type")
-      if(!is.null() && tmp == "raw.object"){
+      if(!is.null(x.buffer) && tmp == "raw.object"){
         .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
               as.integer(tag), as.integer(comm), as.integer(status),
               PACKAGE = "pbdMPI")
