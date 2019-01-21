@@ -1,3 +1,7 @@
+2019-01-20: Ver. 0.3-9
+  * Migrate float32 class to float package via import in NAMESPACE.
+  * Export `get.conf()`, `get.lib()`, and `get.sysenv()`.
+
 2018-09-21: Ver. 0.3-9
   * Adjust "get.mpi.comm.ptr()" and "addr.mpi.comm.ptr()" and their C codes.
   * Add a test example "inst/tests/mpi_comm_ptr.r".

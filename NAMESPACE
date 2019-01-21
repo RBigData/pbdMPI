@@ -5,7 +5,7 @@
 importFrom("stats", "runif", "dist", "as.dist")
 importFrom("utils", "write.table", "read.table", "Rprof")
 
-import("methods", "rlecuyer")
+import("methods", "rlecuyer", "float")
 
 # exportPattern("^[\\.]")
 exportPattern("^spmd\\.[[:alpha:]]+")
@@ -95,3 +95,9 @@ export(
 S3method(comm.sort, default)
 S3method(comm.sort, integer)
 S3method(comm.sort, double)
+
+export(
+  "get.conf",
+  "get.lib",
+  "get.sysenv"
+)
