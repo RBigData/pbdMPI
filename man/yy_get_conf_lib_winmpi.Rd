@@ -51,10 +51,10 @@ if(Sys.info()["sysname"] != "Windows"){
   get.conf("MPI_LIBNAME"); cat("\n")
   get.conf("MPI_LIBS"); cat("\n")
 } else{
-  get.conf("MPI_INCLUDE_PATH", "/i386"); cat("\n")
+  get.conf("MPI_INCLUDE", "/i386"); cat("\n")
   get.conf("MPI_LIB", "/i386"); cat("\n")
 
-  get.conf("MPI_INCLUDE_PATH", "/x64"); cat("\n")
+  get.conf("MPI_INCLUDE", "/x64"); cat("\n")
   get.conf("MPI_LIB", "/x64"); cat("\n")
 }
 }
