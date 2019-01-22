@@ -3,7 +3,7 @@
 # useDynLib(pbdMPI)
 
 importFrom("stats", "runif", "dist", "as.dist")
-importFrom("utils", "write.table", "read.table", "Rprof")
+importFrom("utils", "write.table", "read.table", "Rprof", "sessionInfo")
 
 import("methods", "rlecuyer", "float")
 
