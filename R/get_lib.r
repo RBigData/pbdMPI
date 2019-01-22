@@ -3,6 +3,19 @@
 ### to find the default configurations from
 ###   "pbd*/etc${R_ARCH}/Makconf".
 get.lib <- function(arg, arch, package = "pbdPROF"){
+  if(.Platform$OS.type == "windows"){
+    if(arch != "/i386" || arch != "/x64"){
+      arch <- sessionInfo()$R.version$arch
+      if(arch == "i386"){
+        arch <- "/i386"
+      } else if(arch == "x86_64"){
+        arch <- "/x64"
+      } else{
+        cat(arch, "is not matched.\n")
+      }
+    }
+  }
+
   file.name <- paste("./etc", arch, "/Makeconf", sep = "")
   file.path <- tools::file_path_as_absolute(
                  system.file(file.name, package = package))
