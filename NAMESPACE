@@ -96,8 +96,8 @@ S3method(comm.sort, default)
 S3method(comm.sort, integer)
 S3method(comm.sort, double)
 
-export(
-  "get.conf",
-  "get.lib",
-  "get.sysenv"
-)
+# export(
+#   "get.conf",
+#   "get.lib",
+#   "get.sysenv"
+# )

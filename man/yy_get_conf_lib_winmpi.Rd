@@ -45,6 +45,8 @@ get.sysenv(flag)
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
+\dontrun{
+library(pbdMPI)
 if(Sys.info()["sysname"] != "Windows"){
   get.conf("MPI_INCLUDE_PATH"); cat("\n")
   get.conf("MPI_LIBPATH"); cat("\n")
@@ -56,6 +58,7 @@ if(Sys.info()["sysname"] != "Windows"){
 
   get.conf("MPI_INCLUDE", "/x64"); cat("\n")
   get.conf("MPI_LIB", "/x64"); cat("\n")
+}
 }
 }
 \keyword{utility}
