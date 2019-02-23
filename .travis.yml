@@ -29,7 +29,7 @@ before_install:
 #   - rlecuyer
 
 install:
-  - Rscript -e "install.packages(c('rlecuyer','pbdZMQ','pbdPROF'), repos = 'https://cran.r-project.org/')"
+  - Rscript -e "install.packages(c('float','rlecuyer','pbdZMQ','pbdPROF'), repos = 'https://cran.r-project.org/')"
   - R CMD check ./pbdMPI_*.tar.gz --as-cran
   - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
   - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
