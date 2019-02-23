@@ -1,3 +1,6 @@
+2019-02-23: Ver. 0.3-9
+  * Add IBM MPI support for summit.
+
 2019-01-20: Ver. 0.3-9
   * Migrate float32 class to float package via import in NAMESPACE.
   * Export `get.conf()`, `get.lib()`, and `get.sysenv()`.

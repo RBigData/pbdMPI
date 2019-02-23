@@ -25,6 +25,8 @@
         mpi.type == "MPT"){
       if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
         mpi.libname <- "libmpi"
+      } else if(mpi.type == "IBMMPI"){
+        mpi.libname <- "libmpi_ibm"
       } else{
         mpi.libname <- "libmpich"
       }
@@ -129,6 +131,8 @@
       mpi.type == "MPT"){
     if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
       mpi.libname <- "libmpi"
+    } else if(mpi.type == "IBMMPI"){
+      mpi.libname <- "libmpi_ibm"
     } else{
       mpi.libname <- "libmpich"
     }
