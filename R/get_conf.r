@@ -26,7 +26,12 @@ get.conf <- function(arg, arch = '', package = "pbdMPI", return = FALSE){
     ret <- gsub(paste("^", arg, " = (.*)", sep = ""), "\\1", ret[id[1]])
     if(arg == "MPI_LIB" && .Platform$OS.type == "windows" &&
        length(grep("-L", ret)) == 0){
-      ret <- gsub("\\\\", "/", utils::shortPathName(ret))
+      if(length(grep(".*pbdMPI/libs/x64/libmsmpi64.a", ret[1])) == 1){
+        ret <- tools::file_path_as_absolute(
+                 system.file("libs/x64/libmsmpi64.a", package = "pbdMPI"))
+      } else{
+        ret <- gsub("\\\\", "/", utils::shortPathName(ret))
+      }
     }
 
     if(!return){
