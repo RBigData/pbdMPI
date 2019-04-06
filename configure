@@ -674,6 +674,7 @@ infodir
 docdir
 oldincludedir
 includedir
+runstatedir
 localstatedir
 sharedstatedir
 sysconfdir
@@ -751,6 +752,7 @@ datadir='${datarootdir}'
 sysconfdir='${prefix}/etc'
 sharedstatedir='${prefix}/com'
 localstatedir='${prefix}/var'
+runstatedir='${localstatedir}/run'
 includedir='${prefix}/include'
 oldincludedir='/usr/include'
 docdir='${datarootdir}/doc/${PACKAGE}'
@@ -1003,6 +1005,15 @@ do
   | -silent | --silent | --silen | --sile | --sil)
     silent=yes ;;
 
+  -runstatedir | --runstatedir | --runstatedi | --runstated \
+  | --runstate | --runstat | --runsta | --runst | --runs \
+  | --run | --ru | --r)
+    ac_prev=runstatedir ;;
+  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
+  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
+  | --run=* | --ru=* | --r=*)
+    runstatedir=$ac_optarg ;;
+
   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
     ac_prev=sbindir ;;
   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
@@ -1140,7 +1151,7 @@ fi
 for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
 		datadir sysconfdir sharedstatedir localstatedir includedir \
 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
-		libdir localedir mandir
+		libdir localedir mandir runstatedir
 do
   eval ac_val=\$$ac_var
   # Remove trailing slashes.
@@ -1293,6 +1304,7 @@ Fine tuning of the installation directories:
   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
   --libdir=DIR            object code libraries [EPREFIX/lib]
   --includedir=DIR        C header files [PREFIX/include]
   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
@@ -2111,6 +2123,7 @@ chmod +x ./inst/examples/test_rmpi/00_*
 chmod +x ./inst/examples/test_s4/00_*
 chmod +x ./inst/examples/test_spmd/00_*
 chmod +x ./inst/examples/test_long_vector/00_*
+chmod +x ./inst/examples/test_send_recv/00_*
 
 : ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
@@ -2480,6 +2493,62 @@ $as_echo "yes" >&6; }
           { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
         fi
+      fi
+    fi
+
+
+  fi
+fi
+
+
+if test -z "${MPI_INCLUDE_PATH}" ; then
+  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "IBMMPI" ; then
+    TMP_INC="F"
+    TMP_LIB="F"
+
+    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
+      echo "Try sed, mpicc, and ompi_info ..."
+
+      TMP_INC_DIRS=`mpicc --showme:incdirs`
+      echo ">> TMP_INC_DIRS = ${TMP_INC_DIRS}"
+
+      TMP_IFS="${IFS}"; IFS=" "
+      for dir in ${TMP_INC_DIRS}; do
+        echo "Checking ${dir} ..."
+        if test -f "${dir}/mpi.h" ; then
+          echo "Found ${dir}/mpi.h ..."
+          TMP_INC=${dir}
+          break
+        fi
+      done
+      IFS="${TMP_IFS}"
+
+      TMP_LIB_DIRS=`mpicc --showme:libdirs`
+      echo ">> TMP_LIB_DIRS = ${TMP_LIB_DIRS}"
+
+      TMP_IFS="${IFS}"; IFS=" "
+      for dir in ${TMP_LIB_DIRS}; do
+        echo "Checking ${dir} ..."
+        if test -f "${dir}/libmpi_ibm.so" ; then
+          echo "Found ${dir}/libmpi_ibm.so ..."
+          TMP_LIB=${dir}
+          TMP_LIBNAME="libmpi_ibm.so"
+          break
+        fi
+      done
+      IFS="${TMP_IFS}"
+
+      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+        TMP_FOUND="mpicc --showme"
+        echo "Found mpi.h and libmpi_ibm.so ... via mpicc --showme"
+        echo ">> TMP_INC = ${TMP_INC}"
+        echo ">> TMP_LIB = ${TMP_LIB}"
+        MPITYPE="IBMMPI"
+        MPI_INCLUDE_PATH="${TMP_INC}"
+        MPI_LIBPATH="${TMP_LIB}"
+        MPI_LIBNAME="${TMP_LIBNAME}"
+      else
+        echo "Found no mpi.h or libmpi_ibm.so ... via mpicc --showme"
       fi
     fi
 
@@ -4396,7 +4465,7 @@ if test "x$ac_cv_lib_pthread_main" = xyes; then :
 fi
 
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" ; then
+if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "IBMMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" ; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -4404,6 +4473,9 @@ PKG_CPPFLAGS="-I${MPI_INCLUDE_PATH} ${MPI_INCL2} ${MPI_DEFS} -D${MPITYPE}"
 case "$MPITYPE" in
   OPENMPI)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpi ${MPI_LIBS}"
+    ;;
+  IBMMPI)
+    PKG_LIBS="-L${MPI_LIBPATH} -lmpiprofilesupport -lmpi_ibm ${MPI_LIBS}"
     ;;
   LAM)
     PKG_LIBS="-L${MPI_LIBPATH} -lmpi -llam ${MPI_LIBS}"
