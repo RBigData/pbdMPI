@@ -1,0 +1,17 @@
+rm -f *.out *.log *.pdf
+
+mpicc -o mpi_init_1.out mpi_init_1.c
+mpicc -o mpi_init_2.out mpi_init_2.c
+mpicc -o mpi_init_3.out mpi_init_3.c
+
+valgrind ./mpi_init_1.out > mpi_init_1.log 2>&1
+valgrind ./mpi_init_2.out > mpi_init_2.log 2>&1
+valgrind ./mpi_init_3.out > mpi_init_3.log 2>&1
+
+R -d "valgrind" --vanilla < pbdMPI-Ex_init.r > pbdMPI-Ex_init.log 2>&1
+R -d "valgrind" --vanilla < pbdMPI-Ex_allreduce.r > pbdMPI-Ex_allreduce.log 2>&1
+
+rm -f *.out *.pdf
+
+grep " lost: " mpi_init_*.log pbdMPI-Ex*.log > check_lost.log
+cat check_lost.log
