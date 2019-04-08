@@ -1,0 +1,95 @@
+==2992== Memcheck, a memory error detector
+==2992== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2992== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==2992== Command: /home/snoweye/work-my/local/R-devel/lib/R/bin/exec/R --vanilla
+==2992== 
+==2992== Conditional jump or move depends on uninitialised value(s)
+==2992==    at 0x55959E0: __wcsnlen_sse4_1 (strlen.S:147)
+==2992==    by 0x5582EC1: wcsrtombs (wcsrtombs.c:104)
+==2992==    by 0x5508B20: wcstombs (wcstombs.c:34)
+==2992==    by 0x50A63BC: wcstombs (stdlib.h:154)
+==2992==    by 0x50A63BC: tre_parse_bracket_items (tre-parse.c:336)
+==2992==    by 0x50A63BC: tre_parse_bracket (tre-parse.c:453)
+==2992==    by 0x50A63BC: tre_parse (tre-parse.c:1380)
+==2992==    by 0x509DDB8: tre_compile (tre-compile.c:1920)
+==2992==    by 0x509B500: tre_regcompb (regcomp.c:150)
+==2992==    by 0x4F9CF57: do_gsub (grep.c:1832)
+==2992==    by 0x4F6F740: bcEval (eval.c:6765)
+==2992==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==2992==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==2992==    by 0x4F7F092: Rf_applyClosure (eval.c:1706)
+==2992==    by 0x4F7C6B9: Rf_eval (eval.c:743)
+==2992== 
+
+R Under development (unstable) (2019-04-03 r76310) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "pbdMPI"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+==2992== Conditional jump or move depends on uninitialised value(s)
+==2992==    at 0x5595A61: __wcsnlen_sse4_1 (strlen.S:161)
+==2992==    by 0x5582EC1: wcsrtombs (wcsrtombs.c:104)
+==2992==    by 0x5508B20: wcstombs (wcstombs.c:34)
+==2992==    by 0x4EF790B: wcstombs (stdlib.h:154)
+==2992==    by 0x4EF790B: do_tolower (character.c:1032)
+==2992==    by 0x4F6F740: bcEval (eval.c:6765)
+==2992==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==2992==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==2992==    by 0x4F7F092: Rf_applyClosure (eval.c:1706)
+==2992==    by 0x4F73091: bcEval (eval.c:6733)
+==2992==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==2992==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==2992==    by 0x4F7F092: Rf_applyClosure (eval.c:1706)
+==2992== 
+> options(warn = 1)
+> library('pbdMPI')
+> 
+> 
+> ### A lot of examples are removed from this file.
+> ### See "pbdMPI-Ex.R" from the "R CMD check" for all examples.
+> ### See "pbdMPI-Ex_allreduce.r" in this director for one example.
+> 
+> 
+> ### To force free memory of some MPI stuffs in "zz_spmd_internal".
+> finalize(mpi.finalize = TRUE)
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+Error in sch %in% .oldSearch : object '.oldSearch' not found
+Calls: cleanEx -> %in%
+Execution halted
+==2992== 
+==2992== HEAP SUMMARY:
+==2992==     in use at exit: 55,418,181 bytes in 12,977 blocks
+==2992==   total heap usage: 72,408 allocs, 59,431 frees, 120,524,945 bytes allocated
+==2992== 
+==2992== LEAK SUMMARY:
+==2992==    definitely lost: 69 bytes in 3 blocks
+==2992==    indirectly lost: 15 bytes in 1 blocks
+==2992==      possibly lost: 0 bytes in 0 blocks
+==2992==    still reachable: 55,418,097 bytes in 12,973 blocks
+==2992==                       of which reachable via heuristic:
+==2992==                         newarray           : 4,264 bytes in 1 blocks
+==2992==         suppressed: 0 bytes in 0 blocks
+==2992== Rerun with --leak-check=full to see details of leaked memory
+==2992== 
+==2992== For counts of detected and suppressed errors, rerun with: -v
+==2992== Use --track-origins=yes to see where uninitialised values come from
+==2992== ERROR SUMMARY: 90 errors from 2 contexts (suppressed: 0 from 0)
