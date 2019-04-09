@@ -4,12 +4,12 @@ options(warn = 1)
 library('pbdMPI')
 
 
-### A lot of examples are removed from this file.
-### See "pbdMPI-Ex.R" from the "R CMD check" for all examples.
-
-
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+
+
+### A lot of examples are removed from this file.
+### See "pbdMPI-Ex.R" from the "R CMD check" for all examples.
 
 
 cleanEx()

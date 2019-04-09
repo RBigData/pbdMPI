@@ -4,6 +4,10 @@ options(warn = 1)
 library('pbdMPI')
 
 
+base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+
+
 ### A lot of examples are removed from this file.
 ### See "pbdMPI-Ex.R" from the "R CMD check" for all examples.
 ### See "pbdMPI-Ex_allreduce.r" in this director for one example.
