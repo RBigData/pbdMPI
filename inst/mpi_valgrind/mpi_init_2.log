@@ -1,0 +1,55 @@
+==15949== Memcheck, a memory error detector
+==15949== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==15949== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==15949== Command: ./mpi_init_2.out
+==15949== 
+==15949== 
+==15949== HEAP SUMMARY:
+==15949==     in use at exit: 256 bytes in 9 blocks
+==15949==   total heap usage: 22,981 allocs, 22,972 frees, 4,409,381 bytes allocated
+==15949== 
+==15949== 1 bytes in 1 blocks are definitely lost in loss record 1 of 9
+==15949==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15949==    by 0x520A9B9: strdup (strdup.c:42)
+==15949==    by 0xDB98042: ???
+==15949==    by 0xD99259F: ???
+==15949==    by 0x587C4AA: mca_base_framework_components_register (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==15949==    by 0x587C831: mca_base_framework_register (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==15949==    by 0x587C890: mca_base_framework_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==15949==    by 0x4E8BDB4: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==15949==    by 0x4EBC210: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==15949==    by 0x1087A7: main (in /home/snoweye/work-my/tmp_pbd/pbdMPI/pbdMPI/inst/mpi_valgrind/mpi_init_2.out)
+==15949== 
+==15949== 4 bytes in 1 blocks are definitely lost in loss record 2 of 9
+==15949==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15949==    by 0x520A9B9: strdup (strdup.c:42)
+==15949==    by 0x86030EE: ???
+==15949==    by 0x85C1877: ???
+==15949==    by 0x856B71A: ???
+==15949==    by 0x79391CA: ???
+==15949==    by 0x5578410: orte_init (in /home/snoweye/work-my/local/ompi/lib/libopen-rte.so.40.20.1)
+==15949==    by 0x4E8B9DB: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==15949==    by 0x4EBC210: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==15949==    by 0x1087A7: main (in /home/snoweye/work-my/tmp_pbd/pbdMPI/pbdMPI/inst/mpi_valgrind/mpi_init_2.out)
+==15949== 
+==15949== 79 (64 direct, 15 indirect) bytes in 1 blocks are definitely lost in loss record 9 of 9
+==15949==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==15949==    by 0xD3781C8: ???
+==15949==    by 0x5870D0D: mca_base_framework_components_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==15949==    by 0x58ED931: mca_mpool_base_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==15949==    by 0x587C900: mca_base_framework_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==15949==    by 0x4E8BD57: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==15949==    by 0x4EBC210: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==15949==    by 0x1087A7: main (in /home/snoweye/work-my/tmp_pbd/pbdMPI/pbdMPI/inst/mpi_valgrind/mpi_init_2.out)
+==15949== 
+==15949== LEAK SUMMARY:
+==15949==    definitely lost: 69 bytes in 3 blocks
+==15949==    indirectly lost: 15 bytes in 1 blocks
+==15949==      possibly lost: 0 bytes in 0 blocks
+==15949==    still reachable: 172 bytes in 5 blocks
+==15949==         suppressed: 0 bytes in 0 blocks
+==15949== Reachable blocks (those to which a pointer was found) are not shown.
+==15949== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==15949== 
+==15949== For counts of detected and suppressed errors, rerun with: -v
+==15949== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)

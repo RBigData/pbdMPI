@@ -1,0 +1,202 @@
+==16009== Memcheck, a memory error detector
+==16009== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==16009== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==16009== Command: /home/snoweye/work-my/local/R-devel/lib/R/bin/exec/R --vanilla
+==16009== 
+==16009== Conditional jump or move depends on uninitialised value(s)
+==16009==    at 0x55959E0: __wcsnlen_sse4_1 (strlen.S:147)
+==16009==    by 0x5582EC1: wcsrtombs (wcsrtombs.c:104)
+==16009==    by 0x5508B20: wcstombs (wcstombs.c:34)
+==16009==    by 0x50A63BC: wcstombs (stdlib.h:154)
+==16009==    by 0x50A63BC: tre_parse_bracket_items (tre-parse.c:336)
+==16009==    by 0x50A63BC: tre_parse_bracket (tre-parse.c:453)
+==16009==    by 0x50A63BC: tre_parse (tre-parse.c:1380)
+==16009==    by 0x509DDB8: tre_compile (tre-compile.c:1920)
+==16009==    by 0x509B500: tre_regcompb (regcomp.c:150)
+==16009==    by 0x4F9CF57: do_gsub (grep.c:1832)
+==16009==    by 0x4F6F740: bcEval (eval.c:6765)
+==16009==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==16009==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==16009==    by 0x4F7F092: Rf_applyClosure (eval.c:1706)
+==16009==    by 0x4F7C6B9: Rf_eval (eval.c:743)
+==16009== 
+
+R Under development (unstable) (2019-04-03 r76310) -- "Unsuffered Consequences"
+Copyright (C) 2019 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "pbdMPI"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+==16009== Conditional jump or move depends on uninitialised value(s)
+==16009==    at 0x5595A61: __wcsnlen_sse4_1 (strlen.S:161)
+==16009==    by 0x5582EC1: wcsrtombs (wcsrtombs.c:104)
+==16009==    by 0x5508B20: wcstombs (wcstombs.c:34)
+==16009==    by 0x4EF790B: wcstombs (stdlib.h:154)
+==16009==    by 0x4EF790B: do_tolower (character.c:1032)
+==16009==    by 0x4F6F740: bcEval (eval.c:6765)
+==16009==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==16009==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==16009==    by 0x4F7F092: Rf_applyClosure (eval.c:1706)
+==16009==    by 0x4F73091: bcEval (eval.c:6733)
+==16009==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==16009==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==16009==    by 0x4F7F092: Rf_applyClosure (eval.c:1706)
+==16009== 
+> options(warn = 1)
+> library('pbdMPI')
+> 
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> 
+> 
+> ### A lot of examples are removed from this file.
+> ### See "pbdMPI-Ex.R" from the "R CMD check" for all examples.
+> 
+> 
+> cleanEx()
+> nameEx("aa_allreduce-method")
+> ### * aa_allreduce-method
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: allreduce-method
+> ### Title: All Ranks Receive a Reduction of Objects from Every Rank
+> ### Aliases: allreduce-method allreduce,ANY,missing-method
+> ###   allreduce,integer,integer-method allreduce,numeric,numeric-method
+> ###   allreduce,logical,logical-method allreduce,float32,float32-method
+> ###   allreduce
+> ### Keywords: methods collective
+> 
+> ### ** Examples
+> 
+> ### Save code in a file "demo.r" and run with 2 processors by
+> ### SHELL> mpiexec -np 2 Rscript demo.r
+> 
+> spmd.code <- "
++ ### Initial.
++ suppressMessages(library(pbdMPI, quietly = TRUE))
++ init()
++ .comm.size <- comm.size()
++ .comm.rank <- comm.rank()
++ 
++ ### Examples.
++ N <- 5
++ x <- (1:N) + N * .comm.rank
++ y <- allreduce(matrix(x, nrow = 1), op = \"sum\")
++ comm.print(y)
++ 
++ y <- allreduce(x, double(N), op = \"prod\")
++ comm.print(y)
++ 
++ comm.set.seed(1234, diff = TRUE)
++ x <- as.logical(round(runif(N)))
++ y <- allreduce(x, logical(N), op = \"land\")
++ comm.print(y)
++ 
++ ### Finish.
++ finalize()
++ "
+> pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
+>>> MPI command:
+/home/snoweye/work-my/local/ompi/bin/mpiexec -np 2 /home/snoweye/work-my/local/R-devel/lib/R/bin/Rscript /tmp/RtmpYhEcAW/file3e894eb9a880 > /tmp/RtmpYhEcAW/file3e89c04ab14 2>&1 & echo "PID=$!" &
+>>> MPI PID:
+PID=16038
+>>> MPI results:
+
+> 
+> 
+> ### To force free memory of some MPI stuffs in "zz_spmd_internal".
+> finalize(mpi.finalize = TRUE)
+> 
+> 
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  13.441 0.347 13.997 0.014 0.037 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
+==16009== 
+==16009== HEAP SUMMARY:
+==16009==     in use at exit: 55,642,902 bytes in 13,113 blocks
+==16009==   total heap usage: 72,689 allocs, 59,576 frees, 120,928,601 bytes allocated
+==16009== 
+==16009== 1 bytes in 1 blocks are definitely lost in loss record 1 of 1,673
+==16009==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16009==    by 0x55629B9: strdup (strdup.c:42)
+==16009==    by 0x1947F042: ???
+==16009==    by 0x1927959F: ???
+==16009==    by 0x11F354AA: mca_base_framework_components_register (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==16009==    by 0x11F35831: mca_base_framework_register (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==16009==    by 0x11F35890: mca_base_framework_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==16009==    by 0x11935DB4: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==16009==    by 0x11966210: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==16009==    by 0x123F7CC7: spmd_initialize (spmd.c:32)
+==16009==    by 0x4F35705: do_dotcall (dotcode.c:1252)
+==16009==    by 0x4F6F740: bcEval (eval.c:6765)
+==16009== 
+==16009== 4 bytes in 1 blocks are definitely lost in loss record 4 of 1,673
+==16009==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16009==    by 0x55629B9: strdup (strdup.c:42)
+==16009==    by 0x13EEA0EE: ???
+==16009==    by 0x13EA8877: ???
+==16009==    by 0x13E5271A: ???
+==16009==    by 0x132201CA: ???
+==16009==    by 0x11C31410: orte_init (in /home/snoweye/work-my/local/ompi/lib/libopen-rte.so.40.20.1)
+==16009==    by 0x119359DB: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==16009==    by 0x11966210: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==16009==    by 0x123F7CC7: spmd_initialize (spmd.c:32)
+==16009==    by 0x4F35705: do_dotcall (dotcode.c:1252)
+==16009==    by 0x4F6F740: bcEval (eval.c:6765)
+==16009== 
+==16009== 79 (64 direct, 15 indirect) bytes in 1 blocks are definitely lost in loss record 48 of 1,673
+==16009==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==16009==    by 0x18C5F1C8: ???
+==16009==    by 0x11F29D0D: mca_base_framework_components_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==16009==    by 0x11FA6931: mca_mpool_base_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==16009==    by 0x11F35900: mca_base_framework_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==16009==    by 0x11935D57: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==16009==    by 0x11966210: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==16009==    by 0x123F7CC7: spmd_initialize (spmd.c:32)
+==16009==    by 0x4F35705: do_dotcall (dotcode.c:1252)
+==16009==    by 0x4F6F740: bcEval (eval.c:6765)
+==16009==    by 0x4F7C4EF: Rf_eval (eval.c:620)
+==16009==    by 0x4F7E34E: R_execClosure (eval.c:1780)
+==16009== 
+==16009== LEAK SUMMARY:
+==16009==    definitely lost: 69 bytes in 3 blocks
+==16009==    indirectly lost: 15 bytes in 1 blocks
+==16009==      possibly lost: 0 bytes in 0 blocks
+==16009==    still reachable: 55,642,818 bytes in 13,109 blocks
+==16009==                       of which reachable via heuristic:
+==16009==                         newarray           : 4,264 bytes in 1 blocks
+==16009==         suppressed: 0 bytes in 0 blocks
+==16009== Reachable blocks (those to which a pointer was found) are not shown.
+==16009== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==16009== 
+==16009== For counts of detected and suppressed errors, rerun with: -v
+==16009== Use --track-origins=yes to see where uninitialised values come from
+==16009== ERROR SUMMARY: 93 errors from 5 contexts (suppressed: 0 from 0)
