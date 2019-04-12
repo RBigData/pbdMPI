@@ -4,18 +4,20 @@ mpicc -o mpi_init_1.out mpi_init_1.c
 mpicc -o mpi_init_2.out mpi_init_2.c
 mpicc -o mpi_init_3.out mpi_init_3.c
 
-valgrind --leak-check=full ./mpi_init_1.out > mpi_init_1.log 2>&1
-valgrind --leak-check=full ./mpi_init_2.out > mpi_init_2.log 2>&1
-valgrind --leak-check=full ./mpi_init_3.out > mpi_init_3.log 2>&1
+valgrind --leak-check=full ./mpi_init_1.out > vg_mpi_init_1.log 2>&1
+valgrind --leak-check=full ./mpi_init_2.out > vg_mpi_init_2.log 2>&1
+valgrind --leak-check=full ./mpi_init_3.out > vg_mpi_init_3.log 2>&1
 
 R -d "valgrind --leak-check=full" --vanilla < pbdMPI-Ex_init.r \
-    > pbdMPI-Ex_init.log 2>&1
+    > vg_pbdMPI-Ex_init.log 2>&1
 R -d "valgrind --leak-check=full" --vanilla < pbdMPI-Ex_allreduce.r \
-    > pbdMPI-Ex_allreduce.log 2>&1
+    > vg_pbdMPI-Ex_allreduce.log 2>&1
 
 rm -f *.out *.pdf
 
-valgrind --version > check_lost.log
-mpiexec --help | grep "^mpiexec " >> check_lost.log
-grep " lost: " mpi_init_*.log pbdMPI-Ex*.log >> check_lost.log
-cat check_lost.log
+valgrind --version > vg_check_lost.log
+mpiexec --help | grep "^mpiexec " >> vg_check_lost.log
+R --version >> vg_check_lost.log
+grep " lost: " vg_mpi*.log vg_pbdMPI*.log >> vg_check_lost.log
+cat vg_check_lost.log
+
