@@ -28,8 +28,8 @@ spmd.send.integer <- function(x,
     comm = .pbd_env$SPMD.CT$comm,
     check.type = .pbd_env$SPMD.CT$check.type){
   if(check.type){
-    ct <- c(.pbd_env$SPMD.DT$integer, length(x))
-    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+    ct <- as.double(c(.pbd_env$SPMD.DT$integer, length(x)))
+    .Call("spmd_send_double", ct, as.integer(rank.dest),
           as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
   }
   .Call("spmd_send_integer", x, as.integer(rank.dest), as.integer(tag),
@@ -42,8 +42,8 @@ spmd.send.double <- function(x,
     comm = .pbd_env$SPMD.CT$comm,
     check.type = .pbd_env$SPMD.CT$check.type){
   if(check.type){
-    ct <- c(.pbd_env$SPMD.DT$double, length(x))
-    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+    ct <- as.double(c(.pbd_env$SPMD.DT$double, length(x)))
+    .Call("spmd_send_double", ct, as.integer(rank.dest),
           as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
   }
   .Call("spmd_send_double", x, as.integer(rank.dest), as.integer(tag),
@@ -56,8 +56,8 @@ spmd.send.raw <- function(x,
     comm = .pbd_env$SPMD.CT$comm,
     check.type = .pbd_env$SPMD.CT$check.type){
   if(check.type){
-    ct <- c(.pbd_env$SPMD.DT$raw, length(x))
-    .Call("spmd_send_integer", ct, as.integer(rank.dest),
+    ct <- as.double(c(.pbd_env$SPMD.DT$raw, length(x)))
+    .Call("spmd_send_double", ct, as.integer(rank.dest),
           as.integer(tag), as.integer(comm), PACKAGE = "pbdMPI")
   }
   .Call("spmd_send_raw", x, as.integer(rank.dest), as.integer(tag),
@@ -93,4 +93,3 @@ setMethod(
   signature = signature(x = "raw"),
   definition = spmd.send.raw
 )
-
