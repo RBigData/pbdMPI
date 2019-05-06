@@ -1,0 +1,55 @@
+==7389== Memcheck, a memory error detector
+==7389== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==7389== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==7389== Command: ./mpi_init_3.out
+==7389== 
+==7389== 
+==7389== HEAP SUMMARY:
+==7389==     in use at exit: 256 bytes in 9 blocks
+==7389==   total heap usage: 22,990 allocs, 22,981 frees, 4,410,334 bytes allocated
+==7389== 
+==7389== 1 bytes in 1 blocks are definitely lost in loss record 1 of 9
+==7389==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==7389==    by 0x520A9B9: strdup (strdup.c:42)
+==7389==    by 0xDB98042: ???
+==7389==    by 0xD99259F: ???
+==7389==    by 0x587C4AA: mca_base_framework_components_register (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==7389==    by 0x587C831: mca_base_framework_register (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==7389==    by 0x587C890: mca_base_framework_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==7389==    by 0x4E8BDB4: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==7389==    by 0x4EBC1BD: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==7389==    by 0x10882D: main (in /home/snoweye/work-my/tmp_pbd/pbdMPI/pbdMPI/inst/mpi_valgrind/mpi_init_3.out)
+==7389== 
+==7389== 4 bytes in 1 blocks are definitely lost in loss record 2 of 9
+==7389==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==7389==    by 0x520A9B9: strdup (strdup.c:42)
+==7389==    by 0x86030EE: ???
+==7389==    by 0x85C1877: ???
+==7389==    by 0x856B71A: ???
+==7389==    by 0x79391CA: ???
+==7389==    by 0x5578410: orte_init (in /home/snoweye/work-my/local/ompi/lib/libopen-rte.so.40.20.1)
+==7389==    by 0x4E8B9DB: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==7389==    by 0x4EBC1BD: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==7389==    by 0x10882D: main (in /home/snoweye/work-my/tmp_pbd/pbdMPI/pbdMPI/inst/mpi_valgrind/mpi_init_3.out)
+==7389== 
+==7389== 79 (64 direct, 15 indirect) bytes in 1 blocks are definitely lost in loss record 9 of 9
+==7389==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==7389==    by 0xD3781C8: ???
+==7389==    by 0x5870D0D: mca_base_framework_components_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==7389==    by 0x58ED931: mca_mpool_base_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==7389==    by 0x587C900: mca_base_framework_open (in /home/snoweye/work-my/local/ompi/lib/libopen-pal.so.40.20.1)
+==7389==    by 0x4E8BD57: ompi_mpi_init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==7389==    by 0x4EBC1BD: PMPI_Init (in /home/snoweye/work-my/local/ompi/lib/libmpi.so.40.20.1)
+==7389==    by 0x10882D: main (in /home/snoweye/work-my/tmp_pbd/pbdMPI/pbdMPI/inst/mpi_valgrind/mpi_init_3.out)
+==7389== 
+==7389== LEAK SUMMARY:
+==7389==    definitely lost: 69 bytes in 3 blocks
+==7389==    indirectly lost: 15 bytes in 1 blocks
+==7389==      possibly lost: 0 bytes in 0 blocks
+==7389==    still reachable: 172 bytes in 5 blocks
+==7389==         suppressed: 0 bytes in 0 blocks
+==7389== Reachable blocks (those to which a pointer was found) are not shown.
+==7389== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==7389== 
+==7389== For counts of detected and suppressed errors, rerun with: -v
+==7389== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)

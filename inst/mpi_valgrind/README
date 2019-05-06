@@ -1,0 +1,38 @@
+Based on "https://www.open-mpi.org/faq/?category=debugging#valgrind_clean",
+the valgrind can suppress those memory lost message from OpenMPI below, and
+the OpenMPI seems to be OK with those memory lost, too.
+
+"--suppressions=$PREFIX/share/openmpi/openmpi-valgrind.supp" may be added
+to valgrind where $PREFIX is "/usr" in the test system below.
+
+This directory contains tests for memory lost of MPI program using valgrind.
+
+File                       Purpose
+-----------------------------------------------------------------------------
+mpi_init_1.c                usual MPI program initialize and finalize
+mpi_init_2.c                different argc and argv
+mpi_init_3.c                fake argc and argv
+pbdMPI-Ex_init.r            initialize and finalize using pbdMPI and R
+pbdMPI-Ex_allreduce.r       initialize, run an example (allreduce), and finalize
+a                           to compile and run all files above with valgrind
+vg_mpi_init_1.log           log file from valgrind
+vg_mpi_init_2.log           log file from valgrind
+vg_mpi_init_3.log           log file from valgrind
+vg_pbdMPI-Ex_init.log       log file from valgrind
+vg_pbdMPI-Ex_allreduce.log  log file from valgrind
+vg_check_lost.log           grep the memory lost amount from the log files above
+-----------------------------------------------------------------------------
+
+The file "vg_check_lost.log" indicates that all five programs (*.c & *.r)
+have the same amount of memory lost allocated withing MPI_Init(), but
+MPI_Finalize() can not free them correctly.
+
+The programs are tested in the system:
+  - ubuntu 18.04.2
+  - valgrind 3.13.0 (from "apt-get install")
+  - openmpi 4.0.1   (manually installed with "CFLAGS=-fPIC")
+  - R Under development (unstable) (2019-04-03 r76310)
+    Platform: x86_64-pc-linux-gnu (64-bit)
+
+Note that the valgrind may need to be configured with "--with-mpicc" in order
+to check/track memory correctly.

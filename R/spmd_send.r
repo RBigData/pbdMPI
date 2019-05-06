@@ -63,7 +63,6 @@ spmd.send.double <- function(x,
                       rank.dest = rank.dest,
                       comm = comm,
                       tag = tag)
-
   }
   .Call("spmd_send_double", x, as.integer(rank.dest), as.integer(tag),
         as.integer(comm), PACKAGE = "pbdMPI")
@@ -114,4 +113,3 @@ setMethod(
   signature = signature(x = "raw"),
   definition = spmd.send.raw
 )
-

@@ -143,5 +143,8 @@ All examples are run.
 ==========================================================================
 
 ")
+
+### Force "R CMD check" to free memory.
+finalize(mpi.finalize = TRUE)
 }
 \keyword{internal}

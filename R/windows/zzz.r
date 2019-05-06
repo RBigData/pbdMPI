@@ -50,7 +50,7 @@
 } # End of .onLoad().
 
 .onUnload <- function(libpath){
-  pbdMPI::spmd.finalize(mpi.finalize = FALSE)
+  pbdMPI::spmd.finalize()
   library.dynam.unload("pbdMPI", libpath)
 
   invisible()

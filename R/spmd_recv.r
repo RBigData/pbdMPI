@@ -54,7 +54,7 @@ spmd.recv.default <- function(x.buffer = NULL,
 spmd.check.type <- function(x.buffer = NULL, type = NA,
     rank.source = .pbd_env$SPMD.CT$rank.source, tag = .pbd_env$SPMD.CT$tag,
     comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
-  ct.buffer <- c(0, 0)
+  ct.buffer <- double(2)
   ct.buffer <- .Call("spmd_recv_double", ct.buffer, as.integer(rank.source),
                      as.integer(tag), as.integer(comm), as.integer(status),
                      PACKAGE = "pbdMPI")
@@ -211,4 +211,3 @@ setMethod(
   signature = signature(x.buffer = "raw"),
   definition = spmd.recv.raw
 )
-
