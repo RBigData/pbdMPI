@@ -35,3 +35,4 @@ NeedsCompilation: yes
 Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
 Repository: CRAN
 Date/Publication: 2018-08-01 15:20:14 UTC
+RoxygenNote: 6.1.1
