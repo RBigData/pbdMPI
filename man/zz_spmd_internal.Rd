@@ -27,7 +27,8 @@
 \alias{spmd.bcast.string}
 \alias{spmd.bcast.message}
 \alias{spmd.barrier}
-\alias{spmd.check.type}
+\alias{spmd.check.type.send}
+\alias{spmd.check.type.recv}
 \alias{spmd.comm.set.errhandler}
 \alias{spmd.comm.is.null}
 \alias{spmd.comm.rank}

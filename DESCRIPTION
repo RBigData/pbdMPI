@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.4-0
-Date: 2019-04-07
+Date: 2019-05-06
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
@@ -12,7 +12,9 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         person("Brian", "Ripley", role = "ctb", comment = "Windows HPC Pack
         2012"),
         person("R Core team", role = "ctb", comment = "some functions are
-        modified from the base packages"))
+        modified from the base packages"),
+        person("Sebastien", "Lamy de la Chapelle", role="aut", comment = "fix
+        check type for send/recv long vectors"))
 Depends: R (>= 3.5.0), methods
 Imports: rlecuyer, float
 Enhances: pbdPROF, pbdZMQ
@@ -33,5 +35,3 @@ MailingList: Please send questions and comments regarding pbdR to
         RBigData@gmail.com
 NeedsCompilation: yes
 Maintainer: Wei-Chen Chen <wccsnow@gmail.com>
-Repository: CRAN
-Date/Publication: 2018-08-01 15:20:14 UTC

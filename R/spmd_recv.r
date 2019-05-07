@@ -8,9 +8,9 @@ spmd.recv.default <- function(x.buffer = NULL,
     check.type = .pbd_env$SPMD.CT$check.type){
   ### TODO: implement array/matrix as the way done in allreduce.
   if(check.type){
-    x.buffer <- spmd.check.type(x.buffer, type = NA,
-                                rank.source = rank.source, tag = tag,
-                                comm = comm, status = status) 
+    x.buffer <- spmd.check.type.recv(x.buffer, type = NA,
+                                     rank.source = rank.source, tag = tag,
+                                     comm = comm, status = status) 
     if(is.raw(x.buffer)){
       tmp <- attr(x.buffer, "type")
       if(!is.null(x.buffer) && tmp == "raw.object"){
@@ -50,8 +50,8 @@ spmd.recv.default <- function(x.buffer = NULL,
 } # End of spmd.recv.default().
 
 
-### For handshaking and allocating buffer only.
-spmd.check.type <- function(x.buffer = NULL, type = NA,
+### For handshaking with spmd.check.type.send() and allocating buffer only.
+spmd.check.type.recv <- function(x.buffer = NULL, type = NA,
     rank.source = .pbd_env$SPMD.CT$rank.source, tag = .pbd_env$SPMD.CT$tag,
     comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status){
   ct.buffer <- double(2)
@@ -146,9 +146,9 @@ spmd.recv.integer <- function(x.buffer,
     comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status,
     check.type = .pbd_env$SPMD.CT$check.type){
   if(check.type){
-    x.buffer <- spmd.check.type(x.buffer, type = .pbd_env$SPMD.DT$integer,
-                                rank.source = rank.source, tag = tag,
-                                comm = comm, status = status) 
+    x.buffer <- spmd.check.type.recv(x.buffer, type = .pbd_env$SPMD.DT$integer,
+                                     rank.source = rank.source, tag = tag,
+                                     comm = comm, status = status) 
   }
   .Call("spmd_recv_integer", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
@@ -160,9 +160,9 @@ spmd.recv.double <- function(x.buffer,
     comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status,
     check.type = .pbd_env$SPMD.CT$check.type){
   if(check.type){
-    x.buffer <- spmd.check.type(x.buffer, type = .pbd_env$SPMD.DT$double,
-                                rank.source = rank.source, tag = tag,
-                                comm = comm, status = status) 
+    x.buffer <- spmd.check.type.recv(x.buffer, type = .pbd_env$SPMD.DT$double,
+                                     rank.source = rank.source, tag = tag,
+                                     comm = comm, status = status) 
   }
   .Call("spmd_recv_double", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
@@ -174,9 +174,9 @@ spmd.recv.raw <- function(x.buffer,
     comm = .pbd_env$SPMD.CT$comm, status = .pbd_env$SPMD.CT$status,
     check.type = .pbd_env$SPMD.CT$check.type){
   if(check.type){
-    x.buffer <- spmd.check.type(x.buffer, type = .pbd_env$SPMD.DT$raw,
-                                rank.source = rank.source, tag = tag,
-                                comm = comm, status = status) 
+    x.buffer <- spmd.check.type.recv(x.buffer, type = .pbd_env$SPMD.DT$raw,
+                                     rank.source = rank.source, tag = tag,
+                                     comm = comm, status = status) 
   }
   .Call("spmd_recv_raw", x.buffer, as.integer(rank.source),
         as.integer(tag), as.integer(comm), as.integer(status),
