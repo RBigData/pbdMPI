@@ -35,6 +35,7 @@ install:
   - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
 
 script:
+  - Rscript -e "sessionInfo()"
   - R CMD INSTALL ./pbdMPI_*.tar.gz
 
 sudo: required
