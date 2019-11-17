@@ -18,7 +18,9 @@
 \usage{
 isend(x, rank.dest = .pbd_env$SPMD.CT$rank.dest,
       tag = .pbd_env$SPMD.CT$tag,
-      comm = .pbd_env$SPMD.CT$comm, request = .pbd_env$SPMD.CT$request)
+      comm = .pbd_env$SPMD.CT$comm,
+      request = .pbd_env$SPMD.CT$request,
+      check.type = .pbd_env$SPMD.CT$check.type)
 }
 \arguments{
   \item{x}{an object to be sent from a rank.}
@@ -26,10 +28,13 @@ isend(x, rank.dest = .pbd_env$SPMD.CT$rank.dest,
   \item{tag}{a tag number.}
   \item{comm}{a communicator number.}
   \item{request}{a request number.}
+  \item{check.type}{if checking data type first for handshaking.}
 }
 \details{
   A corresponding \code{recv()} or \code{irecv()} should be evoked at the
   corresponding rank \code{rank.dest}.
+
+  See details of \code{send()} for the arugments \code{check.type}.
 }
 \value{
   A \code{NULL} is returned by default.

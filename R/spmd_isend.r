@@ -3,7 +3,8 @@
 ### Default method.
 spmd.isend.default <- function(x,
     rank.dest = .pbd_env$SPMD.CT$rank.dest, tag = .pbd_env$SPMD.CT$tag,
-    comm = .pbd_env$SPMD.CT$comm, request = .pbd_env$SPMD.CT$request){
+    comm = .pbd_env$SPMD.CT$comm, request = .pbd_env$SPMD.CT$request,
+    check.type = .pbd_env$SPMD.CT$check.type){
   ### WCC: This isend() should go with wait(), otherwise the new R object,
   ###      "serialize(x, NULL)", is NOT sent correctly since it is not
   ###      protected by R when the call "spmd.isend.default()" is returned.
@@ -20,8 +21,14 @@ spmd.isend.default <- function(x,
   if(is.null(.pbd_env$SPMD.NB.BUFFER)){
     .pbd_env$SPMD.NB.BUFFER <- list()
   }
-  .pbd_env$SPMD.NB.BUFFER[[length(.pbd_env$SPMD.NB.BUFFER) + 1]] <- serialize(x, NULL)
-  spmd.isend.raw(.pbd_env$SPMD.NB.BUFFER[[length(.pbd_env$SPMD.NB.BUFFER)]],
+  id.buffer <- length(.pbd_env$SPMD.NB.BUFFER) + 1
+  .pbd_env$SPMD.NB.BUFFER[[id.buffer]] <- serialize(x, NULL)
+  if(check.type){
+    spmd.check.type.send(.pbd_env$SPMD.DT$raw.object,
+                         length(.pbd_env$SPMD.NB.BUFFER[[id.buffer]]),
+                         rank.dest = rank.dest, tag = tag, comm = comm)
+  }
+  spmd.isend.raw(.pbd_env$SPMD.NB.BUFFER[[id.buffer]],
                  rank.dest = as.integer(rank.dest),
                  tag = as.integer(tag), comm = as.integer(comm),
                  request = as.integer(request))
