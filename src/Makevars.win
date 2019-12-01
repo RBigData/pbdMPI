@@ -148,6 +148,7 @@ Makeconf:
 	$(ECHO) 'AMD64_EXISTS = ${AMD64_EXISTS}' >> $(USER_CONF)
 	$(ECHO) 'X86_EXISTS = ${X86_EXISTS}' >> $(USER_CONF)
 	$(ECHO) 'I386_EXISTS = ${I386_EXISTS}' >> $(USER_CONF)
+	$(SED) -i 's/00LOCK.*00new\///' $(USER_CONF)
 
 ### Shared library here.
 ifeq ($(WIN_MPI_TYPE), "MS-MPI")
