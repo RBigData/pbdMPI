@@ -39,7 +39,7 @@ struct _rmpi_array_pointers{
 	int *STATUS_MAXSIZE;
 	int *REQUEST_MAXSIZE;
 };
-rmpi_array_pointers MPI_APTS, *MPI_APTS_ptr;
+extern rmpi_array_pointers MPI_APTS, *MPI_APTS_ptr;
 
 /* In "pkg_tools.c". */
 SEXP arrange_MPI_APTS();

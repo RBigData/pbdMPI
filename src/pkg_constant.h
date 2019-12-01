@@ -20,7 +20,7 @@ static char VARIABLE_IS_NOT_USED *LOAD_LOCATION[N_LOAD_LOCATION] =
 	{"UNSET", "Rmpi", "pbdMPI", "VisIt", "pncdf4"};
 
 #define __LOAD_LOCATION__	PBDMPI
-int WHO_LOAD_FIRST;
+extern int WHO_LOAD_FIRST;
 // Whom need to take care free memory.
 
 #define MPI_APTS_R_NAME		".__MPI_APTS__"
