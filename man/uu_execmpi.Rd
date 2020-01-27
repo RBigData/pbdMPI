@@ -58,19 +58,19 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
 }
 \note{
   For Unix-alike systems,
-  in new R and MPI, the \code{pbdMPI::execmpi(...)} or so may
+  in new R and MPI, the \code{pbdMPI::execmpi(...)} may
   carry the current MPI \code{comm} into \code{system(cmd, ...)} calls.
   Because the \code{comm} has been established/loaded by the
-  \code{init} call inside \code{pbdMPI::execmpi(...)}),
+  \code{init()} call because of \code{::},
   the \code{mpiexec} inside the \code{system(cmd, ...)} calls
   will be confused with the exist \code{comm}.
 
   Consider that \code{pbdMPI::execmpi(...)} is typically called in
   interactive mode (or actually only done for CRAN check in most case),
   an argument \code{disable.current.mpi = TRUE} is added/needed to finalize
-  the exist \code{comm} first before \code{system(cmd, ...)} be executed.
+  the existing \code{comm} first before \code{system(cmd, ...)} be executed.
 
-  This function is strongly NOT recommended to run SPMD programs.
+  This function is NOT recommended for running SPMD programs.
   The recommended way is to run under shell command.
 }
 \references{
