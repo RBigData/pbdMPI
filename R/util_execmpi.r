@@ -1,7 +1,8 @@
 ### Utility
 
 execmpi <- function(spmd.code = NULL, spmd.file = NULL,
-    mpicmd = NULL, nranks = 2L, verbose = TRUE){
+    mpicmd = NULL, nranks = 1L, rscmd = NULL, verbose = TRUE,
+    disable.current.mpi = TRUE){
   ### Check # of ranks.
   nranks <- as.integer(nranks)
   if(nranks <= 0){
@@ -21,7 +22,7 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
 
     ### Dump spmd.code to a temp file, execute
     spmd.file <- tempfile()
-    on.exit(unlink(spmd.file))
+    # on.exit(unlink(spmd.file))
     conn <- file(spmd.file, open = "wt")
     writeLines(spmd.code, conn)
     close(conn)
@@ -72,11 +73,13 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
   }
 
   ### Find Rscript.
-  if(Sys.info()[['sysname']] == "Windows"){
-    rscmd <- paste(Sys.getenv("R_HOME"), "/bin", Sys.getenv("R_ARCH_BIN"),
-                   "/Rscript", sep = "")
-  } else{
-    rscmd <- paste(Sys.getenv("R_HOME"), "/bin/Rscript", sep = "")
+  if(is.null(rscmd)){
+    if(Sys.info()[['sysname']] == "Windows"){
+      rscmd <- paste(Sys.getenv("R_HOME"), "/bin", Sys.getenv("R_ARCH_BIN"),
+                     "/Rscript", sep = "")
+    } else{
+      rscmd <- paste(Sys.getenv("R_HOME"), "/bin/Rscript", sep = "")
+    }
   }
 
   ### Make a cmd.
@@ -88,8 +91,9 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
   } else{
     log.file <- tempfile()
     on.exit(unlink(log.file), add = TRUE)
-    cmd <- paste(mpicmd, "-np", nranks, rscmd, spmd.file,
-                 ">", log.file, "2>&1 & echo \"PID=$!\" &", sep = " ")
+    cmd <- paste(mpicmd, " -np ", nranks, " ",
+                 rscmd, " -e \"source('", spmd.file, "')\" ",
+                 "> ", log.file, " 2>&1 & echo \"PID=$!\" &", sep = "")
   }
   if(verbose){
     cat(">>> MPI command:\n", cmd, "\n", sep = "")
@@ -100,6 +104,10 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
     ret <- system(cmd, intern = TRUE, ignore.stdout = FALSE,
                   ignore.stderr = FALSE, wait = TRUE)
   } else{
+    if((!is.finalized()) && disable.current.mpi){
+      finalize(mpi.finalize = TRUE)
+    }
+ 
     tmp <- system(cmd, intern = TRUE, ignore.stdout = FALSE,
                   ignore.stderr = FALSE, wait = FALSE)
     if(verbose){
