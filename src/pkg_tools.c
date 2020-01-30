@@ -8,6 +8,9 @@
 #include "pkg_global.h"
 #include <stdint.h>
 
+rmpi_array_pointers MPI_APTS, *MPI_APTS_ptr = NULL;
+int WHO_LOAD_FIRST;
+
 SEXP arrange_MPI_APTS(){
         SEXP R_apts;
 
