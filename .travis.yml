@@ -3,7 +3,7 @@ language: r
 branches:
   only:
     - master
-    - osx
+    # - osx
 
 r:
   # - devel
