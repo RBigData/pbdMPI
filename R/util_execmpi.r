@@ -115,15 +115,20 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
     }
 
     ### Check if the job is finished, otherwise wait for it.
-    pid <- gsub("^PID=(.*)$", "\\1", tmp)
-    cmd.pid <- paste("ps -p", pid, sep = " ")
-    while(TRUE){
-      tmp.pid <- suppressWarnings(system(cmd.pid, intern = TRUE))
-      if(is.null(attr(tmp.pid, "status"))){
-        Sys.sleep(1)
-      } else{
-        break
+    cmd.ps <- Sys.which("ps")
+    if(cmd.ps != ""){
+      pid <- gsub("^PID=(.*)$", "\\1", tmp)
+      cmd.pid <- paste("ps -p", pid, sep = " ")
+      while(TRUE){
+        tmp.pid <- suppressWarnings(system(cmd.pid, intern = TRUE))
+        if(is.null(attr(tmp.pid, "status"))){
+          Sys.sleep(1)
+        } else{
+          break
+        }
       }
+    } else{
+      Sys.sleep(1)
     }
   }
 

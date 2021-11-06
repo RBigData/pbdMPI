@@ -1,3 +1,6 @@
+2021-11-05: Ver. 0.4-4
+  * Update autoconf to 2.71.
+
 2020-01-26: Ver. 0.4-3
   * Change "execmpi()" to finalize current mpi first.
 
