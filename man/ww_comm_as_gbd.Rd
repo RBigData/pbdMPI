@@ -30,7 +30,7 @@ comm.as.gbd(X, balance.method = .pbd_env$SPMD.IO$balance.method,
 }
 \references{
   Programming with Big Data in R Website:
-  \url{http://r-pbd.org/}
+  \url{https://pbdr.org/}
 }
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
@@ -43,8 +43,8 @@ comm.as.gbd(X, balance.method = .pbd_env$SPMD.IO$balance.method,
 }
 \examples{
 %\dontrun{
-### Save code in a file "demo.r" and run with 4 processors by
-### SHELL> mpiexec -np 4 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
 ### Initial.
@@ -59,7 +59,7 @@ comm.print(X.gbd, all.rank = TRUE)
 ### Finish.
 finalize()
 "
-pbdMPI::execmpi(spmd.code, nranks = 4L)
+pbdMPI::execmpi(spmd.code, nranks = 2L)
 %}
 }
 \keyword{utility}

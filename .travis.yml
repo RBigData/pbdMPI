@@ -1,16 +1,18 @@
-language: r
+language: R
+sudo: required
 
 branches:
   only:
     - master
-    - osx
-
-r:
-  # - devel
-  - release
+    # - osx
 
 os:
   - linux
+
+env:
+  global:
+    - CRAN: https://cran.rstudio.com
+    - _R_CHECK_FORCE_SUGGESTS_=FALSE
 
 before_install:
   - sudo apt-get update -q
@@ -22,26 +24,27 @@ before_install:
   - mpicc -showme:compile
   - mpicc -showme:link
   - mpiexec -np 2 hostname
-  - cd ../
-  - R CMD build --no-resave-data --no-manual --no-build-vignettes pbdMPI
 
 # r_packages:
 #   - rlecuyer
 
 install:
-  - Rscript -e "install.packages(c('float','rlecuyer','pbdZMQ','pbdPROF'), repos = 'https://cran.r-project.org/')"
-  - R CMD check ./pbdMPI_*.tar.gz --as-cran
-  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
-  - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
+  - Rscript -e "install.packages(c('float','rlecuyer'))"
+  # - Rscript -e "install.packages(c('float','rlecuyer'), repos = 'https://cran.r-project.org/')"
+  # - R CMD check ./pbdMPI_*.tar.gz --as-cran
+  # - cat ./pbdMPI.Rcheck/pbdMPI-Ex.Rout
+  # - cat ./pbdMPI.Rcheck/pbdMPI-Ex.timings
 
 script:
   - Rscript -e "sessionInfo()"
-  - R CMD INSTALL ./pbdMPI_*.tar.gz
+  - R CMD build --no-resave-data --no-manual --no-build-vignettes .
+  - R CMD check --as-cran --no-manual --ignore-vignettes ./pbdMPI_*.tar.gz
+  # - R CMD INSTALL ./pbdMPI_*.tar.gz
 
-sudo: required
-dist: trusty
+after_failure:
 
 notifications:
   email:
-    on_success: never
-    on_failure: never
+    on_success: no
+    on_failure: no
+

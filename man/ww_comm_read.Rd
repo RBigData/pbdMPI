@@ -84,7 +84,7 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
 }
 \references{
   Programming with Big Data in R Website:
-  \url{http://r-pbd.org/}
+  \url{https://pbdr.org/}
 }
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
@@ -96,16 +96,16 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
 }
 \examples{
 \dontrun{
-### Save code in a file "demo.r" and run with 4 processors by
-### SHELL> mpiexec -np 4 Rscript demo.r
+### Save code in a file "demo.r" and run with 2 processors by
+### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
 ### Initial.
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Check.
-if(comm.size() != 4){
-  comm.stop(\"4 processors are requried.\")
+if(comm.size() != 2){
+  comm.stop(\"2 processors are requried.\")
 }
 
 ### Manually distributed iris.
@@ -128,7 +128,7 @@ comm.print(c(nrow(da.common), sum(da.common != iris)))
 ### Finish.
 finalize()
 "
-# execmpi(spmd.code, nranks = 4L)
+# execmpi(spmd.code, nranks = 2L)
 }
 }
 \keyword{utility}

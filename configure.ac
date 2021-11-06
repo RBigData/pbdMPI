@@ -5,7 +5,8 @@ dnl functionalities combining with Makevars.in.
 
 
 dnl Process this file with autoconf to produce a configure script
-AC_INIT(DESCRIPTION)
+AC_INIT
+AC_CONFIG_SRCDIR([DESCRIPTION])
 
 dnl Check chmod
 chmod +x ./inst/examples/test_parallel/00_*
@@ -27,25 +28,21 @@ R_SCMD="${R_HOME}/bin/Rscript -e"
 
 dnl All AC_ARG_WITH
 AC_ARG_WITH([mpi-include],
-            AC_HELP_STRING([--with-mpi-include=INCLUDE_PATH],
-                           [location of MPI header files]),
+            AS_HELP_STRING([--with-mpi-include=INCLUDE_PATH],[location of MPI header files]),
             [mpi_include_path=$withval])
 AC_ARG_WITH([mpi-libpath],
-            AC_HELP_STRING([--with-mpi-libpath=LIB_PATH],
-                           [location of MPI library files]),
+            AS_HELP_STRING([--with-mpi-libpath=LIB_PATH],[location of MPI library files]),
             [mpi_lib_path=$withval])
 AC_ARG_WITH([mpi-type],
-            AC_HELP_STRING([--with-mpi-type=MPI_TYPE],
-                           [type of MPI: OPENMPI, MPICH2, MPICH3, or INTELMPI]),
+            AS_HELP_STRING([--with-mpi-type=MPI_TYPE],[type of MPI: OPENMPI, MPICH2, MPICH3, or INTELMPI]),
             [mpi_type=$withval])
 
 dnl All AC_ARG_ENABLE
 AC_ARG_ENABLE(opa,
-  AC_HELP_STRING([--enable-opa], [Enable opa for MPICH*, default yes.]),
+  AS_HELP_STRING([--enable-opa],[Enable opa for MPICH*, default yes.]),
                  [ENABLE_OPA="no"], [ENABLE_OPA="yes"])
 AC_ARG_ENABLE([ld-library-path],
-  AC_HELP_STRING([--enable-ld-library-path],
-                 [Enable LD_LIBRARY_PATH, default no.]),
+  AS_HELP_STRING([--enable-ld-library-path],[Enable LD_LIBRARY_PATH, default no.]),
                  [ENABLE_LD_LIBRARY_PATH="yes"], [ENABLE_LD_LIBRARY_PATH="no"])
 
 dnl One way is to specify both include and lib paths
@@ -447,8 +444,7 @@ dnl 'Paths not specified'
 if test -z "${MPI_INCLUDE_PATH}" ; then
   dnl Another way is to specify MPI_ROOT, perhaps via --with-mpi
   AC_ARG_WITH(mpi,
-              AC_HELP_STRING([--with-mpi=MPI_ROOT],
-                             [location of top-level MPI directory]),
+              AS_HELP_STRING([--with-mpi=MPI_ROOT],[location of top-level MPI directory]),
               [ if test "${withval}" != "no"; then
                       MPI_ROOT=${withval}
                       MPI_INCLUDE_PATH="${MPI_ROOT}/include"
@@ -875,7 +871,7 @@ fi
 
 dnl pbdPROF
 AC_ARG_ENABLE([pbdPROF],
-    AC_HELP_STRING([--enable-pbdPROF], [Enable pbdPROF, default no.]),
+    AS_HELP_STRING([--enable-pbdPROF],[Enable pbdPROF, default no.]),
     [ENABLE_PBDPROF="yes"], [ENABLE_PBDPROF="no"])
 
 PROF_LDFLAGS=""
@@ -971,11 +967,13 @@ AC_SUBST(PKG_CPPFLAGS)
 AC_SUBST(PKG_LIBS)
 AC_SUBST(PROF_LDFLAGS)
 AC_SUBST(ENABLE_LD_LIBRARY_PATH)
-AC_OUTPUT(src/Makevars)
+AC_CONFIG_FILES([src/Makevars])
+AC_OUTPUT
 
 AC_SUBST(MPI_LIBPATH)
 AC_SUBST(MPI_LIBNAME)
 AC_SUBST(MPITYPE)
 AC_SUBST(ENABLE_LD_LIBRARY_PATH)
-AC_OUTPUT(R/zzz.r)
+AC_CONFIG_FILES([R/zzz.r])
+AC_OUTPUT
 

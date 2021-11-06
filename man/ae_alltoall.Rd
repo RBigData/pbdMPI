@@ -49,7 +49,7 @@ spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
 }
 \references{
   Programming with Big Data in R Website:
-  \url{http://r-pbd.org/}
+  \url{https://pbdr.org/}
 }
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,

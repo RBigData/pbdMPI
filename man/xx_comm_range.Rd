@@ -28,7 +28,7 @@ comm.min(..., na.rm = FALSE, comm = .pbd_env$SPMD.CT$comm)
 }
 \references{
   Programming with Big Data in R Website:
-  \url{http://r-pbd.org/}
+  \url{https://pbdr.org/}
 }
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,

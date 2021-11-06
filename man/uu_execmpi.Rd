@@ -75,7 +75,7 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
 }
 \references{
   Programming with Big Data in R Website:
-  \url{http://r-pbd.org/}
+  \url{https://pbdr.org/}
 }
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com} and Drew Schmidt.
@@ -87,14 +87,6 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
 %\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
-
-spmd.code <- "
-suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
-allreduce(1)
-finalize()
-"
-pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
 
 spmd.file <- tempfile()
 cat("

@@ -18,7 +18,7 @@ comm.timer(timed, comm = .pbd_env$SPMD.CT$comm)
 }
 \references{
   Programming with Big Data in R Website:
-  \url{http://r-pbd.org/}
+  \url{https://pbdr.org/}
 }
 \author{
   Drew Schmidt.

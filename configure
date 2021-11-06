@@ -2117,6 +2117,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+
 chmod +x ./inst/examples/test_parallel/00_*
 chmod +x ./inst/examples/test_performance/00_*
 chmod +x ./inst/examples/test_rmpi/00_*

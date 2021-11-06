@@ -54,3 +54,4 @@ build_script:
   # - type pbdMPI.Rcheck\00check.log
   - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
 
+build: Script
