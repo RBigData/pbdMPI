@@ -88,14 +88,6 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
-spmd.code <- "
-suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
-allreduce(1)
-finalize()
-"
-pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
-
 spmd.file <- tempfile()
 cat("
 suppressMessages(library(pbdMPI, quietly = TRUE))
