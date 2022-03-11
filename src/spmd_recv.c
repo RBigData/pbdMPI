@@ -23,8 +23,8 @@ SEXP spmd_recv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Recv(C_recv_data, SPMD_SHORT_LEN_MAX,
-			MPI_INT, C_rank_source, C_tag, comm[C_comm],
-			&status[C_status]));
+			MPI_INT, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_status[C_status]));
 		C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		C_length_recv_data = C_length_recv_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -37,13 +37,13 @@ SEXP spmd_recv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Recv(C_recv_data, (int) C_length_recv_data,
-			MPI_INT, C_rank_source, C_tag, comm[C_comm],
-			&status[C_status]));
+			MPI_INT, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_status[C_status]));
 	}
 #else
 	spmd_errhandler(MPI_Recv(INTEGER(R_recv_data), LENGTH(R_recv_data),
 		MPI_INT, C_rank_source, C_tag,
-		comm[INTEGER(R_comm)[0]], &status[INTEGER(R_status)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_status[INTEGER(R_status)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_recv_integer(). */
@@ -70,8 +70,8 @@ SEXP spmd_recv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Recv(C_recv_data, SPMD_SHORT_LEN_MAX,
-			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
-			&status[C_status]));
+			MPI_DOUBLE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_status[C_status]));
 		C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		C_length_recv_data = C_length_recv_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -84,13 +84,13 @@ SEXP spmd_recv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Recv(C_recv_data, (int) C_length_recv_data,
-			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
-			&status[C_status]));
+			MPI_DOUBLE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_status[C_status]));
 	}
 #else
 	spmd_errhandler(MPI_Recv(REAL(R_recv_data), LENGTH(R_recv_data),
 		MPI_DOUBLE, C_rank_source, C_tag,
-		comm[INTEGER(R_comm)[0]], &status[INTEGER(R_status)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_status[INTEGER(R_status)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_recv_double(). */
@@ -117,8 +117,8 @@ SEXP spmd_recv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Recv(C_recv_data, SPMD_SHORT_LEN_MAX,
-			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
-			&status[C_status]));
+			MPI_BYTE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_status[C_status]));
 		C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		C_length_recv_data = C_length_recv_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -131,13 +131,13 @@ SEXP spmd_recv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Recv(C_recv_data, (int) C_length_recv_data,
-			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
-			&status[C_status]));
+			MPI_BYTE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_status[C_status]));
 	}
 #else
 	spmd_errhandler(MPI_Recv(RAW(R_recv_data), LENGTH(R_recv_data),
 		MPI_BYTE, C_rank_source, C_tag,
-		comm[INTEGER(R_comm)[0]], &status[INTEGER(R_status)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_status[INTEGER(R_status)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_recv_raw(). */
@@ -166,8 +166,8 @@ SEXP spmd_irecv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Irecv(C_recv_data, SPMD_SHORT_LEN_MAX,
-			MPI_INT, C_rank_source, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_INT, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 		C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		C_length_recv_data = C_length_recv_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -180,13 +180,13 @@ SEXP spmd_irecv_integer(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Irecv(C_recv_data, (int) C_length_recv_data,
-			MPI_INT, C_rank_source, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_INT, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 	}
 #else
 	spmd_errhandler(MPI_Irecv(INTEGER(R_recv_data), LENGTH(R_recv_data),
 		MPI_INT, C_rank_source, C_tag,
-		comm[INTEGER(R_comm)[0]], &request[INTEGER(R_request)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_request[INTEGER(R_request)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_irecv_integer(). */
@@ -213,8 +213,8 @@ SEXP spmd_irecv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Irecv(C_recv_data, SPMD_SHORT_LEN_MAX,
-			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_DOUBLE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 		C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		C_length_recv_data = C_length_recv_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -227,13 +227,13 @@ SEXP spmd_irecv_double(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Irecv(C_recv_data, (int) C_length_recv_data,
-			MPI_DOUBLE, C_rank_source, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_DOUBLE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 	}
 #else
 	spmd_errhandler(MPI_Irecv(REAL(R_recv_data), LENGTH(R_recv_data),
 		MPI_DOUBLE, C_rank_source, C_tag,
-		comm[INTEGER(R_comm)[0]], &request[INTEGER(R_request)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_request[INTEGER(R_request)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_irecv_double(). */
@@ -260,8 +260,8 @@ SEXP spmd_irecv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Irecv(C_recv_data, SPMD_SHORT_LEN_MAX,
-			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_BYTE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 		C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		C_length_recv_data = C_length_recv_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -274,13 +274,13 @@ SEXP spmd_irecv_raw(SEXP R_recv_data, SEXP R_rank_source, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Irecv(C_recv_data, (int) C_length_recv_data,
-			MPI_BYTE, C_rank_source, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_BYTE, C_rank_source, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 	}
 #else
 	spmd_errhandler(MPI_Irecv(RAW(R_recv_data), LENGTH(R_recv_data),
 		MPI_BYTE, C_rank_source, C_tag,
-		comm[INTEGER(R_comm)[0]], &request[INTEGER(R_request)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_request[INTEGER(R_request)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_irecv_raw(). */

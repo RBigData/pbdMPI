@@ -27,18 +27,18 @@ void api_iswap(int *array, int x_index, int x_rank, int y_index, int y_rank,
 	int COMM_RANK;
 	int tmp_value;
 
-	MPI_Comm_rank(comm[comm_index], &COMM_RANK);
+	MPI_Comm_rank(global_spmd_comm[comm_index], &COMM_RANK);
 	if(x_rank != y_rank){
 		if(COMM_RANK == x_rank){
 			MPI_Send(&array[x_index], 1, MPI_INT, y_rank, y_rank,
-				comm[comm_index]);
+				global_spmd_comm[comm_index]);
 			MPI_Recv(&array[x_index], 1, MPI_INT, y_rank, x_rank,
-				comm[comm_index], &status[status_index]);
+				global_spmd_comm[comm_index], &global_spmd_status[status_index]);
 		} else if(COMM_RANK == y_rank){
 			MPI_Recv(&tmp_value, 1, MPI_INT, x_rank, y_rank,
-				comm[comm_index], &status[status_index]);
+				global_spmd_comm[comm_index], &global_spmd_status[status_index]);
 			MPI_Send(&array[y_index], 1, MPI_INT, x_rank, x_rank,
-				comm[comm_index]);
+				global_spmd_comm[comm_index]);
 			array[y_index] = tmp_value;
 		}
 	} else{
@@ -60,12 +60,12 @@ void api_ipartition(int *array, int *n_all, int left_index,
 	int COMM_RANK, i_index, i_rank, j_rank, from_index, to_index, check;
 	int pivot_value;
 
-	MPI_Comm_rank(comm[comm_index], &COMM_RANK);
+	MPI_Comm_rank(global_spmd_comm[comm_index], &COMM_RANK);
 
 	if(COMM_RANK == pivot_rank){
 		pivot_value = array[pivot_index];
 	}
-	MPI_Bcast(&pivot_value, 1, MPI_INT, pivot_rank, comm[comm_index]);
+	MPI_Bcast(&pivot_value, 1, MPI_INT, pivot_rank, global_spmd_comm[comm_index]);
 
 	api_iswap(array, pivot_index, pivot_rank, right_index, right_rank,
 		comm_index, status_index);
@@ -95,10 +95,10 @@ void api_ipartition(int *array, int *n_all, int left_index,
 				check = fp_cmp(array[i_index],
 						pivot_value, nalast);
 				MPI_Bcast(&check, 1, MPI_INT, i_rank,
-					comm[comm_index]);
+					global_spmd_comm[comm_index]);
 			} else{
 				MPI_Bcast(&check, 1, MPI_INT, i_rank,
-					comm[comm_index]);
+					global_spmd_comm[comm_index]);
 			}
 
 			if(check == -1){
@@ -138,7 +138,7 @@ void api_isort(int *array, int *n_all, int left_index, int left_rank,
 	int new_pivot_index, new_pivot_rank;
 	int i_rank;
 
-	MPI_Comm_rank(comm[comm_index], &COMM_RANK);
+	MPI_Comm_rank(global_spmd_comm[comm_index], &COMM_RANK);
 
 	if((left_rank == right_rank && left_index < right_index) ||
 			(left_rank < right_rank)){
@@ -247,9 +247,9 @@ SEXP api_R_isort(SEXP R_x, SEXP R_comm, SEXP R_status, SEXP R_decreasing,
 	array = INTEGER(R_ret);
 	memcpy(array, x, n_x * sizeof(int));
 
-	MPI_Comm_size(comm[comm_index], &COMM_SIZE);
+	MPI_Comm_size(global_spmd_comm[comm_index], &COMM_SIZE);
 	n_all = (int*) malloc(COMM_SIZE * sizeof(int));
-	MPI_Allgather(&n_x, 1, MPI_INT, n_all, 1, MPI_INT, comm[comm_index]);
+	MPI_Allgather(&n_x, 1, MPI_INT, n_all, 1, MPI_INT, global_spmd_comm[comm_index]);
 
 	if(decreasing == TRUE){
 		fp_cmp = &api_icmp_decreasing;

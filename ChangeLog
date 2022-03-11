@@ -1,3 +1,11 @@
+2022-03-10: Ver. 0.4-6
+  * The "info" may be re-assigned to some slurm functions on some HPC.
+  * Rename global variables by adding "global_spmd_" to variables that
+    may be potential affected.
+
+2022-03-07: Ver. 0.4-5
+  * Initialize/free some fake info and avoid MPI_INFO_NULL.
+
 2021-11-05: Ver. 0.4-4
   * Update autoconf to 2.71.
 
