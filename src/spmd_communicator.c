@@ -29,7 +29,7 @@ SEXP spmd_comm_localrank(SEXP R_comm){
 	int localrank;
 	
 	if (INTEGER(R_comm)[0] == 0){
-		tmp_comm = localcomm;
+		tmp_comm = global_spmd_localcomm;
 	}
 	else {
 		MPI_Comm_split_type(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, &tmp_comm);
