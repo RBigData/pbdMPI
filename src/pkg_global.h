@@ -17,15 +17,15 @@
 #include "pkg_constant.h"
 
 /* Declared in "Rmpi.c", "spmd.c", or similar main c functions. */
-extern MPI_Comm *comm;
-extern MPI_Comm localcomm;
-extern MPI_Status *status;
-extern MPI_Datatype *datatype;
-extern MPI_Info *info;
-extern MPI_Request *request;
-extern int COMM_MAXSIZE;
-extern int STATUS_MAXSIZE;
-extern int REQUEST_MAXSIZE;
+extern MPI_Comm *global_spmd_comm;
+extern MPI_Comm global_spmd_localcomm;
+extern MPI_Status *global_spmd_status;
+extern MPI_Datatype *global_spmd_datatype;
+extern MPI_Info *global_spmd_info;
+extern MPI_Request *global_spmd_request;
+extern int global_spmd_COMM_MAXSIZE;
+extern int global_spmd_STATUS_MAXSIZE;
+extern int global_spmd_REQUEST_MAXSIZE;
 
 /* Collections. */
 typedef struct _rmpi_array_pointers	rmpi_array_pointers;

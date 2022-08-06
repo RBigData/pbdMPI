@@ -9,7 +9,7 @@ spmd.reduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
     if(!is.integer(x)){
       x <- try(as.integer(x), silent = TRUE)
     }
-    if(class(x) == "try-error"){
+    if(is(x, "try-error")){
       stop(x, comm = comm)
     }
   }
@@ -38,7 +38,7 @@ spmd.reduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
                               rank.dest = rank.dest, comm = comm)
   } else{
     x <- try(as.double(x), silent = TRUE)
-    if(class(x) == "try-error"){
+    if(is(x, "try-error")){
       stop(x, comm = comm)
     }
     ret <- spmd.reduce.double(x, double(length(x)), op = op[1],

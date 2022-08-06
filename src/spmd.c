@@ -1,14 +1,14 @@
 #include "spmd.h"
 
-MPI_Comm *comm = NULL;
-MPI_Comm localcomm = MPI_COMM_NULL;
-MPI_Status *status = NULL;
-MPI_Datatype *datatype = NULL;
-MPI_Info *info = NULL;
-MPI_Request *request = NULL;
-int COMM_MAXSIZE = __COMM_MAXSIZE__;
-int STATUS_MAXSIZE = __STATUS_MAXSIZE__;
-int REQUEST_MAXSIZE = __REQUEST_MAXSIZE__;
+MPI_Comm *global_spmd_comm = NULL;
+MPI_Comm global_spmd_localcomm = MPI_COMM_NULL;
+MPI_Status *global_spmd_status = NULL;
+MPI_Datatype *global_spmd_datatype = NULL;
+MPI_Info *global_spmd_info = NULL;
+MPI_Request *global_spmd_request = NULL;
+int global_spmd_COMM_MAXSIZE = __COMM_MAXSIZE__;
+int global_spmd_STATUS_MAXSIZE = __STATUS_MAXSIZE__;
+int global_spmd_REQUEST_MAXSIZE = __REQUEST_MAXSIZE__;
 
 SEXP spmd_initialize(){
 	int i, flag;
@@ -35,32 +35,32 @@ SEXP spmd_initialize(){
 
 	MPI_Comm_set_errhandler(MPI_COMM_WORLD, MPI_ERRORS_RETURN);
 	MPI_Comm_set_errhandler(MPI_COMM_SELF, MPI_ERRORS_RETURN);
-	if(comm == NULL){
-		comm = (MPI_Comm *) Calloc(COMM_MAXSIZE, MPI_Comm); 
-		comm[0] = MPI_COMM_WORLD;
-		for(i = 1; i < COMM_MAXSIZE; i++){
-			comm[i] = MPI_COMM_NULL;
+	if(global_spmd_comm == NULL){
+		global_spmd_comm = (MPI_Comm *) Calloc(global_spmd_COMM_MAXSIZE, MPI_Comm); 
+		global_spmd_comm[0] = MPI_COMM_WORLD;
+		for(i = 1; i < global_spmd_COMM_MAXSIZE; i++){
+			global_spmd_comm[i] = MPI_COMM_NULL;
 		}
 	}
 #if MPI_VERSION >= 3
-	if(localcomm == MPI_COMM_NULL){
-		MPI_Comm_split_type(comm[0], MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, &localcomm);
+	if(global_spmd_localcomm == MPI_COMM_NULL){
+		MPI_Comm_split_type(global_spmd_comm[0], MPI_COMM_TYPE_SHARED,0, MPI_INFO_NULL, &global_spmd_localcomm);
 	}
 #endif
-	if(status == NULL){
-		status = (MPI_Status *) Calloc(STATUS_MAXSIZE, MPI_Status); 
+	if(global_spmd_status == NULL){
+		global_spmd_status = (MPI_Status *) Calloc(global_spmd_STATUS_MAXSIZE, MPI_Status); 
 	}
-	if(datatype == NULL){
-		datatype = (MPI_Datatype *) Calloc(1, MPI_Datatype); 
+	if(global_spmd_datatype == NULL){
+		global_spmd_datatype = (MPI_Datatype *) Calloc(1, MPI_Datatype); 
 	}
-	if(info == NULL){
-		info = (MPI_Info *) Calloc(1, MPI_Info);
-		info[0] = MPI_INFO_NULL;
+	if(global_spmd_info == NULL){
+		global_spmd_info = (MPI_Info *) Calloc(1, MPI_Info);
+		global_spmd_info[0] = MPI_INFO_NULL;
 	}
-	if(request == NULL){
-		request = (MPI_Request *) Calloc(REQUEST_MAXSIZE, MPI_Request);
-		for(i = 0; i < REQUEST_MAXSIZE; i++){
-			request[i] = MPI_REQUEST_NULL;	
+	if(global_spmd_request == NULL){
+		global_spmd_request = (MPI_Request *) Calloc(global_spmd_REQUEST_MAXSIZE, MPI_Request);
+		for(i = 0; i < global_spmd_REQUEST_MAXSIZE; i++){
+			global_spmd_request[i] = MPI_REQUEST_NULL;	
 		}
 	}
 
@@ -77,11 +77,57 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	if(C_mpi_finalize == 1){
 		if(! flag){
 			if(WHO_LOAD_FIRST == PBDMPI){
-				Free(comm);
-				Free(status);
-				Free(request);
-				Free(datatype);
-				Free(info);
+
+#if (MPI_APTS_DEBUG & 1) == 1
+	int myrank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+	if(myrank == 0){
+		REprintf("rank: %d, load: %s, func: %s.\n", myrank,
+			LOAD_LOCATION[__LOAD_LOCATION__], __FUNCTION__);
+		REprintf("  before free\n");
+		REprintf("  ==> ptr: comm status datatype info request.\n");
+		REprintf("  %s (v): %x %x %x %x %x.\n", __FILE__,
+			global_spmd_comm,
+			global_spmd_status, global_spmd_datatype,
+			global_spmd_info, global_spmd_request);
+		REprintf("  %s (v0): %x %x %x %x %x.\n", __FILE__,
+			global_spmd_comm[0],
+			global_spmd_status[0], global_spmd_datatype[0],
+			global_spmd_info[0], global_spmd_request[0]);
+		REprintf("  %s (a): %x %x %x %x %x.\n", __FILE__,
+			&global_spmd_comm,
+			&global_spmd_status, &global_spmd_datatype,
+			&global_spmd_info, &global_spmd_request);
+		REprintf("  %s (a0): %x %x %x %x %x.\n", __FILE__,
+			&global_spmd_comm[0],
+			&global_spmd_status[0], &global_spmd_datatype[0],
+			&global_spmd_info[0], &global_spmd_request[0]);
+	}
+#endif
+
+				Free(global_spmd_comm);
+				Free(global_spmd_status);
+				Free(global_spmd_request);
+				Free(global_spmd_datatype);
+				Free(global_spmd_info);
+
+#if (MPI_APTS_DEBUG & 1) == 1
+	if(myrank == 0){
+		REprintf("rank: %d, load: %s, func: %s.\n", myrank,
+			LOAD_LOCATION[__LOAD_LOCATION__], __FUNCTION__);
+		REprintf("  after free\n");
+		REprintf("  ==> ptr: comm status datatype info request.\n");
+		REprintf("  %s (v): %x %x %x %x %x.\n", __FILE__,
+			global_spmd_comm,
+			global_spmd_status, global_spmd_datatype,
+			global_spmd_info, global_spmd_request);
+		REprintf("  %s (a): %x %x %x %x %x.\n", __FILE__,
+			&global_spmd_comm,
+			&global_spmd_status, &global_spmd_datatype,
+			&global_spmd_info, &global_spmd_request);
+	}
+#endif
+
 			}
 #ifndef WIN
 			pkg_dlclose();
@@ -122,7 +168,7 @@ SEXP spmd_universe_size(){
 	int *MPI_Universe_Size;
 	int univ_flag;
 
-	MPI_Comm_get_attr(comm[0], MPI_UNIVERSE_SIZE, &MPI_Universe_Size,
+	MPI_Comm_get_attr(global_spmd_comm[0], MPI_UNIVERSE_SIZE, &MPI_Universe_Size,
 				&univ_flag);
 	if(univ_flag){
 		return(AsInt(*MPI_Universe_Size));

@@ -18,7 +18,7 @@ SEXP spmd_send_integer(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Send(C_send_data, SPMD_SHORT_LEN_MAX,
-			MPI_INT, C_rank_dest, C_tag, comm[C_comm]));
+			MPI_INT, C_rank_dest, C_tag, global_spmd_comm[C_comm]));
 		C_send_data = C_send_data + SPMD_SHORT_LEN_MAX;
 		C_length_send_data = C_length_send_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -31,12 +31,12 @@ SEXP spmd_send_integer(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Send(C_send_data, (int) C_length_send_data,
-			MPI_INT, C_rank_dest, C_tag, comm[C_comm]));
+			MPI_INT, C_rank_dest, C_tag, global_spmd_comm[C_comm]));
 	}
 #else
 	spmd_errhandler(MPI_Send(INTEGER(R_send_data), LENGTH(R_send_data),
 		MPI_INT, INTEGER(R_rank_dest)[0], INTEGER(R_tag)[0],
-		comm[INTEGER(R_comm)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]]));
 #endif
 	return(R_NilValue);
 } /* End of spmd_send_integer(). */
@@ -58,7 +58,7 @@ SEXP spmd_send_double(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Send(C_send_data, SPMD_SHORT_LEN_MAX,
-			MPI_DOUBLE, C_rank_dest, C_tag, comm[C_comm]));
+			MPI_DOUBLE, C_rank_dest, C_tag, global_spmd_comm[C_comm]));
 		C_send_data = C_send_data + SPMD_SHORT_LEN_MAX;
 		C_length_send_data = C_length_send_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -71,12 +71,12 @@ SEXP spmd_send_double(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Send(C_send_data, (int) C_length_send_data,
-			MPI_DOUBLE, C_rank_dest, C_tag, comm[C_comm]));
+			MPI_DOUBLE, C_rank_dest, C_tag, global_spmd_comm[C_comm]));
 	}
 #else
 	spmd_errhandler(MPI_Send(REAL(R_send_data), LENGTH(R_send_data),
 		MPI_DOUBLE, INTEGER(R_rank_dest)[0], INTEGER(R_tag)[0],
-		comm[INTEGER(R_comm)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]]));
 #endif
 	return(R_NilValue);
 } /* End of spmd_send_double(). */
@@ -98,7 +98,7 @@ SEXP spmd_send_raw(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Send(C_send_data, SPMD_SHORT_LEN_MAX,
-			MPI_BYTE, C_rank_dest, C_tag, comm[C_comm]));
+			MPI_BYTE, C_rank_dest, C_tag, global_spmd_comm[C_comm]));
 		C_send_data = C_send_data + SPMD_SHORT_LEN_MAX;
 		C_length_send_data = C_length_send_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -111,12 +111,12 @@ SEXP spmd_send_raw(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Send(C_send_data, (int) C_length_send_data,
-			MPI_BYTE, C_rank_dest, C_tag, comm[C_comm]));
+			MPI_BYTE, C_rank_dest, C_tag, global_spmd_comm[C_comm]));
 	}
 #else
 	spmd_errhandler(MPI_Send(RAW(R_send_data), LENGTH(R_send_data),
 		MPI_BYTE, INTEGER(R_rank_dest)[0], INTEGER(R_tag)[0],
-		comm[INTEGER(R_comm)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]]));
 #endif
 	return(R_NilValue);
 } /* End of spmd_send_raw(). */
@@ -141,8 +141,8 @@ SEXP spmd_isend_integer(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Isend(C_send_data, SPMD_SHORT_LEN_MAX,
-			MPI_INT, C_rank_dest, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_INT, C_rank_dest, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 		C_send_data = C_send_data + SPMD_SHORT_LEN_MAX;
 		C_length_send_data = C_length_send_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -155,13 +155,13 @@ SEXP spmd_isend_integer(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Isend(C_send_data, (int) C_length_send_data,
-			MPI_INT, C_rank_dest, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_INT, C_rank_dest, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 	}
 #else
 	spmd_errhandler(MPI_Isend(INTEGER(R_send_data), LENGTH(R_send_data),
 		MPI_INT, INTEGER(R_rank_dest)[0], INTEGER(R_tag)[0],
-		comm[INTEGER(R_comm)[0]], &request[INTEGER(R_request)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_request[INTEGER(R_request)[0]]));
 #endif
 	return(R_NilValue);
 } /* End of spmd_isend_integer(). */
@@ -184,8 +184,8 @@ SEXP spmd_isend_double(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Isend(C_send_data, SPMD_SHORT_LEN_MAX,
-			MPI_DOUBLE, C_rank_dest, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_DOUBLE, C_rank_dest, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 		C_send_data = C_send_data + SPMD_SHORT_LEN_MAX;
 		C_length_send_data = C_length_send_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -198,13 +198,13 @@ SEXP spmd_isend_double(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Isend(C_send_data, (int) C_length_send_data,
-			MPI_DOUBLE, C_rank_dest, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_DOUBLE, C_rank_dest, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 	}
 #else
 	spmd_errhandler(MPI_Isend(REAL(R_send_data), LENGTH(R_send_data),
 		MPI_DOUBLE, INTEGER(R_rank_dest)[0], INTEGER(R_tag)[0],
-		comm[INTEGER(R_comm)[0]], &request[INTEGER(R_request)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_request[INTEGER(R_request)[0]]));
 #endif
 	return(R_NilValue);
 } /* End of spmd_isend_double(). */
@@ -227,8 +227,8 @@ SEXP spmd_isend_raw(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Isend(C_send_data, SPMD_SHORT_LEN_MAX,
-			MPI_BYTE, C_rank_dest, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_BYTE, C_rank_dest, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 		C_send_data = C_send_data + SPMD_SHORT_LEN_MAX;
 		C_length_send_data = C_length_send_data - SPMD_SHORT_LEN_MAX;
 	}
@@ -241,13 +241,13 @@ SEXP spmd_isend_raw(SEXP R_send_data, SEXP R_rank_dest, SEXP R_tag,
 		#endif
 
 		spmd_errhandler(MPI_Isend(C_send_data, (int) C_length_send_data,
-			MPI_BYTE, C_rank_dest, C_tag, comm[C_comm],
-			&request[C_request]));
+			MPI_BYTE, C_rank_dest, C_tag, global_spmd_comm[C_comm],
+			&global_spmd_request[C_request]));
 	}
 #else
 	spmd_errhandler(MPI_Isend(RAW(R_send_data), LENGTH(R_send_data),
 		MPI_BYTE, INTEGER(R_rank_dest)[0], INTEGER(R_tag)[0],
-		comm[INTEGER(R_comm)[0]], &request[INTEGER(R_request)[0]]));
+		global_spmd_comm[INTEGER(R_comm)[0]], &global_spmd_request[INTEGER(R_request)[0]]));
 #endif
 	return(R_NilValue);
 } /* End of spmd_isend_raw(). */

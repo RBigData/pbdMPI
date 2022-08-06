@@ -10,8 +10,8 @@ SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 	worker_errcodes = (int *) Calloc(n_workers, int);
 	if(len == 0){
 		spmd_errhandler(MPI_Comm_spawn(CHARPT(R_worker, 0),
-			MPI_ARGV_NULL, n_workers, info[infon], rank_source,
-			MPI_COMM_SELF, &comm[intercommn], worker_errcodes)); 
+			MPI_ARGV_NULL, n_workers, global_spmd_info[infon], rank_source,
+			MPI_COMM_SELF, &global_spmd_comm[intercommn], worker_errcodes)); 
         } else{
 		char **argv = (char **) R_alloc(len + 1, sizeof(char *));
 		for(i = 0; i < len; i++){
@@ -19,10 +19,10 @@ SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 		}
 		argv[len] = NULL;
 		spmd_errhandler(MPI_Comm_spawn(CHARPT(R_worker, 0),
-			argv, n_workers, info[infon], rank_source, MPI_COMM_SELF,
-			&comm[intercommn], worker_errcodes)); 
+			argv, n_workers, global_spmd_info[infon], rank_source, MPI_COMM_SELF,
+			&global_spmd_comm[intercommn], worker_errcodes)); 
 	}
-	MPI_Comm_remote_size(comm[intercommn], &realns);
+	MPI_Comm_remote_size(global_spmd_comm[intercommn], &realns);
 	if(realns < n_workers){
 		for(i = 0; i < n_workers; i++){
 			spmd_errhandler(worker_errcodes[i]);
