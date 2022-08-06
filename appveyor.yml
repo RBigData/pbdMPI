@@ -47,9 +47,11 @@ build_script:
   - cd pbdMPI
   - travis-tool.sh install_deps
   - cd ..
+  - chmod u+x ./pbdMPI/configure ./pbdMPI/cleanup
   - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
-  - R CMD INSTALL pbdMPI*.tar.gz
-  - R CMD check pbdMPI*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
+  - ls pbdMPI*
+  - R CMD INSTALL pbdMPI_*.tar.gz
+  - R CMD check pbdMPI_*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - dir pbdMPI.Rcheck
   # - type pbdMPI.Rcheck\00check.log
   - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
