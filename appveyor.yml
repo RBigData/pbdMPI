@@ -54,6 +54,6 @@ build_script:
   - R CMD check pbdMPI_0.4-6.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - dir pbdMPI.Rcheck
   # - type pbdMPI.Rcheck\00check.log
-  - type pbdMPI.Rcheck\pbdMPI-Ex_x64.Rout
+  - type pbdMPI.Rcheck\pbdMPI-Ex.Rout
 
 build: Script

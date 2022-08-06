@@ -1,3 +1,8 @@
+2022-08-06: Ver. 0.4-6
+  * Merger George's comm.chunk().
+  * Replace class() with is() for "try-error".
+  * Modify "appveyor.yml".
+
 2022-03-10: Ver. 0.4-6
   * The "info" may be re-assigned to some slurm functions on some HPC.
   * Rename global variables by adding "global_spmd_" to variables that
