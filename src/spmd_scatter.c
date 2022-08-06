@@ -20,8 +20,8 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Since C_send_data is not contiguious, use extra buffer to
 		   store chunk data for MPI calls. */
-		MPI_Comm_size(comm[C_comm], &C_comm_size);
-		MPI_Comm_rank(comm[C_comm], &C_comm_rank);
+		MPI_Comm_size(global_spmd_comm[C_comm], &C_comm_size);
+		MPI_Comm_rank(global_spmd_comm[C_comm], &C_comm_rank);
 		if(C_comm_rank == C_rank_source){
 			PROTECT(R_buff_data = allocVector(INTSXP,
 				(R_xlen_t) C_comm_size *
@@ -64,7 +64,7 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 			spmd_errhandler(MPI_Scatter(C_buff_data,
 				SPMD_SHORT_LEN_MAX,
 				MPI_INT, C_recv_data, SPMD_SHORT_LEN_MAX,
-				MPI_INT, C_rank_source, comm[C_comm]));
+				MPI_INT, C_rank_source, global_spmd_comm[C_comm]));
 			C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		}
 
@@ -94,7 +94,7 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 			spmd_errhandler(MPI_Scatter(C_buff_data,
 				(int) C_length_recv_data,
 				MPI_INT, C_recv_data, (int) C_length_recv_data,
-				MPI_INT, C_rank_source, comm[C_comm]));
+				MPI_INT, C_rank_source, global_spmd_comm[C_comm]));
 		}
 
 		UNPROTECT(1);
@@ -104,13 +104,13 @@ SEXP spmd_scatter_integer(SEXP R_send_data, SEXP R_recv_data,
 		spmd_errhandler(MPI_Scatter(C_send_data,
 			(int) C_length_recv_data,
 			MPI_INT, C_recv_data, (int) C_length_recv_data,
-			MPI_INT, C_rank_source, comm[C_comm]));
+			MPI_INT, C_rank_source, global_spmd_comm[C_comm]));
 	}
 #else
 	int C_length_recv_data = LENGTH(R_recv_data);
 	spmd_errhandler(MPI_Scatter(INTEGER(R_send_data), C_length_recv_data,
 		MPI_INT, INTEGER(R_recv_data), C_length_recv_data,
-		MPI_INT, INTEGER(R_rank_source)[0], comm[INTEGER(R_comm)[0]]));
+		MPI_INT, INTEGER(R_rank_source)[0], global_spmd_comm[INTEGER(R_comm)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_scatter_integer(). */
@@ -134,8 +134,8 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Since C_send_data is not contiguious, use extra buffer to
 		   store chunk data for MPI calls. */
-		MPI_Comm_size(comm[C_comm], &C_comm_size);
-		MPI_Comm_rank(comm[C_comm], &C_comm_rank);
+		MPI_Comm_size(global_spmd_comm[C_comm], &C_comm_size);
+		MPI_Comm_rank(global_spmd_comm[C_comm], &C_comm_rank);
 		if(C_comm_rank == C_rank_source){
 			PROTECT(R_buff_data = allocVector(REALSXP,
 				(R_xlen_t) C_comm_size *
@@ -178,7 +178,7 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 			spmd_errhandler(MPI_Scatter(C_buff_data,
 				SPMD_SHORT_LEN_MAX,
 				MPI_DOUBLE, C_recv_data, SPMD_SHORT_LEN_MAX,
-				MPI_DOUBLE, C_rank_source, comm[C_comm]));
+				MPI_DOUBLE, C_rank_source, global_spmd_comm[C_comm]));
 			C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		}
 
@@ -209,7 +209,7 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 				(int) C_length_recv_data,
 				MPI_DOUBLE, C_recv_data,
 				(int) C_length_recv_data,
-				MPI_DOUBLE, C_rank_source, comm[C_comm]));
+				MPI_DOUBLE, C_rank_source, global_spmd_comm[C_comm]));
 		}
 
 		UNPROTECT(1);
@@ -219,13 +219,13 @@ SEXP spmd_scatter_double(SEXP R_send_data, SEXP R_recv_data,
 		spmd_errhandler(MPI_Scatter(C_send_data,
 			(int) C_length_recv_data,
 			MPI_DOUBLE, C_recv_data, (int) C_length_recv_data,
-			MPI_DOUBLE, C_rank_source, comm[C_comm]));
+			MPI_DOUBLE, C_rank_source, global_spmd_comm[C_comm]));
 	}
 #else
 	int C_length_recv_data = LENGTH(R_recv_data);
 	spmd_errhandler(MPI_Scatter(REAL(R_send_data), C_length_recv_data,
 		MPI_DOUBLE, REAL(R_recv_data), C_length_recv_data,
-		MPI_DOUBLE, INTEGER(R_rank_source)[0], comm[INTEGER(R_comm)[0]]));
+		MPI_DOUBLE, INTEGER(R_rank_source)[0], global_spmd_comm[INTEGER(R_comm)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_scatter_double(). */
@@ -249,8 +249,8 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 
 		/* Since C_send_data is not contiguious, use extra buffer to
 		   store chunk data for MPI calls. */
-		MPI_Comm_size(comm[C_comm], &C_comm_size);
-		MPI_Comm_rank(comm[C_comm], &C_comm_rank);
+		MPI_Comm_size(global_spmd_comm[C_comm], &C_comm_size);
+		MPI_Comm_rank(global_spmd_comm[C_comm], &C_comm_rank);
 		if(C_comm_rank == C_rank_source){
 			PROTECT(R_buff_data = allocVector(RAWSXP,
 				(R_xlen_t) C_comm_size *
@@ -292,7 +292,7 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 			spmd_errhandler(MPI_Scatter(C_buff_data,
 				SPMD_SHORT_LEN_MAX,
 				MPI_BYTE, C_recv_data, SPMD_SHORT_LEN_MAX,
-				MPI_BYTE, C_rank_source, comm[C_comm]));
+				MPI_BYTE, C_rank_source, global_spmd_comm[C_comm]));
 			C_recv_data = C_recv_data + SPMD_SHORT_LEN_MAX;
 		}
 
@@ -321,7 +321,7 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 			spmd_errhandler(MPI_Scatter(C_buff_data,
 				(int) C_length_recv_data,
 				MPI_BYTE, C_recv_data, (int) C_length_recv_data,
-				MPI_BYTE, C_rank_source, comm[C_comm]));
+				MPI_BYTE, C_rank_source, global_spmd_comm[C_comm]));
 		}
 
 		UNPROTECT(1);
@@ -331,13 +331,13 @@ SEXP spmd_scatter_raw(SEXP R_send_data, SEXP R_recv_data,
 		spmd_errhandler(MPI_Scatter(C_send_data,
 			(int) C_length_recv_data,
 			MPI_BYTE, C_recv_data, (int) C_length_recv_data,
-			MPI_BYTE, C_rank_source, comm[C_comm]));
+			MPI_BYTE, C_rank_source, global_spmd_comm[C_comm]));
 	}
 #else
 	int C_length_recv_data = LENGTH(R_recv_data);
 	spmd_errhandler(MPI_Scatter(RAW(R_send_data), C_length_recv_data,
 		MPI_BYTE, RAW(R_recv_data), C_length_recv_data,
-		MPI_BYTE, INTEGER(R_rank_source)[0], comm[INTEGER(R_comm)[0]]));
+		MPI_BYTE, INTEGER(R_rank_source)[0], global_spmd_comm[INTEGER(R_comm)[0]]));
 #endif
 	return(R_recv_data);
 } /* End of spmd_scatter_raw(). */
