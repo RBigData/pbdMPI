@@ -1,8 +1,7 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
@@ -14,7 +13,7 @@ x.count <- 1:.comm.size
 comm.cat("Original x:\n", quiet = TRUE)
 comm.print(x)
 
-y <- scatter(split(x, rep(x.count, x.count)))    ### return the element of list.
+y <- scatter(split(x, rep(x.count, x.count)))    ### return elements of list.
 comm.cat("\nScatter list:\n", quiet = TRUE)
 comm.print(y)
 

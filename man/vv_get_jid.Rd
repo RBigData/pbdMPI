@@ -52,7 +52,7 @@ get.jid(n, method = .pbd_env$SPMD.CT$divide.method[1], all = FALSE,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \seealso{
-  \code{\link{task.pull}()}.
+  \code{\link{task.pull}() and \link{comm.chunk}()}.
 }
 \examples{
 %\dontrun{

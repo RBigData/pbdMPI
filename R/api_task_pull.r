@@ -1,22 +1,22 @@
 ### These functions are modified from "task_pull.R" originally provided
 ### at "http://math.acadiau.ca/ACMMaC/Rmpi/examples.html".
 ###
-### The "task_pull.R" is mainly designed using Rmpi in a master/slaves
+### The "task_pull.R" is mainly designed to mimic Rmpi's legacy manager/workers
 ### parallel environment. However, the following functions are aiming
-### for SPMD and presuming one of ranks (default 0) has the role of master.
+### for SPMD and presuming one of ranks (default 0) has the role of manager.
 
 # e.g. Suppose everyone knows FUN and ..., then the code should like
 #
 #   if(comm.rank() != 0){
 #     ret <- task.pull.workers(FUN)
 #   } else{
-#     ret <- task.pull.master(jids = 1:100, FUN)
+#     ret <- task.pull.manager(jids = 1:100, FUN)
 #   }
 #
-# where ret is the results in master, and NULL in all workers.
+# where ret is the results in manager, and NULL in all workers.
 
 task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
-    ..., rank.master = .pbd_env$SPMD.CT$rank.root,
+    ..., rank.manager = .pbd_env$SPMD.CT$rank.root,
     comm = .pbd_env$SPMD.CT$comm,
     try = .pbd_env$SPMD.TP$try, try.silent = .pbd_env$SPMD.TP$try.silent){
   ### FUN <- function(jid, ...) is a user defined function.
@@ -28,11 +28,11 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
   done <- 0L
   while(done != 1L){
     ### Signal being ready to receive a new job.
-    spmd.send.default(0L, rank.dest = rank.master, tag = 1L, comm = comm,
+    spmd.send.default(0L, rank.dest = rank.manager, tag = 1L, comm = comm,
                       check.type = FALSE)
 
     ### Receive a job id.
-    jid <- spmd.recv.default(rank.source = rank.master,
+    jid <- spmd.recv.default(rank.source = rank.manager,
                              tag = spmd.anytag(), comm = comm,
                              check.type = FALSE)
     sourcetag <- spmd.get.sourcetag()
@@ -46,8 +46,8 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
       }
       ret <- list(jid = jid, ret = tmp)
 
-      ### Send a results message back to the master.
-      spmd.send.default(ret, rank.dest = rank.master, tag = 2L, comm = comm,
+      ### Send a results message back to the manager.
+      spmd.send.default(ret, rank.dest = rank.manager, tag = 2L, comm = comm,
                         check.type = FALSE)
     } else if(tag == 2){
       done <- 1L
@@ -55,17 +55,17 @@ task.pull.workers <- function(FUN = function(jid, ...){ return(jid) },
     ### We'll just ignore any unknown messages.
   }
 
-  spmd.send.default(0L, rank.dest = rank.master, tag = 3L, comm = comm,
+  spmd.send.default(0L, rank.dest = rank.manager, tag = 3L, comm = comm,
                     check.type = FALSE)
   invisible()
 } # End of task.pull.workers().
 
 
-task.pull.master <- function(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
+task.pull.manager <- function(jids, rank.manager = .pbd_env$SPMD.CT$rank.root,
     comm = .pbd_env$SPMD.CT$comm){
   ### Check.
-  if(spmd.comm.rank(comm) != rank.master){
-    comm.stop("Wrong master id.")
+  if(spmd.comm.rank(comm) != rank.manager){
+    comm.stop("Wrong manager id.")
   }
   if(spmd.comm.size(comm) == 1){
     comm.stop("Comm size >= 2 is required.")
@@ -121,24 +121,24 @@ task.pull.master <- function(jids, rank.master = .pbd_env$SPMD.CT$rank.root,
   }
 
   ret
-} # End of task.pull.master().
+} # End of task.pull.manager().
 
 
 task.pull <- function(jids, FUN, ...,
-    rank.master = .pbd_env$SPMD.CT$rank.root,
+    rank.manager = .pbd_env$SPMD.CT$rank.root,
     comm = .pbd_env$SPMD.CT$comm, bcast = .pbd_env$SPMD.TP$bcast,
     barrier = .pbd_env$SPMD.TP$barrier,
     try = .pbd_env$SPMD.TP$try, try.silent = .pbd_env$SPMD.TP$try.silent){
 
-  if(spmd.comm.rank(comm) != rank.master){
-    ret <- task.pull.workers(FUN, ..., rank.master = rank.master, comm = comm,
+  if(spmd.comm.rank(comm) != rank.manager){
+    ret <- task.pull.workers(FUN, ..., rank.manager = rank.manager, comm = comm,
                              try = try, try.silent = try.silent)
   } else{
-    ret <- task.pull.master(jids, rank.master = rank.master, comm = comm)
+    ret <- task.pull.manager(jids, rank.manager = rank.manager, comm = comm)
   }
 
   if(bcast){
-    ret <- spmd.bcast.object(ret, rank.source = rank.master, comm = comm)
+    ret <- spmd.bcast.object(ret, rank.source = rank.manager, comm = comm)
   }
 
   if(barrier){

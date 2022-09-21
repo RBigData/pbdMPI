@@ -1,6 +1,6 @@
 ### SHELL> mpiexec -np 4 Rscript --vanilla [...].r
 
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Check.

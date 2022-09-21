@@ -4,9 +4,8 @@ args<-commandArgs(TRUE)
 port.name <- args[1]
 print(port.name)
 
-### Initial MPI.
+### Initialize MPI.
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .pbd_env$SPMD.CT$check.type <- FALSE
 server.comm <- .pbd_env$SPMD.CT$newcomm
 

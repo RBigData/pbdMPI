@@ -2,12 +2,12 @@
 \alias{pbdMPI-package}
 \alias{pbdMPI}
 \docType{package}
-\title{Programming with Big Data -- Interface to MPI}
+\title{R Interface to MPI (Programming with Big Data in R Project)}
 \description{
-  pbdMPI provides an efficient interface to MPI by utilizing S4
-  classes and methods with a focus on Single Program/Multiple Data (SPMD)
-  parallel programming style, which is intended for batch parallel
-  execution.
+  A simplified, efficient, interface to MPI for HPC clusters. It is
+  a derivation and rethinking of the Rmpi package that embraces the
+  prevalent parallel programming style on HPC clusters. It is based on S4
+  classes and methods.
 }
 \details{
 \tabular{ll}{
@@ -19,13 +19,17 @@
   LazyLoad: \tab yes\cr
 }
 
-  This package requires an MPI library (OpenMPI, MPICH2, or LAM/MPI).
-  The install command (with OpenMPI library) is \cr
+  This package requires an MPI library (OpenMPI, MPICH2, or LAM/MPI). Standard
+  installation in an R session with
   \cr
+  \code{> install.packages("pbdMPI")} \cr
+  should work in most cases. To install on the Unix command line after
+  downloading the source file, use \cr
   \code{> tar zxvf pbdMPI_0.1-0.tar.gz } \cr
   \code{> R CMD INSTALL pbdMPI } \cr
   \cr
-  Other arguments include
+  If the MPI library is not found, the following arguments can be used to
+  specify its non-standard location on your system
 \tabular{ll}{
   Argument \tab Default \cr
   \code{--with-mpi-type}    \tab \code{OPENMPI} \cr
@@ -36,16 +40,18 @@
   where \code{${MPI_ROOT}} is the path to the MPI root.
   See the package source file \code{pbdMPI/configure} for details.
 
-  After loading \code{library(pbdMPI)}, the standard process starts from
-  \code{\link{init}()} which set two global variables \code{.comm.size}
-  and \code{.comm.rank}. The standard process should end
-  with \code{\link{finalize}()}.
+  Loading \code{library(pbdMPI)}, sets two global variables \code{.comm.size}
+  and \code{.comm.rank}. All codes must end
+  with \code{\link{finalize}()} to cleanly exit MPI.
 
-  Most functions are assumed to run in SPMD, i.e.
-  in batch mode. Ideally, most codes run with \code{mpiexec} and \code{Rscript},
-  together, such as \cr \cr
+  Most functions are assumed to run as SPMD, i.e.
+  in batch mode. On most clusters, codes run with \code{mpirun} or 
+  \code{mpiexec}\footnote{The MPI Standard 4.0 recommends \code{mpiexec}. Some
+  MPI implementations have minor differences between the two but under
+  OpenMPI 5.0 they are synonyms that produce the same behavior.} and
+  \code{Rscript}, together, such as \cr \cr
   \code{> mpiexec -np 2 Rscript some_code.r} \cr \cr
-  where \code{some_code.r} contains whole SPMD program.  
+  where \code{some_code.r} contains the entire SPMD program.  
 
   The package source files provide several examples based on \pkg{pbdMPI},
   such as
@@ -66,9 +72,10 @@
   in \code{pbdMPI/src/pkg_constant.h}.
 
   The current version is mainly written and tested under OpenMPI
-  environments in Linux system (xubuntu-11.04). Also, it is tested
-  under MPICH2 environments in Windows 7 system.
-  It is expected to be fine for other MPI libraries and other OS platforms.
+  environments on Linux systems (CentOS 7, RHEL 8, Xubuntu). Also, it is tested
+  on macOS with Homebrew-installed OpenMPI and under MPICH2 environments on 
+  Windows systems, although the primary target systems are HPC clusters running
+  Linux OS.
 }
 \references{
   Programming with Big Data in R Website:
@@ -88,8 +95,8 @@
 }
 \examples{
 \dontrun{
-### Under command mode, run the demo with 2 processors by
-### (Use Rscript.exe for windows system)
+### On command line, run each demo with 2 processors by
+### (Use Rscript.exe on Windows systems)
 # mpiexec -np 2 Rscript -e "demo(allgather,'pbdMPI',ask=F,echo=F)"
 # mpiexec -np 2 Rscript -e "demo(allreduce,'pbdMPI',ask=F,echo=F)"
 # mpiexec -np 2 Rscript -e "demo(bcast,'pbdMPI',ask=F,echo=F)"
