@@ -6,12 +6,12 @@
 * **Author:** See section below.
 
 
-With few exceptions (ff, bigalgebra, etc.), R does computations in memory.
+With few exceptions, R does computations in memory.
 When data becomes too large to handle in the memory of a single node, or
-when more processors than those offered in commodity hardware (~16) are needed
+when more processors than those offered in commodity hardware are needed
 for a job, a typical strategy is to add more nodes.  MPI, or the
 "Message Passing Interface", is the standard for managing multi-node
-communication.  pbdMPI is a package that greatly simplifies the use of MPI from
+computing. pbdMPI is a package that greatly simplifies the use of MPI from
 R.
 
 In pbdMPI, we make extensive use of R's S4 system to simplify the interface
@@ -21,12 +21,14 @@ in Rmpi), you need only call the generic function on your data and we will
 always "do the right thing".
 
 In pbdMPI, we write programs in the "Single Program/Multiple Data" or SPMD
-style.  Contrary to the way much of the R world is aquainted with parallelism,
-there is no "master" or "manager".  Each process (MPI rank) gets runs the same
-copy of the program as every other process, but operates on its own data.  This
+style, which is the prevalent style on HPC clusters.  Contrary to the way much
+of the R world is aquainted with parallelism, there is no "manager".  Each
+process (MPI rank) runs the same program as every other process, but operates
+on its own data or a section of a global parameter space.  This
 is arguably one of the simplest extensions of serial to massively parallel
 programming, and has been the standard way of doing things in the HPC community
-for over 20 years.
+for decades. The "single program" can be viewed as a generalization of the
+serial program.
 
 
 
