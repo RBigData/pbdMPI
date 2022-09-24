@@ -46,9 +46,9 @@
 
   Most functions are assumed to run as SPMD, i.e.
   in batch mode. On most clusters, codes run with \code{mpirun} or 
-  \code{mpiexec}\footnote{The MPI Standard 4.0 recommends \code{mpiexec}. Some
+  \code{mpiexec} (The MPI Standard 4.0 recommends \code{mpiexec}. Some
   MPI implementations have minor differences between the two but under
-  OpenMPI 5.0 they are synonyms that produce the same behavior.} and
+  OpenMPI 5.0 they are synonyms that produce the same behavior.) and
   \code{Rscript}, together, such as \cr \cr
   \code{> mpiexec -np 2 Rscript some_code.r} \cr \cr
   where \code{some_code.r} contains the entire SPMD program.  
