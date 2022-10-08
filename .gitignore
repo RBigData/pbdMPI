@@ -12,3 +12,4 @@ src/Makeconf
 src/Makevars
 
 R/zzz.r
+.Rproj.user
