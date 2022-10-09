@@ -73,7 +73,7 @@ SEXP spmd_comm_get_parent(SEXP R_comm){
 			&global_spmd_comm[INTEGER(R_comm)[0]]))));
 } /* End of spmd_comm_get_parent(). */
 
-SEXP spmd_is_master(){
+SEXP spmd_is_master(void){
 	int check;
 	MPI_Comm master;
 	MPI_Comm_get_parent(&master);

@@ -18,11 +18,11 @@ SEXP spmd_iprobe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status){
 
 
 /* ----- source & tag ----- */
-SEXP spmd_anysource(){
+SEXP spmd_anysource(void){
 	return(AsInt(MPI_ANY_SOURCE));
 } /* End of spmd_anysource(). */
 
-SEXP spmd_anytag(){
+SEXP spmd_anytag(void){
 	return(AsInt(MPI_ANY_TAG));
 } /* End of spmd_anytag(). */
 
