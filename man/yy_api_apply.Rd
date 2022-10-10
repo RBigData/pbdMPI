@@ -40,30 +40,30 @@ pbdSapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE,
   (\code{pbd.model = "mw"}), and just work the same as their
   serial version.
 
-  If \code{pbd.mode = "mw"}, the \code{X} in \code{rank.source} (master)
-  will be redistributed to processors (workers), then apply \code{FUN}
-  on the new data, and results are gathered to \code{rank.source}.
-  ``In SPMD, master is one of workers.''
+  If \code{pbd.mode = "mw"}, the \code{X} in \code{rank.source} (manager)
+  will be distributed to the workers, then \code{FUN} will be applied to
+  the new data, and results gathered to \code{rank.source}.
+  ``In SPMD, the manager is one of workers.''
   \code{...} is also \code{scatter()} from \code{rank.source}.
 
-  If \code{pbd.mode = "spmd"}, the same copy of \code{X} is supposed to
-  exist in all processors, and original \code{apply()}, \code{lapply()},
-  or \code{sapply()} is operated on part of
-  \code{X}. An \code{allgather()} or \code{gather()} call is required to
-  aggregate results manually.
+  If \code{pbd.mode = "spmd"}, the same copy of \code{X} is expected
+  on all ranks, and the original \code{apply()}, \code{lapply()},
+  or \code{sapply()} will operate on part of
+  \code{X}. An explicit \code{allgather()} or \code{gather()} will be needed to
+  aggregate the results.
 
-  If \code{pbd.mode = "dist"}, the different \code{X} is supposed to
-  exists in all processors, i.e. `distinct or distributed' \code{X},
-  and original \code{apply()}, \code{lapply()}, or \code{sapply()} is operated
-  on the all \code{X}. An \code{allgather()} or \code{gather()} call is
-  required to aggregate results manually.
+  If \code{pbd.mode = "dist"}, different \code{X} are expected on
+  all ranks, i.e. `distinct or distributed' \code{X},
+  and original \code{apply()}, \code{lapply()}, or \code{sapply()} will operate
+  on the distinct \code{X}. An explicit \code{allgather()} or \code{gather()} 
+  will be needed to aggregate the results.
 
-  In SPMD, it is better to split data into pieces, and \code{X} is a local
-  matrix in all processors. Originally, \code{apply()} should be sufficient
-  in this case. 
+  In SPMD, it is better to split data into pieces, so that \code{X} is a local
+  piece of a global matrix. If the "apply" dimension is local, the base 
+  \code{apply()} function can be used. 
 }
 \value{
-  A list or matrix will be returned.
+  A list or a matrix will be returned.
 }
 \references{
   Programming with Big Data in R Website:

@@ -20,7 +20,7 @@ info.c2f(info = .pbd_env$SPMD.CT$info)
 }
 \details{
   These functions are for internal functions. Potentially, they set
-  info for initialization of master and workers.
+  information for initialization of manager and workers.
 }
 \value{
   An invisible state of MPI call is returned.
