@@ -10,7 +10,7 @@ int global_spmd_COMM_MAXSIZE = __COMM_MAXSIZE__;
 int global_spmd_STATUS_MAXSIZE = __STATUS_MAXSIZE__;
 int global_spmd_REQUEST_MAXSIZE = __REQUEST_MAXSIZE__;
 
-SEXP spmd_initialize(){
+SEXP spmd_initialize(void){
 	int i, flag;
 	MPI_Initialized(&flag);
 
@@ -139,7 +139,7 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	return(AsInt(1));
 } /* End of spmd_finalize(). */
 
-SEXP spmd_is_finalized(){
+SEXP spmd_is_finalized(void){
 	int flag;
 
 	MPI_Finalized(&flag);
@@ -147,7 +147,7 @@ SEXP spmd_is_finalized(){
 	return(AsInt(flag));
 } /* End of spmd_is_finalized(). */
 
-SEXP spmd_get_processor_name(){
+SEXP spmd_get_processor_name(void){
 	int result_length;
 	char *processor_name;
 	SEXP R_processor_name;
@@ -164,7 +164,7 @@ SEXP spmd_get_processor_name(){
 
 
 #ifdef MPI2
-SEXP spmd_universe_size(){
+SEXP spmd_universe_size(void){
 	int *MPI_Universe_Size;
 	int univ_flag;
 

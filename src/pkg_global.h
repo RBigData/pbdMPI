@@ -42,17 +42,17 @@ struct _rmpi_array_pointers{
 extern rmpi_array_pointers MPI_APTS, *MPI_APTS_ptr;
 
 /* In "pkg_tools.c". */
-SEXP arrange_MPI_APTS();
-void set_MPI_APTS_in_R();
-void get_MPI_APTS_from_R();
-SEXP get_MPI_COMM_PTR();
-SEXP addr_MPI_COMM_PTR();
+SEXP arrange_MPI_APTS(void);
+void set_MPI_APTS_in_R(void);
+void get_MPI_APTS_from_R(void);
+SEXP get_MPI_COMM_PTR(SEXP, SEXP);
+SEXP addr_MPI_COMM_PTR(SEXP);
 
 /* In "pkg_dl.c". */
 extern void *DL_APT_ptr;
 SEXP pkg_initialize(SEXP R_i_lib);
-SEXP pkg_dlopen();
-SEXP pkg_dlclose();
+SEXP pkg_dlopen(void);
+SEXP pkg_dlclose(void);
 
 /* Obtain character pointers. */
 #define CHARPT(x,i)	((char*)CHAR(STRING_ELT(x,i)))
