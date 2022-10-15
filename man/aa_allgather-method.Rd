@@ -32,7 +32,7 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
   \item{x}{an object to be gathered from all ranks.}
   \item{x.buffer}{a buffer to hold the return object which probably has
                   `size of \code{x}' times `\code{comm.size(comm)}'
-                  with the same type of \code{x}.}
+                  with the same type as \code{x}.}
   \item{x.count}{a vector of length `\code{comm.size(comm)}' containing all object lengths.}
   \item{displs}{\code{c(0L, cumsum(x.count))} by default.}
   \item{comm}{a communicator number.}
@@ -57,8 +57,8 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
     
   The \code{allgather} is efficient due to the underlying MPI parallel
   communication and recursive doubling gathering algorithm that results in
-  sublinear (log2) number of communication steps. Also, serialization is
-  applied only locally and in parallel.
+  a sublinear (\code{log2(comm.size(comm))}) number of communication steps.
+  Also, serialization is applied only locally and in parallel.
 }
 \value{
   A list of length \code{comm.size(comm)}, containing the gathered objects from
@@ -68,9 +68,6 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
   vector is returned. In other cases, the \code{unlist = TRUE} parameter
   simply applies the \code{unlist()} function to this list before returning.
 }
-\seealso{
-  \code{\link{gather}()}, \code{\link{allreduce}()}, \code{\link{reduce}()}.
-}
 \references{
   Programming with Big Data in R Website:
   \url{https://pbdr.org/}
@@ -78,6 +75,9 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
+}
+\seealso{
+  \code{\link{gather}()}, \code{\link{allreduce}()}, \code{\link{reduce}()}.
 }
 \examples{
 %\dontrun{

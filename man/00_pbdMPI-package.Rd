@@ -13,8 +13,6 @@
 \tabular{ll}{
   Package: \tab pbdMPI\cr
   Type: \tab Package\cr
-%  Version: \tab 0.1-2\cr
-%  Date: \tab 2010-02-18\cr
   License: \tab Mozilla Public License 2.0\cr
   LazyLoad: \tab yes\cr
 }
@@ -24,9 +22,7 @@
   \cr
   \code{> install.packages("pbdMPI")} \cr
   should work in most cases. To install on the Unix command line after
-  downloading the source file, use \cr
-  \code{> tar zxvf pbdMPI_0.1-0.tar.gz } \cr
-  \code{> R CMD INSTALL pbdMPI } \cr
+    downloading the source file, use \code{R CMD INSTALL}. \cr
   \cr
   If the MPI library is not found, the following arguments can be used to
   specify its non-standard location on your system
@@ -40,18 +36,25 @@
   where \code{${MPI_ROOT}} is the path to the MPI root.
   See the package source file \code{pbdMPI/configure} for details.
 
-  Loading \code{library(pbdMPI)}, sets two global variables \code{.comm.size}
-  and \code{.comm.rank}. All codes must end
-  with \code{\link{finalize}()} to cleanly exit MPI.
+  Loading \code{library(pbdMPI)}, sets a few global variables, including the
+  environment \code{.pbd_env}, where many defaults are set, and initializes MPI.
+  In most cases, the defaults should not be modified except trough parameters
+  of the functions that use them. \strong{All codes must end
+  with \code{\link{finalize}()} to cleanly exit MPI.}
 
   Most functions are assumed to run as SPMD, i.e.
   in batch mode. On most clusters, codes run with \code{mpirun} or 
-  \code{mpiexec} (The MPI Standard 4.0 recommends \code{mpiexec}. Some
-  MPI implementations have minor differences between the two but under
-  OpenMPI 5.0 they are synonyms that produce the same behavior.) and
+  \code{mpiexec} and
   \code{Rscript}, together, such as \cr \cr
   \code{> mpiexec -np 2 Rscript some_code.r} \cr \cr
-  where \code{some_code.r} contains the entire SPMD program.  
+  where \code{some_code.r} contains the entire SPMD program. The MPI 
+  Standard 4.0 recommends \code{mpiexec} over \code{mpirun}. Some
+  MPI implementations may have minor differences between the two but under
+  OpenMPI 5.0 they are synonyms that produce the same behavior. \strong{It is
+  strongly recommended that you check with your HPC cluster documentation for 
+  other specific requirements, such as 
+  \href{https://en.wikipedia.org/wiki/Environment_Modules_(software)}{module}
+  software environments.}
 
   The package source files provide several examples based on \pkg{pbdMPI},
   such as

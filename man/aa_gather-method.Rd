@@ -59,16 +59,13 @@ gather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
     
   The \code{gather} is efficient due to the underlying MPI parallel
   communication and recursive doubling gathering algorithm that results in
-  sublinear (log2) number of communication steps. Also, serialization is
-  applied only locally and in parallel.
+  a sublinear (\code{log2(comm.size(comm))}) number of communication steps.
+  Also, serialization is applied only locally and in parallel.
 }
 \value{
   Only \code{rank.dest} (by default rank 0) receives the gathered object. All
   other ranks receive \code{NULL}.
   See \code{\link{allgather}()} for a description of the gathered object.
-}
-\seealso{
-  \code{\link{allgather}()}, \code{\link{allreduce}()}, \code{\link{reduce}()}.
 }
 \references{
   Programming with Big Data in R Website:
@@ -77,6 +74,9 @@ gather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
 \author{
   Wei-Chen Chen \email{wccsnow@gmail.com}, George Ostrouchov,
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
+}
+\seealso{
+  \code{\link{allgather}()}, \code{\link{allreduce}()}, \code{\link{reduce}()}.
 }
 \examples{
 %\dontrun{
