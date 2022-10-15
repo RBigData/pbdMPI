@@ -1,4 +1,4 @@
-### Median level functions for R objects. These should not be in S3/S4.
+### Mid level functions for R objects. These should not be in S3/S4.
 
 ### For general types.
 spmd.allgather.object <- function(x,
@@ -7,6 +7,7 @@ spmd.allgather.object <- function(x,
   x.count <- spmd.allgather.integer(length(x.raw),
                                     integer(spmd.comm.size(comm = comm)),
                                     comm = comm)
+  # cat(" objectser")
   displs <- c(0L, cumsum(x.count))
   ### mpi_allgatherv() in C requires displs[1:(length(displs) - 1)] only.
   ### It only passes the pointer, so displs[1:length(displs)] is OK, too.
@@ -25,18 +26,29 @@ spmd.allgather.array <- function(x,
     comm = .pbd_env$SPMD.CT$comm, unlist = .pbd_env$SPMD.CT$unlist){
   n.dim <- length(dim(x))
   COMM.SIZE <- spmd.comm.size(comm)
+  # cat(" array")
   
+  ## check if all doubles with positive length
   all.check <- spmd.allreduce.integer(
                  as.integer(is.double(x) && length(x) > 0),
                  integer(1), op = "sum", comm = comm) == COMM.SIZE
   if(all.check){
+    ## gather all dimensions
     x.dim <- spmd.allgather.integer(dim(x), integer(COMM.SIZE * n.dim),
                                     comm = comm)
+    
+    ## compute buffer size to hold all
     dim(x.dim) <- c(n.dim, COMM.SIZE)
     x.count <- as.integer(apply(x.dim, 2, prod))
     displs <- c(0L, cumsum(x.count))
+    
+    ## Here, we could check if all the dimensions are the same and use
+    ## allgather instead of allgatherv. Would it be faster? Maybe not.
+    
+    ## single allgather into buffer
     ret <- spmd.allgatherv.double(x, double(sum(x.count)), x.count,
                                   displs = displs, comm = comm)
+    ## split buffer into list
     ret <- lapply(1:COMM.SIZE,
                   function(i){
                     array(data = ret[(displs[i] + 1):displs[i + 1]],
@@ -47,7 +59,8 @@ spmd.allgather.array <- function(x,
     }
     return(ret)
   }
-
+  
+  ## same for integer arrays
   all.check <- spmd.allreduce.integer(
                  as.integer(is.integer(x) && length(x) > 0),
                  integer(1), op = "sum", comm = comm) == COMM.SIZE

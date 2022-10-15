@@ -7,6 +7,7 @@ spmd.allgather.default <- function(x, x.buffer = NULL, x.count = NULL,
   all.array <- spmd.allreduce.integer(as.integer(is.array(x)),
                                       integer(1), op = "sum",
                                       comm = comm) == spmd.comm.size(comm)
+  # cat(" default")
   if(all.array){
     spmd.allgather.array(x, comm = comm, unlist = unlist)
   } else{
@@ -21,6 +22,7 @@ spmd.allgatherv.default <- spmd.allgather.default
 spmd.allgather.integer <- function(x, x.buffer, x.count = NULL,
     displs = NULL, comm = .pbd_env$SPMD.CT$comm,
     unlist = .pbd_env$SPMD.CT$unlist){
+  # cat(" integer")
   .Call("spmd_allgather_integer", x, x.buffer,
         as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allgather.double().
@@ -28,6 +30,7 @@ spmd.allgather.integer <- function(x, x.buffer, x.count = NULL,
 spmd.allgather.double <- function(x, x.buffer, x.count = NULL,
     displs = NULL, comm = .pbd_env$SPMD.CT$comm,
     unlist = .pbd_env$SPMD.CT$unlist){
+  # cat(" double")
   .Call("spmd_allgather_double", x, x.buffer,
         as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allgather.double().
@@ -35,6 +38,7 @@ spmd.allgather.double <- function(x, x.buffer, x.count = NULL,
 spmd.allgather.raw <- function(x, x.buffer, x.count = NULL,
     displs = NULL, comm = .pbd_env$SPMD.CT$comm,
     unlist = .pbd_env$SPMD.CT$unlist){
+  # cat(" raw")
   .Call("spmd_allgather_raw", x, x.buffer,
         as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allgather.raw().
@@ -44,6 +48,7 @@ spmd.allgather.raw <- function(x, x.buffer, x.count = NULL,
 spmd.allgatherv.integer <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
     comm = .pbd_env$SPMD.CT$comm, unlist = .pbd_env$SPMD.CT$unlist){
+  # cat(" integerv")
   .Call("spmd_allgatherv_integer", x, x.buffer, x.count, displs,
         as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allgatherv.integer().
@@ -51,6 +56,7 @@ spmd.allgatherv.integer <- function(x, x.buffer, x.count,
 spmd.allgatherv.double <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
     comm = .pbd_env$SPMD.CT$comm, unlist = .pbd_env$SPMD.CT$unlist){
+  # cat(" doublev")
   .Call("spmd_allgatherv_double", x, x.buffer, x.count, displs,
         as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allgatherv.double().
@@ -58,6 +64,7 @@ spmd.allgatherv.double <- function(x, x.buffer, x.count,
 spmd.allgatherv.raw <- function(x, x.buffer, x.count,
     displs = c(0L, cumsum(x.count)),
     comm = .pbd_env$SPMD.CT$comm, unlist = .pbd_env$SPMD.CT$unlist){
+  # cat(" rawv")
   .Call("spmd_allgatherv_raw", x, x.buffer, x.count, displs,
         as.integer(comm), PACKAGE = "pbdMPI")
 } # End of spmd.allgatherv.raw().
@@ -69,7 +76,7 @@ setGeneric(
   useAsDefault = spmd.allgather.default
 )
 
-### For allgather.
+### For allgather. Assumes same size x on all ranks.
 setMethod(
   f = "allgather",
   signature = signature(x = "ANY",
@@ -99,7 +106,7 @@ setMethod(
   definition = spmd.allgather.raw
 )
 
-### For allgatherv.
+### For allgatherv. Can be different sizes on ranks.
 setMethod(
   f = "allgather",
   signature = signature(x = "ANY",
