@@ -38,7 +38,7 @@ get.jid(n, method = .pbd_env$SPMD.CT$divide.method[1], all = FALSE,
   for rank 3.
 }
 \value{
-  \code{get.id()} returns a vector containing job id for each individual
+  \code{get.jid()} returns a vector containing job id for each individual
   processor if \code{all = FALSE}. While it returns a list containing all
   job id for all processor if \code{all = TRUE}. The list has length equal
   to \code{\link{COMM.SIZE}}.
