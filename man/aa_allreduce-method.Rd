@@ -40,6 +40,9 @@ allreduce(x, x.buffer = NULL, op = .pbd_env$SPMD.CT$op,
   communication and recursive doubling reduction algorithm that results in
   a sublinear (\code{log2(comm.size(comm))}) number of reduction and 
   communication steps.
+  
+  See \code{methods{"allreduce"}} for S4 dispatch cases and the source code for
+  further details.
 }
 \value{
   The reduced object of the same type as \code{x} is returned to all ranks

@@ -39,19 +39,13 @@ reduce(x, x.buffer = NULL, op = .pbd_env$SPMD.CT$op,
   \code{x.buffer} can be \code{NULL} or unspecified. If specified, the type
   should be either integer or double specified correctly according to the
   type of \code{x}.
+  
+  See \code{methods{"reduce"}} for S4 dispatch cases and the source code for
+  further details.
 }
 \value{
   The reduced object of the same type as \code{x} is returned by default.
 }
-\section{Methods}{
-For calling \code{spmd.reduce.*()}:
-\describe{
-\item{\code{signature(x = "ANY", x.buffer = "missing")}}{}
-\item{\code{signature(x = "integer", x.buffer = "integer")}}{}
-\item{\code{signature(x = "numeric", x.buffer = "numeric")}}{}
-\item{\code{signature(x = "logical", x.buffer = "logical")}}{}
-\item{\code{signature(x = "float32", x.buffer = "float32")}}{}
-}}
 \references{
   Programming with Big Data in R Website:
   \url{https://pbdr.org/}

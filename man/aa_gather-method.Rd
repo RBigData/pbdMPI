@@ -61,6 +61,9 @@ gather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
   communication and recursive doubling gathering algorithm that results in
   a sublinear (\code{log2(comm.size(comm))}) number of communication steps.
   Also, serialization is applied only locally and in parallel.
+  
+  See \code{methods{"gather"}} for S4 dispatch cases and the source code for
+  further details.
 }
 \value{
   Only \code{rank.dest} (by default rank 0) receives the gathered object. All
