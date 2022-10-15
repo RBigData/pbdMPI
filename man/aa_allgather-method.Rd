@@ -33,7 +33,7 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
   \item{x.buffer}{a buffer to hold the return object which probably has
                   `size of \code{x}' times `\code{comm.size(comm)}'
                   with the same type of \code{x}.}
-  \item{x.count}{a vector of length `comm size' containing all object lengths.}
+  \item{x.count}{a vector of length `\code{comm.size(comm)}' containing all object lengths.}
   \item{displs}{\code{c(0L, cumsum(x.count))} by default.}
   \item{comm}{a communicator number.}
   \item{unlist}{apply \code{unlist} function to the gathered list before
@@ -62,7 +62,8 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
 }
 \value{
   A list of length \code{comm.size(comm)}, containing the gathered objects from
-  each rank, is returned by default. An exception is for atomic vectors, when
+  each rank, is returned to all ranks by default. An exception is for atomic
+  vectors, when
   \code{x.buffer} is specified, where a list is never formed and a single
   vector is returned. In other cases, the \code{unlist = TRUE} parameter
   simply applies the \code{unlist()} function to this list before returning.
@@ -83,8 +84,7 @@ allgather(x, x.buffer = NULL, x.count = NULL, displs = NULL,
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
-spmd.file <- tempfile()
-cat("
+spmd.code <- "
 ### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
 .comm.size <- comm.size()
@@ -101,8 +101,8 @@ comm.print(y)
 
 ### Finish
 finalize()
-", file = spmd.file)
-pbdMPI::execmpi(spmd.file = spmd.file, nranks = 2L)
+"
+pbdMPI::execmpi(spmd.code, nranks = 2L)
 %}
 }
 \keyword{methods}
