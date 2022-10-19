@@ -100,7 +100,7 @@ comm.read.csv2(file, header = TRUE, sep = ";", quote = "\"",
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Check.

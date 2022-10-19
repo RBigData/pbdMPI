@@ -60,9 +60,8 @@ get.jid(n, method = .pbd_env$SPMD.CT$divide.method[1], all = FALSE,
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 comm.cat(\">>> block\\n\", quiet = TRUE)

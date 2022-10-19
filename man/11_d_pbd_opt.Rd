@@ -46,9 +46,8 @@ pbd_opt(..., bytext = "", envir = .GlobalEnv)
 ### Save code in a file "demo.r" and run with 4 processors by
 ### SHELL> mpiexec -np 4 Rscript demo.r
 
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 ls(.pbd_env)

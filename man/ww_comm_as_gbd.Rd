@@ -47,9 +47,8 @@ comm.as.gbd(X, balance.method = .pbd_env$SPMD.IO$balance.method,
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 X <- matrix(1:15, ncol = 3)

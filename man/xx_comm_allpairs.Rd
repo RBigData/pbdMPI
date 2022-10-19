@@ -43,9 +43,8 @@ comm.allpairs(N, diag = FALSE, symmetric = TRUE,
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 id.matrix <- comm.allpairs(comm.size() + 1)

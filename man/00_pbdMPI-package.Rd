@@ -21,10 +21,30 @@
   installation in an R session with
   \cr
   \code{> install.packages("pbdMPI")} \cr
-  should work in most cases. To install on the Unix command line after
+  should work in most cases. 
+  
+  On HPC clusters, \strong{it is
+  strongly recommended that you check with your HPC cluster documentation for 
+  specific requirements, such as 
+  \href{https://en.wikipedia.org/wiki/Environment_Modules_(software)}{module}
+  software environments.} Some module examples relevant to R and MPI
+  are \cr
+  \code{$ module load openmpi} \cr
+  \code{$ module load openblas} \cr
+  \code{$ module load flexiblas} \cr
+  \code{$ module load r} \cr
+  possibly giving specific versions and possibly with some upper case letters.
+  Although module software environments are widely used, the specific module
+  names and their dependence structure are not standard across cluster
+  installations. The command \cr
+  \code{$ module avail} \cr
+  usually lists the available software modules on your cluster.
+
+  To install on the Unix command line after
     downloading the source file, use \code{R CMD INSTALL}. \cr
   \cr
-  If the MPI library is not found, the following arguments can be used to
+  If the MPI library is not found, after checking that you are loading the 
+  correct module environments, the following arguments can be used to
   specify its non-standard location on your system
 \tabular{ll}{
   Argument \tab Default \cr
@@ -50,19 +70,15 @@
   where \code{some_code.r} contains the entire SPMD program. The MPI 
   Standard 4.0 recommends \code{mpiexec} over \code{mpirun}. Some
   MPI implementations may have minor differences between the two but under
-  OpenMPI 5.0 they are synonyms that produce the same behavior. \strong{It is
-  strongly recommended that you check with your HPC cluster documentation for 
-  other specific requirements, such as 
-  \href{https://en.wikipedia.org/wiki/Environment_Modules_(software)}{module}
-  software environments.}
+  OpenMPI 5.0 they are synonyms that produce the same behavior. 
 
   The package source files provide several examples based on \pkg{pbdMPI},
   such as
 \tabular{ll}{
   Directory \tab Examples \cr
-  \code{pbdMPI/inst/examples/test_spmd/}        \tab major SPMD functions \cr
-  \code{pbdMPI/inst/examples/test_rmpi/}        \tab analog to \pkg{Rmpi} \cr
-  \code{pbdMPI/inst/examples/test_parallel/}    \tab analog to \pkg{parallel} \cr
+  \code{pbdMPI/inst/examples/test_spmd/}        \tab main SPMD functions \cr
+  \code{pbdMPI/inst/examples/test_rmpi/}        \tab analogues to \pkg{Rmpi} \cr
+  \code{pbdMPI/inst/examples/test_parallel/}    \tab analogues to \pkg{parallel} \cr
   \code{pbdMPI/inst/examples/test_performance/} \tab performance tests \cr
   \code{pbdMPI/inst/examples/test_s4/}          \tab S4 extension \cr
   \code{pbdMPI/inst/examples/test_cs/}          \tab client/server examples \cr

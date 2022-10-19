@@ -84,9 +84,8 @@ For calling \code{spmd.scatterv.*()}:
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 

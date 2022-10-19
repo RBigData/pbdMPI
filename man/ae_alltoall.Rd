@@ -61,9 +61,8 @@ spmd.alltoallv.raw(x.send, x.recv, send.count, recv.count,
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 
