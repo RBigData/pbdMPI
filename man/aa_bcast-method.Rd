@@ -26,18 +26,13 @@ bcast(x, rank.source = .pbd_env$SPMD.CT$rank.source,
 }
 \details{
   The same copy of \code{x} is sent to all ranks.
+  
+  See \code{methods{"bcast"}} for S4 dispatch cases and the source code for
+  further details.
 }
 \value{
   Every rank has \code{x} returned.
 }
-\section{Methods}{
-For calling \code{spmd.bcast.*}:
-\describe{
-\item{\code{signature(x = "ANY")}}{}
-\item{\code{signature(x = "integer")}}{}
-\item{\code{signature(x = "numeric")}}{}
-\item{\code{signature(x = "raw")}}{}
-}}
 \references{
   Programming with Big Data in R Website:
   \url{https://pbdr.org/}

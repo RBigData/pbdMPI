@@ -109,9 +109,9 @@ pbdMPI is authored and maintained by the pbdR core team:
 * Wei-Chen Chen
 * George Ostrouchov
 * Drew Schmidt
-* Pragneshkumar Patel
 
 With additional contributions from:
+* Pragneshkumar Patel
 * Hao Yu
 * Christian Heckendorf
 * Brian Ripley (Windows HPC Pack 2012)
