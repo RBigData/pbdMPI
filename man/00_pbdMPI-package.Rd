@@ -6,8 +6,9 @@
 \description{
   A simplified, efficient, interface to MPI for HPC clusters. It is
   a derivation and rethinking of the Rmpi package that embraces the
-  prevalent parallel programming style on HPC clusters. It is based on S4
-  classes and methods.
+  prevalent parallel programming style on HPC clusters. Beyond the
+  interface, a collection of functions for global work with distributed
+  data is included. It is based on S4 classes and methods.
 }
 \details{
 \tabular{ll}{
