@@ -1,6 +1,6 @@
 2022-08-06: Ver. 0.4-6
   * Merger George's comm.chunk().
-  * Replace class() with is() for "try-error".
+  * Replace class() with inherits() for "try-error".
   * Modify "appveyor.yml".
   * Fix "strict-prototype" warnings.
 

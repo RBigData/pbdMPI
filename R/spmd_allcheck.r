@@ -13,7 +13,7 @@ spmd.allcheck.type <- function(x, comm = .pbd_env$SPMD.CT$comm){
     if(check.integer){
       x.dim <- dim(x)
       x <- try(as.double(x), silent = TRUE)
-      if(is(x, "try-error")){
+      if(inherits(x, "try-error")){
         stop(x) 
       }
       dim(x) <- x.dim

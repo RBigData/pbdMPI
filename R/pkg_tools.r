@@ -7,7 +7,7 @@ get.mpi.comm.ptr <- function(comm = .pbd_env$SPMD.CT$comm, show.msg = FALSE){
 } # get.mpi.comm.ptr().
 
 addr.mpi.comm.ptr <- function(comm.ptr){
-  if(is(comm.ptr, "externalptr")){
+  if(inherits(comm.ptr, "externalptr")){
     ret <- .Call("addr_MPI_COMM_PTR", comm.ptr,
                  PACKAGE = "pbdMPI")
     return(invisible(ret))
