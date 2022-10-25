@@ -1,6 +1,6 @@
 Package: pbdMPI
 Version: 0.4-6
-Date: 2022-10-09
+Date: 2022-10-23
 Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
@@ -29,7 +29,5 @@ SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
 License: Mozilla Public License 2.0
 URL: https://pbdr.org/
 BugReports: https://github.com/snoweye/pbdMPI/issues
-MailingList: Please send questions and comments regarding pbdR to
-        RBigData@gmail.com
 NeedsCompilation: yes
 Maintainer: Wei-Chen Chen <wccsnow@gmail.com>

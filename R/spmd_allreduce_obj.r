@@ -9,7 +9,7 @@ spmd.allreduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
     if(!is.integer(x)){
       x <- try(as.integer(x), silent = TRUE)
     }
-    if(is(x, "try-error")){
+    if(inherits(x, "try-error")){
       stop(x, comm = comm)
     }
   }
@@ -20,7 +20,7 @@ spmd.allreduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
   check.integer <- is.integer(x)
   check.double <- is.double(x)
   check.logical <- is.logical(x)
-  check.float32 <- is(x, "float32")
+  check.float32 <- inherits(x, "float32")
   all.check <- spmd.allreduce.integer(
                  c(check.integer, check.double, check.logical, check.float32),
                  integer(4), op = "sum", comm = comm) == COMM.SIZE
@@ -36,7 +36,7 @@ spmd.allreduce.object <- function(x, op = .pbd_env$SPMD.CT$op,
     ret <- spmd.allreduce.double(x, double(length(x)), op = op[1], comm = comm)
   } else{
     x <- try(as.double(x), silent = TRUE)
-    if(is(x, "try-error")){
+    if(inherits(x, "try-error")){
       stop(x, comm = comm)
     }
     ret <- spmd.allreduce.double(x, double(length(x)), op = op[1], comm = comm)
