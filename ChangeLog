@@ -1,3 +1,6 @@
+2022-11-20: Ver. 0.4-7
+  * Some doc and code changes.
+
 2022-08-06: Ver. 0.4-6
   * Merger George's comm.chunk().
   * Replace class() with inherits() for "try-error".
