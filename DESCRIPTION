@@ -23,9 +23,9 @@ Description: A simplified, efficient, interface to MPI for HPC clusters. It is
         prevalent parallel programming style on HPC clusters. Beyond the
         interface, a collection of functions for global work with
         distributed data is included. It is based on S4 classes and methods. 
-SystemRequirements: OpenMPI (>= 1.5.4) on Linux, Mac, and
-        FreeBSD. MS-MPI (Microsoft MPI v7.1 (SDK) and Microsoft HPC
-        Pack 2012 R2 MS-MPI Redistributable Package) on Windows.
+SystemRequirements: OpenMPI (>= 1.5.4) on Linux, Mac, and FreeBSD.
+        MS-MPI (Microsoft MPI v7.1 (SDK) and Microsoft HPC Pack 2012 R2
+        MS-MPI Redistributable Package) on Windows.
 License: Mozilla Public License 2.0
 URL: https://pbdr.org/
 BugReports: https://github.com/snoweye/pbdMPI/issues
