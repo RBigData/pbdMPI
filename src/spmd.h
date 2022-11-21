@@ -46,7 +46,7 @@ SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm);
 SEXP spmd_comm_free(SEXP R_comm);
 SEXP spmd_comm_set_errhandler(SEXP R_comm);
 SEXP spmd_comm_get_parent(SEXP R_comm);
-SEXP spmd_is_master(void);
+SEXP spmd_is_manager(void);
 SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode);
 SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key, SEXP R_newcomm);
 SEXP spmd_comm_disconnect(SEXP R_comm);

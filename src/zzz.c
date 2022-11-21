@@ -27,7 +27,7 @@ static const R_CallMethodDef callMethods[] = {
 	{"spmd_comm_free", (DL_FUNC) &spmd_comm_free, 1},
 	{"spmd_comm_set_errhandler", (DL_FUNC) &spmd_comm_set_errhandler, 1},
 	{"spmd_comm_get_parent", (DL_FUNC) &spmd_comm_get_parent, 1},
-	{"spmd_is_master", (DL_FUNC) &spmd_is_master, 0},
+	{"spmd_is_manager", (DL_FUNC) &spmd_is_manager, 0},
 	{"spmd_comm_abort", (DL_FUNC) &spmd_comm_abort, 2},
 	{"spmd_comm_split", (DL_FUNC) &spmd_comm_split, 4},
 	{"spmd_comm_disconnect", (DL_FUNC) &spmd_comm_disconnect, 1},

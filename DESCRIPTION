@@ -1,7 +1,7 @@
 Package: pbdMPI
 Version: 0.4-6
+Title: R Interface to MPI (Programming with Big Data Project)
 Date: 2022-10-23
-Title: Programming with Big Data -- Interface to MPI
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
         person("George", "Ostrouchov", role = "aut"),
@@ -15,15 +15,15 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         modified from the base packages"),
         person("Sebastien", "Lamy de la Chapelle", role="aut", comment = "fix
         check type for send/recv long vectors"))
-Depends: R (>= 3.5.0), methods
+Depends: R (>= 3.6.0), methods
 Imports: rlecuyer, float
 LazyLoad: yes
-Description: An efficient interface to MPI by utilizing S4
-        classes and methods with a focus on Single Program/Multiple Data
-        ('SPMD')
-        parallel programming style, which is intended for batch parallel
-        execution.
-SystemRequirements: OpenMPI (>= 1.5.4) on Solaris, Linux, Mac, and
+Description: A simplified, efficient, interface to MPI for HPC clusters. It is
+        a derivation and rethinking of the Rmpi package that embraces the
+        prevalent parallel programming style on HPC clusters. Beyond the
+        interface, a collection of functions for global work with
+        distributed data is included. It is based on S4 classes and methods. 
+SystemRequirements: OpenMPI (>= 1.5.4) on Linux, Mac, and
         FreeBSD. MS-MPI (Microsoft MPI v7.1 (SDK) and Microsoft HPC
         Pack 2012 R2 MS-MPI Redistributable Package) on Windows.
 License: Mozilla Public License 2.0

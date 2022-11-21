@@ -67,7 +67,7 @@ comm.unload.balance(new.X.gbd, bal.info, comm = .pbd_env$SPMD.CT$comm)
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Get two gbd row-block data.frame.

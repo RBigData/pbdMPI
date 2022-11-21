@@ -9,20 +9,20 @@
 arrange.mpi.apts()
 }
 \details{
-  Since Rmpi/pbdMPI use pre-allocate memory to store comm, status,
+  Since Rmpi/pbdMPI pre-allocate memory to store comm, status,
   datatype, info, request, this function provides a variable in \R
   to let different APIs share the same memory address.
 
   If the package loads first, then this sets `\code{.__MPI_APTS__}'
   in the \code{.GlobalEnv} of \R. If the package does not load before other
-  MPI APIs, then this points an structure point to the external memory
-  according to `\code{.__MPI_APTS__}', i.e. pre-set by other MPI APIs.
+  MPI APIs, then this gives a structure pointer to external memory
+  according to `\code{.__MPI_APTS__}', i.e. allocated by other MPI APIs.
 
   \code{pbdMPI/R/arrange.mpi.apts} provides the \R code, and
   \code{pbdMPI/src/pkg_*.*} provides the details of this call.
 }
 \value{
-  `\code{.__MPI_APTS__}' is set in the \code{.GlobalEnv} of \R.
+  `\code{.__MPI_APTS__}' is set in \code{.GlobalEnv} of \R.
 }
 \references{
   Programming with Big Data in R Website:

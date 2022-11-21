@@ -39,7 +39,7 @@
 \alias{spmd.init}
 \alias{spmd.finalize}
 \alias{spmd.is.finalized}
-\alias{spmd.is.master}
+\alias{spmd.is.manager}
 \alias{spmd.get.processor.name}
 \alias{spmd.comm.abort}
 \alias{spmd.comm.split}

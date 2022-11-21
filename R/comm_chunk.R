@@ -13,14 +13,19 @@
 #' The number of items to split into chunks.
 #' @param form
 #' Output a chunk as a single "number", as a "vector" of items from 1:N,
-#' or as an "iopair" giving offset and length in a file. Forms "ldim" and
-#' "bldim" are available only with type "equal" and are intended for setting
+#' or as a "seq" three parameters `c(from, to, by)` of the base `seq()` function
+#' (replaced deprecated "iopair" for offset and length in a file). Forms "ldim"
+#' and "bldim" are available only with type "equal" and are intended for setting
 #' "ddmatrix" (see package pbdDMAT) slots.
 #' @param type
-#' Either "balance" the chunks so they differ by no more than 1 item (used most
-#' frequently for best balance) or force as many as possible to be "equal" with
-#' possibly one or more smaller or even zero size chunks (required by ScaLAPACK's
-#' block-cyclic layouts).
+#' Is the primary load and location balance specification. The choices are:
+#' "balance" the chunks so they differ by no more than 1 item (used most
+#' frequently and default); "cycle" is the same as "balance" in terms of
+#' load but differs on location in that chunks are not contiguous, rather are
+#' assigned in a cycled way to ranks (note that "balance" and "cycle" are the
+#' same if `form` is "number");  "equal" maximizes the number of same size
+#' chunks resulting in one or more smaller or even zero size chunks carrying
+#' the leftover (required by pbdDMAT block-cyclic layouts).
 #' @param lo.side
 #' If exact balance is not possible, put the smaller chunks on the "left" (low
 #' ranks) or on the "right" (high ranks).
@@ -45,7 +50,7 @@
 #' \dontrun{
 #' ## Note that the p and rank parameters are provided by comm.size() and
 #' ## comm.rank(), respectively, when running SPMD in parallel. Normally, they
-#' ## are not specified unless testing in serial mode.
+#' ## are not specified unless testing in serial mode (as in this example).
 #' library(pbdIO)
 #'
 #' comm.chunk(16, all.rank = TRUE, p = 5)
@@ -64,7 +69,8 @@ comm.chunk = function(N, form="number", type="balance", lo.side="right",
   if(is.null(p)) p = comm.size(comm)
   if(is.null(rank)) rank = comm.rank(comm)
   
-  form = comm.match.arg(form, c("number", "vector", "iopair", "ldim", "bldim"),
+  ## Check arguments
+  form = comm.match.arg(form, c("number", "vector", "seq", "ldim", "bldim"),
                         comm = comm)
   type = comm.match.arg(type, c("balance", "equal", "cycle"), comm = comm)
   lo.side = comm.match.arg(lo.side, c("right", "left"), comm = comm)
@@ -78,75 +84,107 @@ comm.chunk = function(N, form="number", type="balance", lo.side="right",
     if(type != "equal")
       comm.stop(paste0("form ", form, " only available for type 'equal'"))
   }
-  if(type == "cycle" & form == "number")
-    comm.stop("type 'cycle' only available with form 'vector'")
+  if (type == "cycle" & lo.side == "left") {
+      comm.stop(paste0("lo.side ", lo.side, " not available type 'cycle'"))
+      ## due to last increment different from p (inconsistent)
+  }
   
+  ## compute base chunk sizes
   base = N %/% p
   rem = N - base*p
   items = rep(base, p)
   
-  ## if distributing among less than comm.size() pad with 0
-  if(p < comm.size(comm)) items = c(items, rep(0, comm.size(comm) - p))
-  
-  ## options differ only if remainder! Makes adjustments for remainder.
+  ## Option results differ only if remainder! Adjust for remainder.
   if(rem) {
     if(type == "balance" | type == "cycle") {
       if(lo.side == "right") {
-        items[1:rem] = base + 1
+        items[1:rem] = base + 1L
       } else if(lo.side == "left") {
-        items[(p - rem + 1):p] = base + 1
+        items[(p - rem + 1):p] = base + 1L
       }
     } else if(type == "equal") {
-      items = items + 1
-      rem = p*(base + 1) - N
+      items = items + 1L
+      rem = p*(base + 1L) - N
       if(lo.side == "right") {
         i = p
-        increment = -1
+        increment = -1L
       } else if(lo.side == "left") {
         i = 1
-        increment = 1
+        increment = 1L
       }
       while(rem) {
         if(rem > base) {
-          items[i] = 0
-          rem = rem - base - 1
+          items[i] = 0L
+          rem = rem - base - 1L
         } else {
           items[i] = items[i] - rem
-          rem = 0
+          rem = 0L
         }
         i = i + increment
       }
     }
   }
   
-  ## check if all allocated
-  if(sum(items) != N) cat("warning: comm.chunk rank", comm.rank(comm),
-                          "split does not add up!\n")
+  ## Check if all allocated. Uncomment for debugging:
+  ## if(sum(items) != N) cat("warning: comm.chunk rank", comm.rank(comm),
+  ##                         "chunks do not add up!\n")
   
-  ## now output in correct form
+  ## Chunk allocation done, now output items in correct form.
+  ##
+  ## A single number
+  ##
   if(form == "number" | form == "ldim") {
     if(all.rank) ret = items
     else ret = items[rank + 1]
+  ##
+  ## The largest number to all
+  ##
   } else if(form == "bldim") {
-    items = rep(max(items), length(items))
-    if(all.rank) ret = items
-    else ret = items[rank + 1]
+    if(all.rank) ret = rep(max(items), length(items))
+    else ret = max(items)
+  ##  
+  ## As vector. Empty vectors are integer(0).
+  ##
   } else if(form == "vector") {
     if(type == "cycle") {
+      items_base = cumsum(items > 0)
       if(all.rank) {
-        ret = lapply(1:length(items), function(i) seq(i, N, p))
-      } else ret = if(rank < N) seq(rank + 1, N, p) else NULL
+        ret = lapply(1:length(items),
+                     function(i) seq(from = items_base[i], by = p, 
+                                     length.out = items[i]))
+      } else ret = seq(from = items_base[rank + 1], by = p,
+                       length.out = items[rank + 1])
     } else {
-      items_base = c(0, cumsum(items)[-p])
+      items_base = c(0L, cumsum(items)[-p])
       if(all.rank) {
         ret = lapply(1:length(items_base),
                      function(i) lapply(items, seq_len)[[i]] +
                        items_base[i])
       } else ret = items_base[rank + 1] + seq_len(items[rank + 1])
     }
-  } else if(form == "iopair") {
-    offset = c(0, cumsum(items)[-p])
-    ret = c(offset[rank + 1], items[rank + 1])
+  ##  
+  ## As seq parameters to generate the vector (always lo.side = "right").
+  ##    Note: N<p returns from > to for the empty ranks (seq will error).
+  ##
+  } else if(form == "seq") {
+    if(type == "cycle") {
+      if(all.rank) {
+        ret = lapply(1L:length(items), function(i) c(i, max(N, i + ((N - i)%/%p)*p), p))
+      } else ret = if(rank < N) c(rank + 1L,
+                                  max(N, rank + 1L + ((N - rank - 1L)%/%p)*p),
+                                  p) else integer(0)
+    } else {
+      offset = c(0L, cumsum(items))
+      if(all.rank) {
+        ret = lapply(1L:length(items), function(i) c(offset[i] + 1L, 
+                                                    offset[i + 1], 1L))
+      } else {
+        ret = c(offset[rank + 1] + 1L, offset[rank + 2], 1L)
+      }
+    }
+  ##
+  ##
   } else ret = NULL
+  
   ret
 }

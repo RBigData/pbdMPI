@@ -78,9 +78,8 @@ comm.reset.seed(comm = .pbd_env$SPMD.CT$comm)
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 comm.set.seed(123456)

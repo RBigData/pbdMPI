@@ -13,40 +13,41 @@
 
 \title{ All Ranks Receive a Reduction of Objects from Every Rank }
 \description{
-  This method lets all ranks receive a deduction of  objects from every
+  This method lets all ranks receive a reduction of objects from every
   rank in the same communicator based on a given operation. The default
-  return is an object like the input.
+  return is an object like the input and the default operation is the sum.
 }
 \usage{
 allreduce(x, x.buffer = NULL, op = .pbd_env$SPMD.CT$op,
           comm = .pbd_env$SPMD.CT$comm)
 }
 \arguments{
-  \item{x}{an object to be gathered from all ranks.}
-  \item{x.buffer}{a buffer to hold the return object which probably has
-                  \code{x} with the same type of \code{x}.}
-  \item{op}{a reduction operation applied to combine all \code{x}.}
+  \item{x}{an object to be reduced from all ranks.}
+  \item{x.buffer}{for atomic vectors, a buffer to hold the return object which
+  has the same size and the same type as \code{x}.}
+  \item{op}{the reduction operation to apply to \code{x} across all \code{comm}
+  ranks. The default is normally sum.} 
   \item{comm}{a communicator number.}
 }
 \details{
-  All \code{x} on all ranks are likely presumed to have the same size and type.
+  All ranks are presumed to have \code{x} of the same size and type.
 
-  \code{x.buffer} can be \code{NULL} or unspecified. If specified, the type
-  should be one of integer, double, or raw specified correctly according to
-  the type of \code{x}.
+  Normally, \code{x.buffer} is \code{NULL} or unspecified, and is computed
+  for you. If specified for atomic vectors, the type should be one of integer,
+  double, or raw and be the same type as \code{x}. 
+  
+  The \code{allgather} is efficient due to the underlying MPI parallel
+  communication and recursive doubling reduction algorithm that results in
+  a sublinear (\code{log2(comm.size(comm))}) number of reduction and 
+  communication steps.
+  
+  See \code{methods{"allreduce"}} for S4 dispatch cases and the source code for
+  further details.
 }
 \value{
-  The reduced object of the same type as \code{x} is returned by default.
+  The reduced object of the same type as \code{x} is returned to all ranks
+  by default.
 }
-\section{Methods}{
-For calling \code{spmd.allreduce.*}:
-\describe{
-\item{\code{signature(x = "ANY", x.buffer = "missing")}}{}
-\item{\code{signature(x = "integer", x.buffer = "integer")}}{}
-\item{\code{signature(x = "numeric", x.buffer = "numeric")}}{}
-\item{\code{signature(x = "logical", x.buffer = "logical")}}{}
-\item{\code{signature(x = "float32", x.buffer = "float32")}}{}
-}}
 \references{
   Programming with Big Data in R Website:
   \url{https://pbdr.org/}
@@ -64,9 +65,8 @@ For calling \code{spmd.allreduce.*}:
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 

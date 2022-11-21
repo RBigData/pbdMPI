@@ -12,8 +12,8 @@ These examples are based on
    Port name:
    1247084544.0;tcp://10.0.2.15:51581+1247084545.0;tcp://10.0.2.15:39522:300
 
-   then the terminal 1 will hang and wait response from a client.
-   In terminal 2, run client with the random port name as
+   then the terminal 1 will hang and wait for a response from the client.
+   In terminal 2, run the client with a random port name as
 
      > mpiexec -np 1 Rscript simple.client.r \
 '1247084544.0;tcp://10.0.2.15:51581+1247084545.0;tcp://10.0.2.15:39522:300'

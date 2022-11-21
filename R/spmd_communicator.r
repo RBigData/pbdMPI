@@ -116,10 +116,10 @@ spmd.is.finalized <- function(){
 
 is.finalized <- spmd.is.finalized
 
-spmd.is.master <- function(){
+spmd.is.manager <- function(){
   tmp <- is.loaded("spmd_comm_get_parent", PACKAGE = "pbdMPI")
   if(tmp){
-    as.logical(.Call("spmd_is_master", PACKAGE = "pbdMPI"))
+    as.logical(.Call("spmd_is_manager", PACKAGE = "pbdMPI"))
   } else{
     if(spmd.comm.size(1L) > 0){
       spmd.comm.rank(1L) == 0
@@ -127,9 +127,9 @@ spmd.is.master <- function(){
       spmd.comm.rank(0L) == 0
     }
   }
-} # End of spmd.is.master().
+} # End of spmd.is.manager().
 
-is.master <- spmd.is.master
+is.manager <- spmd.is.manager
 
 spmd.get.processor.name <- function(short = TRUE){
   name <- .Call("spmd_get_processor_name", PACKAGE = "pbdMPI")

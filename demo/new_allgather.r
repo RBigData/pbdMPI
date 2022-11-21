@@ -1,5 +1,4 @@
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 x <- 1L:10L
 
