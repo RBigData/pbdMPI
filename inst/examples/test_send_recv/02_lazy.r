@@ -35,7 +35,7 @@ if(.comm.rank == 0){
   send(xx)
   send(xx)
 } else if(.comm.rank == 1){
-  y <- recv(unserialize.raw = FALSE)
+  y <- recv()
   z <- recv(xx)
 }
 comm.print(y, rank.print = 1)
