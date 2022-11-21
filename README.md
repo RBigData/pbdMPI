@@ -2,7 +2,7 @@
 
 * **License:** [![License](http://img.shields.io/badge/license-MPL%202-orange.svg?style=flat)](https://www.mozilla.org/MPL/2.0/)
 * **Download:** [![Download](http://cranlogs.r-pkg.org/badges/pbdMPI)](https://cran.r-project.org/package=pbdMPI)
-* **Status:** [![Build Status](https://app.travis-ci.com/snoweye/pbdMPI.svg?branch=master)](https://app.travis-ci.com/snoweye/pbdMPI) [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/snoweye/pbdMPI)
+* **Status:** [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/snoweye/pbdMPI)
 * **Author:** See section below.
 
 This package provides a simplified, efficient, interface to MPI for HPC 
