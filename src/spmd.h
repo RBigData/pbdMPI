@@ -31,10 +31,10 @@
 #endif
 
 /* In file "spmd.c". */
-SEXP spmd_initialize();
+SEXP spmd_initialize(void);
 SEXP spmd_finalize(SEXP R_mpi_finalize);
-SEXP spmd_is_finalized();
-SEXP spmd_get_processor_name();
+SEXP spmd_is_finalized(void);
+SEXP spmd_get_processor_name(void);
 
 /* In file "spmd_communicator.c". */
 SEXP spmd_barrier(SEXP R_comm);
@@ -46,7 +46,7 @@ SEXP spmd_comm_dup(SEXP R_comm, SEXP R_newcomm);
 SEXP spmd_comm_free(SEXP R_comm);
 SEXP spmd_comm_set_errhandler(SEXP R_comm);
 SEXP spmd_comm_get_parent(SEXP R_comm);
-SEXP spmd_is_master();
+SEXP spmd_is_manager(void);
 SEXP spmd_comm_abort(SEXP R_comm, SEXP R_errorcode);
 SEXP spmd_comm_split(SEXP R_comm, SEXP R_color, SEXP R_key, SEXP R_newcomm);
 SEXP spmd_comm_disconnect(SEXP R_comm);
@@ -226,8 +226,8 @@ SEXP spmd_alltoallv_raw(SEXP R_send_data, SEXP R_recv_data,
 /* In file "spmd_utility.c". */
 SEXP spmd_probe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
 SEXP spmd_iprobe(SEXP R_source, SEXP R_tag, SEXP R_comm, SEXP R_status);
-SEXP spmd_anysource();
-SEXP spmd_anytag();
+SEXP spmd_anysource(void);
+SEXP spmd_anytag(void);
 SEXP spmd_get_sourcetag(SEXP R_status);
 SEXP spmd_get_count(SEXP R_data_type, SEXP R_status);
 

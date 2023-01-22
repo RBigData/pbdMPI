@@ -240,15 +240,15 @@ finalize()
       by using \pkg{pbdMPI}? \\
       {\bf\color{blue} A:}
       Yes, it is relatively straightforward via \pkg{pbdMPI} API function
-      \code{task.pull()} in SPMD. For example, the next is available
-      in demo which has a user
-      defined function \code{FUN()} run on workers, and master (rank 0)
-      controls the task management.
+      \code{task.pull()} in SPMD. For example, the following is available
+      in a demo. It has a user
+      defined function \code{FUN()} that runs on workers, and the manager
+      (rank 0) controls the task management.
 \begin{Command}
 mpiexec -np 4 Rscript -e "demo(task_pull,'pbdMPI',ask=F,echo=F)"
 \end{Command}
 \begin{Code}[title=SPMD R Script (task\_pull)]
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
 
 ### Examples.
@@ -277,22 +277,22 @@ finalize()
       No problem. As in the two proceeding examples, task push or pull
       can be done in the same way by using rank 0 as the manager and
       the other ranks as workers. However, we do not recommend it
-      except perhaps for inhomogeneous computing environments and
-      independent jobs.
+      except perhaps for inhomogeneous computing environments.
 
 \item {\bf\color{blue} Q:}
       Are S4 methods more efficient? \\
       {\bf\color{blue} A:}
-      Yes and No. S4 methods are a little less efficient than using
+      Yes and No. S4 methods can be a little less efficient than using
       \code{switch ... case ...} in \proglang{C}, but most default
       methods use \code{raw} with \code{un-} and \code{serialize}
       which may cost \code{3-10} times more than using
       \code{integer} or \code{double}.
-      Instead of writing \proglang{C} code, it is easier to take
+      Instead of writing \proglang{C} code, we take
       advantage of S4 methods to extend to general R objects (\code{matrix},
       \code{array}, \code{list}, \code{data.frame}, and \code{class} ...)
       by communicating with basic data types
-      (\code{integer} and \code{double}) and avoiding serialization.
+      (\code{integer} and \code{double}) and avoid serialization for a 
+      substantial speedup.
 
 \item {\bf\color{blue} Q:}
       Can I disable the MPI initialization of \pkg{pbdMPI} when I call
@@ -345,7 +345,7 @@ finalize(mpi.finalize = FALSE)
 \begin{Error}
 ** testing if installed package can be loaded
 sh: line 1:  2905 Segmentation fault
-'/usr/local/R/3.0.0/intel13/lib64/R/bin/R' --no-save --slave 2>&1 <
+'/usr/local/R/3.0.0/intel13/lib64/R/bin/R' --vanilla 2>&1 <
 /tmp/RtmpGkncGK/file1e541c57190
 ERROR: loading failed
 

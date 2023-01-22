@@ -11,7 +11,7 @@
 rmpi_array_pointers MPI_APTS, *MPI_APTS_ptr = NULL;
 int WHO_LOAD_FIRST;
 
-SEXP arrange_MPI_APTS(){
+SEXP arrange_MPI_APTS(void){
         SEXP R_apts;
 
 	PROTECT(R_apts = findVar(install(MPI_APTS_R_NAME), R_GlobalEnv));
@@ -26,7 +26,7 @@ SEXP arrange_MPI_APTS(){
 	return(R_NilValue);
 } /* End of arrange_MPI_APTS(). */
 
-void set_MPI_APTS_in_R(){
+void set_MPI_APTS_in_R(void){
 	/* Define R objects. */
 	SEXP R_apts;
 
@@ -127,7 +127,7 @@ void set_MPI_APTS_in_R(){
 	UNPROTECT(1);
 } /* End of set_MPI_APTS_in_R(). */
 
-void get_MPI_APTS_from_R(){
+void get_MPI_APTS_from_R(void){
         /* Define an R object. */
         SEXP R_apts;
 

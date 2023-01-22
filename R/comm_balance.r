@@ -87,7 +87,8 @@ comm.load.balance <- function(X.gbd, bal.info = NULL,
     for(i in send.to){
       if(i != COMM.RANK){
         tmp <- X.gbd[bal.info$send$belong == i,]
-        spmd.isend.default(tmp, rank.dest = i, tag = COMM.RANK, comm = comm)
+        spmd.isend.default(tmp, rank.dest = i, tag = COMM.RANK,
+                           comm = comm, check.type = FALSE)
       }
     }
   }

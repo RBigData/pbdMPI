@@ -54,9 +54,8 @@ comm.allcommon(x, comm = .pbd_env$SPMD.CT$comm,
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 if(comm.rank() == 0){

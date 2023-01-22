@@ -31,13 +31,16 @@ ranks) or on the "right" (high ranks).}
 
 \item{all.rank}{FALSE returns only the chunk for rank r. TRUE returns a vector of
 length p (when form="number"), and a list of length p (when form="vector")
-each containing the output for the corresponding rank.}
+each containing the output for the corresponding rank. For the TRUE case, be aware
+that list item k has output for rank k-1.}
 
 \item{p}{The number of chunks (processors). Normally, it is NOT specified and defaults
-to NULL, which assigns comm.size(comm).}
+to NULL, which assigns comm.size(comm). Intented for demonstration purposes in
+non-MPI settings.}
 
-\item{rank}{The rank of returned chunk. Normally, it is NOT specified and defaults to
-NULL, which assigns comm.rank(comm)). Note that ranks are numbered from 0 to
+\item{rank}{The rank of the returned chunk. Normally, it is NOT specified and defaults to
+NULL, which assigns comm.rank(comm)). Intented for demonstration purposes in
+non-MPI settings. Note that ranks are numbered from 0 to
 p-1, whereas the list elements for all.rank=TRUE are numbered 1 to p.}
 
 \item{comm}{The communicator across which the split will be taken.}
@@ -54,14 +57,15 @@ programming, potentially returning different results to each rank.
 Optionally, results for all ranks can be returned to all.
 }
 \details{
-Various chunking options are possible when the number does not
+Various chunking options are possible, especially when the number does not
 split evenly into equal chunks. The output form can be a number,
-a vector of items, or a few other special forms intended for pbdR components.
+a vector of items, or a few other special forms intended for other pbdR 
+packages.
 
 If the communicator was divided with comm.split(), the chunking is done 
 within all sub-communicators respective to their size. This is useful for 
 setting up collective operations that take place on disjoint subsets of 
-ranks.
+ranks as well as for hierarchical parallelizations with MPI.
 }
 \examples{
 \dontrun{

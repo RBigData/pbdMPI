@@ -37,7 +37,7 @@ export(
   "init",
   "finalize",
   "is.finalized",
-#  "is.master",
+#  "is.manager",
 #  "get.processor.name",
   "port.open",
   "port.close",
@@ -74,7 +74,7 @@ export(
   "pbdLapply",
   "pbdSapply",
   "task.pull.workers",
-  "task.pull.master",
+  "task.pull.manager",
   "task.pull",
 
   ### "R/util_*.r"

@@ -1,9 +1,11 @@
 ### S4 functions.
 
-### Default method.
+### Default method and without specified x.buffer
 spmd.allreduce.default <- function(x, x.buffer = NULL,
     op = .pbd_env$SPMD.CT$op, comm = .pbd_env$SPMD.CT$comm){
   comm <- as.integer(comm)
+  
+  ## Check if array
   all.array <- spmd.allreduce.integer(
                    as.integer(is.array(x) && length(x) > 0),
                    integer(1), op = "sum",
@@ -16,7 +18,8 @@ spmd.allreduce.default <- function(x, x.buffer = NULL,
 } # End of spmd.allreduce.default().
 
 
-### For allreduce and basic types.
+### For basic types with specified x.buffer.
+###
 spmd.allreduce.integer <- function(x, x.buffer,
     op = .pbd_env$SPMD.CT$op, comm = .pbd_env$SPMD.CT$comm){
   .Call("spmd_allreduce_integer", x, x.buffer,

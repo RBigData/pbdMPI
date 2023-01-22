@@ -64,9 +64,8 @@ comm.cat(..., all.rank = .pbd_env$SPMD.CT$print.all.rank,
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Example.
 comm.print(comm.rank(), rank.print = 1)

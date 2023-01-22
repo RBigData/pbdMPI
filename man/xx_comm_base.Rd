@@ -43,9 +43,9 @@ comm.sd(x, na.rm = TRUE, comm = .pbd_env$SPMD.CT$comm)
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
+
 if(comm.size() != 2){
   comm.cat(\"2 processors are requried.\\n\", quiet = TRUE)
   finalize()

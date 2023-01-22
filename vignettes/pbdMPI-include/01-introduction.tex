@@ -28,18 +28,24 @@ and any changes in future versions can be found on website:
 
 Our intent is to bring the most common parallel programming model from
 supercomputing, Single Program Multiple Data (SPMD), to \proglang{R}
-and enable distributed handling of truly large data. Consequently,
+and enable distributed handling of truly large data and large parameter
+spaces. Consequently,
 \pkg{pbdMPI} is intended for batch mode programming with big data
-(pbd). Unlike \pkg{Rmpi}~\citep{Yu2002},
+(pbd) on HPC clusters. Unlike \pkg{Rmpi}~\citep{Yu2002},
 \pkg{snow}~\citep{Tierney2012}, or \pkg{parallel}~\citep{Rcore},
 interactive mode is not supported.  We think that interaction with a
 large distributed parallel computing platform is better handled with a
-client/server relationship, and we are developing other packages in
+client/server relationship, and we have developed other packages, such as
+\pkg{remoter} and \pkg{pbdZMQ}, in
 this direction.  \pkg{pbdMPI} simplifies MPI interaction, but leaves
-low and mid level functions available for advanced programmers. For
-example, it is easy to hand communicators to \pkg{pbdMPI} from other
-applications through MPI array pointers. This is intended for
-integration with other, possibly non-R, parallel software.
+low and mid level functions available for advanced programmers. Collective
+operations, such as \code{allreduce} and \code{allgather}, are considered
+high-level and easy to use, in contrast to \code{send} and \code{receive},
+which are low-level and
+considered an advanced topic. It is also possible to hand communicators to
+\pkg{pbdMPI} from other applications through MPI array pointers. This is 
+intended for integration with other, possibly non-R, parallel software, to
+eliminate the need to copy or send data.
 
 % Frankly, the interactive mode is proper for small data or short loops, but
 % could take long time for waiting next responding,
@@ -56,11 +62,12 @@ integration with other, possibly non-R, parallel software.
 
 Under the SPMD parallel programming model, the identical program runs
 on every processor but typically works on different parts of a large
-data set, while communicating with other copies of itself as
+data set or on different subsets of some parameter space, while
+communicating with other copies of itself as
 needed. Differences in execution stem from \code{comm.rank}, which is
 typically different on every processor. While on the surface this
 sounds complicated, after some experience and a new mindset,
-programming is surprisingly simple. There is no master. There is only
+programming is surprisingly simple. There is no manager. There is only
 cooperation among the workers. Although we target very large
 distributed computing platforms, SPMD works well even on small
 multicore platforms.

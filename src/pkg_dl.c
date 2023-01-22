@@ -25,7 +25,7 @@ SEXP pkg_initialize(SEXP R_i_lib){
 	return(R_NilValue);
 } /* End of pkg_initialize(). */
 
-SEXP pkg_dlopen(){
+SEXP pkg_dlopen(void){
 #ifndef WIN
 #ifdef OPENMPI
         SEXP R_apts;
@@ -46,7 +46,7 @@ SEXP pkg_dlopen(){
 	return(R_NilValue);
 } /* End of pkg_dlopen(). */
 
-SEXP pkg_dlclose(){
+SEXP pkg_dlclose(void){
 #ifndef WIN
 	if(DL_APT_ptr != NULL){
 		dlclose(DL_APT_ptr);

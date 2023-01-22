@@ -62,9 +62,8 @@ comm.dist(X.gbd, method = "euclidean", diag = FALSE, upper = FALSE,
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
 spmd.code <- "
-### Initial.
+### Initialize
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 ### Examples.
 comm.set.seed(123456, diff = TRUE)

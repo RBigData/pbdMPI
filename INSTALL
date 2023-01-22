@@ -4,7 +4,7 @@
 ### Also, pbdDEMO vignettes at
 ### https://CRAN.R-project.org/package=pbdDEMO
 ###
-### This file is only a quick installation for Solaris, Linux, and Mac OS X.
+### This file is only for installation on Linux, and Mac OS X.
 ### See `INSTALL.win.src' for a source installation for Windows system.
 ### See `INSTALL.win.bin' for a binary installation for Windows system.
 

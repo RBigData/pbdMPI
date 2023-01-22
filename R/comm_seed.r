@@ -32,7 +32,7 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL,
 comm.end.seed <- function(comm = .pbd_env$SPMD.CT$comm){
   name <- get(".lec.Random.seed.table", envir = .GlobalEnv)$name
   old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
-  if(is(old.kind, "try-error")){
+  if(inherits(old.kind, "try-error")){
     old.kind <- RNGkind()
   }
 
@@ -53,7 +53,7 @@ comm.reset.seed <- function(comm = .pbd_env$SPMD.CT$comm){
   }
 
   old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
-  if(is(old.kind, "try-error")){
+  if(inherits(old.kind, "try-error")){
     old.kind <- RNGkind()
   }
 
@@ -78,7 +78,7 @@ comm.seed.state <- function(comm = .pbd_env$SPMD.CT$comm){
   }
 
   old.kind <- try(get(".lec.old.kind", envir = .GlobalEnv), silent = TRUE)
-  if(is(old.kind, "try-error")){
+  if(inherits(old.kind, "try-error")){
     old.kind <- RNGkind()
   }
 

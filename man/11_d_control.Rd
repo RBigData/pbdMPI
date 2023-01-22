@@ -1,51 +1,52 @@
 \name{SPMD Control}
 \alias{.pbd_env}
 \docType{data}
-\title{Sets of controls in pbdMPI.}
+\title{Default control in pbdMPI.}
 \description{
-  These sets of controls are used to provide default values in this package.
+  These variables provide default values for most functions in the package.
 }
 \format{
-  Objects contain several parameters for communicators and methods.
+  The environment \code{.pbd_env} contains several objects with parameters for
+  communicators and methods.
 }
 \details{
-  The elements of \code{.pbd_env$SPMD.CT} are default values for controls
-  including
+  The elements of \code{.pbd_env$SPMD.CT} are default values for various 
+  controls
 \tabular{lcl}{
-  Elements              \tab Default    \tab Usage \cr
-  \code{comm}           \tab 0L         \tab a communicator index \cr
-  \code{intercomm}      \tab 2L         \tab an inter communicator index \cr
-  \code{info}           \tab 0L         \tab an info index \cr
-  \code{newcomm}        \tab 1L         \tab a new communicator index \cr
-  \code{op}             \tab "sum"      \tab an operation \cr
-  \code{port.name}      \tab "spmdport" \tab an operation \cr
-  \code{print.all.rank} \tab FALSE      \tab if all ranks print message \cr
-  \code{print.quiet}    \tab FALSE      \tab if print/cat rank information \cr
-  \code{rank.root}      \tab 0L         \tab a rank of root \cr
-  \code{rank.source}    \tab 0L         \tab a rank of source \cr
-  \code{rank.dest}      \tab 1L         \tab a rank of destination \cr
-  \code{request}        \tab 0L         \tab a request index \cr
-  \code{serv.name}      \tab "spmdserv" \tab a service name \cr
-  \code{status}         \tab 0L         \tab a status index \cr
-  \code{tag}            \tab 0L         \tab a tag number \cr
-  \code{unlist}         \tab FALSE      \tab if unlist returning \cr
-  \code{divide.method}  \tab "block"    \tab a way to divide jobs or data \cr
-  \code{mpi.finalize}   \tab TRUE       \tab if shutdown MPI \cr
-  \code{quit}           \tab TRUE       \tab if quit when errors occur \cr
-  \code{msg.flush}      \tab TRUE       \tab if flush message for comm.cat/comm.print \cr
-  \code{msg.barrier}    \tab TRUE       \tab if barrier message for comm.cat/comm.print \cr
-  \code{Rprof.all.rank} \tab FALSE      \tab if call Rprof on all ranks \cr
-  \code{lazy.check}     \tab TRUEE      \tab if use lazy check on all ranks \cr
+  Elements              \tab Default    \tab Meaning \cr
+  \code{comm}           \tab 0L         \tab communicator index \cr
+  \code{intercomm}      \tab 2L         \tab inter communicator index \cr
+  \code{info}           \tab 0L         \tab info index \cr
+  \code{newcomm}        \tab 1L         \tab new communicator index \cr
+  \code{op}             \tab "sum"      \tab the operation \cr
+  \code{port.name}      \tab "spmdport" \tab the operation \cr
+  \code{print.all.rank} \tab FALSE      \tab whether all ranks print message \cr
+  \code{print.quiet}    \tab FALSE      \tab whether rank is added to print/cat \cr
+  \code{rank.root}      \tab 0L         \tab the rank of root \cr
+  \code{rank.source}    \tab 0L         \tab the rank of source \cr
+  \code{rank.dest}      \tab 1L         \tab the rank of destination \cr
+  \code{request}        \tab 0L         \tab the request index \cr
+  \code{serv.name}      \tab "spmdserv" \tab the service name \cr
+  \code{status}         \tab 0L         \tab the status index \cr
+  \code{tag}            \tab 0L         \tab the tag number \cr
+  \code{unlist}         \tab FALSE      \tab whether to unlist a return \cr
+  \code{divide.method}  \tab "block"    \tab default method for jid \cr
+  \code{mpi.finalize}   \tab TRUE       \tab shutdown MPI on \code{finalize()} \cr
+  \code{quit}           \tab TRUE       \tab quit when errors occur \cr
+  \code{msg.flush}      \tab TRUE       \tab flush each comm.cat/comm.print\cr
+  \code{msg.barrier}    \tab TRUE       \tab include barrier in comm.cat/comm.print \cr
+  \code{Rprof.all.rank} \tab FALSE      \tab call Rprof on all ranks \cr
+  \code{lazy.check}     \tab TRUE      \tab use lazy check on all ranks \cr
 }
 
   The elements of \code{.pbd_env$SPMD.OP} list the implemented operations for
-  \code{reduce()} and \code{allreduce()}. Currently, four operations are
-  implemented "sum", "prod", "max", and "min".
+  \code{reduce()} and \code{allreduce()}. Currently, implemented operations are
+  "sum", "prod", "max", "min", "land", "band", "lor", "bor", "lxor", "bxor".
 
-  The elements of \code{.SPMD.IO} are default values for input and output
-  including
+  The elements of \code{.SPMD.IO} are default values for functions in
+  \code{comm_read.r} and \code{comm_balance.r}.
 \tabular{lcl}{
-  Elements              \tab Default    \tab Usage \cr
+  Elements              \tab Default    \tab Meaning \cr
   \code{max.read.size}  \tab 5.2e6      \tab max of reading size (5 MB) \cr
   \code{max.test.lines} \tab 500        \tab max of testing lines \cr
   \code{read.method}    \tab "gbd"      \tab default reading method \cr
@@ -54,11 +55,11 @@
   where \code{balance.method} is only used for "gbd" reading method when
   \code{nrows = -1} and \code{skip = 0} are set.
 
-  The elements of \code{.pbd_env$SPMD.TP} are default values mainly for
-  task pull including
+  The elements of \code{.pbd_env$SPMD.TP} are default values for
+  task pull settings
 \tabular{lcl}{
-  Elements          \tab Default \tab Usage \cr
-  \code{bcast}      \tab FALSE   \tab if \code{bcase()} objects to all ranks \cr
+  Elements          \tab Default \tab Meaning \cr
+  \code{bcast}      \tab FALSE   \tab whether to \code{bcast()} objects to all ranks \cr
   \code{barrier}    \tab TRUE    \tab if call \code{barrier()} for all ranks \cr
   \code{try}        \tab TRUE    \tab if use \code{try()} in works \cr
   \code{try.silent} \tab FALSE   \tab if silent the \code{try()} message \cr

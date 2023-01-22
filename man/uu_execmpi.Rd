@@ -91,7 +91,6 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
 spmd.file <- tempfile()
 cat("
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 allreduce(2)
 finalize()
 ", file = spmd.file)

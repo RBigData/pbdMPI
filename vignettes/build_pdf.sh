@@ -14,6 +14,8 @@ pdflatex pbdMPI-guide.Rnw
 pdflatex pbdMPI-guide.Rnw
 pdflatex pbdMPI-guide.Rnw
 
+Rscript -e 'tools::compactPDF("./", gs_quality = "ebook")'
+
 rm *.aux *.bbl *.blg *.log *.out *.toc *.bst *.cls
 mv -f *.pdf ../inst/doc/
 cp -f *.Rnw ../inst/doc/

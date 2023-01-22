@@ -1,5 +1,5 @@
-### To disable "rlecuyer" loading in "pbdMPI::.onLoad()" because there is
-### a spmd_bcast() call is needed to get the parallel RNG working in the
+### To disable "rlecuyer" loading in "pbdMPI::.onLoad()" because
+### an spmd_bcast() call is needed to get the parallel RNG working in the
 ### "pbdMPI::.onLoad()" function.
 .Random.seed <- NULL
 

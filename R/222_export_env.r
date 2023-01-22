@@ -38,7 +38,7 @@
 #   invisible()
 # } # End of .mpiopt_set().
 
-### Initial MPI options.
+### Initialize MPI options.
 .mpiopt_init <- function(envir = .GlobalEnv){
   if(!exists(".pbd_env", envir = envir)){
     envir$.pbd_env <- new.env()
