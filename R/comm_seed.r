@@ -38,6 +38,11 @@ comm.set.stream <- function(name, save.last = TRUE, comm = .pbd_env$SPMD.CT$comm
 ## where vector is the same one that was chunked with comm.chunk().
 ## To restore RNG after old = comm.set.seed(...), use RNGkind(old).
 ## 
+## (TODO Allow creation of only required streams - by comm.chunk() - rather 
+## than all from the beginning. This will reduce the memory footprint 
+## in distributed computing. This is possible because streams are named in
+## .lec.Random.seed.table.)
+## 
 comm.set.seed <- function(seed, diff = FALSE, state = NULL, streams = NULL,
                           comm = .pbd_env$SPMD.CT$comm){
   if(!is.null(state)) comm.stop("comm.set.seed parameter state is deprecated")
@@ -77,7 +82,7 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL, streams = NULL,
 comm.reset.seed <- function(comm = .pbd_env$SPMD.CT$comm){
   comm.stop(paste("comm.reset.seed is deprecated."), comm = comm)
   invisible()
-} # End of comm.end.seed().
+} # End of comm.reset.seed().
 comm.end.seed <- function(comm = .pbd_env$SPMD.CT$comm){
   comm.stop(paste("comm.end.seed is deprecated."), comm = comm)
   invisible()
