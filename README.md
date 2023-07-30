@@ -6,7 +6,7 @@
 * **Author:** See section below.
 
 This package provides a simplified, efficient, interface to MPI for HPC 
-clusters. It is a derivation and rethinking of the Rmpi package that embraces
+clusters. This derivation and rethinking of the Rmpi package embraces
 the prevalent parallel programming style on HPC clusters. It is based on S4
 classes and methods. 
     

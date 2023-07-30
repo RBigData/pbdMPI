@@ -29,6 +29,10 @@ exportMethods(
 )
 
 export(
+  ### "R/comm_seed.r"
+  "get.stream.state",
+  "set.stream.state",
+  
   ### "R/mpi_apts.r"
   "arrange.mpi.apts",
 

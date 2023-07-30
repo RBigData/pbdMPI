@@ -59,15 +59,20 @@
 
   Loading \code{library(pbdMPI)}, sets a few global variables, including the
   environment \code{.pbd_env}, where many defaults are set, and initializes MPI.
-  In most cases, the defaults should not be modified except trough parameters
-  of the functions that use them. \strong{All codes must end
+  In most cases, the defaults should not be modified. Rather, the parameters
+  of the functions that use them should be changed. \strong{All codes must end
   with \code{\link{finalize}()} to cleanly exit MPI.}
 
-  Most functions are assumed to run as SPMD, i.e.
-  in batch mode. On most clusters, codes run with \code{mpirun} or 
-  \code{mpiexec} and
-  \code{Rscript}, together, such as \cr \cr
-  \code{> mpiexec -np 2 Rscript some_code.r} \cr \cr
+  Most functions are assumed to run as Single Program, Multiple Data (SPMD),
+  i.e. in batch mode. SPMD is based on cooperation between parallel copies of a
+  single program, which is more scalable than a manager-workers approach that is
+  natural in interactive programming. Interactivity with an HPC cluster is more
+  efficiently handled by a client-server approach, such as that enabled by the
+  \href{https://cran.r-project.org/package=remoter}{remoter} package.
+  
+  On most clusters, codes run with \code{mpirun} or 
+  \code{mpiexec} and \code{Rscript}, such as \cr
+  \code{> mpiexec -np 2 Rscript some_code.r} \cr
   where \code{some_code.r} contains the entire SPMD program. The MPI 
   Standard 4.0 recommends \code{mpiexec} over \code{mpirun}. Some
   MPI implementations may have minor differences between the two but under
@@ -85,7 +90,7 @@
   \code{pbdMPI/inst/examples/test_cs/}          \tab client/server examples \cr
   \code{pbdMPI/inst/examples/test_long_vector/} \tab long vector examples \cr
 }
-  where \code{test_long_vector} needs to recompile with setting
+  where \code{test_long_vector} needs a recompile with setting
 
   \code{#define MPI_LONG_DEBUG 1}
 
