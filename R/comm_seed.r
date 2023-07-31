@@ -80,13 +80,22 @@ comm.set.seed <- function(seed, diff = FALSE, state = NULL, streams = NULL,
 } # End of comm.set.seed().
 
 comm.reset.seed <- function(comm = .pbd_env$SPMD.CT$comm){
-  comm.stop(paste("comm.reset.seed is deprecated."), comm = comm)
-  invisible()
+  .Defunct("set.stream.state", package = "pbdMPI",
+           msg = paste("'comm.reset.seed' is defunct. Instead,",
+                       "use comm.set.seed() with original seed",
+                       "or `get.stream.state()`",
+                       "with 'set.stream.state() for other resets"))
 } # End of comm.reset.seed().
 comm.end.seed <- function(comm = .pbd_env$SPMD.CT$comm){
-  comm.stop(paste("comm.end.seed is deprecated."), comm = comm)
-  invisible()
+  .Defunct("comm.set.seed", package = "pbdMPI",
+           msg = paste("'comm.end.seed' is defunct.",
+                       "Ending streams is included in comm.set.seed().\n"))
 } # End of comm.end.seed().
+comm.seed.state <- function(comm = .pbd_env$SPMD.CT$comm){
+  .Defunct("get.stream.state", package = "pbdMPI",
+           msg = paste("'comm.end.seed' is defunct. Instead,",
+                       "use get.stream.state() and set.stream.state() pair."))
+} # End of comm.stream.state().
 
 set.stream.state <- function(state){
   ### Terminate current stream first to get the current state.

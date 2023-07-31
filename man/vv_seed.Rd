@@ -1,21 +1,23 @@
 \name{seed for RNG}
 \alias{comm.set.seed}
-\alias{comm.seed.state}
-\alias{comm.end.seed}
-\alias{comm.reset.seed}
+\alias{comm.seed.state} %defunct
+\alias{comm.end.seed} %defunct
+\alias{comm.reset.seed} %defunct
+\alias{get.stream.state}
+\alias{set.stream.state}
 \title{ Seed Functions for Random Number Generators }
 \description{
-  These functions set/end/reset seeds for all ranks.
+  These functions set seeds and switch streams for all ranks.
   By default, these functions are wrappers of \pkg{rlecuyer} which implements
   the random number generator with multiple independent streams
   developed by L'Ecuyer et al (2002).
 }
 \usage{
-comm.set.seed(seed, diff = FALSE, state = NULL,
+comm.set.seed(seed, diff = FALSE, state = NULL, streams = NULL,
               comm = .pbd_env$SPMD.CT$comm)
 comm.seed.state(comm = .pbd_env$SPMD.CT$comm)
-comm.end.seed(comm = .pbd_env$SPMD.CT$comm)
-comm.reset.seed(comm = .pbd_env$SPMD.CT$comm)
+comm.end.seed(comm = .pbd_env$SPMD.CT$comm) DEPRECATED
+comm.reset.seed(comm = .pbd_env$SPMD.CT$comm) DEPRECATED
 }
 \arguments{
   \item{seed}{one integer or six integers as in \pkg{rlecuyer}.}
