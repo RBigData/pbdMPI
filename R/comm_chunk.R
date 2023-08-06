@@ -30,15 +30,14 @@
 #' If exact balance is not possible, put the smaller chunks on the "left" (low
 #' ranks) or on the "right" (high ranks).
 #' @param rng
-#' If TRUE, engage the L'Ecuyere parallel random number generator from package
-#' \pkg{rlecuyer}. This requires providing additional ... parameters `seed` and 
-#' `diff` used by \code{\link{comm.set.seed()}}. `seed` is an integer and 
-#' `diff` is a logical indicating whether the streams should be different. 
-#' If `diff = TRUE` the `streams` parameter of \code{\link{set.stream.state}} 
-#' is set to `N`, setting up `N` independent streams, each engaged with 
-#' \code{\link{set.stream.state}}. This requires `form = "vector"` so that each 
-#' rank knows which of the `N` streams it owns. Switch to stream `i` with
-#' `set.stream.state(i)`, where `i` is a global index.
+#' If TRUE, set up different L'Ecuyere random number generator streams. 
+#' Switch to stream `i` with `set.stream.state(i)`, 
+#' where `i` is a global index. This requires `form = "vector"` to provide the 
+#' correct stream indices to each rank.
+#' Additional ... optional parameter 
+#' `seed` is used by \code{\link{comm.set.seed()}} for resource-independent
+#' reproducibility.
+#' 
 #' @param all.rank
 #' FALSE returns only the chunk for rank r. TRUE returns a vector of
 #' length p (when form="number"), and a list of length p (when form="vector")
@@ -75,6 +74,9 @@ comm.chunk = function(N, form="number", type="balance", lo.side="right",
                       rng = FALSE, all.rank=FALSE, p = NULL, rank = NULL,
                       comm = .pbd_env$SPMD.CT$comm, ...) {
   xargs = list(...)
+  if(rng && form != "vector") comm.stop("rng.seed requires form == 'vector'")
+  if(rng && is.null(xargs$seed)) 
+    comm.stop("Missing additional parameter `seed` for rng")
   
   ## Normally, these are input NULL and assigned from comm
   if(is.null(p)) p = comm.size(comm = comm)
@@ -98,15 +100,6 @@ comm.chunk = function(N, form="number", type="balance", lo.side="right",
   if (type == "cycle" & lo.side == "left") {
       comm.stop(paste0("lo.side ", lo.side, " not available type 'cycle'"))
       ## due to last increment different from p (inconsistent)
-  }
-  if (rng) { # also set up parallel random number generation
-    if(form == "vector") { # must be "vector"
-      if(is.null(xargs$seed) || is.null(xargs$diff))
-        comm.stop("Missing additional parameters seed or diff for rng")
-      if(xargs$diff) { # expecting seed and diff additional args
-        comm.set.seed(as.integer(xargs$seed), diff = TRUE, streams = N)
-      } else comm.set.seed(as.integer(xargs$seed), diff = FALSE)
-    } else comm.stop("rng.seed requires form == 'vector'")
   }
   
   ## compute base chunk sizes
@@ -206,5 +199,8 @@ comm.chunk = function(N, form="number", type="balance", lo.side="right",
   ##
   } else ret = NULL
   
+  if (rng) { # also set up parallel random number generation
+    comm.set.seed(seed = xargs$seed, diff = TRUE, streams = ret)
+  }
   ret
 }

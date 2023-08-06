@@ -70,9 +70,9 @@ ranks as well as for hierarchical parallelizations with MPI.
 \examples{
 \dontrun{
 ## Note that the p and rank parameters are provided by comm.size() and
-## comm.rank(), respectively, when running SPMD in parallel. Normally, they
-## are not specified unless testing in serial mode.
-library(pbdIO)
+## comm.rank(), respectively, when running SPMD with MPI. Normally, they
+## are not specified unless testing in serial mode, as we do here.
+library(pbdMPI)
 
 comm.chunk(16, all.rank = TRUE, p = 5)
 comm.chunk(16, type = "equal", all.rank = TRUE, p = 5)

@@ -11,7 +11,7 @@
 
 ### The above are fake. These only be here for reference and to fool
 ### ``R CMD check''.
-### The real one ``in practicee and runtime'' is initialed by the
+### The real one ``in practice and runtime'' is initialed by the
 ### .mpiopt_init() in next which is always called by .OnLoad() in "zzz.r"
 ### to avoid overloaded and can be really accessed by users instead of sealed
 ### by R after loaded.
