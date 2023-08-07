@@ -36,9 +36,10 @@
 #' set up for each index in the vector and only those needed by each rank are
 #' kept.
 #' If \code{form = "number"}, each rank will use a different stream, set by
-#' default (so \code{\link{comm.set.stream}} is not needed to be used).
+#' default (so \code{\link{comm.set.stream}} does not need to be used).
 #' Additional ... parameter 
-#' \code{seed}, used by \code{\link{comm.set.seed}}, can be set for reproducibility.
+#' \code{seed}, passed to \code{\link{comm.set.seed}}, can be set for
+#' reproducibility.
 #' 
 #' @param all.rank
 #' FALSE returns only the chunk for rank r. TRUE returns a vector of
