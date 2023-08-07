@@ -1,46 +1,10 @@
-### Seed functions for random number generators.
-### 
-### Reworking to dependence on parallel package instead of rlecuyer
-### ###############################################################
-### A simpler interface that's integrated better to R
-### Only nextRNGStream() and nextRNGSubStream() need to be used (probably because 
-### we are only skipping with seeds. We have an ability to skip around the big
-### circle of pseudo random numbers!!!!)
-
-
-## comm.set.stream
-## 
-## Instead of associating streams with ranks, we can now associate them with
-## a vector, bringing reproducibility that is independent of the number of
-## ranks. Typically, the vector is the same one that was chunked across ranks.
-## Further, this enables the same reproducibility in the \pkg{parallel} 
-## package, bringing independence of the number of cores used and full 
-## reproducibility across two levels of parallelism. See 
-## https://stackoverflow.com/questions/67662603/parallel-processing-in-r-using-parallel-package-not-reproducible-with-differen ## 
-## Independent streams are user-enabled at the start of each vector element 
-## processing with this function. Numbering of streams starts from 1 and is
-## global, corresponding to the global indices of the relevant chunked vector.
-## Switching between streams on the same rank continues each stream from where
-## it left off. Ranks are not aware of streams set by other ranks.
-## 
-## Internally, all ranks set up all streams for the relevant vector. If 
-## extremely long vectors are concerned, resource-independent reproducibility
-## can be managed with a utility vector that is as long as the maximum 
-## parallelism anticipated.
-## 
-## The main memory requirement is of order 6*length(vector) for the RNG state.
-##
-
-## state is now deprecated. Use get.stream.state and set.stream.state.
-## streams is the number of streams needed. Typically, this is length(vector),
-## where vector is the same one that was chunked with comm.chunk().
-## To restore RNG after old = comm.set.seed(...), use RNGkind(old).
-## 
-## Example of restoring pre-L'Ecuyer RNG is in demo/seed_rank.r
-
-#' Parallel random number generation for reproducible results, including 
-#' reproducibility with parallelization. Tailored for MPI use on clusters but
-#' also capable for the parallel package's multicore components.
+#' Parallel random number generation with reproducible results
+#' 
+#' These functions control the parallel-capable L'Ecuyer-CMRG pseudo-random 
+#' number generator (RNG) on clusters and in multicore parallel applications for 
+#' reproducible results. Reproducibility is possible across different node and
+#' core configurations by associating the RNG streams with an application 
+#' vector. 
 #' 
 #' @param seed
 #' A single value, interpreted as an integer.
@@ -48,19 +12,54 @@
 #' Logical indicating if the parallel instances should have different random
 #' streams.
 #' @param state 
-#' In function `comm.set.stream()`, a generator state for restarts in a stream
-#' produced by an earlier call to `comm.set.stream()`. In function 
-#' `comm.set.seed()`, the parameter is deprecated.
+#' In function \code{comm.set.seed}, this parameter is deprecated. In function 
+#' \code{comm.set.stream}, it restarts 
+#' a stream from a previously saved \code{state <- comm.set.stream()}.
 #' @param streams 
 #' An vector of sequential integers specifying the streams to be prepared on
 #' the current rank. Typically, this is used by `comm.chunk()` to prepare
 #' correct streams for each rank, which are aligned with the vector being
 #' chunk-ed. 
 #' @param comm
-#' The communicator that determines ranks.
+#' The communicator that determines MPI rank numbers.
+#' 
+#' @return 
+#' \code{comm.set.seed} engages the L'Ecuyer-CMRG RNG and invisibly returns
+#' the previous RNG in use (Output of RNGkind()[1]). Capturing it, enables 
+#' the restoration of the
+#' previous RNG with \code{RNGkind}. See examples of use in 
+#' \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
+#' 
+#' \code{comm.set.stream} performs stream switching with 
+#' 
+#' @details
+#' This implementation has similar properties as the \code{parallel} package
+#' (and uses its low-level function \code{\link{parallel::nextRNGStream}})
+#' but adds a reproducibility capability with vector-based streams that works
+#' across different numbers of nodes or cores. 
+#' 
+#' Vector-based streams are best set up with the higher level function 
+#' \code{\link{comm.chunk}} instead of using \code{comm.set.stream} directly.
+#' \code{\link{comm.chunk}} will set up only the streams that each rank needs.
+#' 
+#' The function uses \code{parallel}'s
+#' \code{nextRNGStream()} and sets up the parallel stream seeds in the
+#' \code{.pbd_env$RNG} environment, which are then managed with
+#' \code{\link{comm.set.stream}}. There is only one communication broadcast in
+#' this implementation that ensures all ranks have the same seed as rank 0.
+#' 
+#' When rank-based streams are set up, \code{\link{comm.chunk}} with 
+#' \code{form = "number"} and \code{rng = TRUE} parameters, streams are 
+#' different for each rank and switching is not needed. Vector-based streams
+#' are obtained with \code{form = "vector"} and \code{rng = TRUE} parameters.
+#' In this latter case, the vector returned to each
+#' rank contains the stream numbers (and vector components) that the rank owns.
+#' Switch with \code{comm.set.stream(v)}, where v is one of the stream numbers.
+#' Switching back and forth is allowed, with each stream continuing where it
+#' left off.
 #' 
 #' @export
-comm.set.seed <- function(seed = NULL, diff = FALSE, state = NULL,
+comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
                           streams = NULL, comm = .pbd_env$SPMD.CT$comm) {
   if(!is.null(state)) comm.stop("comm.set.seed parameter state is deprecated")
 
@@ -104,6 +103,9 @@ comm.set.seed <- function(seed = NULL, diff = FALSE, state = NULL,
       names(RNG$streams) <- RNG$name <- as.character(my.stream)
       assign(".Random.seed", my.seed, envir = .GlobalEnv)
       ## Each rank now has own stream
+
+      ## Enables resource-independent reproducibility for \code{parallel} package. See
+      ## https://stackoverflow.com/questions/67662603/parallel-processing-in-r-using-parallel-package-not-reproducible-with-differen 
     } else { # set vector-based streams
       Lseed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
       for(i in seq_len(streams[1L] - 1L)) # skip to first needed stream
@@ -138,7 +140,38 @@ comm.set.seed <- function(seed = NULL, diff = FALSE, state = NULL,
   invisible(RNG$kind.old)  # invisibly return previous RNGkind
 } # End of comm.set.seed().
 
-#' @rdname comm.set.seed
+#' Switching streams, getting and setting states of RNG set up by 
+#' \code{comm.set.seed} L'Ecuyer-CMRG generator
+#' 
+#' @param name
+#' Stream number that is coercible to character, indicating to continue 
+#' generating from that stream.
+#' @param reset 
+#' If true, reset the requested stream back to its beginning.
+#' @param state
+#' If non-NULL, a stream state (a list with one named element, which is the
+#' 6-element L'Ecuyer-CMRG \code{.Random.seed}, probably captured earlier
+#' with \code{state <- comm.set.stream()}). The stream name, if different from
+#' a provided parameter \code{name}, has precedence, but a warning is produced.
+#' Further, the requesting rank must own the stream.
+#' @param comm
+#' The communicator that determines MPI rank numbers.
+#' 
+#' @return 
+#' Invisibly returns the current stream number as character.
+#' 
+#' @details
+#' Saves current state and stream number in the .pbd_env$RNG environment and 
+#' starts the requested stream or continues it from where it left off.
+#' 
+#' If no parameters are given, no stream change is made and the current stream
+#' named state is invisibly returned as a list with one named (by stream 
+#' number) element, the 6-element integer vector of its current 
+#' \code{.Random.seed}.
+#' 
+#' See examples of use in 
+#' \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
+#' 
 #' @export
 comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,
                             comm = .pbd_env$SPMD.CT$comm) {
@@ -147,7 +180,7 @@ comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,
     
     if(!is.null(state)) {
       if(!is.null(name) && name != names(state)) 
-        comm.warning("name conflicts with names(state). names(state) wins.")
+        warning("name conflicts with names(state). names(state) wins.")
       name = names(state) # names(state) overrides name
       state = state[[name]] # strips name for proper integer .Random.seed
     }
