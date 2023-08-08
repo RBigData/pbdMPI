@@ -34,9 +34,10 @@
 #' 
 #' @details
 #' This implementation has similar properties as the \code{parallel} package
-#' (and uses its low-level function \code{\link{parallel::nextRNGStream}})
-#' but adds a reproducibility capability with vector-based streams that works
-#' across different numbers of nodes or cores. 
+#' as it uses its function \code{\link{parallel::nextRNGStream}}. The main
+#' difference is that it adds a reproducibility capability with vector-based
+#' streams that works across different numbers of nodes or cores by associating
+#' streams with an application vector.
 #' 
 #' Vector-based streams are best set up with the higher level function 
 #' \code{\link{comm.chunk}} instead of using \code{comm.set.stream} directly.
@@ -57,6 +58,33 @@
 #' Switch with \code{comm.set.stream(v)}, where v is one of the stream numbers.
 #' Switching back and forth is allowed, with each stream continuing where it
 #' left off.
+#' 
+#' ## RNG Notes
+#' R sessions connected by MPI begin like other R sessions as discussed in
+#' \link{Random}. On first use of random number generation, 
+#' each rank computes its own seed from a combination of clock time and process
+#' id (unless it reads a previously saved workspace, which is not recommended). 
+#' Because of asynchronous execution, imperfectly synchronized node clocks,
+#' and likely different process ids, this
+#' almost guarantees unique seeds and most likely results in independent 
+#' streams. However, this is not reproducible and not guaranteed. Both 
+#' reproducibility and guarantee are brought by the use of the L'Ecuyer-CMRG 
+#' generator implementation in \code{\link{parallel::nestRNGStream}} and the
+#' use of \code{comm.set.seed} and \code{\link{comm.set.stream}} adaptation for
+#' parallel computing on cluster systems.
+#' 
+#' At a high level, the L'Ecuyer-CMRG pseudo-random number generator can 
+#' take jumps (advance the seed) in its 
+#' stream (about 2^191 long) so that distant substreams can be assigned. The 
+#' \code{\link{parallel::nestRNGStream}} implementation takes jumps of 2^127 
+#' (about 1.7e38) to provide up to 2^64 (about 1.8e19) independent streams. See
+#' \link{https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf}
+#' for more details.
+#' 
+#' In situations that require the same stream on all ranks, a simple 
+#' \code{\link{set.seed}} from base R and the default RNG will suffice. 
+#' \code{comm.set.seed} will also accomplish this with the \code{diff = FALSE}
+#' parameter if switching between same and different streams is needed.
 #' 
 #' @export
 comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
@@ -104,7 +132,8 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
       assign(".Random.seed", my.seed, envir = .GlobalEnv)
       ## Each rank now has own stream
 
-      ## Enables resource-independent reproducibility for \code{parallel} package. See
+      ## Enables resource-independent reproducibility for \code{parallel} 
+      ## package. See
       ## https://stackoverflow.com/questions/67662603/parallel-processing-in-r-using-parallel-package-not-reproducible-with-differen 
     } else { # set vector-based streams
       Lseed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
