@@ -27,21 +27,22 @@
 #' \code{comm.set.seed} engages the L'Ecuyer-CMRG RNG and invisibly returns
 #' the previous RNG in use (Output of RNGkind()[1]). Capturing it, enables 
 #' the restoration of the
-#' previous RNG with \code{RNGkind}. See examples of use in 
+#' previous RNG with \code{\link{RNGkind}}. See examples of use in 
 #' \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
 #' 
-#' \code{comm.set.stream} performs stream switching with 
 #' 
 #' @details
-#' This implementation has similar properties as the \code{parallel} package
-#' as it uses its function \code{\link{parallel::nextRNGStream}}. The main
-#' difference is that it adds a reproducibility capability with vector-based
+#' This implementation uses the function \code{\link{parallel::nextRNGStream}}
+#' in package \code{parallel} to set up streams appropriate for working on a
+#' cluster system with MPI. The main difference from \code{parallel} is
+#' that it adds a reproducibility capability with vector-based
 #' streams that works across different numbers of nodes or cores by associating
 #' streams with an application vector.
 #' 
 #' Vector-based streams are best set up with the higher level function 
 #' \code{\link{comm.chunk}} instead of using \code{comm.set.stream} directly.
-#' \code{\link{comm.chunk}} will set up only the streams that each rank needs.
+#' \code{\link{comm.chunk}} will set up only the streams that each rank needs 
+#' and provides the information necessary to use them.
 #' 
 #' The function uses \code{parallel}'s
 #' \code{nextRNGStream()} and sets up the parallel stream seeds in the
@@ -61,7 +62,7 @@
 #' 
 #' ## RNG Notes
 #' R sessions connected by MPI begin like other R sessions as discussed in
-#' \link{Random}. On first use of random number generation, 
+#' \code{\link{base::Random}}. On first use of random number generation, 
 #' each rank computes its own seed from a combination of clock time and process
 #' id (unless it reads a previously saved workspace, which is not recommended). 
 #' Because of asynchronous execution, imperfectly synchronized node clocks,
@@ -89,7 +90,8 @@
 #' @export
 comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
                           streams = NULL, comm = .pbd_env$SPMD.CT$comm) {
-  if(!is.null(state)) comm.stop("comm.set.seed parameter state is deprecated")
+  if(!is.null(state)) 
+    warning("comm.set.seed parameter state is deprecated. Now ignored.")
 
   prng = "L'Ecuyer-CMRG"
   
