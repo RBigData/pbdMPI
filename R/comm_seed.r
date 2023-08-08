@@ -172,7 +172,7 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
 } # End of comm.set.seed().
 
 #' Switching streams, getting and setting states of RNG set up by 
-#' \code{comm.set.seed} L'Ecuyer-CMRG generator
+#' \code{comm.set.seed} for the L'Ecuyer-CMRG generator
 #' 
 #' @param name
 #' Stream number that is coercible to character, indicating to continue 
@@ -197,7 +197,7 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
 #' 
 #' If no parameters are given, no stream change is made and the current stream
 #' named state is invisibly returned as a list with one named (by stream 
-#' number) element, the 6-element integer vector of its current 
+#' number) element, giving the 6-element integer vector of its current 
 #' \code{.Random.seed}.
 #' 
 #' See examples of use in 
