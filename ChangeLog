@@ -1,8 +1,11 @@
 2023-08-01: Ver. 0.5-0
-  * RNG resource-independent (rank and core) reproducibility added
-  * Imports `parallel` package instead of `rlecuyer`
-  * comm.chunk() can now set up vector-based RNG for resource-independent 
-    reproducibility
+  * RNG resource-independent (rank and core) guaranteed reproducibility added
+  * comm.set.seed() and comm.set.stream() manage parallel reproducibility
+  * Unmanaged default RNG is R/base RNG, very likely different streams but not
+    guaranteed
+  * comm.chunk() optionally sets up resource-independent reproducibility
+  * Imports from `parallel` package instead of `rlecuyer`
+  * demo/seed.r replaced with demo/seed_rank.r and demo/seed_vec.r
 
 2022-11-20: Ver. 0.4-7
   * Some doc and code changes.

@@ -2,6 +2,7 @@ allgather	pbdMPI	An example of allgather.
 alltoall	pbdMPI	An example of alltoall.
 allreduce	pbdMPI	An example of allreduce.
 bcast		pbdMPI	An example of bcast.
+chunk   pbdMPI  An example of splitting a vector for parallel processing.
 gather		pbdMPI	An example of gather.
 reduce		pbdMPI	An example of reduce.
 scatter		pbdMPI	An example of scatter.

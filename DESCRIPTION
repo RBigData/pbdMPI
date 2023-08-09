@@ -17,8 +17,7 @@ Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         person("Sebastien", "Lamy de la Chapelle", role="aut", comment = "fix
         check type for send/recv long vectors"))
 Depends: R (>= 3.6.0), methods
-Imports: parallel, float
-Enhances: parallel
+Imports: float, parallel
 LazyLoad: yes
 Description: A simplified, efficient, interface to MPI for HPC clusters. It is
         a derivation and rethinking of the Rmpi package. pbdMPI embraces the

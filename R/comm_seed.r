@@ -27,26 +27,30 @@
 #' \code{comm.set.seed} engages the L'Ecuyer-CMRG RNG and invisibly returns
 #' the previous RNG in use (Output of RNGkind()[1]). Capturing it, enables 
 #' the restoration of the
-#' previous RNG with \code{RNGkind}. See examples of use in 
+#' previous RNG with \code{\link{RNGkind}}. See examples of use in 
 #' \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
 #' 
-#' \code{comm.set.stream} performs stream switching with 
 #' 
 #' @details
-#' This implementation has similar properties as the \code{parallel} package
-#' (and uses its low-level function \code{\link{parallel::nextRNGStream}})
-#' but adds a reproducibility capability with vector-based streams that works
-#' across different numbers of nodes or cores. 
+#' This implementation uses the function \code{\link{parallel::nextRNGStream}}
+#' in package \code{parallel} to set up streams appropriate for working on a
+#' cluster system with MPI. The main difference from \code{parallel} is
+#' that it adds a reproducibility capability with vector-based
+#' streams that works across different numbers of nodes or cores by associating
+#' streams with an application vector.
 #' 
 #' Vector-based streams are best set up with the higher level function 
 #' \code{\link{comm.chunk}} instead of using \code{comm.set.stream} directly.
-#' \code{\link{comm.chunk}} will set up only the streams that each rank needs.
+#' \code{\link{comm.chunk}} will set up only the streams that each rank needs 
+#' and provides the information necessary to use them.
 #' 
 #' The function uses \code{parallel}'s
 #' \code{nextRNGStream()} and sets up the parallel stream seeds in the
 #' \code{.pbd_env$RNG} environment, which are then managed with
 #' \code{\link{comm.set.stream}}. There is only one communication broadcast in
 #' this implementation that ensures all ranks have the same seed as rank 0.
+#' Subsequently, each rank maintains only its own streams in its own 
+#' \code{.pbd_env$RNG} environment.
 #' 
 #' When rank-based streams are set up, \code{\link{comm.chunk}} with 
 #' \code{form = "number"} and \code{rng = TRUE} parameters, streams are 
@@ -58,10 +62,40 @@
 #' Switching back and forth is allowed, with each stream continuing where it
 #' left off.
 #' 
+#' ## RNG Notes
+#' R sessions connected by MPI begin like other R sessions as discussed in
+#' \code{\link{base::Random}}. On first use of random number generation, 
+#' each rank computes its own seed from a combination of clock time and process
+#' id (unless it reads a previously saved workspace, which is not recommended). 
+#' Because of asynchronous execution, imperfectly synchronized node clocks,
+#' and likely different process ids, this
+#' almost guarantees unique seeds and most likely results in independent 
+#' streams. However, this is not reproducible and not guaranteed. Both 
+#' reproducibility and guarantee are brought by the use of the L'Ecuyer-CMRG 
+#' generator implementation in \code{\link{parallel::nestRNGStream}} and the
+#' use of \code{comm.set.seed} and \code{\link{comm.set.stream}} adaptation for
+#' parallel computing on cluster systems.
+#' 
+#' At a high level, the L'Ecuyer-CMRG pseudo-random number generator can 
+#' take jumps (advance the seed) in its 
+#' stream (about 2^191 long) so that distant substreams can be assigned. The 
+#' \code{\link{parallel::nestRNGStream}} implementation takes jumps of 2^127 
+#' (about 1.7e38) to provide up to 2^64 (about 1.8e19) independent streams. See
+#' \link{https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf}
+#' for more details.
+#' 
+#' In situations that require the same stream on all ranks, a simple 
+#' \code{\link{set.seed}} from base R and the default RNG will suffice. 
+#' \code{comm.set.seed} will also accomplish this with the \code{diff = FALSE}
+#' parameter if switching between same and different streams is needed.
+#' 
+#' @seealso [comm.set.stream(), comm.chunk()]
+#' 
 #' @export
 comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
                           streams = NULL, comm = .pbd_env$SPMD.CT$comm) {
-  if(!is.null(state)) comm.stop("comm.set.seed parameter state is deprecated")
+  if(!is.null(state)) 
+    warning("comm.set.seed parameter state is deprecated. Now ignored.")
 
   prng = "L'Ecuyer-CMRG"
   
@@ -104,7 +138,8 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
       assign(".Random.seed", my.seed, envir = .GlobalEnv)
       ## Each rank now has own stream
 
-      ## Enables resource-independent reproducibility for \code{parallel} package. See
+      ## Enables resource-independent reproducibility for \code{parallel} 
+      ## package. See
       ## https://stackoverflow.com/questions/67662603/parallel-processing-in-r-using-parallel-package-not-reproducible-with-differen 
     } else { # set vector-based streams
       Lseed <- get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
@@ -141,10 +176,10 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
 } # End of comm.set.seed().
 
 #' Switching streams, getting and setting states of RNG set up by 
-#' \code{comm.set.seed} L'Ecuyer-CMRG generator
+#' \code{comm.set.seed} for the L'Ecuyer-CMRG generator
 #' 
 #' @param name
-#' Stream number that is coercible to character, indicating to continue 
+#' Stream number that is coercible to character, indicating to start or continue 
 #' generating from that stream.
 #' @param reset 
 #' If true, reset the requested stream back to its beginning.
@@ -166,11 +201,13 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
 #' 
 #' If no parameters are given, no stream change is made and the current stream
 #' named state is invisibly returned as a list with one named (by stream 
-#' number) element, the 6-element integer vector of its current 
+#' number) element, giving the 6-element integer vector of its current 
 #' \code{.Random.seed}.
 #' 
 #' See examples of use in 
 #' \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
+#' 
+#' @seealso [comm.set.seed(), comm.chunk()]
 #' 
 #' @export
 comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,
