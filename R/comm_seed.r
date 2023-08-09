@@ -49,6 +49,8 @@
 #' \code{.pbd_env$RNG} environment, which are then managed with
 #' \code{\link{comm.set.stream}}. There is only one communication broadcast in
 #' this implementation that ensures all ranks have the same seed as rank 0.
+#' Subsequently, each rank maintains only its own streams in its own 
+#' \code{.pbd_env$RNG} environment.
 #' 
 #' When rank-based streams are set up, \code{\link{comm.chunk}} with 
 #' \code{form = "number"} and \code{rng = TRUE} parameters, streams are 
@@ -86,6 +88,8 @@
 #' \code{\link{set.seed}} from base R and the default RNG will suffice. 
 #' \code{comm.set.seed} will also accomplish this with the \code{diff = FALSE}
 #' parameter if switching between same and different streams is needed.
+#' 
+#' @seealso [comm.set.stream(), comm.chunk()]
 #' 
 #' @export
 comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
@@ -175,7 +179,7 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
 #' \code{comm.set.seed} for the L'Ecuyer-CMRG generator
 #' 
 #' @param name
-#' Stream number that is coercible to character, indicating to continue 
+#' Stream number that is coercible to character, indicating to start or continue 
 #' generating from that stream.
 #' @param reset 
 #' If true, reset the requested stream back to its beginning.
@@ -202,6 +206,8 @@ comm.set.seed <- function(seed = NULL, diff = TRUE, state = NULL,
 #' 
 #' See examples of use in 
 #' \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
+#' 
+#' @seealso [comm.set.seed(), comm.chunk()]
 #' 
 #' @export
 comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,

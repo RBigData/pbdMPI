@@ -25,30 +25,34 @@ comm.cat("rank", rank, "my_vector:", my_vector, "\n", all.rank = TRUE)
 comm.cat("\n", size, "ranks: using rank-based streams:\n")
 comm.cat("v Reproducibility depends on resources:\n")
 comm.set.seed(123456, diff = TRUE)                       #RNG
-for(v in my_vector) {
-  rn = runif(3)                                          #RNG
-  comm.cat("rank", rank, "v", v, "generates:", rn, "\n", all.rank = TRUE)
-}
+rn = matrix(NA, nrow = length(my_vector), ncol = 3)
+for(i in 1:length(my_vector)) 
+  rn[i, ] = runif(3)         #RNG
+df = data.frame(rank = rep(rank, length(my_vector)), v = my_vector, rn = rn)
+comm.print(df, all.rank = TRUE)
 
 comm.cat("\n", size, "ranks: using vector-based streams:\n")
 comm.cat("v Reproducibility independent of resources:\n")
 comm.set.seed(123456, diff = TRUE, streams = vector)     #RNG
-for(v in my_vector) {
-  comm.set.stream(v)                                     #RNG
-  rn = runif(6)                                          #RNG
-  comm.cat("rank", rank, "v", v, "generates:", rn, "\n", all.rank = TRUE)
+rn = matrix(NA, nrow = length(my_vector), ncol = 6)
+for(i in 1:length(my_vector)) {
+  comm.set.stream(my_vector[i])                          #RNG
+  rn[i, ] = runif(6)                                     #RNG
 }
+df = data.frame(rank = rep(rank, length(my_vector)), v = my_vector, rn = rn)
+comm.print(df, all.rank = TRUE)
 
-comm.cat("\n", size, "ranks and 2 forked cores: using vector-based streams:\n")
+comm.cat("\n", size, "ranks and 2 forked cores (pid): using vector-based streams:\n")
 comm.cat("v Reproducibility independent of resources, even with mclapply():\n")
 comm.set.seed(123456, diff = TRUE, streams = vector)     #RNG
 res = parallel::mclapply(my_vector, function(v) {
   comm.set.stream(v)                                     #RNG
-  runif(6)                                               #RNG
-  }, mc.cores = 2) 
-for(i in 1:length(res)) {
-  comm.cat("rank", rank, "mc", i, "v", my_vector[i], "generates:", res[[i]],
-           "\n", all.rank = TRUE)
-}
+  rn = runif(6)                                          #RNG
+  c(Sys.getpid(), rn)
+}, mc.cores = 2) 
+df = data.frame(rank = rep(rank, length(my_vector)), 
+                 pid = do.call(rbind, res)[, 1], v = my_vector, 
+                 rn = do.call(rbind, res)[, -1])
+comm.print(df, all.rank = TRUE)
 
 finalize()
