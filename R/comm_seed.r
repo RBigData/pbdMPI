@@ -242,7 +242,8 @@ comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,
        # if same name & no reset, nothing done except current state returned
       } else comm.stop(paste("Stream", name, "does not exist"), comm = comm)
     } # Nothing to do, just return current named state
-  } else comm.stop("No RNG streams are set. Use comm.set.seed().")
+  } else comm.stop(paste("No RNG streams are set. Use comm.set.seed() or",
+                         "comm.chunk() with rng=TRUE."))
   
   ## save changes to RNG to .pbd_env
   assign("RNG", RNG, envir = .pbd_env)
