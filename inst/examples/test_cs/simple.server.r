@@ -2,7 +2,6 @@
 
 ### Initial MPI.
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .pbd_env$SPMD.CT$check.type <- FALSE
 if(comm.size() != 1){
   stop("Server too big.")

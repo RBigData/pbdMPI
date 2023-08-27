@@ -1,6 +1,6 @@
 ### This is an example to apply glm() in a large number of tasks.
 ### One can source this file into R interactive model or run it by the command
-### SHELL> Rscript --vanilla 04_glm_spmd.r
+### SHELL> Rscript --vanilla 04_glm_par.r
 
 library(parallel)
 

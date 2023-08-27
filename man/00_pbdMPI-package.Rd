@@ -57,7 +57,7 @@
   where \code{${MPI_ROOT}} is the path to the MPI root.
   See the package source file \code{pbdMPI/configure} for details.
 
-  Loading \code{library(pbdMPI)}, sets a few global variables, including the
+  Loading \code{library(pbdMPI)} sets a few global variables, including the
   environment \code{.pbd_env}, where many defaults are set, and initializes MPI.
   In most cases, the defaults should not be modified. Rather, the parameters
   of the functions that use them should be changed. \strong{All codes must end

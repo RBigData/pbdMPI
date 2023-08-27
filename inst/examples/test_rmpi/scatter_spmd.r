@@ -1,7 +1,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...]_spmd.r
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 source("./01_setting")
 

@@ -14,7 +14,6 @@ mean.simple <- function(x, ...){
                 definition = mean.simple)
 
 ### Run.
-init()
 x <- new("simple", a = comm.rank())
 y <- mean(x)
 comm.print(y, all.rank = TRUE)

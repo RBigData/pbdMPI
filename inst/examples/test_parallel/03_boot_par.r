@@ -1,6 +1,6 @@
 ### This is an example modified from the help page of parLapply()
 ### One can source this file into R interactive model or run it by the command
-### SHELL> Rscript --vanilla 03_boot_spmd.r
+### SHELL> Rscript --vanilla 03_boot_par.r
 
 library(parallel)
 cl <- makeCluster(mc <- getOption("cl.cores", 2))

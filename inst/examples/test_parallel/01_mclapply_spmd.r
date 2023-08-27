@@ -2,7 +2,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla 01_mclapply_spmd.r
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 time.proc <- system.time({
   id <- get.jid(32)
