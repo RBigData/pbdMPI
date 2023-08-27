@@ -1,6 +1,7 @@
 \name{seed for RNG}
 \alias{comm.set.seed}
 \alias{comm.set.stream}
+\alias{comm.get.streams}
 \alias{comm.seed.state} %defunct
 \alias{comm.end.seed} %defunct
 \alias{comm.reset.seed} %defunct
@@ -26,9 +27,16 @@ comm.set.stream(
   state = NULL,
   comm = .pbd_env$SPMD.CT$comm
 )
+comm.get.streams(
+  comm = .pbd_env$SPMD.CT$comm, 
+  seed = FALSE
+)
 }
 \arguments{
-  \item{seed}{A single value, interpreted as an integer.}
+  \item{seed}{In \code{comm.set.seed}, a single value interpreted as an 
+  integer. In \code{comm.get.streams}, a logical if TRUE, return includes the
+  current local \code{.Random.seed}.
+}
 
   \item{diff}{Logical indicating if the parallel instances should have different
   random streams.}
@@ -120,7 +128,11 @@ of use in \code{demo/seed_rank.r} and \code{demo/seed_vec.r}.
 
 \code{comm.set.stream} invisibly returns the current stream number as character.
 
-Both functions manage and use the environment \code{.pbd_env$RNG}.
+\code{comm.get.streams} returns the current stream name and other stream names available to the rank as a character string. Optionally, the local 
+\code{.Random.seed} is included. This function is a debugging aid for 
+distributed random streams.
+
+All three functions manage and use the environment \code{.pbd_env$RNG}.
 }
 \references{
   Pierre L'Ecuyer, Simard, R., Chen, E.J., and Kelton, W.D. (2002)
