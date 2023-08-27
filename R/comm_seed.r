@@ -242,7 +242,8 @@ comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,
        # if same name & no reset, nothing done except current state returned
       } else comm.stop(paste("Stream", name, "does not exist"), comm = comm)
     } # Nothing to do, just return current named state
-  } else comm.stop("No RNG streams are set. Use comm.set.seed().")
+  } else comm.stop(paste("No RNG streams are set. Use comm.set.seed() or",
+                         "comm.chunk() with rng=TRUE."), comm = comm)
   
   ## save changes to RNG to .pbd_env
   assign("RNG", RNG, envir = .pbd_env)
@@ -268,5 +269,36 @@ comm.seed.state <- function(comm = .pbd_env$SPMD.CT$comm){
            msg = paste("'comm.end.seed' is defunct. Instead,",
                        "use comm.set.stream()"))
 } # End of comm.seed.state().
- 
 
+#' Return current stream name and other stream names available to the rank 
+#' as a character string.
+#' 
+#' @param comm
+#' The communicator.
+#' @param seed
+#' If TRUE, current local .Random.seed is appended to the character string.
+#' 
+#' @details
+#' A debugging aid for RNG streams
+#' 
+#' @returns 
+#' A string giving rank, current stream name, and available stream names. If
+#' seed is requested, the .Random.seed is collapsed into a space-separated
+#' string and appended. Note that L'Ecuyer-CMRG seed is 6 integers and
+#' Mersenne-Twister seed is 626 integers.
+#' 
+#' @export
+comm.get.streams <- function(comm = .pbd_env$SPMD.CT$comm, seed = FALSE) {
+  RNG = get("RNG", envir = .pbd_env, inherits = FALSE)
+  streams = names(RNG$streams)
+  stream = RNG$name
+  if(seed) {
+    if(exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
+      seed = get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+      seed = paste(" seed", paste(seed, collapse = " "))
+    } else seed = "seed Does not exist."
+  } else seed = ""
+  
+  paste0("rank ", comm.rank(comm), "stream ", stream, "streams ",
+        paste(streams, collapse = " "), seed)
+}
