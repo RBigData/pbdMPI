@@ -1,5 +1,4 @@
 suppressPackageStartupMessages(library(pbdMPI, quietly=TRUE))
-init()
 
 if (comm.size() < 2) comm.stop("You need at least 2 MPI ranks for this test")
 
