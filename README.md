@@ -51,9 +51,8 @@ generalization of the serial program.
 Installation with `install.packages("pbdMPI")` from CRAN or with
 `remotes::install_github("RBigData/pbdMPI")` from GitHub works on systems with
 MPI installed in a standard location. This is usually true on 
-[HPC clusters](#clusters) and also if you follow the 
-[MacOS](#MacOS) or
-[Windows](#Windows) instructions for MPI installation below.
+HPC Cluster Systems and also if you follow the 
+MacOS Notes or Windows Notes below for MPI installation.
 
 ## Usage
 
@@ -94,7 +93,7 @@ and its corresponding
 for version 0.3-0 of pbdMPI, they are still highly relevant.
 
 
-## HPC Cluster Systems Notes {#HPC}
+## HPC Cluster Systems Notes
 HPC clusters are Linux systems and use [Environment
 Modules](https://modules.readthedocs.io/en/latest/) to manage software. Consult
 your local cluster documentation as specifics with respect to R and MPI can
@@ -159,7 +158,7 @@ troubleshoot a Slurm script at your location, replace `Rscript <your_r_script>`
 with `hostname`.
 
   
-## Mac OS X Notes {#MacOS}
+## Mac OS Notes
 
 MacOS does not provide MPI, so first install a recent version of OpenMPI. This
 is best done via [`Homebrew`](https://brew.sh/). Homebrew will automatically ask
@@ -178,7 +177,7 @@ does not extend available memory for larger data objects. Chunking of larger
 objects does not extend available memory but does prevent duplication of the
 objects in memory when running several R sessions in shared memory of a laptop.
 
-## Windows Notes {#Windows}
+## Windows Notes
 
 Windows does not provide MPI, so first an MPI installation is needed. We recommend
 installing 
