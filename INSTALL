@@ -1,18 +1,22 @@
-### Read pbdMPI vignettes first at
+### Consult README.md first for standard installs of pbdMPI
+###
+### Consider reading pbdMPI vignette at
 ### https://CRAN.R-project.org/package=pbdMPI
+### The vignette was written for pbdMPI version 0.3-0 and is still relevant.
 ###
-### Also, pbdDEMO vignettes at
-### https://CRAN.R-project.org/package=pbdDEMO
+### Also, pbdDEMO vignette at
+### https://CRAN.R-project.org/package=pbdDEMO, now archived, has many examples.
 ###
-### This file is only for installation on Linux, and Mac OS X.
+### This file is for installation from source on Linux and on Windows.
 ### See `INSTALL.win.src' for a source installation for Windows system.
 ### See `INSTALL.win.bin' for a binary installation for Windows system.
 
---- 'OpenMPI' Installation:
+--- 'OpenMPI' Installation on Linux from downloaded source
+[see also](https://docs.open-mpi.org/en/main/installing-open-mpi/quickstart.html):
    Obtain 'OpenMPI' from 'http://www.open-mpi.org/'
 
-     > tar zxvf openmpi-1.5.4.tar.gz
-     > cd openmpi-1.5.4
+     > tar zxvf openmpi-4.1.5.tar.gz
+     > cd openmpi-4.1.5
      > ./configure
      > ./make
      > ./make install
@@ -50,7 +54,7 @@
 --- 'pbdMPI' Installation:
 0. Download and extract 'pbdMPI'
 
-     > tar zxvf pbdMPI_0.2-3.tar.gz
+     > tar zxvf pbdMPI_0.5-0.tar.gz
 
 1. Default Installation:
    This should work with most platforms with 'OpenMPI' installed. The
