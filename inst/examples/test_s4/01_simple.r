@@ -16,7 +16,6 @@ allgather.simple <- function(x, x.buffer = NULL, x.count = NULL,
                 definition = allgather.simple)
 
 ### Run.
-init()
 x <- new("simple", a = comm.rank())
 y <- allgather(x)
 comm.print(y, all.rank = TRUE)

@@ -1,5 +1,4 @@
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 time.proc <- list()
 

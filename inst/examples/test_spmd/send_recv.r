@@ -1,7 +1,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla [...].r
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .pbd_env$SPMD.CT$check.type <- FALSE
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()

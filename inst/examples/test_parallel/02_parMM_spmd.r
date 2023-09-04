@@ -2,10 +2,9 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla 02_parMM_spmd.r
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 set.seed(123)
-x <- matrix(rnorm(1000000), 1000)
+x <- matrix(rnorm(1e6), 1e3)
 
 parMM.spmd <- function(x, y){
   id <- get.jid(nrow(x))

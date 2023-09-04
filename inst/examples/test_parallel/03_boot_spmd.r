@@ -2,7 +2,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla 03_boot_spmd.r
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 .comm.rank <- comm.rank()
 set.seed(123 + .comm.rank + 1)
 

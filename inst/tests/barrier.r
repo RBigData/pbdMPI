@@ -1,5 +1,4 @@
 suppressPackageStartupMessages(library(pbdMPI, quietly=TRUE))
-init()
 
 sleeptime <- 1
 

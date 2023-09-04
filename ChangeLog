@@ -1,16 +1,26 @@
+2023-08-31: Ver. 0.5-0
+  * Managed RNG streams now use comm.set.seed() and comm.set.stream() for 
+    resource-independent (rank and core) guaranteed reproducibility
+  * Added capability in comm.chunk() can set up managed RNG streams
+  * Unmanaged RNG now defaults to R/base: likely different streams but not
+    guaranteed
+  * Imports L'Ecuyer-CMRG from `parallel` package instead of `rlecuyer`
+  * demo/seed.r replaced with demo/seed_rank.r and demo/seed_vec.r
+  * Various documentation updates
+
 2022-11-20: Ver. 0.4-7
-  * Some doc and code changes.
+  * Some doc and minor code changes.
 
 2022-08-06: Ver. 0.4-6
-  * Merger George's comm.chunk().
+  * comm.chunk() function added for more data chunking options.
   * Replace class() with inherits() for "try-error".
   * Modify "appveyor.yml".
   * Fix "strict-prototype" warnings.
 
 2022-03-10: Ver. 0.4-6
-  * The "info" may be re-assigned to some slurm functions on some HPC.
+  * Fixed "info" interaction with slurm functions on some HPC systems.
   * Rename global variables by adding "global_spmd_" to variables that
-    may be potential affected.
+    may be potentially affected.
 
 2022-03-07: Ver. 0.4-5
   * Initialize/free some fake info and avoid MPI_INFO_NULL.
@@ -29,7 +39,7 @@
     64bit MS-MPI library only.
 
 2019-11-17: Ver. 0.4-0
-  * Fix `isent()` by adding `spmd.check.type.send()` which is needed
+  * Fix `isend()` by adding `spmd.check.type.send()` which is needed
     by `recv()` for handshaking.
 
 2019-05-07: Ver. 0.4-0
@@ -39,7 +49,7 @@
   * Add "inst/mpi_valgrind" for checking and comparing memory lost, etc.
 
 2019-02-23: Ver. 0.3-9
-  * Add IBM MPI support for summit.
+  * Add IBM MPI support for Summit supercomputer.
 
 2019-01-20: Ver. 0.3-9
   * Migrate float32 class to float package via import in NAMESPACE.
@@ -65,7 +75,7 @@
 2018-08-03: Ver. 0.3-8
   * Fedora28 use "module load mpi/openmpi-x86_64" to obtain mpiexec.
   * Roll back partially to Ver. 0.3-6 because pkg-config may give linking order
-    differently that may triggle some dynamic loading problems.
+    differently that may trigger some dynamic loading problems.
 
 2018-07-29: Ver. 0.3-7
   * Add "pkg-config" to "configure.ac".
