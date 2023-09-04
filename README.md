@@ -161,8 +161,8 @@ troubleshoot a Slurm script at your location, replace `Rscript <your_r_script>`
 with `hostname`.
 
   
-## Linux Systems Notes
-See `INSTALL` file for details
+## Linux Notes
+See `INSTALL` file for details.
 
 
 ## Mac OS Notes
@@ -185,14 +185,16 @@ objects does not extend available memory but does prevent duplication of the
 objects in memory when running several R sessions in shared memory of a laptop.
 
 
-## Windows Systems Notes
+## Windows Notes
 
 Windows does not provide MPI, so first an MPI installation (binary, header,
 and libraries) is needed. We recommend installing 
-[Microsoft MPI](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi).
+[Microsoft MPI](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi)
+which is based on MPICH.
+
 Download MS-MPI v10.1.3 and SDK from the 
 [Microsoft Download Center](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi#ms-mpi-downloads).
-See `INSTALL` file for details
+See `INSTALL` file for details and for the usage of `mpiexec.exe`.
 
 
 ## Authors
