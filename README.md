@@ -162,7 +162,7 @@ with `hostname`.
 
   
 ## Linux Notes
-See `INSTALL` file for details.
+See [`INSTALL`](./INSTALL) file for details.
 
 
 ## Mac OS Notes
@@ -192,9 +192,10 @@ and libraries) is needed. We recommend installing
 [Microsoft MPI](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi)
 which is based on MPICH.
 
-Download MS-MPI v10.1.3 and SDK from the 
+Download MS-MPI v10.1.3 (`msmpisetup.exe`) and SDK (`msmpisdk.msi`) from the 
 [Microsoft Download Center](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi#ms-mpi-downloads).
-See `INSTALL` file for details and for the usage of `mpiexec.exe`.
+
+See [`INSTALL`](./INSTALL) file for the installation and for the usage of `mpiexec.exe`.
 
 
 ## Authors
