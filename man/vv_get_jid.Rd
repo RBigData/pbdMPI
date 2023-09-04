@@ -41,7 +41,7 @@ get.jid(n, method = .pbd_env$SPMD.CT$divide.method[1], all = FALSE,
   \code{get.jid()} returns a vector containing job id for each individual
   processor if \code{all = FALSE}. While it returns a list containing all
   job id for all processor if \code{all = TRUE}. The list has length equal
-  to \code{\link{COMM.SIZE}}.
+  to \code{\link{comm.size}}.
 }
 \references{
   Programming with Big Data in R Website:
