@@ -187,10 +187,10 @@ objects in memory when running several R sessions in shared memory of a laptop.
 
 ## Windows Systems Notes
 
-Windows does not provide MPI, so first an MPI installation is needed. We recommend
-installing 
+Windows does not provide MPI, so first an MPI installation (binary, header,
+and libraries) is needed. We recommend installing 
 [Microsoft MPI](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi).
-Download MS-MPI v10.1.3 from the 
+Download MS-MPI v10.1.3 and SDK from the 
 [Microsoft Download Center](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi#ms-mpi-downloads).
 See `INSTALL` file for details
 

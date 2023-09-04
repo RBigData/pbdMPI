@@ -101,11 +101,12 @@
 
 
 --- 'MS-MPI' Installation:
-   Download 'MS-MPI v10.1.3' from
+   Download 'MS-MPI v10.1.3' and 'MS-MPI SDK' from
    'https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi'.
    File 'MSMPISetup.exe' is for both 32 and 64 bits system.
-   Click on it and install them to the default directory
-   'C:\Program Files\Microsoft MPI'.
+   Click on them and install them to the default directories
+   'C:\Program Files\Microsoft MPI' for 'mpiexec.exe' and.
+   'C:\Program Files (x86)\Microsoft SDKs\MPI' for header files and libraries.
 
 
 --- Set environment variables:
@@ -118,8 +119,9 @@
 SET R_HOME=C:\Program Files\R\R-4.3.1\
 SET RTOOLS=C:\Rtools\bin\
 SET MINGW=C:\rtools43\x86_64-w64-mingw32.static.posix\bin
-SET MPI_ROOT=C:\Program Files\Microsoft MPI\
-SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
+SET MPI_ROOT=C:\Program Files (x86)\Microsoft SDKs\MPI\
+SET MPI_BIN=C:\Program Files\Microsoft MPI\bin\
+SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%;%MPI_BIN%;%PATH_ORG%
 
 
 --- Test 'MS-MPI':
@@ -155,8 +157,8 @@ SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
    Download 'MS-MPI v10.1.3' from
    'https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi'.
    File 'MSMPISetup.exe' is for both 32 and 64 bits system.
-   Click on it and install them to the default directory
-   'C:\Program Files\Microsoft MPI'.
+   Click on it and install it to the default directory
+   'C:\Program Files\Microsoft MPI' for 'mpiexec.exe'.
 
 
 --- Set environment variables:
@@ -167,8 +169,8 @@ SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
 
 @ECHO OFF
 SET R_HOME=C:\Program Files\R\R-4.3.1\
-SET MPI_ROOT=C:\Program Files\Microsoft MPI\
-SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_ROOT%BIN\;%PATH_ORG%
+SET MPI_BIN=C:\Program Files\Microsoft MPI\bin\
+SET PATH=%R_HOME%;%R_HOME%BIN\;%RTOOLS%;%MINGW%;%MPI_BIN%;%PATH_ORG%
 
 
 --- Test 'MS-MPI':
