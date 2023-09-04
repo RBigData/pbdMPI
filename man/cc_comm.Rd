@@ -22,8 +22,6 @@
 \alias{intercomm.merge}
 \alias{intercomm.create}
 \alias{comm.c2f}
-\alias{COMM.SIZE}
-\alias{COMM.RANK}
 \title{ Communicator Functions }
 \description{
   The functions provide controls to communicators.

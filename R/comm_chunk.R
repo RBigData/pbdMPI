@@ -29,6 +29,18 @@
 #' @param lo.side
 #' If exact balance is not possible, put the smaller chunks on the "left" (low
 #' ranks) or on the "right" (high ranks).
+#' @param rng
+#' If TRUE, set up different L'Ecuyere random number generator streams. 
+#' Switch to stream \code{i} with \code{\link{comm.set.stream}(i)}, 
+#' where \code{i} is a global index. If \code{form = "vector"} random streams are 
+#' set up for each index in the vector and only those needed by each rank are
+#' kept.
+#' If \code{form = "number"}, each rank will use a different stream, set by
+#' default (so \code{\link{comm.set.stream}} does not need to be used).
+#' Additional ... parameter 
+#' \code{seed}, passed to \code{\link{comm.set.seed}}, can be set for
+#' reproducibility.
+#' 
 #' @param all.rank
 #' FALSE returns only the chunk for rank r. TRUE returns a vector of
 #' length p (when form="number"), and a list of length p (when form="vector")
@@ -62,12 +74,15 @@
 #'
 #' @export
 comm.chunk = function(N, form="number", type="balance", lo.side="right",
-                      all.rank=FALSE, p = NULL, rank = NULL,
-                      comm = .pbd_env$SPMD.CT$comm) {
+                      rng = FALSE, all.rank=FALSE, p = NULL, rank = NULL,
+                      comm = .pbd_env$SPMD.CT$comm, ...) {
+  xargs = list(...)
+  if(rng && is.null(xargs$seed)) 
+    warning("No seed provided for L'Ecuyer-CMRG RNG setup. Using system seeds.")
   
   ## Normally, these are input NULL and assigned from comm
-  if(is.null(p)) p = comm.size(comm)
-  if(is.null(rank)) rank = comm.rank(comm)
+  if(is.null(p)) p = comm.size(comm = comm)
+  if(is.null(rank)) rank = comm.rank(comm = comm)
   
   ## Check arguments
   form = comm.match.arg(form, c("number", "vector", "seq", "ldim", "bldim"),
@@ -185,6 +200,16 @@ comm.chunk = function(N, form="number", type="balance", lo.side="right",
   ##
   ##
   } else ret = NULL
+  
+  if (rng) { # also set up parallel random number generation
+    if(form == "number") {
+      comm.set.seed(seed = xargs$seed, diff = TRUE)
+    } else if(form == "vector") {
+      if(all.rank) my_streams = ret[[comm.rank(comm) + 1]]
+      else my_streams = ret
+      comm.set.seed(seed = xargs$seed, diff = TRUE, streams = my_streams)
+    }
+  }
   
   ret
 }

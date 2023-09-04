@@ -2,7 +2,6 @@
 ### SHELL> mpiexec -np 2 Rscript --vanilla 04_glm_spmd.r
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
-init()
 
 rdata <- function(n){
   x <- 2 * runif(n) - 1

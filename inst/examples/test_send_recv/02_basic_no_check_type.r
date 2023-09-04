@@ -2,7 +2,6 @@
 
 suppressMessages(library(pbdMPI, quietly = TRUE))
 .pbd_env$SPMD.CT$check.type <- FALSE
-init()
 .comm.size <- comm.size()
 .comm.rank <- comm.rank()
 

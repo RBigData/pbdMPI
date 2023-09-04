@@ -1,6 +1,6 @@
 ### This is a famous example from snow package.
 ### One can source this file into R interactive model or run it by the command
-### SHELL> Rscript --vanilla 02_spmd.M_spmd.r
+### SHELL> Rscript --vanilla 02_parMM_par.r
 
 library(parallel)
 cl <- makeCluster(2)
@@ -13,7 +13,7 @@ parMM <- function (cl, A, B){
 }
 
 set.seed(123)
-A <- matrix(rnorm(1000000), 1000)
+A <- matrix(rnorm(1e6), 1e3)
 system.time(replicate(10, A %*% A))
 system.time(replicate(10, parMM(cl, A, A)))
 

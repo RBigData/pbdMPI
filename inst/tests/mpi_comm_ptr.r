@@ -1,6 +1,5 @@
 ### mpiexec -np 2 Rscript mpi_comm_ptr.r
 suppressPackageStartupMessages(library(pbdMPI, quietly=TRUE))
-init()
 
 cs <- comm.size()
 if(cs < 1){
