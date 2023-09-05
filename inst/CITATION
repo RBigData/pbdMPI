@@ -1,3 +1,5 @@
+citHeader("To cite pbdMPI in a publication use:")
+
 bibentry(
   "Misc",
   title = "{pbdMPI}: R Interface to {MPI}",
@@ -7,6 +9,7 @@ bibentry(
   note = "{R} Package, URL https://cran.r-project.org/package=pbdMPI",
   key = "Chen2022pbdMPIpackage"
 )
+
 bibentry(
   "Manual",
   title = "A Quick Guide for the {pbdMPI} Package",

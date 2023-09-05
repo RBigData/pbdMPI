@@ -49,12 +49,15 @@ programming, and has been the standard way of doing things in the large-scale
 HPC community for decades. The "single program" can be viewed as a 
 generalization of the serial program.
 
+
 ## Installation
+
 Installation with `install.packages("pbdMPI")` from CRAN or with
 `remotes::install_github("RBigData/pbdMPI")` from GitHub works on systems with
 MPI installed in a standard location. This is usually true on 
 HPC Cluster Systems and also if you follow the 
-MacOS Notes or Windows Notes below for MPI installation.
+Linux, MacOS, or Windows Notes below for MPI installation.
+
 
 ## Usage
 
@@ -160,6 +163,10 @@ troubleshoot a Slurm script at your location, replace `Rscript <your_r_script>`
 with `hostname`.
 
   
+## Linux Notes
+See [`INSTALL`](./INSTALL) file for details.
+
+
 ## Mac OS Notes
 
 MacOS does not provide MPI, so first install a recent version of OpenMPI. This
@@ -179,17 +186,18 @@ does not extend available memory for larger data objects. Chunking of larger
 objects does not extend available memory but does prevent duplication of the
 objects in memory when running several R sessions in shared memory of a laptop.
 
+
 ## Windows Notes
 
-Windows does not provide MPI, so first an MPI installation is needed. We recommend
-installing 
-[Microsoft MPI](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi).
-Download MS-MPI v10.1.3 from the 
-[Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=105289).
+Windows does not provide MPI, so first an MPI installation (binary, header,
+and libraries) is needed. We recommend installing 
+[Microsoft MPI](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi)
+which is based on MPICH.
 
-OpenMPI has discontinued its support for 
-[Windows binaries](https://www.open-mpi.org/software/ompi/v1.6/ms-windows.php) 
-and recommends to use the Cygwin-based OpenMPI builds.
+Download MS-MPI v10.1.3 (`msmpisetup.exe`) and SDK (`msmpisdk.msi`) from the 
+[Microsoft Download Center](https://learn.microsoft.com/en-us/message-passing-interface/microsoft-mpi#ms-mpi-downloads).
+
+See [`INSTALL`](./INSTALL) file for the installation and for the usage of `mpiexec.exe`.
 
 
 ## Authors

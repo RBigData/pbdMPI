@@ -11,13 +11,6 @@
   data is included. It is based on S4 classes and methods.
 }
 \details{
-\tabular{ll}{
-  Package: \tab pbdMPI\cr
-  Type: \tab Package\cr
-  License: \tab Mozilla Public License 2.0\cr
-  LazyLoad: \tab yes\cr
-}
-
   This package requires an MPI library (OpenMPI, MPICH2, or LAM/MPI). Standard
   installation in an R session with
   \cr

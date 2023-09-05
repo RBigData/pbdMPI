@@ -1,3 +1,8 @@
+2023-09-03: Ver. 0.5-0
+  * Remove meta data from man.
+  * Put vignette pdf back.
+  * Modify CITATION.
+
 2023-08-31: Ver. 0.5-0
   * Managed RNG streams now use comm.set.seed() and comm.set.stream() for 
     resource-independent (rank and core) guaranteed reproducibility
