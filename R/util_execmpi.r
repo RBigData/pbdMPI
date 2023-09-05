@@ -140,6 +140,7 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
     cat(">>> MPI results:\n", paste(ret, collapse = "\n"), "\n", sep = "")
   }
 
+  system(paste("ls -la", tempdir()))
   ### Return
   invisible(ret)
 } # End of execmpi().
