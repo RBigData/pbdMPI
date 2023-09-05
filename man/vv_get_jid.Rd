@@ -55,7 +55,7 @@ get.jid(n, method = .pbd_env$SPMD.CT$divide.method[1], all = FALSE,
   \code{\link{task.pull}() and \link{comm.chunk}()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -84,6 +84,6 @@ comm.print(alljid)
 finalize()
 "
 pbdMPI::execmpi(spmd.code, nranks = 2L)
-}
+%}
 }
 \keyword{utility}

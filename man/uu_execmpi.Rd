@@ -84,7 +84,7 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
   \code{pbdCS::pbdRscript()}.
 }
 \examples{
-\dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -95,6 +95,6 @@ allreduce(2)
 finalize()
 ", file = spmd.file)
 pbdMPI::execmpi(spmd.file = spmd.file, nranks = 2L)
-}
+%}
 }
 \keyword{utility}
