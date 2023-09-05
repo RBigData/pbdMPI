@@ -60,7 +60,7 @@ allreduce(x, x.buffer = NULL, op = .pbd_env$SPMD.CT$op,
   \code{\link{allgather}()}, \code{\link{gather}()}, \code{\link{reduce}()}.
 }
 \examples{
-%\dontrun{
+\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -88,7 +88,7 @@ comm.print(y)
 finalize()
 "
 pbdMPI::execmpi(spmd.code = spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{methods}
 \keyword{collective}

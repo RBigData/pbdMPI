@@ -45,7 +45,7 @@ bcast(x, rank.source = .pbd_env$SPMD.CT$rank.source,
   \code{\link{scatter}()}.
 }
 \examples{
-%\dontrun{
+\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -62,7 +62,7 @@ comm.print(y)
 finalize()
 "
 pbdMPI::execmpi(spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{methods}
 \keyword{collective}

@@ -83,7 +83,7 @@ For calling \code{spmd.recv.*()}:
   \code{\link{irecv}()}, \code{\link{send}()}, \code{\link{isend}()}.
 }
 \examples{
-%\dontrun{
+\dontrun{
 ### Save code in a file "demo.r" and run with 2 processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 
@@ -107,7 +107,7 @@ comm.print(y, rank.print = 1)
 finalize()
 "
 pbdMPI::execmpi(spmd.code, nranks = 2L)
-%}
+}
 }
 \keyword{methods}
 \keyword{collective}
