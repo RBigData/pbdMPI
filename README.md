@@ -15,10 +15,12 @@ at an HPC facility in your country. For example,
 [US ACCESS](https://access-ci.org/),
 [US INCITE](https://science.osti.gov/ascr/Facilities/Accessing-ASCR-Facilities/INCITE/About-incite),
 [EU PRACE](https://prace-ri.eu/),
+[Australia NCI](https://nci.org.au/users/how-access-nci),
+[Canada RAC](https://alliancecan.ca/en/services/advanced-research-computing/accessing-resources/resource-allocation-competition/resource-allocation-competition-application-guide),
 [Czechia IT4I](https://www.it4i.cz/en/for-users/computing-resources-allocation),
 [India NSM](https://nsmindia.in/),
-[Japan HPCI](https://www.hpci-office.jp/for_users/procedure_project_start/start_representative), or
-[Other Please contribute your country-specific information to add in this list.].
+[Japan HPCI](https://www.hpci-office.jp/for_users/procedure_project_start/start_representative).
+(ßPlease notify us if you have more examples or updates from your country.).
 Applying for a startup allocation can be easier than most would expect,
 sometimes as little as a paragraph describing your application and software.
 Large allocations require a full proposal.
@@ -98,7 +100,7 @@ HPC clusters are Linux systems and use [Environment
 Modules](https://modules.readthedocs.io/en/latest/) to manage software. Consult
 your local cluster documentation as specifics with respect to R and MPI can
 differ. Usually, an MPI version is installed and should work with pbdMPI
-standard install, although sometime a `module load openmpi` might be needed to
+standard install, although sometimes a `module load openmpi` might be needed to
 get OpenMPI.
 
 Some common module commands are:
