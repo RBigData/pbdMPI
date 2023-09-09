@@ -12,8 +12,8 @@
   ### Enforce to search LD_LIBRARY_PATH if "yes". Only for advanced users.
   enable.ld.library.path <- "@ENABLE_LD_LIBRARY_PATH@"
   
-  ### MPI uses env variable TMPDIR instead of R tempdir(). Making them 
-  ###     the same allows R to do a full cleanup of temp files.
+  ### OpenMPI uses env variable TMPDIR instead of R tempdir(). Making them 
+  ### the same allows R to do a full cleanup of temp files.
   Sys.setenv("TMPDIR" = tempdir())
 
   if(enable.ld.library.path != "yes"){

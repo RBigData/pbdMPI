@@ -1,3 +1,8 @@
+2023-09-09: Ver. 0.5-0
+  * Alter system environment variables "TMPDIR" to where R tempdir() is
+    such as "Rtmp..." since newer OpenMPI dumps some temporary directories and
+    files to "TMPDIR" (or "-mca orte_tmpdir_base") when it runs.
+
 2023-09-03: Ver. 0.5-0
   * Remove meta data from man.
   * Put vignette pdf back.
