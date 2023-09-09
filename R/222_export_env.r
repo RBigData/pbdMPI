@@ -39,7 +39,7 @@
 # } # End of .mpiopt_set().
 
 ### Initialize MPI options.
-.mpiopt_init <- function(envir = .GlobalEnv){
+.mpiopt_init <- function(envir = .GlobalEnv, mpi.type = "OPENMPI"){
   if(!exists(".pbd_env", envir = envir)){
     envir$.pbd_env <- new.env()
   } 
@@ -49,6 +49,7 @@
   envir$.pbd_env$SPMD.TP <- SPMD.TP()
   envir$.pbd_env$SPMD.DT <- SPMD.DT()
   envir$.pbd_env$SPMD.NB.BUFFER <- list()
+  envir$.pbd_env$MPI.TYPE <- mpi.type
 
   invisible()
 } # End of .mpiopt_init().

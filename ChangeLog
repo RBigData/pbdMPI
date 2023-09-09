@@ -2,6 +2,8 @@
   * Alter system environment variables "TMPDIR" to where R tempdir() is
     such as "Rtmp..." since newer OpenMPI dumps some temporary directories and
     files to "TMPDIR" (or "-mca orte_tmpdir_base") when it runs.
+  * Add ".pbd_env$MPI.TYPE" in the initial function .mpiopt_init() to export
+    the "mpi.type" with default "OPENMPIxi"'.
 
 2023-09-03: Ver. 0.5-0
   * Remove meta data from man.

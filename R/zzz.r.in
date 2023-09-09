@@ -95,7 +95,7 @@
   .Call("spmd_initialize", PACKAGE = "pbdMPI")
 
   ### Preload to global environment.
-  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init()")))
+  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init(mpi.type = '@MPITYPE@')")))
 
   invisible()
 } # End of .onLoad().
