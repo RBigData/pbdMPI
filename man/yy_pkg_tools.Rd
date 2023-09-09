@@ -38,7 +38,7 @@ addr.mpi.comm.ptr(comm.ptr)
   Drew Schmidt, Pragneshkumar Patel, and Hao Yu.
 }
 \examples{
-% \dontrun{
+%\dontrun{
 ### Save code in a file "demo.r" and run with 22processors by
 ### SHELL> mpiexec -np 2 Rscript demo.r
 

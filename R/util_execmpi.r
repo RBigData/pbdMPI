@@ -1,4 +1,4 @@
-### Utility
+
 
 execmpi <- function(spmd.code = NULL, spmd.file = NULL,
     mpicmd = NULL, nranks = 1L, rscmd = NULL, verbose = TRUE,
@@ -91,7 +91,7 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
   } else{
     log.file <- tempfile()
     on.exit(unlink(log.file), add = TRUE)
-    cmd <- paste(mpicmd, " -np ", nranks, " ",
+    cmd <- paste(mpicmd, " -np ", nranks, " --oversubscribe ",
                  rscmd, " -e \"source('", spmd.file, "')\" ",
                  "> ", log.file, " 2>&1 & echo \"PID=$!\" &", sep = "")
   }
