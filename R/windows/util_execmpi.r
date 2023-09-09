@@ -92,7 +92,8 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
   } else{
     log.file <- tempfile()
     on.exit(unlink(log.file), add = TRUE)
-    if(.pbd_env$MPI.TYPE == "OPENMPI"){
+    mpi.type <- "OPENMPI"
+    if(mpi.type == "OPENMPI"){
       mpiopt <- paste("--oversubscribe ", mpiopt, sep = "")
     }
     cmd <- paste(mpicmd, " -np ", nranks, " ", mpiopt, " ",
