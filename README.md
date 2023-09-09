@@ -20,7 +20,7 @@ at an HPC facility in your country. For example,
 [Czechia IT4I](https://www.it4i.cz/en/for-users/computing-resources-allocation),
 [India NSM](https://nsmindia.in/),
 [Japan HPCI](https://www.hpci-office.jp/for_users/procedure_project_start/start_representative).
-(ßPlease notify us if you have more examples or updates from your country.).
+(Please notify us if you have more examples or updates from your country.).
 Applying for a startup allocation can be easier than most would expect,
 sometimes as little as a paragraph describing your application and software.
 Large allocations require a full proposal.
