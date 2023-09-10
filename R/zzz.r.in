@@ -11,6 +11,10 @@
 .onLoad <- function(libname, pkgname){
   ### Enforce to search LD_LIBRARY_PATH if "yes". Only for advanced users.
   enable.ld.library.path <- "@ENABLE_LD_LIBRARY_PATH@"
+  
+  ### OpenMPI uses env variable TMPDIR instead of R tempdir(). Making them 
+  ### the same allows R to do a full cleanup of temp files.
+  Sys.setenv("TMPDIR" = tempdir())
 
   if(enable.ld.library.path != "yes"){
     ### Shared library needs to be loaded before "pbdMPI.so"
@@ -90,26 +94,8 @@
 
   .Call("spmd_initialize", PACKAGE = "pbdMPI")
 
-  ### For seed.
-  # if(! exists(".lec.Random.seed.table", envir = .GlobalEnv) &&
-  #    ! exists(".Random.seed", envir = .GlobalEnv)){
-  #GO   if(! exists(".Random.seed", envir = .GlobalEnv)){
-  #GO     seed <- as.integer(runif(6, 1L, 2147483647L))
-  #GO     seed <- .Call("spmd_bcast_integer", seed, 0L, 0L, PACKAGE = "pbdMPI")
-
-  #GO     comm.size <- .Call("spmd_comm_size", 0L, PACKAGE = "pbdMPI")
-  #GO     comm.rank <- .Call("spmd_comm_rank", 0L, PACKAGE = "pbdMPI")
-  #GO     names <- as.character(0:(comm.size - 1))
-  #GO     name <- as.character(comm.rank)
-
-  #GO     invisible(eval(.lec.old.kind <- RNGkind(), envir = .GlobalEnv))
-  #GO     invisible(eval(.lec.SetPackageSeed(seed), envir = .GlobalEnv))
-  #GO     invisible(eval(.lec.CreateStream(names), envir = .GlobalEnv))
-  #GO     invisible(eval(.lec.CurrentStream(name), envir = .GlobalEnv))
-  #GO   }
-
   ### Preload to global environment.
-  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init()")))
+  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init(mpi.type = '@MPITYPE@')")))
 
   invisible()
 } # End of .onLoad().

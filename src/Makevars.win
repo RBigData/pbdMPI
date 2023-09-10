@@ -131,7 +131,7 @@ USER_CONF = Makeconf
 
 ### Start making here.
 all: Makeconf $(SHLIB)
-	@$(CP) ../R/windows/zzz.r ../R/
+	@$(CP) ../R/windows/*.r ../R/
 
 Makeconf:
 	$(ECHO) 'MPI_ROOT = ${MPI_ROOT}' > $(USER_CONF)

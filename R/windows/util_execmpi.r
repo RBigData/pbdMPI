@@ -1,8 +1,8 @@
-### Utility
+
 
 execmpi <- function(spmd.code = NULL, spmd.file = NULL,
     mpicmd = NULL, nranks = 1L, rscmd = NULL, verbose = TRUE,
-    disable.current.mpi = TRUE){
+    disable.current.mpi = TRUE, mpiopt = NULL, rsopt = NULL){
   ### Check # of ranks.
   nranks <- as.integer(nranks)
   if(nranks <= 0){
@@ -84,15 +84,20 @@ execmpi <- function(spmd.code = NULL, spmd.file = NULL,
 
   ### Make a cmd.
   if(Sys.info()[['sysname']] == "Windows"){
-    cmd <- paste(mpicmd, "-np", nranks, rscmd, spmd.file, sep = " ")
+    cmd <- paste(mpicmd, "-np", nranks, mpiopt,
+                 rscmd, rsopt, spmd.file, sep = " ")
     ### Redirect to log.file will get the message below and fail.
         ### The process cannot access the file because it is being used by
         ### another process.
   } else{
     log.file <- tempfile()
     on.exit(unlink(log.file), add = TRUE)
-    cmd <- paste(mpicmd, " -np ", nranks, " ",
-                 rscmd, " -e \"source('", spmd.file, "')\" ",
+    mpi.type <- "OPENMPI"
+    if(mpi.type == "OPENMPI"){
+      mpiopt <- paste("--oversubscribe ", mpiopt, sep = "")
+    }
+    cmd <- paste(mpicmd, " -np ", nranks, " ", mpiopt, " ",
+                 rscmd, " ", rsopt, " -e \"source('", spmd.file, "')\" ",
                  "> ", log.file, " 2>&1 & echo \"PID=$!\" &", sep = "")
   }
   if(verbose){

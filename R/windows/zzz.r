@@ -7,6 +7,11 @@
 # } # End of .Last.lib().
 
 .onLoad <- function(libname, pkgname){
+  ### OpenMPI uses env variable TMPDIR instead of R tempdir(). Making them 
+  ### the same allows R to do a full cleanup of temp files.
+  ### This may not be needed for MSMPI or MPICH, but just in case.
+  Sys.setenv("TMPDIR" = tempdir())
+
   library.dynam("pbdMPI", pkgname, libname)
 
   # if(! is.loaded("spmd_initialize", PACKAGE = "pbdMPI")){
@@ -44,7 +49,7 @@
   #GO }
 
   ### Preload to global environment.
-  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init()")))
+  invisible(eval(parse(text = "pbdMPI:::.mpiopt_init(mpi.type = 'MPICH')")))
 
   invisible()
 } # End of .onLoad().

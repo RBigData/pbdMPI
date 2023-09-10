@@ -10,10 +10,10 @@
 \usage{
 execmpi(spmd.code = NULL, spmd.file = NULL,
     mpicmd = NULL, nranks = 1L, rscmd = NULL, verbose = TRUE,
-    disable.current.mpi = TRUE)
+    disable.current.mpi = TRUE, mpiopt = NULL, rsopt = NULL)
 runmpi(spmd.code = NULL, spmd.file = NULL,
     mpicmd = NULL, nranks = 1L, rscmd = NULL, verbose = TRUE,
-    disable.current.mpi = TRUE)
+    disable.current.mpi = TRUE, mpiopt = NULL, rsopt = NULL)
 }
 \arguments{
   \item{spmd.code}{SPMD code to be run via mpicmd and \code{Rscript}.}
@@ -23,6 +23,8 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
   \item{rscmd}{\code{Rscript} executable command. If \code{NULL}, system default will be searched.}
   \item{verbose}{print SPMD code outputs and MPI messages.}
   \item{disable.current.mpi}{force to finalize the current MPI comm if any, for unix-alike system only.}
+  \item{mpiopt}{MPI options appended after \code{-np nranks --oversubscribe }.}
+  \item{rsopt}{\code{Rscript} options appended after \code{Rscript }.}
 }
 \details{
   When the \code{spmd.code} is \code{NULL}: The code should be already
@@ -40,14 +42,18 @@ runmpi(spmd.code = NULL, spmd.file = NULL,
   used to dump \code{spmd.code}.
 
   For Unix-alike systems, the command
-  \code{cmd <- paste(mpicmd, "-np", nranks, rscmd, spmd.file, ">", log.file, " 2>&1 & echo \"PID=$!\" &")}
+  \code{cmd <- paste(mpicmd, "-np", nranks, mpiopt, rscmd, rscmd spmd.file, ">", log.file, " 2>&1 & echo \"PID=$!\" &")}
   is executed via \code{system(cmd, intern = TRUE, wait = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE)}. The \code{log.file} is a temporary file to
   save the outputs from the \code{spmd.code}. The results saved to the
   \code{log.file} will be read back in and \code{cat} and \code{return}
   to R.
 
+  For OPENMPI, the "--oversubscribe " is added before \code{mpiopt} as
+  \code{mpiopt <- paste("--oversubscribe ", mpiopt, sep = "")}
+  and is passed to \code{cmd} thereon.
+
   For Windows, the \code{cmd} will be
-  \code{paste(mpicmd, "-np", nranks, rscmd, spmd.file)}
+  \code{paste(mpicmd, "-np", nranks, mpiopt, rscmd, rsopt spmd.file)}
   and is executed via
   \code{system(cmd, intern = TRUE, wait = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE)}.
 }
