@@ -244,8 +244,13 @@ SEXP get_MPI_COMM_PTR(SEXP R_comm, SEXP R_show_msg){
 
 	if(INTEGER(R_show_msg)[0] == 1){
 		MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+#if (MPI_APTS_DEBUG & 1) == 1
 		Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x.\n",
 			myrank, global_spmd_comm[C_comm], MPI_COMM_WORLD);
+#else
+		Rprintf("rank: %d, comm: %p, MPI_COMM_WORLD: %p.\n",
+			myrank, global_spmd_comm[C_comm], MPI_COMM_WORLD);
+#endif
 	}
 
 	UNPROTECT(1);
@@ -262,8 +267,13 @@ SEXP addr_MPI_COMM_PTR(SEXP R_ptr){
 	/* Print results. */
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_rank(*comm_foreign, &myrank_new);
+#if (MPI_APTS_DEBUG & 1) == 1
 	Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x, rank_new: %d.\n",
 		myrank, *comm_foreign, MPI_COMM_WORLD, myrank_new);
+#else
+	Rprintf("rank: %d, comm: %p, MPI_COMM_WORLD: %p, rank_new: %d.\n",
+		myrank, *comm_foreign, MPI_COMM_WORLD, myrank_new);
+#endif
 
 	return(R_NilValue);
 } /* End of addr_MPI_COMM_PTR(). */

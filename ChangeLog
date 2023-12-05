@@ -1,3 +1,6 @@
+2023-10-03: Ver. 0.5-1
+  * Fix warnings related to gcc-13 and lang-13.
+
 2023-09-09: Ver. 0.5-0
   * Alter system environment variables "TMPDIR" to where R tempdir() is
     such as "Rtmp..." since newer OpenMPI dumps some temporary directories and

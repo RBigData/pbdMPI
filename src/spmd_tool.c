@@ -18,7 +18,7 @@ int spmd_errhandler(int error_code){
 	if(error_code != MPI_SUCCESS){
 		MPI_Error_string(error_code, error_message,
 			&error_message_length);
-		error(error_message);
+		error("%s\n", error_message);
 	}
 	
 	return(error_code);

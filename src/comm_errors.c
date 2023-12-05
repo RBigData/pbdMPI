@@ -80,7 +80,7 @@ SEXP api_R_warning(SEXP args){
 				translateChar(STRING_ELT(CAR(args), 0)));
 		}
 	} else{
-		Rf_warningcall(c_call, "");
+		Rf_warningcall(c_call, "%s", "");
 	}
 	immediateWarning = 0;	/* reset to internal calls */
 
