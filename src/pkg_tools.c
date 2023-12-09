@@ -248,8 +248,11 @@ SEXP get_MPI_COMM_PTR(SEXP R_comm, SEXP R_show_msg){
 		Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x.\n",
 			myrank, global_spmd_comm[C_comm], MPI_COMM_WORLD);
 #else
-		Rprintf("rank: %d, comm: %p, MPI_COMM_WORLD: %p.\n",
-			myrank, global_spmd_comm[C_comm], MPI_COMM_WORLD);
+		unsigned long long int p_com, p_world;
+		p_com = (unsigned long long int) global_spmd_comm[C_comm];
+		p_world = (unsigned long long int) MPI_COMM_WORLD;
+		Rprintf("rank: %d, comm: %llx, MPI_COMM_WORLD: %llx.\n",
+			myrank, p_com, p_world);
 #endif
 	}
 
@@ -271,8 +274,11 @@ SEXP addr_MPI_COMM_PTR(SEXP R_ptr){
 	Rprintf("rank: %d, comm: %x, MPI_COMM_WORLD: %x, rank_new: %d.\n",
 		myrank, *comm_foreign, MPI_COMM_WORLD, myrank_new);
 #else
-	Rprintf("rank: %d, comm: %p, MPI_COMM_WORLD: %p, rank_new: %d.\n",
-		myrank, *comm_foreign, MPI_COMM_WORLD, myrank_new);
+	unsigned long long int p_com, p_world;
+	p_com = (unsigned long long int) *comm_foreign;
+	p_world = (unsigned long long int) MPI_COMM_WORLD;
+	Rprintf("rank: %d, comm: %llx, MPI_COMM_WORLD: %llx, rank_new: %d.\n",
+		myrank, p_com, p_world, myrank_new);
 #endif
 
 	return(R_NilValue);
