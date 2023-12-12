@@ -25,7 +25,7 @@ get.sysenv(flag)
   \code{get.conf()} and \code{get.lib()}
   are typically used by `pbd*/configure.ac`,
   `pbd*/src/Makevars.in`, and/or `pbd*/src/Makevar.win` to find
-  the default configurations from `pbd*/etc${R_ARCH}/Makconf`.
+  the default configurations from `pbd*/etc$\{R_ARCH\}/Makconf`.
 
   \code{get.sysenv()}
   is only called by `pbdMPI/src/Makevars.win` to obtain
