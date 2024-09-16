@@ -16,6 +16,17 @@
 
 static int immediateWarning = 0;
 
+
+/* Replace Rf_isValidString(). */
+Rboolean api_R_isValidString(SEXP x){
+    return ((TYPEOF(x) == STRSXP) && (LENGTH(x) > 0) && (TYPEOF(STRING_ELT(x, 0)) != NILSXP));
+}
+
+/* Replace Rf_errorcall() and Rf_warningcall(). */
+// NORET void api_R_errorcall(SEXP, const char *, ...) R_PRINTF_FORMAT(2, 3);
+// void api_R_warningcall(SEXP, const char *, ...) R_PRINTF_FORMAT(2, 3);
+
+
 /* Origin: SEXP attribute_hidden do_stop(). */
 SEXP api_R_stop(SEXP args){
 	SEXP call, c_call;
@@ -33,14 +44,14 @@ SEXP api_R_stop(SEXP args){
 	args = CDR(args);
 	if(CAR(args) != R_NilValue){	/* message */
 		SETCAR(args, coerceVector(CAR(args), STRSXP));
-		if(!isValidString(CAR(args))){
-			Rf_errorcall(c_call,
+		if(!api_R_isValidString(CAR(args))){
+			errorcall(c_call,
 				" [invalid string in comm.stop(.)]\n");
 		}
-		Rf_errorcall(c_call, "%s",
+		errorcall(c_call, "%s",
 			translateChar(STRING_ELT(CAR(args), 0)));
 	} else{
-		Rf_errorcall(c_call, "\n");
+		errorcall(c_call, "\n");
 	}
 
 	return c_call;
@@ -72,15 +83,15 @@ SEXP api_R_warning(SEXP args){
 	args = CDR(args);
 	if(CAR(args) != R_NilValue){
 		SETCAR(args, coerceVector(CAR(args), STRSXP));
-		if(!isValidString(CAR(args))){
-			Rf_warningcall(c_call,
+		if(!api_R_isValidString(CAR(args))){
+			warningcall(c_call,
 				" [invalid string in comm.warning(.)]\n");
 		} else{
-			Rf_warningcall(c_call, "%s",
+			warningcall(c_call, "%s",
 				translateChar(STRING_ELT(CAR(args), 0)));
 		}
 	} else{
-		Rf_warningcall(c_call, "%s", "");
+		warningcall(c_call, "%s", "");
 	}
 	immediateWarning = 0;	/* reset to internal calls */
 

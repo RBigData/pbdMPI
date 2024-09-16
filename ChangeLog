@@ -1,3 +1,7 @@
+2024-09-15: Ver. 0.5-2
+  * Fix non-API call to R: 'Rf_isValidString'.
+  * Remove all "Rf_*".
+
 2023-10-03: Ver. 0.5-1
   * Fix warnings related to gcc-13 and lang-13.
 
