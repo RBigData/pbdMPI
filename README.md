@@ -18,7 +18,7 @@ at an HPC facility in your country. For example,
 [Australia NCI](https://nci.org.au/users/how-access-nci),
 [Canada RAC](https://alliancecan.ca/en/services/advanced-research-computing/accessing-resources/resource-allocation-competition/resource-allocation-competition-application-guide),
 [Czechia IT4I](https://www.it4i.cz/en/for-users/computing-resources-allocation),
-[India NSM](https://nsmindia.in/),
+[India NSM](https://dst.gov.in/national-super-computing-mission/),
 [Japan HPCI](https://www.hpci-office.jp/for_users/procedure_project_start/start_representative).
 (Please notify us if you have more examples or updates from your country.).
 Applying for a startup allocation can be easier than most would expect,
