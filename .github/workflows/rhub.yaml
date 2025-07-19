@@ -52,10 +52,6 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
-      - name: Install LaTeX
-        run: |
-          apt-get update
-          apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -85,21 +81,6 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      - name: Install LaTeX
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
-      - name: Install LaTeX (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          brew install --cask mactex-no-gui
-          echo "/Library/TeX/texbin" >> $GITHUB_PATH
-      - name: Install LaTeX (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          choco install miktex -y
-          refreshenv
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
