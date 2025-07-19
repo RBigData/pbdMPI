@@ -4,7 +4,7 @@
 #
 # rhub::rhub_setup()
 #
-# It is unlikely that you need to modify this file manually.
+# Modified to install LaTeX for vignette building
 
 name: R-hub
 run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
@@ -52,6 +52,20 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
+      
+      # Install LaTeX for vignette building
+      - name: Install LaTeX
+        run: |
+          if command -v apt-get &> /dev/null; then
+            apt-get update
+            apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra
+          elif command -v yum &> /dev/null; then
+            yum install -y texlive-latex texlive-collection-fontsrecommended texlive-collection-latexextra
+          elif command -v dnf &> /dev/null; then
+            dnf install -y texlive-latex texlive-collection-fontsrecommended texlive-collection-latexextra
+          fi
+        continue-on-error: true
+        
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -81,6 +95,34 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+          
+      # Install LaTeX for Linux platforms
+      - name: Install LaTeX (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-base texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra
+        continue-on-error: true
+        
+      # Install LaTeX for macOS platforms  
+      - name: Install LaTeX (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install --cask mactex-no-gui
+        continue-on-error: true
+        
+      # Install LaTeX for Windows platforms
+      - name: Install LaTeX (Windows)
+        if: runner.os == 'Windows'
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: >-
+            scheme-basic
+            latex-bin
+            latexconfig
+            latex-fonts
+        continue-on-error: true
+          
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -93,3 +135,4 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
+
