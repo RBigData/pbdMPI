@@ -103,9 +103,8 @@
 .onUnload <- function(libpath){
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
-  Sys.sleep(1) # Give some time for MPI to finish.
-  if(! spmd.is.finalized()) spmd.finalize()
-  Sys.sleep(1) # Give some time for MPI to finish.
+  
+  ## if(! spmd.is.finalized()) spmd.finalize() ## try without finalize
  
   library.dynam.unload("pbdMPI", libpath)
 
