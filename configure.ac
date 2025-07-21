@@ -2,7 +2,7 @@ dnl This file was original for Rmpi written by Dr. Yu Hao, and may be
 dnl modified by Prof. Brian Rieply and suggested by R Core Team.
 dnl Later, it was added and cleaned by Wei-Chen Chen for pbdR for more
 dnl functionalities combining with Makevars.in.
-
+dnl Made POSIX compliant by George Ostrouchov on 2025-07-21.
 
 dnl Process this file with autoconf to produce a configure script
 AC_INIT
@@ -70,10 +70,10 @@ else
   fi
 fi
 
-if test -n "${MPI_INCLUDE_PATH}" -a -z "${MPI_LIBPATH}" ; then
+if test -n "${MPI_INCLUDE_PATH}" && test -z "${MPI_LIBPATH}" ; then
   AC_MSG_ERROR([Must specify both the include and lib paths])
 fi
-if test -z "${MPI_INCLUDE_PATH}" -a -n "${MPI_LIBPATH}" ; then
+if test -z "${MPI_INCLUDE_PATH}" && test -n "${MPI_LIBPATH}" ; then
   AC_MSG_ERROR([Must specify both the include and lib paths])
 fi
 
@@ -108,11 +108,11 @@ AC_PATH_PROG(PKG_CONFIG, [pkg-config])
 
 dnl For OpenMPI
 if test -z "${MPI_INCLUDE_PATH}" ; then
-  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "OPENMPI" ; then
+  if test "$MPITYPE" = "UNKNOWN" || test "$MPITYPE" = "OPENMPI" ; then
     TMP_INC="F"
     TMP_LIB="F"
 
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
+    if test "$SED" != "F" && test "$MPICC" != "F" && test "$OMPI_INFO" != "F" ; then
       echo "Try sed, mpicc, and ompi_info ..."
 
       TMP_INC_DIRS=`mpicc --showme:incdirs`
@@ -151,7 +151,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       done
       IFS="${TMP_IFS}"
 
-      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+      if test "${TMP_INC}" != "F" && test "${TMP_LIB}" != "F" ; then
         TMP_FOUND="mpicc --showme"
         echo "Found mpi.h and libmpi.so ... via mpicc --showme"
         echo ">> TMP_INC = ${TMP_INC}"
@@ -166,7 +166,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     fi
 
 
-    if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
+    if test "$TMP_INC" = "F" || test "$TMP_LIB" = "F" ; then
       dnl try "pkg-config"
       if test -n "${PKG_CONFIG}" ; then
         echo "Try pkg-config ..."
@@ -211,7 +211,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
           done
           IFS="${TMP_IFS}"
 
-          if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+          if test "${TMP_INC}" != "F" && test "${TMP_LIB}" != "F" ; then
             TMP_FOUND="pkg-config ompi"
             echo "Found mpi.h and libmpi.so ... via pkg-config ompi"
             echo ">> TMP_INC = ${TMP_INC}"
@@ -236,11 +236,11 @@ fi
 
 dnl For IBMMPI on submmit
 if test -z "${MPI_INCLUDE_PATH}" ; then
-  if test "$MPITYPE" = "UNKNOWN" -o "$MPITYPE" = "IBMMPI" ; then
+  if test "$MPITYPE" = "UNKNOWN" || test "$MPITYPE" = "IBMMPI" ; then
     TMP_INC="F"
     TMP_LIB="F"
 
-    if test "$SED" != "F" -a "$MPICC" != "F" -a "$OMPI_INFO" != "F" ; then
+    if test "$SED" != "F" && test "$MPICC" != "F" && test "$OMPI_INFO" != "F" ; then
       echo "Try sed, mpicc, and ompi_info ..."
 
       TMP_INC_DIRS=`mpicc --showme:incdirs`
@@ -272,7 +272,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       done
       IFS="${TMP_IFS}"
 
-      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+      if test "${TMP_INC}" != "F" && test "${TMP_LIB}" != "F" ; then
         TMP_FOUND="mpicc --showme"
         echo "Found mpi.h and libmpi_ibm.so ... via mpicc --showme"
         echo ">> TMP_INC = ${TMP_INC}"
@@ -294,11 +294,11 @@ fi
 dnl For MPICH3/MPICH2/MPICH
 if test -z "${MPI_INCLUDE_PATH}" ; then
 ### MPICH2 users have to specify --with-mpi-type=MPICH2 to get this.
-  if test "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH3" ; then
+  if test "$MPITYPE" = "MPICH2" || test "$MPITYPE" = "MPICH" || test "$MPITYPE" = "MPICH3" ; then
     TMP_INC="F"
     TMP_LIB="F"
 
-    if test "$SED" != "F" -a "$MPICC" != "F" ; then
+    if test "$SED" != "F" && test "$MPICC" != "F" ; then
       echo "Try sed and mpicc ..."
 
       TMP_CMD=`mpicc -show`
@@ -350,7 +350,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
       done
       IFS="${TMP_IFS}"
 
-      if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+      if test "${TMP_INC}" != "F" && test "${TMP_LIB}" != "F" ; then
         TMP_FOUND="mpicc --showme & sed"
         echo "Found mpi.h and libmpich.so ... via mpicc --show & sed"
         echo ">> TMP_INC = ${TMP_INC}"
@@ -365,7 +365,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
     fi
 
 
-    if test "$TMP_INC" = "F" -o "$TMP_LIB" = "F" ; then
+    if test "$TMP_INC" = "F" || test "$TMP_LIB" = "F" ; then
       dnl try "pkg-config"
       if test -n "${PKG_CONFIG}" ; then
         echo "Try pkg-config ..."
@@ -410,7 +410,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
           done
           IFS="${TMP_IFS}"
 
-          if test "${TMP_INC}" != "F" -a "${TMP_LIB}" != "F" ; then
+          if test "${TMP_INC}" != "F" && test "${TMP_LIB}" != "F" ; then
             TMP_FOUND="pkg-config mpich"
             echo "Found mpi.h and libmpich.so ... via pkg-config mpich"
             echo ">> TMP_INC = ${TMP_INC}"
@@ -776,7 +776,7 @@ dnl Now we have found the include and lib paths and may know the type
 AC_CHECK_LIB(util, openpty, [ MPI_LIBS="$MPI_LIBS -lutil" ])
 AC_CHECK_LIB(pthread, main, [ MPI_LIBS="$MPI_LIBS -lpthread" ])
 
-if test "$MPITYPE" = "OPENMPI" -o "$MPITYPE" = "IBMMPI" -o "$MPITYPE" = "LAM" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "INTELMPI" ; then
+if test "$MPITYPE" = "OPENMPI" || test "$MPITYPE" = "IBMMPI" || test "$MPITYPE" = "LAM" || test "$MPITYPE" = "MPICH2" || test "$MPITYPE" = "MPICH3" || test "$MPITYPE" = "INTELMPI" ; then
   MPI_DEFS="-DMPI2"
 fi
 
@@ -834,16 +834,16 @@ ORTERUN=`which orterun`
 
 dnl Mainly for Fedora which has "mpi/openmpi-x86_64" and "mpi/mpich-x86_64"
 dnl Others may have "mpi/gcc/openmpi-*" or so which need more works.
-if test "X$MPIRUN" = "X" -o "X$MPIEXEC" = "X" -o "X$ORTERUN" = "X" ; then
+if test "X$MPIRUN" = "X" || test "X$MPIEXEC" = "X" || test "X$ORTERUN" = "X" ; then
   if test "$MPITYPE" = "OPENMPI" ; then
     TMP_MODULE=`module avail mpi/o | grep "mpi/o" | sed -e "s/^\(mpi\/o\S*\)\(\s*.*\)$/\1/"`
   fi
 
-  if test "$MPITYPE" = "MPICH" -o "$MPITYPE" = "MPICH2" -o "$MPITYPE" = "MPICH3" -o "$MPITYPE" = "MPICH3" ; then
+  if test "$MPITYPE" = "MPICH" || test "$MPITYPE" = "MPICH2" || test "$MPITYPE" = "MPICH3" || test "$MPITYPE" = "MPICH3" ; then
     TMP_MODULE=`module avail mpi/m | grep "mpi/m" | sed -e "s/^\(mpi\/m\S*\)\(\s*.*\)$/\1/"`
   fi
 
-  if test $"X$TMP_MODULE" != "X" ; then
+  if test "X$TMP_MODULE" != "X" ; then
     if test "X$MPIRUN" = "X" ; then
       TMP_EXEC=`module load ${TMP_MODULE}; which mpirun`
       if test "X$TMP_EXEC" != "X" ; then
