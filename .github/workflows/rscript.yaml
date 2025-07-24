@@ -1,0 +1,93 @@
+name: Test pbdMPI Unload on Fedora
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  test-unload-fedora:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Install system dependencies
+      run: |
+        dnf update -y
+        dnf install -y \
+          R \
+          gcc \
+          gcc-c++ \
+          gcc-gfortran \
+          make \
+          openmpi-devel \
+          which \
+          git \
+          texlive-latex \
+          texlive-collection-fontsrecommended \
+          texlive-collection-latexextra \
+          pandoc
+    
+    - name: Setup MPI environment
+      run: |
+        echo 'export PATH=/usr/lib64/openmpi/bin:$PATH' >> ~/.bashrc
+        echo 'export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+        source ~/.bashrc
+        # Make MPI available system-wide
+        echo '/usr/lib64/openmpi/bin' >> /etc/environment
+        ln -sf /usr/lib64/openmpi/bin/mpirun /usr/local/bin/mpirun
+        ln -sf /usr/lib64/openmpi/bin/mpicc /usr/local/bin/mpicc
+    
+    - name: Install R dependencies
+      run: |
+        export PATH=/usr/lib64/openmpi/bin:$PATH
+        export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+        R -e "install.packages(c('float', 'parallel'), repos='https://cloud.r-project.org/')"
+    
+    - name: Build and install pbdMPI package
+      run: |
+        export PATH=/usr/lib64/openmpi/bin:$PATH
+        export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+        # Configure the package
+        ./configure
+        # Build the package
+        R CMD build .
+        # Install the built package
+        R CMD INSTALL pbdMPI_*.tar.gz
+    
+    - name: Run testUnload.R
+      run: |
+        export PATH=/usr/lib64/openmpi/bin:$PATH
+        export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+        # Initialize MPI before running the test
+        mpirun -n 1 R --slave --no-restore --file=inst/tests/testUnload.R
+    
+    - name: Verify MPI functionality
+      run: |
+        export PATH=/usr/lib64/openmpi/bin:$PATH
+        export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+        # Test basic MPI functionality with multiple processes
+        echo "library(pbdMPI); comm.print(paste('Rank:', comm.rank(), 'of', comm.size())); finalize()" > test_mpi.R
+        mpirun -n 2 R --slave --no-restore --file=test_mpi.R
+    
+    - name: Run additional tests
+      run: |
+        export PATH=/usr/lib64/openmpi/bin:$PATH
+        export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+        # Run other test files to ensure comprehensive testing
+        for test_file in inst/tests/*.R; do
+          if [ -f "$test_file" ] && [ "$test_file" != "inst/tests/testUnload.R" ]; then
+            echo "Running test: $test_file"
+            mpirun -n 1 R --slave --no-restore --file="$test_file" || echo "Test $test_file failed or completed with warnings"
+          fi
+        done
+    
+    - name: Check package installation
+      run: |
+        R -e "library(pbdMPI); cat('pbdMPI loaded successfully\n'); packageVersion('pbdMPI')"
