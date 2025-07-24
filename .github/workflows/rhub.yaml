@@ -64,8 +64,8 @@ jobs:
   #      with:
   #        token: ${{ secrets.RHUB_TOKEN }}
   #        job-config: ${{ matrix.config.job-config }}
-      - name: Install pbdMPI from GitHub
-        run: Rscript -e 'remotes::install_github("go-ski/pbdMPI")'
+      - name: Install pbdMPI from local source
+        run: Rscript -e 'install.packages(".", repos = NULL, type = "source")'
       - name: Run R script
         run: Rscript inst/debug/testUnload.R
 
@@ -97,7 +97,7 @@ jobs:
  #       with:
  #         job-config: ${{ matrix.config.job-config }}
  #         token: ${{ secrets.RHUB_TOKEN }}
-      - name: Install pbdMPI from GitHub
-        run: Rscript -e 'remotes::install_github("go-ski/pbdMPI")'
+      - name: Install pbdMPI from local source
+        run: Rscript -e 'install.packages(".", repos = NULL, type = "source")'
       - name: Run R script
         run: Rscript inst/debug/testUnload.R
