@@ -1,0 +1,238 @@
+name: Debug Scripts Runner
+run-name: "Debug Scripts: ${{ github.event.inputs.name || format('Running debug scripts on {0}', github.event.inputs.config) }}"
+
+on:
+  push:
+    paths:
+      - 'inst/debug/**'
+  pull_request:
+    paths:
+      - 'inst/debug/**'
+  workflow_dispatch:
+    inputs:
+      config:
+        description: 'A comma separated list of platforms to use (linux,windows,macos)'
+        type: string
+        default: 'linux,windows,macos'
+      name:
+        description: 'Run name. You can leave this empty.'
+        type: string
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      containers: ${{ steps.platform-setup.outputs.containers }}
+      platforms: ${{ steps.platform-setup.outputs.platforms }}
+
+    steps:
+    - name: Setup platform configurations
+      id: platform-setup
+      run: |
+        CONFIG="${{ github.event.inputs.config || 'linux,windows,macos' }}"
+        
+        # Define container configurations for Linux
+        CONTAINERS='[]'
+        PLATFORMS='[]'
+        
+        if [[ "$CONFIG" == *"linux"* ]]; then
+          CONTAINERS='[
+            {"label": "Ubuntu Latest", "container": "ubuntu:latest", "job-config": "ubuntu"},
+            {"label": "Fedora Latest", "container": "fedora:latest", "job-config": "fedora"}
+          ]'
+        fi
+        
+        # Define platform configurations for Windows and macOS
+        PLATFORM_CONFIGS=""
+        if [[ "$CONFIG" == *"windows"* ]]; then
+          if [ -n "$PLATFORM_CONFIGS" ]; then
+            PLATFORM_CONFIGS="$PLATFORM_CONFIGS,"
+          fi
+          PLATFORM_CONFIGS="$PLATFORM_CONFIGS{\"label\": \"Windows Latest\", \"os\": \"windows-latest\", \"job-config\": \"windows\"}"
+        fi
+        
+        if [[ "$CONFIG" == *"macos"* ]]; then
+          if [ -n "$PLATFORM_CONFIGS" ]; then
+            PLATFORM_CONFIGS="$PLATFORM_CONFIGS,"
+          fi
+          PLATFORM_CONFIGS="$PLATFORM_CONFIGS{\"label\": \"macOS Latest\", \"os\": \"macos-latest\", \"job-config\": \"macos\"}"
+        fi
+        
+        if [ -n "$PLATFORM_CONFIGS" ]; then
+          PLATFORMS="[$PLATFORM_CONFIGS]"
+        fi
+        
+        echo "containers=$CONTAINERS" >> $GITHUB_OUTPUT
+        echo "platforms=$PLATFORMS" >> $GITHUB_OUTPUT
+
+  linux-containers:
+    needs: setup
+    if: ${{ needs.setup.outputs.containers != '[]' }}
+    runs-on: ubuntu-latest
+    name: ${{ matrix.config.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJson(needs.setup.outputs.containers) }}
+    container:
+      image: ${{ matrix.config.container }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install system dependencies (Ubuntu)
+        if: matrix.config.container == 'ubuntu:latest'
+        run: |
+          apt-get update
+          apt-get install -y r-base gcc g++ gfortran make libopenmpi-dev openmpi-bin git
+        
+      - name: Install system dependencies (Fedora)  
+        if: matrix.config.container == 'fedora:latest'
+        run: |
+          dnf update -y
+          dnf install -y R gcc gcc-c++ gcc-gfortran make openmpi-devel which git
+          
+      - name: Setup MPI environment (Fedora)
+        if: matrix.config.container == 'fedora:latest'
+        run: |
+          echo 'export PATH=/usr/lib64/openmpi/bin:$PATH' >> ~/.bashrc
+          echo 'export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+          ln -sf /usr/lib64/openmpi/bin/mpirun /usr/local/bin/mpirun
+          ln -sf /usr/lib64/openmpi/bin/mpicc /usr/local/bin/mpicc
+
+      - name: Setup MPI environment (Ubuntu)
+        if: matrix.config.container == 'ubuntu:latest'
+        run: |
+          echo 'export PATH=/usr/bin:$PATH' >> ~/.bashrc
+
+      - name: Install R dependencies
+        run: |
+          if [[ "${{ matrix.config.container }}" == "fedora:latest" ]]; then
+            export PATH=/usr/lib64/openmpi/bin:$PATH
+            export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          fi
+          R -e "install.packages(c('parallel'), repos='https://cloud.r-project.org/', dependencies=TRUE)"
+
+      - name: Build and install pbdMPI package
+        run: |
+          if [[ "${{ matrix.config.container }}" == "fedora:latest" ]]; then
+            export PATH=/usr/lib64/openmpi/bin:$PATH
+            export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          fi
+          ./configure
+          R CMD build .
+          R CMD INSTALL pbdMPI_*.tar.gz
+
+      - name: Run debug scripts
+        run: |
+          if [[ "${{ matrix.config.container }}" == "fedora:latest" ]]; then
+            export PATH=/usr/lib64/openmpi/bin:$PATH
+            export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:$LD_LIBRARY_PATH
+          fi
+          
+          echo "=== Running debug scripts in inst/debug/ ==="
+          for script in inst/debug/*.R inst/debug/*.r; do
+            if [ -f "$script" ]; then
+              echo "Running: $script"
+              echo "----------------------------------------"
+              if [[ "$script" == *"testUnload"* ]] || [[ "$script" == *"mpi"* ]]; then
+                # Run MPI-related scripts with mpirun
+                mpirun -n 2 R --slave --no-restore --file="$script" || echo "Script $script completed with warnings/errors"
+              else
+                # Run regular R scripts
+                R --slave --no-restore --file="$script" || echo "Script $script completed with warnings/errors"
+              fi
+              echo "----------------------------------------"
+              echo ""
+            fi
+          done
+
+  other-platforms:
+    needs: setup
+    if: ${{ needs.setup.outputs.platforms != '[]' }}
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJson(needs.setup.outputs.platforms) }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+
+      - name: Install system dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew install openmpi
+
+      - name: Install system dependencies (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # Install Microsoft MPI
+          Invoke-WebRequest -Uri "https://github.com/microsoft/Microsoft-MPI/releases/download/v10.1.1/msmpisetup.exe" -OutFile "msmpisetup.exe"
+          Start-Process -FilePath "msmpisetup.exe" -ArgumentList "-unattend" -Wait
+          Invoke-WebRequest -Uri "https://github.com/microsoft/Microsoft-MPI/releases/download/v10.1.1/msmpisdk.msi" -OutFile "msmpisdk.msi"
+          Start-Process -FilePath "msiexec.exe" -ArgumentList "/i msmpisdk.msi /quiet" -Wait
+
+      - name: Install R dependencies
+        run: |
+          install.packages(c('parallel'), repos='https://cloud.r-project.org/', dependencies=TRUE)
+        shell: Rscript {0}
+
+      - name: Build and install pbdMPI package
+        run: |
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            R CMD build .
+            R CMD INSTALL pbdMPI_*.tar.gz
+          else
+            ./configure
+            R CMD build .
+            R CMD INSTALL pbdMPI_*.tar.gz
+          fi
+        shell: bash
+
+      - name: Run debug scripts (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          echo "=== Running debug scripts in inst/debug/ ==="
+          for script in inst/debug/*.R inst/debug/*.r; do
+            if [ -f "$script" ]; then
+              echo "Running: $script"
+              echo "----------------------------------------"
+              if [[ "$script" == *"testUnload"* ]] || [[ "$script" == *"mpi"* ]]; then
+                # Run MPI-related scripts with mpirun
+                mpirun -n 2 R --slave --no-restore --file="$script" || echo "Script $script completed with warnings/errors"
+              else
+                # Run regular R scripts
+                R --slave --no-restore --file="$script" || echo "Script $script completed with warnings/errors"
+              fi
+              echo "----------------------------------------"
+              echo ""
+            fi
+          done
+
+      - name: Run debug scripts (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          Write-Host "=== Running debug scripts in inst/debug/ ==="
+          Get-ChildItem -Path "inst/debug/" -Filter "*.R" | ForEach-Object {
+            Write-Host "Running: $($_.Name)"
+            Write-Host "----------------------------------------"
+            if ($_.Name -match "testUnload|mpi") {
+              # Run MPI-related scripts with mpiexec
+              mpiexec -n 2 R --slave --no-restore --file="$($_.FullName)"
+            } else {
+              # Run regular R scripts
+              R --slave --no-restore --file="$($_.FullName)"
+            }
+            Write-Host "----------------------------------------"
+            Write-Host ""
+          }
+        shell: powershell

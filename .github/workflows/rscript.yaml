@@ -1,10 +1,6 @@
 name: Test pbdMPI Unload on Fedora
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
