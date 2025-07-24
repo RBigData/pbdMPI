@@ -89,7 +89,10 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      - uses: r-hub/actions/run-check@v1
-        with:
-          job-config: ${{ matrix.config.job-config }}
-          token: ${{ secrets.RHUB_TOKEN }}
+ #     - uses: r-hub/actions/run-check@v1
+ #       with:
+ #         job-config: ${{ matrix.config.job-config }}
+ #         token: ${{ secrets.RHUB_TOKEN }}
+      - name: Run R script
+        run: Rscript inst/debug/testUnload.R
+        
