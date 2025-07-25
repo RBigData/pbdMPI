@@ -9,4 +9,7 @@ print(comm.rank())
 print("About to finalize pbdMPI")
 # finalize()
 print("NOT Finalized pbdMPI")
+print("About to reload pbdMPI")
+devtools::reload("pbdMPI")
+print("Reloaded pbdMPI")
 # test unloading of pbdMPI?
