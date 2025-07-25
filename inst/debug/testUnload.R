@@ -1,4 +1,6 @@
 # This is a test script for pbdMPI
+install.packages("devtools")
+print("Installed devtools")
 print("About to load pbdMPI")
 library(pbdMPI)
 print("Loaded pbdMPI")
