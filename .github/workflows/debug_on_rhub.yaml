@@ -62,6 +62,8 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
       - name: Install pbdMPI from local source
         run: Rscript -e 'install.packages(".", repos = NULL, type = "source")'
+      - name: Ensure devtools is installed
+        run: Rscript -e 'install.packages("devtools", repos = "https://cloud.r-project.org")'
       - name: Run R script
         run: Rscript inst/debug/testUnload.R
 
