@@ -61,7 +61,13 @@ jobs:
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
       - name: Install TeX Live
-        run: sudo apt-get update && sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+        run: |
+          if command -v apt-get; then
+            sudo apt-get update
+            sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+          elif command -v dnf; then
+            sudo dnf install -y texlive-scheme-basic texlive-collection-latexrecommended texlive-collection-fontsrecommended texlive-collection-fontsextra texlive-collection-latexextra
+          fi 
       - uses: r-hub/actions/run-check@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -92,7 +98,13 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
       - name: Install TeX Live
-        run: sudo apt-get update && sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+        run: |
+          if command -v apt-get; then
+            sudo apt-get update
+            sudo apt-get install -y texlive-latex-base texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+          elif command -v dnf; then
+            sudo dnf install -y texlive-scheme-basic texlive-collection-latexrecommended texlive-collection-fontsrecommended texlive-collection-fontsextra texlive-collection-latexextra
+          fi
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
