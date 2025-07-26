@@ -62,8 +62,12 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
       - name: Install pbdMPI from local source
         run: Rscript -e 'install.packages(".", repos = NULL, type = "source")'
-      - name: Run R script
-        run: Rscript inst/debug/testUnload.R
+#      - name: Run R script
+#        run: Rscript inst/debug/testUnload.R
+      - name: Run testUnload.R under valgrind
+        run: |
+          sudo apt-get update && sudo apt-get install -y valgrind
+          valgrind --tool=memcheck --leak-check=full Rscript inst/debug/testUnload.R
 
   other-platforms:
     needs: setup
