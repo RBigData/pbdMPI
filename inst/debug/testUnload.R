@@ -15,6 +15,7 @@ detach("package:pbdMPI", unload = TRUE)
 print("testUnload: Unloaded pbdMPI")
 Sys.sleep(2)
 print("testUnload: Sleep completed")
-#finalize()
-#print("Finalized pbdMPI")
-# test unloading of pbdMPI?
+
+print("Set filalize to FALSE")
+.pbd_env$SPMD.CT$mpi.finalize <- FALSE
+print("Last script line in testUnload.R")
