@@ -168,5 +168,6 @@
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
   ### Internally, spmd.finalize() checks if MPI_Finalized() 
+  print("Entered .onDetach")
   pbdMPI::spmd.finalize()
 } # End of .onUnload().
