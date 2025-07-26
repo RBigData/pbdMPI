@@ -73,8 +73,8 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 
 	MPI_Finalized(&flag);
 	C_mpi_finalize = INTEGER(R_mpi_finalize)[0];
-	printf("spmd_finalize: C_mpi_finalize: %d, flag: %d.\n", C_mpi_finalize, flag);
-	printf("spmd_finalize: WHO_LOAD_FIRST: %d PBDMPI: %d.\n",
+	REprintf("spmd_finalize: C_mpi_finalize: %d, flag: %d.\n", C_mpi_finalize, flag);
+	REprintf("spmd_finalize: WHO_LOAD_FIRST: %d PBDMPI: %d.\n",
 		WHO_LOAD_FIRST, PBDMPI);
 
 	if(C_mpi_finalize == 1){
@@ -107,7 +107,7 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 			&global_spmd_info[0], &global_spmd_request[0]);
 	}
 #endif
-				printf("spmd_finalize: before free.\n");
+				REprintf("spmd_finalize: before free.\n");
 
 				R_Free(global_spmd_comm);
 				R_Free(global_spmd_status);
