@@ -69,7 +69,7 @@ jobs:
           sudo dnf update && sudo dnf install -y valgrind
           valgrind --tool=memcheck --leak-check=full --track-origins=yes --log-file=valgrind.log Rscript inst/debug/testUnload.R
       - name: Upload Valgrind log as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: valgrind-log
           path: valgrind.log
