@@ -9,7 +9,7 @@ print(comm.rank())
 print("About to finalize pbdMPI")
 # finalize()
 print("NOT Finalized pbdMPI")
-print("About to unload pbdMPI")
+print("About to detach pbdMPI")
 detach("package:pbdMPI", unload = TRUE)
 print("Unloaded pbdMPI")
 # test unloading of pbdMPI?
