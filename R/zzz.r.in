@@ -105,6 +105,7 @@
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
   ### Internally, spmd.finalize() checks if MPI_Finalized() 
+  print("Entered .onUnload")
   pbdMPI::spmd.finalize()
   library.dynam.unload("pbdMPI", libpath)
 
