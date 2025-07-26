@@ -12,4 +12,6 @@ print("NOT Finalized pbdMPI")
 print("About to detach pbdMPI")
 detach("package:pbdMPI", unload = TRUE)
 print("Unloaded pbdMPI")
+Sys.sleep(2)
+print("Sleep completed")
 # test unloading of pbdMPI?
