@@ -74,6 +74,8 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	MPI_Finalized(&flag);
 	C_mpi_finalize = INTEGER(R_mpi_finalize)[0];
 	printf("spmd_finalize: C_mpi_finalize: %d, flag: %d.\n", C_mpi_finalize, flag);
+	printf("spmd_finalize: WHO_LOAD_FIRST: %d PBDMPI: %d.\n",
+		WHO_LOAD_FIRST, PBDMPI);
 
 	if(C_mpi_finalize == 1){
 		if(! flag){
