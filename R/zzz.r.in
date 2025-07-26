@@ -163,3 +163,10 @@
 #   }
   invisible()
 } # End of .onAttach().
+
+.onDetach <- function(libpath){
+  ### Do not finalize MPI by default, which can cause problem for external API.
+  ### Let user take care of shut down business.
+  ### Internally, spmd.finalize() checks if MPI_Finalized() 
+  pbdMPI::spmd.finalize()
+} # End of .onUnload().
