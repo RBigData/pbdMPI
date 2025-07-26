@@ -62,17 +62,8 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
       - name: Install pbdMPI from local source
         run: Rscript -e 'install.packages(".", repos = NULL, type = "source")'
-#      - name: Run R script
-#        run: Rscript inst/debug/testUnload.R
-      - name: Run testUnload.R under valgrind
-        run: |
-          sudo dnf update && sudo dnf install -y valgrind
-          valgrind --tool=memcheck --leak-check=full --track-origins=yes --log-file=valgrind.log Rscript inst/debug/testUnload.R
-      - name: Upload Valgrind log as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: valgrind-log
-          path: valgrind.log
+      - name: Run R script
+        run: Rscript inst/debug/testUnload.R
 
   other-platforms:
     needs: setup
