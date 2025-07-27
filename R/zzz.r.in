@@ -126,10 +126,10 @@
       mpi.libname <- "libmpich"
     }
 
-    libs <- c(libs,
-              list.files(path = mpi.libpath,
-                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-                         full.names = TRUE))
+#    libs <- c(libs,
+#              list.files(path = mpi.libpath,
+#                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+#                         full.names = TRUE))
               ### For Mac OS X, but let system takes care of loading problem.
               # list.files(path = mpi.libpath,
               #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
