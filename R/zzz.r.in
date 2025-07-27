@@ -105,7 +105,7 @@
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
   ### Internally, spmd.finalize() checks if MPI_Finalized() 
-  print("Entered .onUnload")
+  print(".onUnload: Entered")
   pbdMPI::spmd.finalize()
   library.dynam.unload("pbdMPI", libpath)
 
@@ -134,9 +134,15 @@
               # list.files(path = mpi.libpath,
               #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
               #            full.names = TRUE))
+
+    print(".onUnload: print libs")
+    print(libs)
+    print(".onUnload: print done")
+    print(".onUnload: Unloading libs")
     for(i.lib in libs){
       ret <- try(dyn.unload(i.lib), silent = TRUE)
     }
+    print(".onUnload: Unloading libs done")
   }
 
   invisible()
