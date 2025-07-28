@@ -73,8 +73,6 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 
 	MPI_Finalized(&flag);
 	C_mpi_finalize = INTEGER(R_mpi_finalize)[0];
-	REprintf("spmd_finalize: C_mpi_finalize: %d, flag: %d.\n", C_mpi_finalize, flag);
-	REprintf("spmd_finalize: WHO_LOAD_FIRST: %d PBDMPI: %d.\n",
 		WHO_LOAD_FIRST, PBDMPI);
 
 	if(C_mpi_finalize == 1){
@@ -107,38 +105,20 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 			&global_spmd_info[0], &global_spmd_request[0]);
 	}
 #endif
-				REprintf("spmd_finalize: before free.\n");
 
 // In spmd_finalize(), add this before the R_Free() calls:
 #if MPI_VERSION >= 3
 			if(global_spmd_localcomm != MPI_COMM_NULL){
     			MPI_Comm_free(&global_spmd_localcomm);
     			global_spmd_localcomm = MPI_COMM_NULL;
-				REprintf("spmd_initialize: global_spmd_localcomm freed by MPI v3+\n");
-
 			}
 #endif
 
-			if(global_spmd_comm != NULL){
                 R_Free(global_spmd_comm);
-                global_spmd_comm = NULL;
-            }
-            if(global_spmd_status != NULL){
                 R_Free(global_spmd_status);
-                global_spmd_status = NULL;
-            }
-            if(global_spmd_datatype != NULL){
                 R_Free(global_spmd_datatype);
-                global_spmd_datatype = NULL;
-            }
-            if(global_spmd_info != NULL){
                 R_Free(global_spmd_info);
-                global_spmd_info = NULL;
-            }
-            if(global_spmd_request != NULL){
                 R_Free(global_spmd_request);
-                global_spmd_request = NULL;
-            }
 
 #if (MPI_APTS_DEBUG & 1) == 1
 	if(myrank == 0){

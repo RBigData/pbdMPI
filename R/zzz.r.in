@@ -104,8 +104,6 @@
 .onUnload <- function(libpath){
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
-  ### Internally, spmd.finalize() checks if MPI_Finalized() 
-  print(".onUnload: Entered")
   pbdMPI::spmd.finalize()
   library.dynam.unload("pbdMPI", libpath)
 
@@ -126,26 +124,19 @@
       mpi.libname <- "libmpich"
     }
 
-#    libs <- c(libs,
-#              list.files(path = mpi.libpath,
-#                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-#                         full.names = TRUE))
+    libs <- c(libs,
+              list.files(path = mpi.libpath,
+                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+                         full.names = TRUE))
               ### For Mac OS X, but let system takes care of loading problem.
               # list.files(path = mpi.libpath,
               #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
-              #            full.names = TRUE))
-
-    print(".onUnload: print libs")
-    print(libs)
-    print(".onUnload: print done")
-    print(".onUnload: NOT Unloading libs")
-#    for(i.lib in libs){
-#      ret <- try(dyn.unload(i.lib), silent = FALSE)
-#    }
-    print(".onUnload: NOT Unloading libs done")
+              #            full.names = TRUE)
+    for(i.lib in libs){
+      ret <- try(dyn.unload(i.lib), silent = TRUE)
+    }
   }
 
-  print(".onUnload: Exit")
   invisible()
 } # End of .onUnload().
 
@@ -171,11 +162,3 @@
 #   }
   invisible()
 } # End of .onAttach().
-
-.onDetach <- function(libpath){
-  ### Do not finalize MPI by default, which can cause problem for external API.
-  ### Let user take care of shut down business.
-  ### Internally, spmd.finalize() checks if MPI_Finalized() 
-  print("Entered .onDetach")
-  pbdMPI::spmd.finalize()
-} # End of .onUnload().
