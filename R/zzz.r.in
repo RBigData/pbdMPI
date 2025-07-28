@@ -135,7 +135,7 @@
 #    for(i.lib in libs){
 #      ret <- try(dyn.unload(i.lib), silent = TRUE)
 #    }
-#  }
+  }
 
   invisible()
 } # End of .onUnload().
