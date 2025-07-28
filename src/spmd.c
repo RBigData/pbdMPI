@@ -114,6 +114,8 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 			if(global_spmd_localcomm != MPI_COMM_NULL){
     			MPI_Comm_free(&global_spmd_localcomm);
     			global_spmd_localcomm = MPI_COMM_NULL;
+				REprintf("spmd_initialize: global_spmd_localcomm freed by MPI v3+\n");
+
 			}
 #endif
 
