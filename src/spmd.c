@@ -110,10 +110,15 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 				REprintf("spmd_finalize: before free.\n");
 
 				R_Free(global_spmd_comm);
+				global_spmd_comm = NULL;
 				R_Free(global_spmd_status);
+				global_spmd_status = NULL;
 				R_Free(global_spmd_datatype);
+				global_spmd_datatype = NULL;
 				R_Free(global_spmd_info);
+				global_spmd_info = NULL;
 				R_Free(global_spmd_request);
+				global_spmd_request = NULL;
 
 #if (MPI_APTS_DEBUG & 1) == 1
 	if(myrank == 0){
