@@ -138,11 +138,11 @@
     print(".onUnload: print libs")
     print(libs)
     print(".onUnload: print done")
-    print(".onUnload: Unloading libs")
-    for(i.lib in libs){
-      ret <- try(dyn.unload(i.lib), silent = FALSE)
-    }
-    print(".onUnload: Unloading libs done")
+    print(".onUnload: NOT Unloading libs")
+#    for(i.lib in libs){
+#      ret <- try(dyn.unload(i.lib), silent = FALSE)
+#    }
+    print(".onUnload: NOT Unloading libs done")
   }
 
   print(".onUnload: Exit")
