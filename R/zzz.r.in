@@ -124,18 +124,18 @@
       mpi.libname <- "libmpich"
     }
 
-    libs <- c(libs,
-              list.files(path = mpi.libpath,
-                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-                         full.names = TRUE))
-              ### For Mac OS X, but let system takes care of loading problem.
-              # list.files(path = mpi.libpath,
-              #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
-              #            full.names = TRUE)
-    for(i.lib in libs){
-      ret <- try(dyn.unload(i.lib), silent = TRUE)
-    }
-  }
+#    libs <- c(libs,
+#              list.files(path = mpi.libpath,
+#                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+#                         full.names = TRUE))
+#              ### For Mac OS X, but let system takes care of loading problem.
+#              # list.files(path = mpi.libpath,
+#              #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
+#              #            full.names = TRUE)
+#    for(i.lib in libs){
+#      ret <- try(dyn.unload(i.lib), silent = TRUE)
+#    }
+#  }
 
   invisible()
 } # End of .onUnload().
