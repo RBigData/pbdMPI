@@ -456,7 +456,6 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
   dnl Detect from conventional paths
   if test -z "$MPI_ROOT" ; then
     for d in /opt/lib /usr/lib /usr /usr/local/lib /usr/local \
-             /opt/homebrew/lib \
              /opt/lib64 /usr/lib64 /usr/local/lib64 \
              /usr/lib/mpi/gcc/openmpi \
              /usr/lib64/mpi/gcc/openmpi \
