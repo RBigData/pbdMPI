@@ -107,34 +107,34 @@
   pbdMPI::spmd.finalize()
   library.dynam.unload("pbdMPI", libpath)
 
-  ### Shared library needs to be unloaded after "pbdMPI.so"
-  mpi.type <- "@MPITYPE@"
-  mpi.libpath <- "@MPI_LIBPATH@"
-  mpi.libname <- "@MPI_LIBNAME@"
-  libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
-
-  ### Nautilus needs MPT.
-  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
-      mpi.type == "MPT"){
-    if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
-      mpi.libname <- "libmpi"
-    } else if(mpi.type == "IBMMPI"){
-      mpi.libname <- "libmpi_ibm"
-    } else{
-      mpi.libname <- "libmpich"
-    }
-
-#    libs <- c(libs,
-#              list.files(path = mpi.libpath,
-#                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-#                         full.names = TRUE))
-#              ### For Mac OS X, but let system takes care of loading problem.
-#              # list.files(path = mpi.libpath,
-#              #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
-#              #            full.names = TRUE)
-#    for(i.lib in libs){
-#      ret <- try(dyn.unload(i.lib), silent = TRUE)
-#    }
+#GO  ### Shared library needs to be unloaded after "pbdMPI.so"
+#GO  mpi.type <- "@MPITYPE@"
+#GO  mpi.libpath <- "@MPI_LIBPATH@"
+#GO  mpi.libname <- "@MPI_LIBNAME@"
+#GO  libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
+#GO
+#GO  ### Nautilus needs MPT.
+#GO  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
+#GO      mpi.type == "MPT"){
+#GO    if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
+#GO      mpi.libname <- "libmpi"
+#GO    } else if(mpi.type == "IBMMPI"){
+#GO      mpi.libname <- "libmpi_ibm"
+#GO    } else{
+#GO      mpi.libname <- "libmpich"
+#GO    }
+#GO
+#GO    libs <- c(libs,
+#GO              list.files(path = mpi.libpath,
+#GO                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
+#GO                         full.names = TRUE))
+#GO              ### For Mac OS X, but let system takes care of loading problem.
+#GO              # list.files(path = mpi.libpath,
+#GO              #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
+#GO              #            full.names = TRUE)
+#GO    for(i.lib in libs){
+#GO      ret <- try(dyn.unload(i.lib), silent = TRUE)
+#GO    }
   }
 
   invisible()
