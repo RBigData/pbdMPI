@@ -89,8 +89,11 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-#      - name: Install MPI (OpenMPI)
-#        run: brew install open-mpi
+      ### Following three lines added for macOS checks
+      - name: Install MPI (OpenMPI)
+        if: runner.os == 'macOS'
+        run: brew install open-mpi
+      ###
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
