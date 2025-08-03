@@ -96,7 +96,7 @@ jobs:
       ### Following three lines added for Windows msmpi install
       - name: Install Microsoft MPI
         if: runner.os == 'Windows'
-        run: choco install msmpi
+        run: choco install msmpi -y
       ###
       - uses: r-hub/actions/run-check@v1
         with:
