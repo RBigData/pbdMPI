@@ -89,10 +89,12 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      ### Following five lines added for MPI installs on macOS and Windows
+      ### Following three lines added for macOS OpenMPI install
       - name: Install MPI (OpenMPI)
         if: runner.os == 'macOS'
         run: brew install open-mpi
+      ### Following three lines added for Windows msmpi install
+      - name: Install Microsoft MPI
         if: runner.os == 'Windows'
         run: choco install msmpi
       ###
