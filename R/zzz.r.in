@@ -9,7 +9,6 @@
 # } # End of .Last.lib().
 
 .onLoad <- function(libname, pkgname){
-
   ### Enforce to search LD_LIBRARY_PATH if "yes". Only for advanced users.
   enable.ld.library.path <- "@ENABLE_LD_LIBRARY_PATH@"
   
