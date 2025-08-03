@@ -9,7 +9,7 @@
 # } # End of .Last.lib().
 
 .onLoad <- function(libname, pkgname){
-  Sys.setenv("_R_TRACE_LOADNAMESPACE_" = 1)
+
   ### Enforce to search LD_LIBRARY_PATH if "yes". Only for advanced users.
   enable.ld.library.path <- "@ENABLE_LD_LIBRARY_PATH@"
   

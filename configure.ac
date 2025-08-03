@@ -2,7 +2,7 @@ dnl This file was original for Rmpi written by Dr. Yu Hao, and may be
 dnl modified by Prof. Brian Rieply and suggested by R Core Team.
 dnl Later, it was added and cleaned by Wei-Chen Chen for pbdR for more
 dnl functionalities combining with Makevars.in.
-dnl Made POSIX compliant by George Ostrouchov on 2025-07-21.
+dnl Further changes for POSIX compliance by George Ostrouchov on 2025-07-29.
 
 dnl Process this file with autoconf to produce a configure script
 AC_INIT

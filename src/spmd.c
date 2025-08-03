@@ -105,14 +105,6 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	}
 #endif
 
-// In spmd_finalize(), add this before the R_Free() calls:
-#if MPI_VERSION >= 3
-			if(global_spmd_localcomm != MPI_COMM_NULL){
-    			MPI_Comm_free(&global_spmd_localcomm);
-    			global_spmd_localcomm = MPI_COMM_NULL;
-			}
-#endif
-
                 R_Free(global_spmd_comm);
                 R_Free(global_spmd_status);
                 R_Free(global_spmd_datatype);
