@@ -1,0 +1,102 @@
+name: wlm-check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+    container: ${{ matrix.config.container }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: ubuntu-latest, mpi: openmpi, container: null}
+          - {os: windows-latest, mpi: msmpi, container: null}
+          - {os: ubuntu-latest, mpi: openmpi, container: "fedora:latest"}
+    
+    env:
+      CRAN: https://cran.rstudio.com
+      _R_CHECK_FORCE_SUGGESTS_: false
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    # Setup R for non-container jobs
+    - name: Setup R
+      if: matrix.config.container == null
+      uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: 'release'
+    
+    # Linux Ubuntu setup
+    - name: Install system dependencies (Ubuntu)
+      if: runner.os == 'Linux' && matrix.config.container == null
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -y -q libopenmpi-dev openmpi-bin
+    
+    # Fedora container setup
+    - name: Install system dependencies (Fedora)
+      if: contains(matrix.config.container, 'fedora')
+      run: |
+        dnf update -y
+        dnf install -y R openmpi openmpi-devel which
+        echo "/usr/lib64/openmpi/bin" >> $GITHUB_PATH
+      
+    # Verify MPI installation (Linux/Fedora)
+    - name: Verify MPI installation (Linux/Fedora)
+      if: runner.os == 'Linux'
+      run: |
+        mpiexec --version
+        mpicc -showme:incdirs
+        mpicc -showme:libdirs
+        mpicc -showme:compile
+        mpicc -showme:link
+    
+    # Windows MS-MPI setup
+    - name: Install MS-MPI (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        # Download and install MS-MPI runtime
+        Invoke-WebRequest -Uri "https://github.com/microsoft/Microsoft-MPI/releases/download/v10.1.1/msmpisetup.exe" -OutFile msmpisetup.exe
+        Start-Process -Wait -FilePath .\msmpisetup.exe -ArgumentList "-unattend"
+        
+        # Download and install MS-MPI SDK
+        Invoke-WebRequest -Uri "https://github.com/microsoft/Microsoft-MPI/releases/download/v10.1.1/msmpisdk.msi" -OutFile msmpisdk.msi  
+        Start-Process -Wait -FilePath msiexec -ArgumentList "/i msmpisdk.msi /quiet"
+  
+        # Clean up installer files
+        Remove-Item msmpisetup.exe -Force
+        Remove-Item msmpisdk.msi -Force
+      
+        # Set environment variables
+        echo "MSMPI_ROOT=C:\Program Files\Microsoft MPI" >> $env:GITHUB_ENV
+        echo "MSMPI_LIB32=C:\Program Files\Microsoft MPI\Lib\x86" >> $env:GITHUB_ENV
+        echo "MSMPI_LIB64=C:\Program Files\Microsoft MPI\Lib\x64" >> $env:GITHUB_ENV
+        echo "MSMPI_INC=C:\Program Files\Microsoft MPI\Include" >> $env:GITHUB_ENV
+        echo "PATH=$env:PATH;C:\Program Files\Microsoft MPI\Bin" >> $env:GITHUB_ENV
+      shell: powershell
+    
+    - name: Verify MS-MPI installation (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        Get-Command mpiexec
+        mpiexec -help
+      shell: powershell
+    
+    - name: Install R dependencies
+      run: |
+        Rscript -e "install.packages(c('float'), repos='https://cran.rstudio.com')"
+    
+    - name: Check R session
+      run: |
+        Rscript -e "sessionInfo()"
+    
+    - name: Build and check package
+      run: |
+        R CMD build --no-resave-data --no-manual --no-build-vignettes .
+        R CMD check --as-cran --no-manual --ignore-vignettes ./pbdMPI_*.tar.gz
+      shell: bash
