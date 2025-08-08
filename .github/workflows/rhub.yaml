@@ -81,11 +81,14 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
-      - uses: r-hub/actions/checkout@v1
+      # Configure Git line endings before checkout (Windows only)
       - name: Configure Git line endings
+        if: runner.os == 'Windows'
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
+        shell: cmd
+      - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/setup-r@v1
         with:
           ref: ${{ github.event.inputs.branch }}
