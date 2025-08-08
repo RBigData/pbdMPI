@@ -6,7 +6,7 @@
 #
 # It is unlikely that you need to modify this file manually.
 
-name: R-hub
+name: rhubMPI
 run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
 
 on:
@@ -16,6 +16,10 @@ on:
         description: 'A comma separated list of R-hub platforms to use.'
         type: string
         default: 'linux,windows,macos'
+      branch:
+        description: 'Branch to checkout and test'
+        type: string
+        default: 'master'
       name:
         description: 'Run name. You can leave this empty now.'
         type: string
@@ -54,6 +58,7 @@ jobs:
       - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/platform-info@v1
         with:
+          ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.RHUB_TOKEN }}
           job-config: ${{ matrix.config.job-config }}
       - uses: r-hub/actions/setup-deps@v1
@@ -79,6 +84,7 @@ jobs:
       - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/setup-r@v1
         with:
+          ref: ${{ github.event.inputs.branch }}
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
       - uses: r-hub/actions/platform-info@v1
@@ -93,6 +99,38 @@ jobs:
       - name: Install MPI (OpenMPI)
         if: runner.os == 'macOS'
         run: brew install open-mpi
+      ###
+
+      # Install MPI (MS-MPI) for Windows 
+      - name: Install MS-MPI (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          # Download and install MS-MPI runtime
+          Invoke-WebRequest -Uri "https://github.com/microsoft/Microsoft-MPI/releases/download/v10.1.1/msmpisetup.exe" -OutFile msmpisetup.exe
+          Start-Process -Wait -FilePath .\msmpisetup.exe -ArgumentList "-unattend"
+        
+          # Download and install MS-MPI SDK
+          Invoke-WebRequest -Uri "https://github.com/microsoft/Microsoft-MPI/releases/download/v10.1.1/msmpisdk.msi" -OutFile msmpisdk.msi  
+          Start-Process -Wait -FilePath msiexec -ArgumentList "/i msmpisdk.msi /quiet"
+
+          # Clean up installer files
+          Remove-Item msmpisetup.exe -Force
+          Remove-Item msmpisdk.msi -Force
+  
+          # Set environment variables
+          echo "MSMPI_ROOT=C:\Program Files\Microsoft MPI" >> $env:GITHUB_ENV
+          echo "MSMPI_LIB32=C:\Program Files\Microsoft MPI\Lib\x86" >> $env:GITHUB_ENV
+          echo "MSMPI_LIB64=C:\Program Files\Microsoft MPI\Lib\x64" >> $env:GITHUB_ENV
+          echo "MSMPI_INC=C:\Program Files\Microsoft MPI\Include" >> $env:GITHUB_ENV
+          echo "PATH=$env:PATH;C:\Program Files\Microsoft MPI\Bin" >> $env:GITHUB_ENV
+        shell: powershell
+    
+      - name: Verify MS-MPI installation (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          Get-Command mpiexec
+          mpiexec -help
+        shell: powershell
       ###
       - uses: r-hub/actions/run-check@v1
         with:
