@@ -82,6 +82,10 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
+      - name: Configure Git line endings
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
       - uses: r-hub/actions/setup-r@v1
         with:
           ref: ${{ github.event.inputs.branch }}
