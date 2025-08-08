@@ -5,8 +5,10 @@
 # rhub::rhub_setup()
 #
 # It is unlikely that you need to modify this file manually.
+###GO Sections added by George Ostrouchov with Claude Chat assist in Positron. Fixes line
+###GO  endings for Windows, installs MS-MPI on Windows and OpenMPI on macOS.
 
-name: rhubMPI
+name: rhub-check-with-mpi
 run-name: "${{ github.event.inputs.id }}: ${{ github.event.inputs.name || format('Manually run by {0}', github.triggering_actor) }}"
 
 on:
@@ -81,13 +83,14 @@ jobs:
         config: ${{ fromJson(needs.setup.outputs.platforms) }}
 
     steps:
-      # Configure Git line endings before checkout (Windows only)
+      ###GO Configure Git line endings in checkout to protect configure.ac (Windows only)
       - name: Configure Git line endings
         if: runner.os == 'Windows'
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
         shell: cmd
+      ###GO End
       - uses: r-hub/actions/checkout@v1
       - uses: r-hub/actions/setup-r@v1
         with:
@@ -102,13 +105,13 @@ jobs:
         with:
           job-config: ${{ matrix.config.job-config }}
           token: ${{ secrets.RHUB_TOKEN }}
-      ### Following three lines added for macOS OpenMPI install
+      ###GO Homebrew OpenMPI install (macOS only)
       - name: Install MPI (OpenMPI)
         if: runner.os == 'macOS'
         run: brew install open-mpi
-      ###
+      ###GO End
 
-      # Install MPI (MS-MPI) for Windows 
+      ###GO Install MPI (MS-MPI) (Windows only) 
       - name: Install MS-MPI (Windows)
         if: runner.os == 'Windows'
         run: |
@@ -138,7 +141,7 @@ jobs:
           Get-Command mpiexec
           mpiexec -help
         shell: powershell
-      ###
+      ###GO End
       - uses: r-hub/actions/run-check@v1
         with:
           job-config: ${{ matrix.config.job-config }}
