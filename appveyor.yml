@@ -50,8 +50,8 @@ build_script:
   - chmod u+x ./pbdMPI/configure ./pbdMPI/cleanup
   - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
   - ls pbdMPI*
-  - R CMD INSTALL *.tar.gz
-  - R CMD check *.tar.gz --as-cran --no-manual --no-vignettes --no-clean
+  - R CMD INSTALL pbdMPI_0.5-3.tar.gz
+  - R CMD check pbdMPI_0.5-3.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - dir pbdMPI.Rcheck
   # - type pbdMPI.Rcheck\00check.log
   - type pbdMPI.Rcheck\pbdMPI-Ex.Rout
