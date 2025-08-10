@@ -36,40 +36,16 @@ install:
 environment:
   global:
     WARNINGS_ARE_ERRORS:
-    RTOOLS_VERSION: 45 
+    RTOOLS_VERSION: 34 
     USE_RTOOLS: true
-    RTOOLS40_HOME: ""  # Clear Rtools40 path
-    RTOOLS_HOME: "C:\\rtools45"  # Force Rtools45 path
 
   matrix:
   - R_VERSION: release
     R_ARCH: x64
 
-install:
-  - ps: Bootstrap
-  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisetup.exe'
-  - msmpisetup.exe -unattend
-  - ps: dir "C:\\Program Files\\Microsoft MPI"
-  - ps: dir "C:\\Program Files\\Microsoft MPI\\Bin"
-  - ps: Start-FileDownload 'https://download.microsoft.com/download/2/E/C/2EC96D7F-687B-4613-80F6-E10F670A2D97/msmpisdk.msi'
-  - msmpisdk.msi /passive
-  - ps: dir "C:\\Program Files (x86)\\Microsoft SDKs\\MPI"
-  - ps: dir "C:\\Program Files (x86)\\Microsoft SDKs\\MPI\\Include"
-  - ps: dir "C:\\Program Files (x86)\\Microsoft SDKs\\MPI\\Lib"
-  - set MPI_EXEC=C:\Program Files\Microsoft MPI
-  - set MPI_ROOT=C:\Program Files (x86)\Microsoft SDKS\MPI
-  - set PATH=%MPI_EXEC%\Bin;%PATH%
-  - mpiexec -help
-  # Manually install Rtools45
-  - ps: Start-FileDownload 'https://cran.r-project.org/bin/windows/Rtools/rtools45/files/rtools45-6.0.0.exe'
-  - rtools45-6.0.0.exe /SILENT
-  - set PATH=C:\rtools45\usr\bin;C:\rtools45\mingw64\bin;%PATH%
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - travis-tool.sh install_deps
-
 build_script:
- # - cd pbdMPI
- # - travis-tool.sh install_deps
+  - cd pbdMPI
+  - travis-tool.sh install_deps
   - cd ..
   - chmod u+x ./pbdMPI/configure ./pbdMPI/cleanup
   - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
