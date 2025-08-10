@@ -18,11 +18,10 @@ install:
   - set PATH=%MPI_EXEC%\Bin;%PATH%
 
 build_script:
-  - cd pbdMPI
+  # No need to cd into pbdMPI - we're already in the project root
   - Rscript -e "install.packages('remotes', repos='https://cloud.r-project.org')"
   - Rscript -e "remotes::install_deps(dependencies=TRUE)"
-  - cd ..
-  - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
-  - R CMD INSTALL pbdMPI_0.5-3.tar.gz
-  - R CMD check pbdMPI_0.5-3.tar.gz --as-cran --no-manual --no-vignettes --no-clean
-  
+  - R CMD build --no-build-vignettes --no-manual --no-resave-data .
+  - FOR %%f IN (*.tar.gz) DO R CMD INSTALL %%f
+  - FOR %%f IN (*.tar.gz) DO R CMD check %%f --as-cran --no-manual --no-vignettes --no-clean
+    
