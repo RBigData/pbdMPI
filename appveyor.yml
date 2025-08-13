@@ -34,10 +34,6 @@ install:
   # - mpiexec -help3
   ### Install Rtools 4.5
   - ps: Start-FileDownload 'https://cran.r-project.org/bin/windows/Rtools/rtools45/files/rtools45-6608-6492.exe'
-  # - rtools45-6608-6492.exe /SP- /SILENT /VERYSILENT /SUPPRESSMSGBOXES
-  - dir
-  - dir "C:"
-  - dir C:\
   - rtools45-6608-6492.exe /SP- /SILENT /VERYSILENT /SUPPRESSMSGBOXES
 
 environment:
@@ -56,9 +52,6 @@ build_script:
   - cd ..
   - chmod u+x ./pbdMPI/configure ./pbdMPI/cleanup
   - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
-  # - ls pbdMPI*.tar.gz
-  # - R CMD INSTALL pbdMPI_0.5-4.tar.gz
-  # - R CMD check pbdMPI_0.5-4.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - cmd: FOR %%F IN ("pbdMPI_*.tar.gz") DO SET PBD_PKG=%%F
   - echo %PBD_PKG%
   - R CMD INSTALL %PBD_PKG% 
