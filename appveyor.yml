@@ -36,7 +36,7 @@ install:
 environment:
   global:
     WARNINGS_ARE_ERRORS:
-    RTOOLS_VERSION: 34 
+    RTOOLS_VERSION: 35 
     USE_RTOOLS: true
 
   matrix:
@@ -49,7 +49,7 @@ build_script:
   - cd ..
   - chmod u+x ./pbdMPI/configure ./pbdMPI/cleanup
   - R CMD build --no-build-vignettes --no-manual --no-resave-data pbdMPI
-  - ls pbdMPI*.tar.gz
+  # - ls pbdMPI*.tar.gz
   # - R CMD INSTALL pbdMPI_0.5-4.tar.gz
   # - R CMD check pbdMPI_0.5-4.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - cmd: FOR %%F IN ("pbdMPI_*.tar.gz") DO SET PBD_PKG=%%F
