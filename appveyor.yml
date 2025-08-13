@@ -34,7 +34,9 @@ install:
   # - mpiexec -help3
   ### Install Rtools 4.5
   - ps: Start-FileDownload 'https://cran.r-project.org/bin/windows/Rtools/rtools45/files/rtools45-6608-6492.exe'
-  - rtools45-6608-6492.exe /SP- /SILENT /VERYSILENT /SUPPRESSMSGBOXES
+  # - rtools45-6608-6492.exe /SP- /SILENT /VERYSILENT /SUPPRESSMSGBOXES
+  - dir
+  - dir "C:"
   - dir "C:\rtools45"
 
 environment:
