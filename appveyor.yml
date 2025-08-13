@@ -52,7 +52,7 @@ build_script:
   - ls pbdMPI*.tar.gz
   # - R CMD INSTALL pbdMPI_0.5-4.tar.gz
   # - R CMD check pbdMPI_0.5-4.tar.gz --as-cran --no-manual --no-vignettes --no-clean
-  - cmd: FOR %F IN (pbdMPI_*.tar.gz) DO SET PBD_PKG=%F
+  - cmd: FOR %F IN (pbdMPI_*.tar.gz) DO SET PBD_PKG=%%F
   - echo %PBD_PKG%
   - R CMD INSTALL %PBD_PKG% 
   - R CMD check %PBD_PKG% --as-cran --no-manual --no-vignettes --no-clean
