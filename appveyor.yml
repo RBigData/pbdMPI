@@ -36,7 +36,7 @@ install:
 environment:
   global:
     WARNINGS_ARE_ERRORS:
-    RTOOLS_VERSION: 35 
+    RTOOLS_VERSION: 45 
     USE_RTOOLS: true
 
   matrix:
