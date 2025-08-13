@@ -1,3 +1,6 @@
+2025-04-12: Ver. 0.5-3
+  * Remove bashism in configure.ac and configure.
+
 2024-09-15: Ver. 0.5-2
   * Fix non-API call to R: 'Rf_isValidString'.
   * Remove all "Rf_*".
