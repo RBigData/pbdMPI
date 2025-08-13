@@ -32,6 +32,10 @@ install:
   - mpiexec -help
   # - mpiexec -help2
   # - mpiexec -help3
+  ### Install Rtools 4.5
+  - ps: Start-FileDownload 'https://cran.r-project.org/bin/windows/Rtools/rtools45/files/rtools45-6608-6492.exe'
+  - rtools45-6608-6492exe -unattend
+  - dir "C:\rtools45"
 
 environment:
   global:
