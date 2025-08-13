@@ -37,7 +37,8 @@ install:
   # - rtools45-6608-6492.exe /SP- /SILENT /VERYSILENT /SUPPRESSMSGBOXES
   - dir
   - dir "C:"
-  - dir "C:\rtools45"
+  - dir C:\
+  - rtools45-6608-6492.exe /SP- /SILENT /VERYSILENT /SUPPRESSMSGBOXES
 
 environment:
   global:
