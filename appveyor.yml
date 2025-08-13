@@ -53,12 +53,13 @@ build_script:
   # - R CMD INSTALL pbdMPI_*.tar.gz
   # - R CMD check pbdMPI_*.tar.gz --as-cran --no-manual --no-vignettes --no-clean
   - cmd: |
-      FOR %%f IN (.\pbdMPI_*.tar.gz) DO (
-          R CMD INSTALL "%%f" 
+      FOR %%F IN (.\.tar.gz) DO (
+          echo %%F
+          R CMD INSTALL '%%F' 
       )
   - cmd: |
-      FOR %%f IN (.\pbdMPI_*.tar.gz) DO (
-          R CMD check "%%f" --as-cran --no-manual --no-vignettes --no-clean
+      FOR %%F IN (.\*.tar.gz) DO (
+          R CMD check '%%F' --as-cran --no-manual --no-vignettes --no-clean
       )
   - dir pbdMPI.Rcheck
   # - type pbdMPI.Rcheck\00check.log
