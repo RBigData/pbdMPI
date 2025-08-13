@@ -7,7 +7,7 @@ SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 	int infon = INTEGER(R_info)[0], rank_source = INTEGER(R_rank_source)[0];
 	int intercommn = INTEGER(R_intercomm)[0], *worker_errcodes, realns;
 
-	worker_errcodes = (int *) Calloc(n_workers, int);
+	worker_errcodes = (int *) R_Calloc(n_workers, int);
 	if(len == 0){
 		spmd_errhandler(MPI_Comm_spawn(CHARPT(R_worker, 0),
 			MPI_ARGV_NULL, n_workers, global_spmd_info[infon], rank_source,
@@ -29,7 +29,7 @@ SEXP spmd_comm_spawn(SEXP R_worker, SEXP R_workerargv, SEXP R_n_workers,
 		}
 	}
 
-	Free(worker_errcodes);
+	R_Free(worker_errcodes);
 
 	Rprintf("\t%d workers are spawned successfully. %d failed.\n",
 		realns, n_workers - realns);

@@ -36,7 +36,7 @@ SEXP spmd_initialize(void){
 	MPI_Comm_set_errhandler(MPI_COMM_WORLD, MPI_ERRORS_RETURN);
 	MPI_Comm_set_errhandler(MPI_COMM_SELF, MPI_ERRORS_RETURN);
 	if(global_spmd_comm == NULL){
-		global_spmd_comm = (MPI_Comm *) Calloc(global_spmd_COMM_MAXSIZE, MPI_Comm); 
+		global_spmd_comm = (MPI_Comm *) R_Calloc(global_spmd_COMM_MAXSIZE, MPI_Comm); 
 		global_spmd_comm[0] = MPI_COMM_WORLD;
 		for(i = 1; i < global_spmd_COMM_MAXSIZE; i++){
 			global_spmd_comm[i] = MPI_COMM_NULL;
@@ -48,17 +48,17 @@ SEXP spmd_initialize(void){
 	}
 #endif
 	if(global_spmd_status == NULL){
-		global_spmd_status = (MPI_Status *) Calloc(global_spmd_STATUS_MAXSIZE, MPI_Status); 
+		global_spmd_status = (MPI_Status *) R_Calloc(global_spmd_STATUS_MAXSIZE, MPI_Status); 
 	}
 	if(global_spmd_datatype == NULL){
-		global_spmd_datatype = (MPI_Datatype *) Calloc(1, MPI_Datatype); 
+		global_spmd_datatype = (MPI_Datatype *) R_Calloc(1, MPI_Datatype); 
 	}
 	if(global_spmd_info == NULL){
-		global_spmd_info = (MPI_Info *) Calloc(1, MPI_Info);
+		global_spmd_info = (MPI_Info *) R_Calloc(1, MPI_Info);
 		global_spmd_info[0] = MPI_INFO_NULL;
 	}
 	if(global_spmd_request == NULL){
-		global_spmd_request = (MPI_Request *) Calloc(global_spmd_REQUEST_MAXSIZE, MPI_Request);
+		global_spmd_request = (MPI_Request *) R_Calloc(global_spmd_REQUEST_MAXSIZE, MPI_Request);
 		for(i = 0; i < global_spmd_REQUEST_MAXSIZE; i++){
 			global_spmd_request[i] = MPI_REQUEST_NULL;	
 		}
@@ -105,11 +105,11 @@ SEXP spmd_finalize(SEXP R_mpi_finalize){
 	}
 #endif
 
-				Free(global_spmd_comm);
-				Free(global_spmd_status);
-				Free(global_spmd_request);
-				Free(global_spmd_datatype);
-				Free(global_spmd_info);
+                R_Free(global_spmd_comm);
+                R_Free(global_spmd_status);
+                R_Free(global_spmd_datatype);
+                R_Free(global_spmd_info);
+                R_Free(global_spmd_request);
 
 #if (MPI_APTS_DEBUG & 1) == 1
 	if(myrank == 0){
@@ -153,11 +153,11 @@ SEXP spmd_get_processor_name(void){
 	SEXP R_processor_name;
 
 	PROTECT(R_processor_name  = allocVector(STRSXP, 1));
-	processor_name = (char *) Calloc(MPI_MAX_PROCESSOR_NAME, char);
+	processor_name = (char *) R_Calloc(MPI_MAX_PROCESSOR_NAME, char);
 	MPI_Get_processor_name(processor_name, &result_length);
 	SET_STRING_ELT(R_processor_name, 0, mkChar(processor_name));
 	UNPROTECT(1);
-	Free(processor_name);
+	R_Free(processor_name);
 
 	return(R_processor_name);
 } /* End of spmd_get_processor_name(). */

@@ -103,38 +103,12 @@
 .onUnload <- function(libpath){
   ### Do not finalize MPI by default, which can cause problem for external API.
   ### Let user take care of shut down business.
+  ### Note: spmd.finalize() calls C-function spmd_finalize, which checks MPI_Finalized(), and 
+  ###      calls MPI_Finalize() only if it is not finalized.
   pbdMPI::spmd.finalize()
   library.dynam.unload("pbdMPI", libpath)
 
-  ### Shared library needs to be unloaded after "pbdMPI.so"
-  mpi.type <- "@MPITYPE@"
-  mpi.libpath <- "@MPI_LIBPATH@"
-  mpi.libname <- "@MPI_LIBNAME@"
-  libs <- paste(mpi.libpath, "/", mpi.libname, sep = "")
-
-  ### Nautilus needs MPT.
-  if(mpi.type == "OPENMPI" || mpi.type == "MPICH2" || mpi.type == "MPICH" ||
-      mpi.type == "MPT"){
-    if(mpi.type == "OPENMPI" || mpi.type == "MPT"){
-      mpi.libname <- "libmpi"
-    } else if(mpi.type == "IBMMPI"){
-      mpi.libname <- "libmpi_ibm"
-    } else{
-      mpi.libname <- "libmpich"
-    }
-
-    libs <- c(libs,
-              list.files(path = mpi.libpath,
-                         pattern = paste(mpi.libname, "\\.so.*", sep = ""),
-                         full.names = TRUE))
-              ### For Mac OS X, but let system takes care of loading problem.
-              # list.files(path = mpi.libpath,
-              #            pattern = paste(mpi.libname, "\\..*dylib", sep = ""),
-              #            full.names = TRUE))
-    for(i.lib in libs){
-      ret <- try(dyn.unload(i.lib), silent = TRUE)
-    }
-  }
+  ### Unloading of the shared OpenMPI library is done by the system.
 
   invisible()
 } # End of .onUnload().
