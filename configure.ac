@@ -2,7 +2,7 @@ dnl This file was original for Rmpi written by Dr. Yu Hao, and may be
 dnl modified by Prof. Brian Rieply and suggested by R Core Team.
 dnl Later, it was added and cleaned by Wei-Chen Chen for pbdR for more
 dnl functionalities combining with Makevars.in.
-
+dnl Further changes for POSIX compliance by George Ostrouchov on 2025-07-29.
 
 dnl Process this file with autoconf to produce a configure script
 AC_INIT
@@ -455,10 +455,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 
   dnl Detect from conventional paths
   if test -z "$MPI_ROOT" ; then
-    for d in /opt/SUNWhpc /opt/SUNWhpc/HPC \
-             /opt/SUNWhpc/HPC/sun /opt/SUNWhpc/HPC8.2.1c/sun \
-             /opt/SUNWhpc/HPC/gnu /opt/SUNWhpc/HPC8.2.1c/gnu \
-             /opt/lib /usr/lib /usr /usr/local/lib /usr/local \
+    for d in /opt/lib /usr/lib /usr /usr/local/lib /usr/local \
              /opt/lib64 /usr/lib64 /usr/local/lib64 \
              /usr/lib/mpi/gcc/openmpi \
              /usr/lib64/mpi/gcc/openmpi \

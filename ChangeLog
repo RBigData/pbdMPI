@@ -1,3 +1,7 @@
+2025-08-03: Ver. 0.5-4
+  * Removed bashisms for POSIX compliance.
+  * Fixed Fedora 42 unload issue.
+
 2025-04-12: Ver. 0.5-3
   * Remove bashism in configure.ac and configure.
 
