@@ -13,14 +13,14 @@ comm.print(x, all.rank = .pbd_env$SPMD.CT$print.all.rank,
            quiet = .pbd_env$SPMD.CT$print.quiet,
            flush = .pbd_env$SPMD.CT$msg.flush,
            barrier = .pbd_env$SPMD.CT$msg.barrier,
-           con = stdout(), ...)
+           con = stdout(), sleep = 0, ...)
 
 comm.cat(..., all.rank = .pbd_env$SPMD.CT$print.all.rank,
          rank.print = .pbd_env$SPMD.CT$rank.source,
          comm = .pbd_env$SPMD.CT$comm,
          quiet = .pbd_env$SPMD.CT$print.quiet, sep = " ", fill = FALSE,
          labels = NULL, append = FALSE, flush = .pbd_env$SPMD.CT$msg.flush,
-         barrier = .pbd_env$SPMD.CT$msg.barrier, con = stdout())
+         barrier = .pbd_env$SPMD.CT$msg.barrier, con = stdout(), sleep = 0)
 }
 \arguments{
   \item{x}{a variable to be printed.}
@@ -28,7 +28,14 @@ comm.cat(..., all.rank = .pbd_env$SPMD.CT$print.all.rank,
   \item{all.rank}{if all ranks print (default = FALSE).}
   \item{rank.print}{rank for printing if not all ranks print (default = 0).}
   \item{comm}{communicator for printing (default = 1).}
-  \item{quiet}{FALSE for printing rank number.}
+  \item{quiet}{Logical to control whether whether a "COMM.RANK = #" line is
+   added to indicate which rank is printing, or integer to do rank-coloring 
+   instead. If integer, giving a communicator number, up to 8 colors are used
+   to distinguish each rank prints. If the specified communicator has more 
+   than 8 ranks, colors are recycled. With a single communicator, this is 
+   straightforward. This can be extremely helpful in debugging complex communicator
+   splits. In these cases, the parameter `comm` below can be different from the 
+   split communicator assigned to `quiet`.}
   \item{sep}{sep argument as in the \code{cat()} function.}
   \item{fill}{fill argument as in the \code{cat()} function.}
   \item{labels}{labels argument as in the \code{cat()} function.}
@@ -36,6 +43,9 @@ comm.cat(..., all.rank = .pbd_env$SPMD.CT$print.all.rank,
   \item{flush}{if flush \code{con}.}
   \item{barrier}{if barrier \code{con}.}
   \item{con}{\code{stdout()} is the default to print message.}
+  \item{sleep}{Normally left at 0. If overprinting by ranks occurrs, set to
+    0.01 or smaller to delay the first printing rank action and allow any previous
+    print to land.}
 }
 \details{
   \strong{Warning:} These two functions use \code{barrier()} to make sure

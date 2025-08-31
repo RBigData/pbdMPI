@@ -14,6 +14,7 @@ If you don't have access to an HPC cluster, consider applying for an allocation
 at an HPC facility in your country. For example,
 [US ACCESS](https://access-ci.org/),
 [US INCITE](https://science.osti.gov/ascr/Facilities/Accessing-ASCR-Facilities/INCITE/About-incite),
+[US NERSC](https://www.nersc.gov/users),
 [EU PRACE](https://prace-ri.eu/),
 [Australia NCI](https://nci.org.au/users/how-access-nci),
 [Canada RAC](https://alliancecan.ca/en/services/advanced-research-computing/accessing-resources/resource-allocation-competition/resource-allocation-competition-application-guide),

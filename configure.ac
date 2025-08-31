@@ -234,7 +234,7 @@ if test -z "${MPI_INCLUDE_PATH}" ; then
 fi
 
 
-dnl For IBMMPI on submmit
+dnl For IBMMPI on Summit
 if test -z "${MPI_INCLUDE_PATH}" ; then
   if test "$MPITYPE" = "UNKNOWN" || test "$MPITYPE" = "IBMMPI" ; then
     TMP_INC="F"

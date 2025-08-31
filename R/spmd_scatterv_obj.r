@@ -1,4 +1,4 @@
-### Median level functions for R objects. These should not be in S3/S4.
+### Mid-level functions for R objects. These should not be in S3/S4.
 
 ### For general types.
 spmd.scatter.object <- function(x,

@@ -12,10 +12,16 @@
   ### Enforce to search LD_LIBRARY_PATH if "yes". Only for advanced users.
   enable.ld.library.path <- "@ENABLE_LD_LIBRARY_PATH@"
   
-  ### OpenMPI uses env variable TMPDIR instead of R tempdir(). Making them 
-  ### the same allows R to do a full cleanup of temp files.
-  Sys.setenv("TMPDIR" = tempdir())
-
+  ### OpenMPI and other utilities use env variable TMPDIR and other paths
+  ### instead of R tempdir(). Making them the same allows R to do a full
+  ### cleanup of temp files.
+  Sys.setenv(TMPDIR = tempdir())
+  Sys.setenv(DSYMUTIL_REPRODUCER_PATH = tempdir())
+  
+  ### Mac OS sm_backing fix from https://github.com/open-mpi/ompi/issues/12784
+  if(Sys.info()["sysname"] == "Darwin")
+    Sys.setenv(OMPI_MCA_btl_sm_backing_directory = tempdir())
+  
   if(enable.ld.library.path != "yes"){
     ### Shared library needs to be loaded before "pbdMPI.so"
     mpi.type <- "@MPITYPE@"

@@ -28,7 +28,7 @@ spmd.gather.integer <- function(x, x.buffer, x.count = NULL, displs = NULL,
     return(invisible())
   }
   ret
-} # End of spmd.gather.double().
+} # End of spmd.gather.integer().
 
 spmd.gather.double <- function(x, x.buffer, x.count = NULL, displs = NULL,
     rank.dest = .pbd_env$SPMD.CT$rank.root, comm = .pbd_env$SPMD.CT$comm,

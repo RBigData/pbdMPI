@@ -34,6 +34,7 @@
 \alias{spmd.comm.rank}
 \alias{spmd.comm.localrank}
 \alias{spmd.comm.size}
+\alias{spmd.comm.decor}
 \alias{spmd.comm.dup}
 \alias{spmd.comm.free}
 \alias{spmd.init}

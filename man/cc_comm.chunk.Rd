@@ -37,26 +37,29 @@ comm.chunk(
   "left"  (low ranks) or on the "right" (high ranks).}
 
   \item{rng}{If TRUE, set up different L'Ecuyere random number generator streams. 
-  Switch to stream \code{i} with \code{\link{comm.set.stream}(i)}, 
-  where \code{i} is a global index. If \code{form = "vector"} random streams are 
-  set up for each index in the vector and only those needed by each rank are
-  kept.
-  If \code{form = "number"}, each rank will use a different stream, set by
-  default (so \code{\link{comm.set.stream}} does not need to be used).
-  Additional ... parameter 
-  \code{seed}, passed to \code{\link{comm.set.seed}}, can be set for
-  reproducibility.}
+    \itemize{
+      \item If \code{form = "vector"}, N random streams are set up, one for each 
+      item in the vector and only those needed by the local chunk are kept 
+      locally by each rank. Switch to stream \code{i} with 
+      \code{\link{comm.set.stream}(i)}, where \code{i} is a global index.
+      \item If \code{form = "number"}, each rank will use a different stream, set
+      by default (so \code{\link{comm.set.stream}} does not need to be used).
+      \item Additional ... parameter \code{seed}, passed to
+      \code{\link{comm.set.seed}}, can be set for reproducibility.
+    }
+  }
 
   \item{all.rank}{FALSE returns only the chunk for rank r. TRUE returns a vector of
   length p (when form="number"), and a list of length p (when form="vector")
   each containing the output for the corresponding rank.}
 
-  \item{p}{The number of chunks (processors). Normally, it is NOT specified and defaults
-  to NULL, which assigns comm.size(comm).}
+  \item{p}{The number of processors (chunks), normally left as the default NULL, which
+  assigns comm.size(comm), the number of MPI ranks. Normally, this is NOT
+  specified unless testing in serial mode.}
 
-  \item{rank}{The rank of returned chunk. Normally, it is NOT specified and defaults to
-  NULL, which assigns comm.rank(comm)). Note that ranks are numbered from 0 to
-  p-1, whereas the list elements for all.rank=TRUE are numbered 1 to p.}
+  \item{rank}{The rank of the returned chunk, normally left as NULL, which
+  assigns comm.rank(comm)), the assigned MPI rank. Note that ranks are numbered
+  from 0 to p-1, whereas the list elements for all.rank=TRUE are numbered 1 to p.}
 
   \item{comm}{The communicator that determines MPI rank numbers.}
   

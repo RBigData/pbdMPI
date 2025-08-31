@@ -1,8 +1,9 @@
 allgather	pbdMPI	An example of allgather.
 alltoall	pbdMPI	An example of alltoall.
+alltoall_col	pbdMPI  An example of alltoall with rank color printing.
 allreduce	pbdMPI	An example of allreduce.
 bcast		pbdMPI	An example of bcast.
-chunk   pbdMPI  An example of splitting a vector for parallel processing.
+chunk		pbdMPI  An example of splitting a vector for parallel processing.
 gather		pbdMPI	An example of gather.
 reduce		pbdMPI	An example of reduce.
 scatter		pbdMPI	An example of scatter.
@@ -18,6 +19,7 @@ simple_io	pbdMPI	An example of simple input and output.
 simple_balance	pbdMPI	An example of simple balance.
 simple_pairs	pbdMPI	An example of distance and pairling.
 bcast_msg	pbdMPI	An example of bcast message and string.
+split_comm_col  pbdMPI	An example of splitting a communicator with color printing.
 
 new_allgather	pbdMPI	A new allgather test.
 new_allreduce	pbdMPI	A new allreduce test.

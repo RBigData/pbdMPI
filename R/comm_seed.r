@@ -229,7 +229,7 @@ comm.set.stream <- function(name = NULL, reset = FALSE, state = NULL,
         if(Lname != name) # save state of Lname, since switching
           RNG$state[[Lname]] <- get(".Random.seed", envir = .GlobalEnv)
         if(is.null(RNG$state[[name]]) && is.null(state)) reset = TRUE
-        if(reset) { # start new stream at its orig seed
+        if(reset) { # start new stream at its original seed
           assign(".Random.seed", RNG$streams[[name]], envir = .GlobalEnv)
           RNG$state[[name]] <- NULL # record stream is not paused
           RNG$name = name # record current stream name

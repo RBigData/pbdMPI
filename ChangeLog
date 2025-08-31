@@ -1,3 +1,7 @@
+2025-08-25: Ver. 0.5-4
+  * comm.print() and comm.cat() simplified by tag-team for only one barrier, 
+    plus a new option for ANSI color by rank printing.
+
 2025-08-03: Ver. 0.5-4
   * Removed bashisms for POSIX compliance.
   * Fixed Fedora 42 unload issue.
