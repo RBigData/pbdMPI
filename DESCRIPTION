@@ -1,8 +1,8 @@
 Package: pbdMPI
-Version: 0.5-4
+Version: 0.5-5
 Title: R Interface to MPI for HPC Clusters (Programming with Big Data
         Project)
-Date: 2025-08-25
+Date: 2026-04-03
 Authors@R: c(person("Wei-Chen", "Chen", role = c("aut", "cre"), email =
         "wccsnow@gmail.com"),
         person("George", "Ostrouchov", role = "aut"),

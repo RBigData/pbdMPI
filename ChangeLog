@@ -1,3 +1,6 @@
+2025-04-01: Ver. 0.5-5
+  * Change findVar() to R_getVar() in C files under src/.
+
 2025-08-25: Ver. 0.5-4
   * comm.print() and comm.cat() simplified by tag-team for only one barrier, 
     plus a new option for ANSI color by rank printing.

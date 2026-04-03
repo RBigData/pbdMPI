@@ -15,8 +15,12 @@ SEXP pkg_initialize(SEXP R_i_lib){
 #ifdef OPENMPI
 	SEXP R_apts;
 
-	PROTECT(R_apts = findVar(install(MPI_LIB_R_NAME), R_GlobalEnv));
-	if(R_apts == R_UnboundValue){
+	/*
+	 * PROTECT(R_apts = findVar(install(MPI_LIB_R_NAME), R_GlobalEnv));
+	 * if(R_apts == R_UnboundValue){
+	 */
+	PROTECT(R_apts = R_getVarEx(install(MPI_LIB_R_NAME), R_GlobalEnv, (Rboolean) TRUE, R_NilValue));
+	if(R_apts == R_NilValue){
 		defineVar(install(MPI_LIB_R_NAME), R_i_lib, R_GlobalEnv);
 	}
 	UNPROTECT(1);
@@ -30,8 +34,12 @@ SEXP pkg_dlopen(void){
 #ifdef OPENMPI
         SEXP R_apts;
 
-	PROTECT(R_apts = findVar(install(MPI_LIB_R_NAME), R_GlobalEnv));
-	if(R_apts != R_UnboundValue){
+	/*
+	 * PROTECT(R_apts = findVar(install(MPI_LIB_R_NAME), R_GlobalEnv));
+	 * if(R_apts != R_UnboundValue){
+	 */
+	PROTECT(R_apts = R_getVarEx(install(MPI_LIB_R_NAME), R_GlobalEnv, (Rboolean) TRUE, R_NilValue));
+	if(R_apts != R_NilValue){
 		if(DL_APT_ptr == NULL){
 			DL_APT_ptr = dlopen(CHARPT(R_apts, 0),
 					RTLD_GLOBAL | RTLD_LAZY);
