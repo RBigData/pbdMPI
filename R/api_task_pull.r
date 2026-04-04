@@ -1,5 +1,5 @@
 ### These functions are modified from "task_pull.R" originally provided
-### at "http://math.acadiau.ca/ACMMaC/Rmpi/examples.html".
+### at "https://math.acadiau.ca/ACMMaC/Rmpi/examples.html".
 ###
 ### The "task_pull.R" is mainly designed to mimic Rmpi's legacy manager/workers
 ### parallel environment. However, the following functions are aiming
