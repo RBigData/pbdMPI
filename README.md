@@ -17,7 +17,7 @@ at an HPC facility in your country. For example,
 [US NERSC](https://www.nersc.gov/users),
 [EU PRACE](https://prace-ri.eu/),
 [Australia NCI](https://nci.org.au/users/how-access-nci),
-[Canada RAC](https://alliancecan.ca/en/services/advanced-research-computing),
+[Canada RAC](https://alliancecan.ca/en/),
 [Czechia IT4I](https://www.it4i.cz/en/for-users/computing-resources-allocation),
 India NSM (National Super Computing Mission),
 [Japan HPCI](https://www.hpci-office.jp/for_users/procedure_project_start/start_representative).
