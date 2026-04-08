@@ -1,4 +1,4 @@
-### See ``http://www.mpi-forum.org/docs/mpi-20-html/node106.htm'' for details.
+### See ``https://www.mpi-forum.org/docs/mpi-20-html/node106.htm'' for details.
 
 args<-commandArgs(TRUE)
 port.name <- args[1]

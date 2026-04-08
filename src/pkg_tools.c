@@ -14,8 +14,12 @@ int WHO_LOAD_FIRST;
 SEXP arrange_MPI_APTS(void){
         SEXP R_apts;
 
-	PROTECT(R_apts = findVar(install(MPI_APTS_R_NAME), R_GlobalEnv));
-        if(R_apts == R_UnboundValue){
+	/*
+	 * PROTECT(R_apts = findVar(install(MPI_APTS_R_NAME), R_GlobalEnv));
+         * if(R_apts == R_UnboundValue){
+	 */
+	PROTECT(R_apts = R_getVarEx(install(MPI_APTS_R_NAME), R_GlobalEnv, (Rboolean) TRUE, R_NilValue));
+        if(R_apts == R_NilValue){
 		WHO_LOAD_FIRST = __LOAD_LOCATION__;
 		set_MPI_APTS_in_R();
         } else{
@@ -132,7 +136,8 @@ void get_MPI_APTS_from_R(void){
         SEXP R_apts;
 
         /* Get an R object from ".GlobalEnv". */
-        R_apts = findVar(install(MPI_APTS_R_NAME), R_GlobalEnv);
+        /* R_apts = findVar(install(MPI_APTS_R_NAME), R_GlobalEnv); */
+	R_apts = R_getVarEx(install(MPI_APTS_R_NAME), R_GlobalEnv, (Rboolean) TRUE, R_NilValue);
         if(R_apts == R_NilValue){
                 error(".__MPI_APTS__ is not found in .GlobalEnv");
         }
